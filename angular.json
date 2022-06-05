@@ -70,12 +70,14 @@
             "production": {
               "browserTarget": "my-app:build:production",
               "host": "0.0.0.0",
-              "port":8080
+              "port":8080,
+              "disableHostCheck": true
             },
             "development": {
               "browserTarget": "my-app:build:development",
               "host": "0.0.0.0",
-              "port":4200
+              "port":4200,
+              "disableHostCheck": true
             }
           },
           "defaultConfiguration": "production"
