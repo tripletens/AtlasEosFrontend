@@ -66,12 +66,17 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+
           "configurations": {
             "production": {
-              "browserTarget": "my-app:build:production"
+              "browserTarget": "my-app:build:production",
+              "host": "0.0.0.0",
+              "port":8080
             },
             "development": {
-              "browserTarget": "my-app:build:development"
+              "browserTarget": "my-app:build:development",
+              "host": "0.0.0.0",
+              "port":4200
             }
           },
           "defaultConfiguration": "development"
