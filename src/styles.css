@@ -1,1 +1,72 @@
 /* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+
+.app {
+    background-color: #f0f0f8 !important;
+  }
+  
+  @media screen and (max-width: 500px) {
+    #google_translate_element {
+      left: 300px;
+    }
+  }
+  
+  .profile-user {
+    height: 30px;
+  }
+  body {
+    /* overflow: hidden; */
+    height: 100%;
+  }
+  .side-menu {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+  }
+  
+  .dealer-side {
+    margin-top: 70px;
+  }
+  
+  .admin-side {
+    margin-top: 60px;
+  }
+  
+  @media screen and (max-width: 1200px) {
+    .dealer-side {
+      margin-top: 60px;
+    }
+  
+    .dealer-side2 {
+      margin-top: 0px;
+    }
+  
+    .sm-dealer-hidden-navbar {
+      margin-bottom: -50px;
+      padding-bottom: 0px !important;
+      margin-top: -44px;
+    }
+  }
+  
+  @media screen and (max-width: 1200px) {
+    /* .dealer-side2 {
+       margin-top: 30px;
+    } */
+  }
+  
+  @media screen and (max-width: 765px) {
+    .dealer-side {
+      margin-top: 100px;
+    }
+  }
+  /* 
+  html, body { height: 100%; }
+  body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
+  
+  #google_translate_element {
+    position: fixed;
+    top: 6px;
+    z-index: 999999999999;
+    right: 206px;
+  }
+  
