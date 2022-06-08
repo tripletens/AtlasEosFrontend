@@ -1,0 +1,88 @@
+.loader-td {
+  padding: 0px !important;
+}
+
+.ph-item {
+  padding: 0px !important;
+}
+
+.ph-picture {
+  height: 50px !important;
+}
+
+.thead-custom {
+  font-weight: bold;
+}
+
+.recent-btn {
+  background-color: darkblue;
+  padding: 4px 8px 4px 8px;
+  border-radius: 5px;
+  border: 0px;
+  color: #ffffff;
+}
+
+.tbody-text {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.card-title {
+  font-weight: bold;
+  font-size: 14px;
+}
+.dashboard-link {
+  cursor: pointer;
+  width: fit-content;
+  text-decoration: none;
+  color: black;
+}
+.view-all-btn {
+  text-decoration: none !important;
+  float: right;
+  background-color: darkblue;
+  color: #ffffff;
+  font-size: 14px;
+  border: 0px;
+  border-radius: 5px;
+  padding: 3px 6px;
+}
+
+.attending-seminar-wrapper:hover {
+  cursor: pointer;
+  border: 1px solid white;
+}
+
+::ng-deep {
+  tbody tr {
+    border-top: 1px solid #dee2e6;
+  }
+
+  td.mat-cell {
+    border-bottom-width: 0px !important;
+    border-bottom-style: solid;
+  }
+}
+
+.attending-seminar-wrapper {
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 10px;
+  transition: 0.2s linear;
+  margin-bottom: 15px;
+  p {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 0px;
+  }
+  h6 {
+    font-weight: 500;
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+  h5 {
+    font-weight: 800;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+}
