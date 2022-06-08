@@ -31,6 +31,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./components/branch/branch.module').then((m) => m.BranchModule),
   },
+  { path: 'seminar', loadChildren: () => import('./components/seminar/seminar.module').then(m => m.SeminarModule) },
 ]
 
 @NgModule({
