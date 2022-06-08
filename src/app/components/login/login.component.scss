@@ -2,8 +2,24 @@
   width: 65%;
   margin-top: 90px;
 }
+.bg-banner {
+  background: url(../../../assets/images/new_landing_bg.jpg);
+  background-position: center;
+  background-size: cover;
+}
+.logo{
 
+}
+
+.btn-primary{
+  background-color: #387C2C !important;
+  box-shadow: none !important;
+  border: none !important;
+}
 @media (max-width: 768px) {
+  .left-col{
+ display: none !important;
+}
   .form-width {
     width: 75% !important;
   }
