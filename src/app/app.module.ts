@@ -7,8 +7,8 @@ import { AppComponent } from './app.component'
 import { LoginComponent } from './components/login/login.component'
 import { ToastrModule } from 'ngx-toastr'
 import { HttpClientModule } from '@angular/common/http'
-import { AdminNavbarComponent } from './components/templates/admin-navbar/admin-navbar.component'
-
+import { AdminNavbarComponent } from './components/templates/admin-navbar/admin-navbar.component';
+import { DealerNavbarComponent } from './components/templates/dealer-navbar/dealer-navbar.component'
 @NgModule({
   declarations: [AppComponent, LoginComponent],
   imports: [
@@ -16,6 +16,7 @@ import { AdminNavbarComponent } from './components/templates/admin-navbar/admin-
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+  
     ToastrModule.forRoot({
       timeOut: 3000,
     }),
