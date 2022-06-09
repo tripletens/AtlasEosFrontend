@@ -43,7 +43,7 @@
                   </div>
                 </div>
 
-                <div class="table-responsive">
+                <div class="table-responsive mb-3">
                   <table class="table" *ngIf="loader">
                     <thead>
                       <tr>
@@ -123,7 +123,7 @@
 
                   <table
                     *ngIf="tableView"
-                    class="table table-stripe text-nowrap table-wrapper2 align-items-center mb-0"
+                    class="table table-striped text-nowrap table-wrapper2 align-items-center mb-0"
                   >
                     <thead>
                       <tr>
@@ -136,17 +136,7 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td>
-                          <span class="tbody-text">0</span>
-                        </td>
-                        <td>
-                          <span class="tbody-text">
-                            0
-                          </span>
-                        </td>
-                        <td>
-                          <span class="tbody-text">0</span>
-                        </td>
+                        <td colspan="5" class="text-center">No order found</td>
                       </tr>
                     </tbody>
                   </table>

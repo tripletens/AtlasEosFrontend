@@ -4,8 +4,10 @@ import { AddDealersComponent } from './add-dealers/add-dealers.component'
 import { AdminComponent } from './admin.component'
 import { DashboardComponent } from './dashboard/dashboard.component'
 import { DealerSummaryComponent } from './dealer-summary/dealer-summary.component'
+import { FaqComponent } from './faq/faq.component'
 import { MyMessagesComponent } from './my-messages/my-messages.component'
 import { PriceOverrideComponent } from './price-override/price-override.component'
+import { ResolveProblemComponent } from './resolve-problem/resolve-problem.component'
 import { VendorOrderFormComponent } from './vendor-order-form/vendor-order-form.component'
 
 const routes: Routes = [
@@ -42,6 +44,14 @@ const routes: Routes = [
       {
         path: 'my-messages',
         component: MyMessagesComponent,
+      },
+      {
+        path: 'resolve-problem',
+        component: ResolveProblemComponent,
+      },
+      {
+        path: 'faq',
+        component: FaqComponent,
       },
     ],
   },
