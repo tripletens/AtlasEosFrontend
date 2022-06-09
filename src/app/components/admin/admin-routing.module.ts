@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { AddDealersComponent } from './add-dealers/add-dealers.component'
+import { AddVendorsComponent } from './add-vendors/add-vendors.component'
 import { AdminComponent } from './admin.component'
+import { AllVendorsComponent } from './all-vendors/all-vendors.component'
 import { DashboardComponent } from './dashboard/dashboard.component'
 import { DealerSummaryComponent } from './dealer-summary/dealer-summary.component'
 import { FaqComponent } from './faq/faq.component'
@@ -62,6 +64,14 @@ const routes: Routes = [
       {
         path: 'faq',
         component: FaqComponent,
+      },
+      {
+        path: 'all-vendors',
+        component: AllVendorsComponent,
+      },
+      {
+        path: 'add-vendor',
+        component: AddVendorsComponent,
       },
     ],
   },
