@@ -14,7 +14,9 @@ import { PriceOverrideComponent } from './price-override/price-override.componen
 import { DealerSummaryComponent } from './dealer-summary/dealer-summary.component';
 import { MyMessagesComponent } from './my-messages/my-messages.component';
 import { ResolveProblemComponent } from './resolve-problem/resolve-problem.component';
-import { FaqComponent } from './faq/faq.component'
+import { FaqComponent } from './faq/faq.component';
+import { VeiwReportComponent } from './veiw-report/veiw-report.component';
+import { RespondReportComponent } from './respond-report/respond-report.component'
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { FaqComponent } from './faq/faq.component'
     MyMessagesComponent,
     ResolveProblemComponent,
     FaqComponent,
+    VeiwReportComponent,
+    RespondReportComponent,
   ],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, AdminRoutingModule],
 })

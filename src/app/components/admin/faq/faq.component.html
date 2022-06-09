@@ -1,1 +1,78 @@
-<p>faq works!</p>
+<section>
+  <div class="container-fluid p-0">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <div class="card-header mb-3">
+          <div class="d-flex justify-content-between w-100 col-top-header">
+            <div>
+              <a class="card-link">
+                FAQs
+              </a>
+            </div>
+            <div>
+              <button class="" routerLink="/admin/resolve-problem">
+                <span class="fa fas fa-bars"></span>
+                view tickets
+              </button>
+              <!-- <button></button> -->
+            </div>
+          </div>
+        </div>
+
+        <div id="accordion6" class="mb-3">
+          <div class="card">
+            <div class="card-header mb-2">
+              <div class="d-flex justify-content-between w-100 col-top-header">
+                <div>
+                  <span class="fa fas fa-comments"></span>
+
+                  <a class="card-link">
+                    New Question & Answer
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              id="collapseSix"
+              class="collapse show"
+              data-parent="#accordion6"
+            >
+              <div class="card-body">
+                <!-- <h6 class="reported-text">Ticket replied by Admin</h6> -->
+
+                <div class="reply-text-wrapper">
+                  <input type="text" placeholder="Question Summary" />
+
+                  <textarea
+                    class="reply-text"
+                    name=""
+                    placeholder="Question"
+                    id=""
+                  ></textarea>
+
+                  <textarea
+                    class="reply-text"
+                    name=""
+                    placeholder="Answer"
+                    id=""
+                  ></textarea>
+
+                  <select name="" id="" aria-placeholder="Role option">
+                    <option value="">Role Option</option>
+                  </select>
+
+                  <div class="d-flex w-100 reply-btn-wrapper">
+                    <button>
+                      <span class="icons icon-plus"></span>
+                      Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
