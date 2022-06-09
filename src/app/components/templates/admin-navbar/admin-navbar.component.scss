@@ -2,13 +2,21 @@
   width: 50%;
 }
 
+.app-sidebar {
+  background-color: red !important;
+
+  * {
+    color: #ffffff !important;
+  }
+}
+
 .sm-sidebar-logo-img {
   width: 30%;
   float: left;
   height: auto;
 }
 .active-link {
-  background-color: #f1f3fd;
+  background-color: darkred;
 }
 .scrollable {
   overflow-y: scroll;

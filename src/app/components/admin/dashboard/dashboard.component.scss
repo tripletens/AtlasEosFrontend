@@ -1,0 +1,84 @@
+.control-btn {
+  width: 30%;
+  margin-right: 10px;
+}
+
+.tbody-text-timer {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.table-wrapper {
+  background-color: #4a0013;
+
+  thead th {
+    color: #ffffff !important;
+    background-color: #4a0013;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  td {
+    // padding: 0.75rem;
+    // vertical-align: top;
+    border-top: 1px solid #dee2e6;
+    color: #ffffff;
+  }
+}
+
+.card-link {
+  font-size: 20px;
+  font-weight: 500;
+  color: black;
+  padding-left: 10px;
+}
+
+.loader-td {
+  padding: 0px !important;
+}
+
+.ph-item {
+  padding: 0px !important;
+}
+
+.ph-picture {
+  height: 50px !important;
+}
+
+.thead-custom {
+  font-weight: bold;
+}
+
+.recent-btn {
+  background-color: darkblue;
+  padding: 4px 8px 4px 8px;
+  border-radius: 5px;
+  border: 0px;
+  color: #ffffff;
+}
+
+.tbody-text {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.card-title {
+  font-weight: bold;
+  font-size: 14px;
+}
+.dashboard-link {
+  cursor: pointer;
+  width: fit-content;
+  text-decoration: none;
+  color: black;
+}
+.view-all-btn {
+  text-decoration: none !important;
+  float: right;
+  background-color: darkblue;
+  color: #ffffff;
+  font-size: 14px;
+  border: 0px;
+  border-radius: 5px;
+  padding: 3px 6px;
+}

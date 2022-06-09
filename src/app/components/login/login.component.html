@@ -1,144 +1,121 @@
-<div class="container-fluid con-body h-100">
+<div class="container-fluid bg-white h-100">
   <div class="row h-100 justify-content-center">
     <div
-      class="col-md-7 col-sm-11 align-items-center d-flex justify-content-center"
-    >
-      <div class="card shadow">
-        <div class="card-body p-0 row justify-content-center">
-          <div class="img-ctn col-md-6 p-0">
-            <img
-              src="../../../assets/background.jpg"
-              alt=""
-              class="h-100 w-100"
-            />
-          </div>
-          <div
-            class="d-flex flex-column col-lg-6 col-md-6 col-11 px-5 pt-5 pb-3"
-          >
-            <div class="img-con">
-              <div>
-                <img
-                  src="../../../assets/new-atlas-logo.png"
-                  class="login-logo-img"
-                  alt=""
-                />
+      class="col-md-7  col-sm-11 align-items-center d-flex justify-content-center bg-banner left-col"
+    ></div>
+    <div class="col-md-5">
+      <div class="mt-5 mx-5 pt-md-4 px-md-3 pb-3">
+        <img src="../../../assets/atlas-lgo.png" alt="" class="logo" />
+      </div>
+      <div class="mx-5 mt-4">
+        <form
+          #loginDetail="ngForm"
+          class="pt-3"
+          (ngSubmit)="loginDetail.valid && loginDealer()"
+        >
+          <div class="form-group">
+            <label for="exampleInputEmail">Email</label>
+            <div class="input-group">
+              <span class="fa fa-envelope side-icon"></span>
+              <input
+                type="email"
+                name="email"
+                required
+                class="form-control shadow-sm form-control-lg input-value"
+                id="InputUser"
+                placeholder="Email"
+                [(ngModel)]="login.email"
+                #email="ngModel"
+              />
+            </div>
+            <div
+              class="input-alert-box"
+              *ngIf="email.errors && loginDetail.submitted"
+            >
+              <div *ngIf="email.errors.required">
+                <span class="alert-input-msg">Email is required</span>
+                <span
+                  class="fa fa-exclamation-triangle alert-input-icon"
+                  style="float: right"
+                ></span>
               </div>
             </div>
-            <div>
-              <h6 class="text-center top-title-text">Dealer Login</h6>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword">Password</label>
+            <div class="input-group">
+              <span class="fa fa-lock side-icon"></span>
+              <input
+                [type]="currentPasswordState"
+                name="password"
+                class="form-control shadow-sm form-control-lg input-value rounded-end"
+                id="InputPassword"
+                placeholder="Password"
+                [(ngModel)]="login.password"
+                #password="ngModel"
+                required
+                minlength="6"
+              />
+              <span
+                class="fa fa-eye"
+                *ngIf="openEye"
+                (click)="showPassword()"
+              ></span>
+              <span
+                class="fa fa-eye-slash"
+                *ngIf="closeEye"
+                (click)="showPassword()"
+              ></span>
             </div>
-            <div>
-              <form
-                #loginDetail="ngForm"
-                class="pt-3"
-                (ngSubmit)="loginDetail.valid && loginDealer()"
-              >
-                <div class="form-group">
-                  <label for="exampleInputEmail">Email</label>
-                  <div class="input-group">
-                    <span class="fa fa-envelope side-icon"></span>
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      class="form-control shadow-sm form-control-lg input-value"
-                      id="InputUser"
-                      placeholder="Email"
-                      [(ngModel)]="login.email"
-                      #email="ngModel"
-                    />
-                  </div>
-                  <div
-                    class="input-alert-box"
-                    *ngIf="email.errors && loginDetail.submitted"
-                  >
-                    <div *ngIf="email.errors.required">
-                      <span class="alert-input-msg">Email is required</span>
-                      <span
-                        class="fa fa-exclamation-triangle alert-input-icon"
-                        style="float: right;"
-                      ></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword">Password</label>
-                  <div class="input-group">
-                    <span class="fa fa-lock side-icon"></span>
-                    <input
-                      [type]="currentPasswordState"
-                      name="password"
-                      class="form-control shadow-sm form-control-lg input-value rounded-end"
-                      id="InputPassword"
-                      placeholder="Password"
-                      [(ngModel)]="login.password"
-                      #password="ngModel"
-                      required
-                      minlength="6"
-                    />
-                    <span
-                      class="fa fa-eye"
-                      *ngIf="openEye"
-                      (click)="showPassword()"
-                    ></span>
-                    <span
-                      class="fa fa-eye-slash"
-                      *ngIf="closeEye"
-                      (click)="showPassword()"
-                    ></span>
-                  </div>
 
-                  <div
-                    class="input-alert-box"
-                    *ngIf="password.errors && loginDetail.submitted"
-                  >
-                    <div *ngIf="password.errors.required">
-                      <span class="alert-input-msg">Password is required</span>
-                      <span
-                        class="fa fa-exclamation-triangle alert-input-icon"
-                        style="float: right;"
-                      ></span>
-                    </div>
-                    <div *ngIf="password.errors.minlength">
-                      <span class="alert-input-msg">Min character is 6</span>
-                      <span
-                        class="fa fa-exclamation-triangle alert-input-icon"
-                        style="float: right;"
-                      ></span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="my-2 d-flex justify-content-between align-items-center"
-                ></div>
-                <div class="">
-                  <button
-                    type="submit"
-                    class="btn btn-primary btn-block w-100 btn-login"
-                  >
-                    <span *ngIf="loginText">Login</span>
-                    <div *ngIf="loginLoader">
-                      <span class="spinner-border spinner-border-sm"></span>
-                    </div>
-                  </button>
-                </div>
-                <div
-                  class="issue mt-4 text-center pt-5 mb-2"
-                  style="align-self: baseline; font-size: 13px;"
-                >
-                  Click
-                  <a
-                    style="font-weight: bold;"
-                    href="mailto:michael.Habib@atlastrailer.com"
-                  >
-                    here
-                  </a>
-                  to contact support if you need any assistance logging in
-                </div>
-              </form>
+            <div
+              class="input-alert-box"
+              *ngIf="password.errors && loginDetail.submitted"
+            >
+              <div *ngIf="password.errors.required">
+                <span class="alert-input-msg">Password is required</span>
+                <span
+                  class="fa fa-exclamation-triangle alert-input-icon"
+                  style="float: right"
+                ></span>
+              </div>
+              <div *ngIf="password.errors.minlength">
+                <span class="alert-input-msg">Min character is 6</span>
+                <span
+                  class="fa fa-exclamation-triangle alert-input-icon"
+                  style="float: right"
+                ></span>
+              </div>
             </div>
           </div>
-        </div>
+          <div
+            class="my-2 d-flex justify-content-between align-items-center"
+          ></div>
+          <div class="">
+            <button
+              type="submit"
+              class="btn btn-primary btn-block w-100 btn-login"
+            >
+              <span *ngIf="loginText">Login</span>
+              <div *ngIf="loginLoader">
+                <span class="spinner-border spinner-border-sm"></span>
+              </div>
+            </button>
+          </div>
+          <div
+            class="issue mt-4 text-center pt-5 mb-2"
+            style="align-self: baseline; font-size: 13px"
+          >
+            Click
+            <a
+              style="font-weight: bold"
+              href="mailto:michael.Habib@atlastrailer.com"
+            >
+              here
+            </a>
+            to contact support if you need any assistance logging in
+          </div>
+        </form>
       </div>
     </div>
   </div>

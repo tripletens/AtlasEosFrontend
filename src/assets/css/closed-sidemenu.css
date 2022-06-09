@@ -453,7 +453,7 @@
     margin-right: 5px; }
 
 .side-menu__item.active, .side-menu__item:hover, .side-menu__item:focus {
-  background: #f1f3fd;
+  background: darkred;
   box-shadow: 0;
   border-radius: 0px; }
 

@@ -1,72 +1,72 @@
 /* You can add global styles to this file, and also import other style files */
 /* You can add global styles to this file, and also import other style files */
-
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 .app {
-    background-color: #f0f0f8 !important;
+  background-color: #f0f0f8 !important;
+}
+
+@media screen and (max-width: 500px) {
+  #google_translate_element {
+    left: 300px;
   }
-  
-  @media screen and (max-width: 500px) {
-    #google_translate_element {
-      left: 300px;
-    }
-  }
-  
-  .profile-user {
-    height: 30px;
-  }
-  body {
-    /* overflow: hidden; */
-    height: 100%;
-  }
-  .side-menu {
-    list-style-type: none;
-    margin: 0px;
-    padding: 0px;
-  }
-  
+}
+
+.profile-user {
+  height: 30px;
+}
+body {
+  font-family: "Roboto", sans-serif;
+  /* overflow: hidden; */
+  height: 100%;
+}
+.side-menu {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.dealer-side {
+  margin-top: 70px;
+}
+
+.admin-side {
+  margin-top: 60px;
+}
+
+@media screen and (max-width: 1200px) {
   .dealer-side {
-    margin-top: 70px;
-  }
-  
-  .admin-side {
     margin-top: 60px;
   }
-  
-  @media screen and (max-width: 1200px) {
-    .dealer-side {
-      margin-top: 60px;
-    }
-  
-    .dealer-side2 {
-      margin-top: 0px;
-    }
-  
-    .sm-dealer-hidden-navbar {
-      margin-bottom: -50px;
-      padding-bottom: 0px !important;
-      margin-top: -44px;
-    }
+
+  .dealer-side2 {
+    margin-top: 0px;
   }
-  
-  @media screen and (max-width: 1200px) {
-    /* .dealer-side2 {
+
+  .sm-dealer-hidden-navbar {
+    margin-bottom: -50px;
+    padding-bottom: 0px !important;
+    margin-top: -44px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  /* .dealer-side2 {
        margin-top: 30px;
     } */
+}
+
+@media screen and (max-width: 765px) {
+  .dealer-side {
+    margin-top: 100px;
   }
-  
-  @media screen and (max-width: 765px) {
-    .dealer-side {
-      margin-top: 100px;
-    }
-  }
-  /* 
+}
+/* 
   html, body { height: 100%; }
   body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
-  
-  #google_translate_element {
-    position: fixed;
-    top: 6px;
-    z-index: 999999999999;
-    right: 206px;
-  }
-  
+
+#google_translate_element {
+  position: fixed;
+  top: 6px;
+  z-index: 999999999999;
+  right: 206px;
+}
