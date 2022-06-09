@@ -1,1 +1,499 @@
-<p>dashboard works!</p>
+<section class="overview-section">
+  <div class="container-fluid p-0">
+    <div class="row">
+      <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="row mb-1">
+              <div class="col">
+                <a
+                  class="dashboard-link"
+                  routerLink="/admin/all-booking-orders"
+                >
+                  <p class="mb-1">Total Orders</p>
+                </a>
+                <a
+                  class="dashboard-link"
+                  routerLink="/admin/all-booking-orders"
+                >
+                  <h3 class="mb-0 number-font">{{ totalOrder }}</h3>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="row mb-1">
+              <div class="col">
+                <a class="dashboard-link" routerLink="/admin/all-products">
+                  <p class="mb-1">Total Products</p>
+                </a>
+                <a class="dashboard-link" routerLink="/admin/all-products">
+                  <h3 class="mb-0 number-font">{{ totalProducts }}</h3>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="row mb-1">
+              <div class="col">
+                <a class="dashboard-link" routerLink="/admin/all-dealers">
+                  <p class="mb-1">Total Dealers</p>
+                </a>
+                <a class="dashboard-link" routerLink="/admin/all-dealers">
+                  <h3 class="mb-0 number-font">{{ totalDealer }}</h3>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-1">
+      <div class="col-xl-5 col-sm-6 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="row mb-1">
+              <div class="col">
+                <a
+                  class="dashboard-link"
+                  routerLink="/admin/all-booking-orders"
+                >
+                  <p class="mb-1">Total Amount</p>
+                </a>
+                <a
+                  class="dashboard-link"
+                  routerLink="/admin/all-booking-orders"
+                >
+                  <h3 class="mb-0 number-font">{{ totalAmount | currency }}</h3>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container-fluid p-0">
+    <div class="row">
+      <div class="col-md-6 col-sm-12">
+        <div class="card recent-order-card">
+          <div class="d-flex justify-content-between p-3">
+            <div>
+              <h3 class="card-title">Most Salers By Vendors</h3>
+            </div>
+          </div>
+
+          <div class="">
+            <div class="grid-margin">
+              <div class="">
+                <div class="table-responsive p-2">
+                  <table class="table" *ngIf="loader">
+                    <thead>
+                      <tr>
+                        <td class="loader-td" colspan="8">
+                          <div
+                            class="ph-item"
+                            style="
+                              padding: 0px 0px;
+                              border: 0px;
+                              margin-bottom: 0px;
+                            "
+                          >
+                            <div>
+                              <div class="ph-picture"></div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="loader-td">
+                          <div
+                            class="ph-item"
+                            style="
+                              padding: 10px 10px;
+                              border: 0px;
+                              margin-bottom: 0px;
+                            "
+                          >
+                            <div>
+                              <div class="ph-row pt-2">
+                                <div class="ph-col-12 p-1 rounded"></div>
+                                <div class="ph-col-12 p-1 rounded"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+
+                        <td class="loader-td">
+                          <div
+                            class="ph-item"
+                            style="
+                              padding: 10px 10px;
+                              border: 0px;
+                              margin-bottom: 0px;
+                            "
+                          >
+                            <div>
+                              <div class="ph-row pt-2">
+                                <div class="ph-col-12 p-1 rounded"></div>
+                                <div class="ph-col-12 p-1 rounded"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="loader-td">
+                          <div
+                            class="ph-item"
+                            style="
+                              padding: 10px 10px;
+                              border: 0px;
+                              margin-bottom: 0px;
+                            "
+                          >
+                            <div>
+                              <div class="ph-row pt-2">
+                                <div class="ph-col-12 p-1 rounded"></div>
+                                <div class="ph-col-12 p-1 rounded"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="loader-td">
+                          <div
+                            class="ph-item"
+                            style="
+                              padding: 10px 10px;
+                              border: 0px;
+                              margin-bottom: 0px;
+                            "
+                          >
+                            <div>
+                              <div class="ph-row pt-2">
+                                <div class="ph-col-12 p-1 rounded"></div>
+                                <div class="ph-col-12 p-1 rounded"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+
+                        <td class="loader-td">
+                          <div
+                            class="ph-item"
+                            style="
+                              padding: 10px 10px;
+                              border: 0px;
+                              margin-bottom: 0px;
+                            "
+                          >
+                            <div>
+                              <div class="ph-row pt-2">
+                                <div class="ph-col-12 p-1 rounded"></div>
+                                <div class="ph-col-12 p-1 rounded"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="loader-td">
+                          <div
+                            class="ph-item"
+                            style="
+                              padding: 10px 10px;
+                              border: 0px;
+                              margin-bottom: 0px;
+                            "
+                          >
+                            <div>
+                              <div class="ph-row pt-2">
+                                <div class="ph-col-12 p-1 rounded"></div>
+                                <div class="ph-col-12 p-1 rounded"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <table
+                    *ngIf="tableView"
+                    class="table text-nowrap align-items-center mb-0"
+                  >
+                    <thead class="thead-dark">
+                      <tr>
+                        <th class="thead-custom">Vendor Code</th>
+                        <th class="thead-custom">Vendor Name</th>
+                        <th class="thead-custom">Total Sales</th>
+                        <th class="thead-custom">Trend</th>
+                        <th class="thead-custom">Action</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr *ngFor="let order of recentOrders">
+                        <td>
+                          <span class="tbody-text">{{ order.account_id }}</span>
+                        </td>
+                        <td>
+                          <span class="tbody-text">
+                            {{ order.dealer_name }}
+                          </span>
+                        </td>
+                        <td>
+                          <span class="tbody-text">{{ order.total_item }}</span>
+                        </td>
+                        <td>
+                          <span class="tbody-text">
+                            {{ order.total_amt | currency }}
+                          </span>
+                        </td>
+                        <td>
+                          <span class="tbody-text">
+                            {{ order.order_date | date: 'medium' }}
+                          </span>
+                        </td>
+                        <td>
+                          <a
+                            routerLink="/admin/view-order/{{ order.id }}"
+                            class="recent-btn"
+                          >
+                            <span class="fa fa-eye"></span>
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-sm-12">
+        <div id="accordion" class="mb-3">
+          <div class="card">
+            <div class="card-header">
+              <a class="card-link" data-toggle="collapse" href="#collapseOne">
+                <span class="fas fa-users"></span>
+                Logged In Users
+              </a>
+            </div>
+            <div
+              id="collapseOne"
+              class="collapse show"
+              data-parent="#accordion"
+            >
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table" *ngIf="loader">
+                    <thead>
+                      <tr>
+                        <td class="loader-td" colspan="8">
+                          <div
+                            class="ph-item"
+                            style="
+                              padding: 0px 0px;
+                              border: 0px;
+                              margin-bottom: 0px;
+                            "
+                          >
+                            <div>
+                              <div class="ph-picture"></div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="loader-td">
+                          <div
+                            class="ph-item"
+                            style="
+                              padding: 10px 10px;
+                              border: 0px;
+                              margin-bottom: 0px;
+                            "
+                          >
+                            <div>
+                              <div class="ph-row pt-2">
+                                <div class="ph-col-12 p-1 rounded"></div>
+                                <div class="ph-col-12 p-1 rounded"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+
+                        <td class="loader-td">
+                          <div
+                            class="ph-item"
+                            style="
+                              padding: 10px 10px;
+                              border: 0px;
+                              margin-bottom: 0px;
+                            "
+                          >
+                            <div>
+                              <div class="ph-row pt-2">
+                                <div class="ph-col-12 p-1 rounded"></div>
+                                <div class="ph-col-12 p-1 rounded"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="loader-td">
+                          <div
+                            class="ph-item"
+                            style="
+                              padding: 10px 10px;
+                              border: 0px;
+                              margin-bottom: 0px;
+                            "
+                          >
+                            <div>
+                              <div class="ph-row pt-2">
+                                <div class="ph-col-12 p-1 rounded"></div>
+                                <div class="ph-col-12 p-1 rounded"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <table
+                    *ngIf="tableView"
+                    class="table text-nowrap table-wrapper align-items-center mb-0"
+                  >
+                    <thead>
+                      <tr>
+                        <th class="thead-custom">Vendors</th>
+                        <th class="thead-custom">Dealers</th>
+                        <th class="thead-custom">Admin</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <span class="tbody-text">0</span>
+                        </td>
+                        <td>
+                          <span class="tbody-text">
+                            0
+                          </span>
+                        </td>
+                        <td>
+                          <span class="tbody-text">0</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="accordion2">
+          <div class="card">
+            <div class="card-header">
+              <a class="card-link" data-toggle="collapse" href="#collapseTwo">
+                <span class="fas fa-users"></span>
+                Users Access Control
+              </a>
+            </div>
+            <div
+              id="collapseTwo"
+              class="collapse show"
+              data-parent="#accordion2"
+            >
+              <div class="card-body mx-2">
+                <button class="btn btn-success control-btn">
+                  Deactivate Vendors
+                </button>
+                <button class="btn btn-outline-success control-btn">
+                  Deactivate Dealers
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="accordion3">
+          <div class="card">
+            <div class="card-header">
+              <a class="card-link" data-toggle="collapse" href="#collapseThree">
+                <span class="fas fa-users"></span>
+                EVENT ENDS IN
+              </a>
+            </div>
+            <div
+              id="collapseThree"
+              class="collapse show"
+              data-parent="#accordion3"
+            >
+              <div class="card-body mx-2">
+                <table
+                  *ngIf="tableView"
+                  class="table text-nowrap table-wrapper align-items-center mb-0"
+                >
+                  <tbody>
+                    <tr>
+                      <td>
+                        <span class="tbody-text-timer">0 Days</span>
+                      </td>
+                      <td>
+                        <span class="tbody-text-timer">
+                          0 Hours
+                        </span>
+                      </td>
+                      <td>
+                        <span class="tbody-text-timer">0 Mintues</span>
+                      </td>
+                      <td>
+                        <span class="tbody-text-timer">0 Seconds</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="accordion4">
+          <div class="card">
+            <div class="card-header">
+              <a class="card-link" data-toggle="collapse" href="#collapseFour">
+                <span class="fas fa-users"></span>
+                Sales summary by day
+              </a>
+            </div>
+            <div
+              id="collapseFour"
+              class="collapse show"
+              data-parent="#accordion4"
+            >
+              <div class="card-body mx-2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
