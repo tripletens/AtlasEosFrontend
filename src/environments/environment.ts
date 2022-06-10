@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  url: '',
-}
+  url: 'https://atlas-eos-backend-app-k4s5v.ondigitalocean.app/api',
+};
 
 /*
  * For easier debugging in development mode, you can import the following file

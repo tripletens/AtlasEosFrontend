@@ -8,10 +8,10 @@ import { Router } from '@angular/router';
 })
 export class DealerNavbarComponent implements OnInit {
   @ViewChild('overlay') overlay!: ElementRef;
-toggle = true
+  toggle = true;
   constructor(private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
   closeOverLay() {
     const query = window.matchMedia('(max-width: 700px)');
     if (query.matches) {
@@ -19,7 +19,7 @@ toggle = true
     }
   }
   toggleSideNav() {
-    this.toggle = !this.toggle
+    this.toggle = !this.toggle;
   }
   logout() {
     // this.tokenStorage.signOut();
