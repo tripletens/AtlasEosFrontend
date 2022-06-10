@@ -18,7 +18,8 @@ import { FaqComponent } from './faq/faq.component'
 import { VeiwReportComponent } from './veiw-report/veiw-report.component'
 import { RespondReportComponent } from './respond-report/respond-report.component'
 import { AllVendorsComponent } from './all-vendors/all-vendors.component'
-import { MatTableModule } from '@angular/material/table'
+import { MatTableModule } from '@angular/material/table';
+import { AddVendorUsersComponent } from './add-vendor-users/add-vendor-users.component'
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { MatTableModule } from '@angular/material/table'
     VeiwReportComponent,
     RespondReportComponent,
     AllVendorsComponent,
+    AddVendorUsersComponent,
   ],
   imports: [
     CommonModule,

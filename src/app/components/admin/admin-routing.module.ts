@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { AddDealersComponent } from './add-dealers/add-dealers.component'
+import { AddVendorUsersComponent } from './add-vendor-users/add-vendor-users.component'
 import { AddVendorsComponent } from './add-vendors/add-vendors.component'
 import { AdminComponent } from './admin.component'
 import { AllVendorsComponent } from './all-vendors/all-vendors.component'
@@ -72,6 +73,10 @@ const routes: Routes = [
       {
         path: 'add-vendor',
         component: AddVendorsComponent,
+      },
+      {
+        path: 'add-vendor-users',
+        component: AddVendorUsersComponent,
       },
     ],
   },
