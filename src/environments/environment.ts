@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: '',
+  url: 'https://atlas-eos-backend-app-k4s5v.ondigitalocean.app/api',
 }
 
 /*

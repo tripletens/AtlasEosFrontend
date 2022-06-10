@@ -7,19 +7,19 @@
   background-position: center;
   background-size: cover;
 }
-.logo{
-
+.logo {
+  max-width: 200px;
 }
 
-.btn-primary{
-  background-color: #387C2C !important;
+.btn-primary {
+  background-color: #387c2c !important;
   box-shadow: none !important;
   border: none !important;
 }
 @media (max-width: 768px) {
-  .left-col{
- display: none !important;
-}
+  .left-col {
+    display: none !important;
+  }
   .form-width {
     width: 75% !important;
   }

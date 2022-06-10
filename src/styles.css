@@ -15,9 +15,10 @@
   height: 30px;
 }
 body {
-  font-family: "Roboto", sans-serif;
+  /* font-family: "Roboto", sans-serif; */
   /* overflow: hidden; */
   height: 100%;
+  font-family: Verdana,sans-serif;
 }
 .side-menu {
   list-style-type: none;
@@ -30,7 +31,7 @@ body {
 }
 
 .admin-side {
-  margin-top: 60px;
+  margin-top: 53px;
 }
 
 @media screen and (max-width: 1200px) {

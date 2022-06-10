@@ -3,7 +3,7 @@
 }
 
 .app-sidebar {
-  background-color: red !important;
+  background-color: rgb(162, 0, 41) !important;
 
   * {
     color: #ffffff !important;
@@ -16,7 +16,7 @@
   height: auto;
 }
 .active-link {
-  background-color: darkred;
+  background-color: #21262d;
 }
 .scrollable {
   overflow-y: scroll;
@@ -75,4 +75,135 @@
 
 .language-text {
   font-size: 12px;
+}
+
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: red;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: darkgreen;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: blue;
+  border-radius: 20px;
+  border: 3px solid red;
+}
+
+.support-sec::after {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  content: '\f107';
+  color: #abb4be;
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 14px 25px;
+}
+
+.support-body {
+  background-color: #21262d;
+  margin-top: -5px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.support-ul {
+  li {
+    padding-left: 40px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    font-size: 13px;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+}
+
+.side-header {
+  height: 54px;
+}
+
+.navbar-inner-section-bell {
+  width: 25%;
+
+  .bell-wrapper {
+    display: flex;
+
+    justify-content: center;
+    // margin-left: auto;
+    height: 30px;
+    width: 30px;
+    padding: 10px;
+    box-shadow: 2px 2px 2px gray;
+    border-radius: 50%;
+    text-align: center;
+    float: right;
+    margin-right: 20px;
+  }
+}
+
+.navbar-inner-section {
+  width: 25%;
+}
+
+.dropdown-menu {
+  width: 20%;
+}
+
+.nav-wrapper {
+  cursor: pointer;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#nav-collapse {
+  position: absolute;
+  background-color: #ffffff;
+  width: 100%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-top: 1px solid cyan;
+  transition: 0.3s linear;
+
+  p {
+    margin-bottom: 0px;
+  }
+}
+
+#nav-collapse:hover {
+  background-color: #21262d;
+  color: #ffffff;
+
+  * {
+    color: #ffffff;
+  }
+
+  p {
+    color: #ffffff;
+  }
+}
+
+.nav-sub-text-title {
+  font-weight: 700;
+  color: gray;
+  font-size: 1rem;
+}
+
+.nav-text-title {
+  font-size: 13px;
+
+  font-weight: 400;
+  margin-bottom: 0px;
 }
