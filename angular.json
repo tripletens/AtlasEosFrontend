@@ -74,7 +74,7 @@
           "configurations": {
             "production": {
               "browserTarget": "atlas-eos:build:production",
-              "host": "0.0.0.0",
+              "host": "atlas-eos-frontend-app-y5sdl.ondigitalocean.app",
               "port":8080,
               "disableHostCheck": false
             },
