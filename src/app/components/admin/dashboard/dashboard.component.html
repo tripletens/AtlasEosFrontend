@@ -88,17 +88,20 @@
   <div class="container-fluid p-0">
     <div class="row">
       <div class="col-md-6 col-sm-12">
-        <div class="card recent-order-card">
-          <div class="d-flex justify-content-between p-3">
-            <div>
-              <h3 class="card-title">Most Salers By Vendors</h3>
+        <div id="accordion6" class="mb-3">
+          <div class="card">
+            <div class="card-header">
+              <a class="card-link" data-toggle="collapse" href="#collapseSix">
+                Most Salers By Vendors
+              </a>
             </div>
-          </div>
-
-          <div class="">
-            <div class="grid-margin">
-              <div class="">
-                <div class="table-responsive p-2">
+            <div
+              id="collapseSix"
+              class="collapse show"
+              data-parent="#accordion6"
+            >
+              <div class="card-body">
+                <div class="table-responsive">
                   <table class="table" *ngIf="loader">
                     <thead>
                       <tr>
@@ -173,6 +176,77 @@
                           </div>
                         </td>
                       </tr>
+                    </tbody>
+                  </table>
+
+                  <table
+                    *ngIf="tableView"
+                    class="table table-stripe text-nowrap table-wrapper2 align-items-center mb-0"
+                  >
+                    <thead>
+                      <tr>
+                        <th class="thead-custom">Vendors Code</th>
+                        <th class="thead-custom">Vendor Name</th>
+                        <th class="thead-custom">Total Sales</th>
+                        <th class="thead-custom">Trend</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <span class="tbody-text">0</span>
+                        </td>
+                        <td>
+                          <span class="tbody-text">
+                            0
+                          </span>
+                        </td>
+                        <td>
+                          <span class="tbody-text">0</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="accordion7" class="mb-3">
+          <div class="card">
+            <div class="card-header">
+              <a class="card-link" data-toggle="collapse" href="#collapseSeven">
+                MOST PURCHASES BY DEALER
+              </a>
+            </div>
+            <div
+              id="collapseSeven"
+              class="collapse show"
+              data-parent="#accordion7"
+            >
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table" *ngIf="loader">
+                    <thead>
+                      <tr>
+                        <td class="loader-td" colspan="8">
+                          <div
+                            class="ph-item"
+                            style="
+                              padding: 0px 0px;
+                              border: 0px;
+                              margin-bottom: 0px;
+                            "
+                          >
+                            <div>
+                              <div class="ph-picture"></div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </thead>
+                    <tbody>
                       <tr>
                         <td class="loader-td">
                           <div
@@ -229,50 +303,31 @@
                       </tr>
                     </tbody>
                   </table>
+
                   <table
                     *ngIf="tableView"
-                    class="table text-nowrap align-items-center mb-0"
+                    class="table table-stripe text-nowrap table-wrapper2 align-items-center mb-0"
                   >
-                    <thead class="thead-dark">
+                    <thead>
                       <tr>
-                        <th class="thead-custom">Vendor Code</th>
-                        <th class="thead-custom">Vendor Name</th>
-                        <th class="thead-custom">Total Sales</th>
+                        <th class="thead-custom">Account #</th>
+                        <th class="thead-custom">Dealer Name</th>
+                        <th class="thead-custom">Show Total($)</th>
                         <th class="thead-custom">Trend</th>
-                        <th class="thead-custom">Action</th>
                       </tr>
                     </thead>
-
                     <tbody>
-                      <tr *ngFor="let order of recentOrders">
+                      <tr>
                         <td>
-                          <span class="tbody-text">{{ order.account_id }}</span>
+                          <span class="tbody-text">0</span>
                         </td>
                         <td>
                           <span class="tbody-text">
-                            {{ order.dealer_name }}
+                            0
                           </span>
                         </td>
                         <td>
-                          <span class="tbody-text">{{ order.total_item }}</span>
-                        </td>
-                        <td>
-                          <span class="tbody-text">
-                            {{ order.total_amt | currency }}
-                          </span>
-                        </td>
-                        <td>
-                          <span class="tbody-text">
-                            {{ order.order_date | date: 'medium' }}
-                          </span>
-                        </td>
-                        <td>
-                          <a
-                            routerLink="/admin/view-order/{{ order.id }}"
-                            class="recent-btn"
-                          >
-                            <span class="fa fa-eye"></span>
-                          </a>
+                          <span class="tbody-text">0</span>
                         </td>
                       </tr>
                     </tbody>
@@ -289,7 +344,7 @@
           <div class="card">
             <div class="card-header">
               <a class="card-link" data-toggle="collapse" href="#collapseOne">
-                <span class="fas fa-users"></span>
+                <span class="fa fas fa-users"></span>
                 Logged In Users
               </a>
             </div>
@@ -376,6 +431,7 @@
                       </tr>
                     </tbody>
                   </table>
+
                   <table
                     *ngIf="tableView"
                     class="table text-nowrap table-wrapper align-items-center mb-0"
@@ -413,7 +469,7 @@
           <div class="card">
             <div class="card-header">
               <a class="card-link" data-toggle="collapse" href="#collapseTwo">
-                <span class="fas fa-users"></span>
+                <span class="fa fas fa-users"></span>
                 Users Access Control
               </a>
             </div>
@@ -438,7 +494,7 @@
           <div class="card">
             <div class="card-header">
               <a class="card-link" data-toggle="collapse" href="#collapseThree">
-                <span class="fas fa-users"></span>
+                <span class="fa fas fa-clock"></span>
                 EVENT ENDS IN
               </a>
             </div>
@@ -480,7 +536,6 @@
           <div class="card">
             <div class="card-header">
               <a class="card-link" data-toggle="collapse" href="#collapseFour">
-                <span class="fas fa-users"></span>
                 Sales summary by day
               </a>
             </div>

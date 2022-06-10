@@ -8,6 +8,24 @@
   font-size: 16px;
 }
 
+.table-wrapper2 {
+  thead {
+    background-color: #4a0013;
+  }
+
+  thead th {
+    color: #ffffff !important;
+    background-color: #4a0013;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  td {
+    border-top: 1px solid #dee2e6;
+    color: #ffffff;
+  }
+}
+
 .table-wrapper {
   background-color: #4a0013;
 
@@ -28,7 +46,7 @@
 
 .card-link {
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 400;
   color: black;
   padding-left: 10px;
 }

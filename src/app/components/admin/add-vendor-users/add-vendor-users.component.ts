@@ -5,11 +5,11 @@ import { HttpRequestsService } from 'src/app/core/services/http-requests.service
 import { ToastrService } from 'ngx-toastr'
 
 @Component({
-  selector: 'app-add-vendors',
-  templateUrl: './add-vendors.component.html',
-  styleUrls: ['./add-vendors.component.scss'],
+  selector: 'app-add-vendor-users',
+  templateUrl: './add-vendor-users.component.html',
+  styleUrls: ['./add-vendor-users.component.scss'],
 })
-export class AddVendorsComponent implements OnInit {
+export class AddVendorUsersComponent implements OnInit {
   dealer = new AddDealer('', '', '', '', '', '', '0')
 
   step1 = true
@@ -18,7 +18,7 @@ export class AddVendorsComponent implements OnInit {
   lastNameStatus = false
   locationStatus = false
   phoneStatus = false
-  vendorForm!: FormGroup
+  dealerForm!: FormGroup
   manualChecker = false
   btnLoader = false
   btnText = true
@@ -85,7 +85,7 @@ export class AddVendorsComponent implements OnInit {
     fd.append('csv', this.csvDataFile[0])
 
     this.postData
-      .uploadFile('/upload-vendors', fd)
+      .uploadFile('/dealer-csv-upload', fd)
       .then((result) => {
         this.csvBtnLoader = false
         this.csvBtnText = true
@@ -121,31 +121,39 @@ export class AddVendorsComponent implements OnInit {
   }
 
   buildDealerForm(): void {
-    this.vendorForm = this.fb.group({
-      vendorName: ['', [Validators.required]],
-      vendorCode: ['', [Validators.required]],
+    this.dealerForm = this.fb.group({
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      phone: ['', [Validators.required]],
+      location: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+      account_id: ['', [Validators.required]],
     })
   }
 
   submit() {
-    if (this.vendorForm.status == 'VALID') {
-      console.log(this.vendorForm.value)
+    if (this.dealerForm.status == 'VALID') {
+      console.log(this.dealerForm.value)
       this.btnText = false
       this.btnLoader = true
       this.postData
-        .httpPostRequest('/register-vendors', this.vendorForm.value)
+        .httpPostRequest('/register-dealer', this.dealerForm.value)
         .then((result: any) => {
           console.log(result)
           this.btnText = true
           this.btnLoader = false
 
-          if (result.status == true) {
+          if (result.status) {
             this.step1 = true
             this.step2 = false
-            this.vendorForm.reset()
-            this.toastr.success('Successful', result.message)
+            this.dealerForm.reset()
+            this.toastr.success(
+              'Dealer Added Successful',
+              `New Dealer has been added`,
+            )
           } else {
-            this.toastr.error('Server Error', 'Try again')
+            this.toastr.error(result.message, 'Try again')
           }
         })
         .catch((err) => {
@@ -162,21 +170,51 @@ export class AddVendorsComponent implements OnInit {
     }
   }
 
-  get vendorFormControls() {
-    return this.vendorForm.controls
+  get dealerFormControls() {
+    return this.dealerForm.controls
   }
 
   getErrorMessage(instance: string) {
     if (
-      instance === 'vendorName' &&
-      this.vendorFormControls.vendorName.hasError('required')
+      instance === 'firstName' &&
+      this.dealerFormControls.firstName.hasError('required')
     ) {
-      return 'enter vendor name'
+      return 'enter first name'
     } else if (
-      instance === 'vendorCode' &&
-      this.vendorFormControls.vendorCode.hasError('required')
+      instance === 'lastName' &&
+      this.dealerFormControls.lastName.hasError('required')
     ) {
-      return 'enter vendor code'
+      return 'enter last name'
+    } else if (
+      instance === 'phone' &&
+      this.dealerFormControls.phone.hasError('required')
+    ) {
+      return 'enter phone number'
+    } else if (
+      instance === 'account_id' &&
+      this.dealerFormControls.account_id.hasError('required')
+    ) {
+      return 'enter account id'
+    } else if (
+      instance === 'location' &&
+      this.dealerFormControls.location.hasError('required')
+    ) {
+      return 'Choose Location'
+    } else if (
+      instance === 'password' &&
+      this.dealerFormControls.password.hasError('required')
+    ) {
+      return 'Please enter your password'
+    } else if (
+      instance === 'email' &&
+      this.dealerFormControls.email.hasError('required')
+    ) {
+      return 'Enter email address'
+    } else if (
+      instance === 'email' &&
+      this.dealerFormControls.email.hasError('email')
+    ) {
+      return 'Enter a valid email address'
     } else {
       return
     }
