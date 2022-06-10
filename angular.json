@@ -76,7 +76,7 @@
               "browserTarget": "atlas-eos:build:production",
               "host": "0.0.0.0",
               "port":8080,
-              "disableHostCheck": false
+              "disableHostCheck": true
             },
             "development": {
               "browserTarget": "atlas-eos:build:development",
