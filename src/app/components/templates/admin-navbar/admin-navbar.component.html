@@ -66,6 +66,32 @@
       </div>
     </li>
 
+    <!-- Dropdown-->
+    <li class="slide panel panel-default" id="dropdown">
+      <a class="side-menu__item" data-toggle="collapse" href="#dropdown-lvl2">
+        <span class="fa fas fa-link navbar-icons"></span>
+        <span class="side-menu__label support-sec">Dealer</span>
+        <span class="caret"></span>
+      </a>
+      <!-- Dropdown level 1 -->
+      <div id="dropdown-lvl2" class="panel-collapse collapse">
+        <div class="panel-body support-body">
+          <ul class="support-ul">
+            <li>
+              <a routerLink="/admin/all-dealer" routerLinkActive="active-link">
+                All Dealers
+              </a>
+            </li>
+            <li>
+              <a routerLink="/admin/add-dealer" routerLinkActive="active-link">
+                Add Dealer
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </li>
+
     <li class="slide" (click)="closeOverLay()">
       <a
         class="side-menu__item"
