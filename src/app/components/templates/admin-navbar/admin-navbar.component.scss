@@ -129,6 +129,10 @@
   }
 }
 
+.header {
+  height: 64px !important;
+}
+
 .side-header {
   height: 54px;
 }
@@ -198,12 +202,21 @@
 .nav-sub-text-title {
   font-weight: 700;
   color: gray;
-  font-size: 1rem;
+  font-size: 13px;
 }
 
 .nav-text-title {
-  font-size: 13px;
+  font-size: 10px;
 
   font-weight: 400;
   margin-bottom: 0px;
+}
+
+.nav-layer-title {
+  background-color: #a20029;
+  color: #ffffff;
+  padding: 10px;
+  z-index: 9999999999;
+  position: fixed;
+  top: 64px;
 }
