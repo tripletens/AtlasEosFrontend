@@ -1,35 +1,35 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core'
 
 @Injectable({
   providedIn: 'root',
 })
 export class TokenStorageService {
   static getBranch(): any {
-    throw new Error('Method not implemented.');
+    throw new Error('Method not implemented.')
   }
   constructor() {}
 
   public getToken(): string | null {
-    return window.localStorage.getItem('token');
+    return window.localStorage.getItem('token')
   }
 
   public save(data: any, token: any): void {
-    console.log(data);
-    if (data.role == 'dealer') {
-      window.localStorage.removeItem('dealer');
-      window.localStorage.setItem('dealer', JSON.stringify(data));
-      window.localStorage.setItem('token', token);
+    console.log(data)
+    if (data.role == '4') {
+      window.localStorage.removeItem('dealer')
+      window.localStorage.setItem('dealer', JSON.stringify(data))
+      window.localStorage.setItem('token', token)
     }
 
-    if (data.role == 'admin') {
-      window.localStorage.removeItem('admin');
-      window.localStorage.setItem('admin', JSON.stringify(data));
-      window.localStorage.setItem('token', token);
+    if (data.role == '1') {
+      window.localStorage.removeItem('admin')
+      window.localStorage.setItem('admin', JSON.stringify(data))
+      window.localStorage.setItem('token', token)
     }
-    if (data.role == 'branch') {
-      window.localStorage.removeItem('branch');
-      window.localStorage.setItem('branch', JSON.stringify(data));
-      window.localStorage.setItem('token', token);
+    if (data.role == '2') {
+      window.localStorage.removeItem('branch')
+      window.localStorage.setItem('branch', JSON.stringify(data))
+      window.localStorage.setItem('token', token)
     }
     // window.localStorage.removeItem('token');
     // if (data.admin) {
@@ -46,69 +46,69 @@ export class TokenStorageService {
   }
 
   updateStoreAdmin(admin: any) {
-    window.localStorage.removeItem('admin');
-    window.localStorage.setItem('admin', JSON.stringify(admin));
+    window.localStorage.removeItem('admin')
+    window.localStorage.setItem('admin', JSON.stringify(admin))
   }
 
   updateStoreDealer(dealer: any) {
-    window.localStorage.removeItem('dealer');
-    window.localStorage.setItem('dealer', JSON.stringify(dealer));
+    window.localStorage.removeItem('dealer')
+    window.localStorage.setItem('dealer', JSON.stringify(dealer))
   }
   updateStoreBranch(branch: any) {
-    window.localStorage.removeItem('branch');
-    window.localStorage.setItem('branch', JSON.stringify(branch));
+    window.localStorage.removeItem('branch')
+    window.localStorage.setItem('branch', JSON.stringify(branch))
   }
 
   isLoggedInAsDealer(): boolean {
-    const admin = localStorage.getItem('dealer');
-    const token = localStorage.getItem('token');
-    return admin !== null && token !== null ? true : false;
+    const admin = localStorage.getItem('dealer')
+    const token = localStorage.getItem('token')
+    return admin !== null && token !== null ? true : false
   }
 
   isLoggedInAsAdmin(): boolean {
-    const admin = localStorage.getItem('admin');
-    const token = localStorage.getItem('token');
-    return admin !== null && token !== null ? true : false;
+    const admin = localStorage.getItem('admin')
+    const token = localStorage.getItem('token')
+    return admin !== null && token !== null ? true : false
   }
   isLoggedInAsBranch(): boolean {
-    const branch = localStorage.getItem('branch');
-    const token = localStorage.getItem('token');
-    return branch !== null && token !== null ? true : false;
+    const branch = localStorage.getItem('branch')
+    const token = localStorage.getItem('token')
+    return branch !== null && token !== null ? true : false
   }
 
   signOut(): void {
-    window.localStorage.clear();
+    window.localStorage.clear()
   }
 
   getDealer() {
-    const dealer = window.localStorage.getItem('dealer');
+    const dealer = window.localStorage.getItem('dealer')
     if (dealer) {
-      return JSON.parse(dealer);
+      return JSON.parse(dealer)
     }
-    return {};
+    return {}
   }
   getBranch() {
-    const branch = window.localStorage.getItem('branch');
+    const branch = window.localStorage.getItem('branch')
     if (branch) {
-      return JSON.parse(branch);
+      return JSON.parse(branch)
     }
-    return {};
+    return {}
   }
   public getAdmin(): any {
-    const admin = window.localStorage.getItem('admin');
+    const admin = window.localStorage.getItem('admin')
     if (admin) {
-      return JSON.parse(admin);
+      return JSON.parse(admin)
     }
-    return {};
+    return {}
   }
 
   public getrole() {}
 
   public permissions() {
-    const permissions = window.localStorage.getItem('permissions');
+    const permissions = window.localStorage.getItem('permissions')
     if (permissions) {
-      return JSON.parse(permissions);
+      return JSON.parse(permissions)
     }
-    return {};
+    return {}
   }
 }
