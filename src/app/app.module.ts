@@ -11,9 +11,14 @@ import { AdminNavbarComponent } from './components/templates/admin-navbar/admin-
 import { SeminarNavbarComponent } from './components/templates/seminar-navbar/seminar-navbar.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { DealerNavbarComponent } from './components/templates/dealer-navbar/dealer-navbar.component'
+import { AdminLoginComponent } from './components/admin-login/admin-login.component'
+import {
+  authInterceptorProviders,
+  JwtAuthInterceptor,
+} from './core/services/jwt-auth.interceptor'
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent],
+  declarations: [AppComponent, LoginComponent, AdminLoginComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -26,7 +31,7 @@ import { DealerNavbarComponent } from './components/templates/dealer-navbar/deal
     AppRoutingModule,
     BrowserAnimationsModule,
   ],
-  providers: [],
+  providers: [authInterceptorProviders],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

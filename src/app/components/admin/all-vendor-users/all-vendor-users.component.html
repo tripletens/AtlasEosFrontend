@@ -8,7 +8,7 @@
               <a class="card-link" data-toggle="collapse" href="#collapseSeven">
                 <span class="fa fas fa-list-ul pr-2"></span>
 
-                All Vendors
+                All Vendor Users
               </a>
             </div>
             <div
@@ -115,21 +115,21 @@
                     class="mat-elevation w-100 table table-striped table-bordered"
                   >
                     <!--- Note that these columns can be defined in any order.
-                        The actual rendered columns are set as a property on the row definition" -->
+                          The actual rendered columns are set as a property on the row definition" -->
 
                     <!-- Position Column -->
-                    <ng-container matColumnDef="vendor_id">
+                    <ng-container matColumnDef="vendor">
                       <th mat-header-cell *matHeaderCellDef>Vendor #</th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.vendor_id }}
+                        {{ element.vendor }}
                       </td>
                     </ng-container>
 
                     <!-- Name Column -->
-                    <ng-container matColumnDef="vendor_name">
+                    <ng-container matColumnDef="company_name">
                       <th mat-header-cell *matHeaderCellDef>Company Name #</th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.vendor_name }}
+                        {{ element.company_name }}
                       </td>
                     </ng-container>
 
@@ -137,16 +137,15 @@
                     <ng-container matColumnDef="status">
                       <th mat-header-cell *matHeaderCellDef>Status</th>
                       <td mat-cell *matCellDef="let element">
-                        <span *ngIf="element.status == 1">active</span>
-                        <span *ngIf="element.status == 0">inactive</span>
+                        {{ element.status }}
                       </td>
                     </ng-container>
 
                     <!-- Symbol Column -->
-                    <ng-container matColumnDef="created_at">
+                    <ng-container matColumnDef="created_date">
                       <th mat-header-cell *matHeaderCellDef>Created Date</th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.created_at | date: 'medium' }}
+                        {{ element.created_date }}
                       </td>
                     </ng-container>
 

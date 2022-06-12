@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
+import { AddAdminComponent } from './add-admin/add-admin.component'
 import { AddDealersComponent } from './add-dealers/add-dealers.component'
 import { AddVendorUsersComponent } from './add-vendor-users/add-vendor-users.component'
 import { AddVendorsComponent } from './add-vendors/add-vendors.component'
 import { AdminComponent } from './admin.component'
+import { AllVendorUsersComponent } from './all-vendor-users/all-vendor-users.component'
 import { AllVendorsComponent } from './all-vendors/all-vendors.component'
 import { DashboardComponent } from './dashboard/dashboard.component'
 import { DealerSummaryComponent } from './dealer-summary/dealer-summary.component'
@@ -77,6 +79,14 @@ const routes: Routes = [
       {
         path: 'add-vendor-users',
         component: AddVendorUsersComponent,
+      },
+      {
+        path: 'add-admin',
+        component: AddAdminComponent,
+      },
+      {
+        path: 'all-vendor-users',
+        component: AllVendorUsersComponent,
       },
     ],
   },

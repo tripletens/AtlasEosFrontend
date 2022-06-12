@@ -1,0 +1,125 @@
+.form-width {
+  width: 65%;
+  margin-top: 90px;
+}
+.bg-banner {
+  background: url(../../../assets/images/new_landing_bg.jpg);
+  background-position: center;
+  background-size: cover;
+}
+.logo {
+}
+
+.btn-primary {
+  background-color: #387c2c !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+@media (max-width: 768px) {
+  .left-col {
+    display: none !important;
+  }
+  .form-width {
+    width: 75% !important;
+  }
+  .image {
+    display: none;
+  }
+}
+
+@media (max-width: 1000px) {
+  .login-half-bg {
+    display: none !important;
+  }
+}
+
+.symbol-input {
+  padding-top: 6px;
+  padding-left: 10px;
+  border-radius: 5px 0px 0px 5px;
+}
+
+.side-icon {
+  padding-left: 10px;
+  padding-top: 13px;
+  position: absolute;
+  z-index: 999;
+  font-size: 20px;
+}
+
+.input-value {
+  font-size: 15px;
+  padding: 25px;
+  border: 0px !important;
+  padding-left: 40px;
+}
+
+.fa-eye,
+.fa-eye-slash {
+  position: absolute;
+  right: 10px;
+  top: 14px;
+  font-size: 20px;
+  z-index: 999;
+  cursor: pointer;
+}
+
+.btn-login {
+  padding: 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.img-ctn {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+.img-con {
+  display: flex;
+
+  width: 100%;
+  align-content: center;
+  text-align: center;
+}
+
+.login-logo-img {
+  width: 50%;
+  align-self: center;
+  justify-content: center;
+}
+
+.alert-input-msg {
+  font-size: 13px;
+  color: red;
+  margin-top: 1px;
+  display: block;
+}
+
+.alert-input-icon {
+  font-size: 13px;
+  color: red;
+  margin-top: -18px;
+}
+
+.input-alert-box {
+  padding-top: 5px;
+  padding-right: 10px;
+}
+.image {
+  // background-image: url(../../../assets/background.jpg);
+  // background-size: contain;
+  // background-repeat: no-repeat;
+}
+.con-body {
+  background: url(../../../assets/coverbg.jpg);
+  // height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.top-title-text {
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
