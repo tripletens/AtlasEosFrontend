@@ -38,7 +38,7 @@
         <div class="card justify-content-center">
           <div class="card-body">
             <!-- multistep form -->
-            <form id="msform" [formGroup]="dealerForm" class="pt-2">
+            <form id="msform" [formGroup]="vendorUserForm" class="pt-2">
               <fieldset *ngIf="step1" class="shadow-sm">
                 <h2 class="title">Create Vendor User</h2>
                 <h3 class="subtitle">Personal Details</h3>
@@ -46,23 +46,25 @@
                 <div class="form-row">
                   <div class="col-md-6 mb-4">
                     <div class="form-group">
+                      <label for="">Full Name</label>
                       <input
                         type="text"
-                        name="fname"
+                        name="fullName"
                         class="input-value shadow-sm"
-                        placeholder="First Name"
+                        placeholder="Full Name"
                         required
-                        formControlName="firstName"
+                        formControlName="fullName"
                       />
                       <div
                         class="input-alert-box"
                         *ngIf="
-                          dealerFormControls.firstName.invalid && manualChecker
+                          vendorUserFormControls.fullName.invalid &&
+                          manualChecker
                         "
                       >
                         <div>
                           <span class="alert-input-msg">
-                            {{ getErrorMessage('firstName') }}
+                            {{ getErrorMessage('fullName') }}
                           </span>
                           <span
                             class="fa fa-exclamation-triangle alert-input-icon"
@@ -74,37 +76,8 @@
                   </div>
                   <div class="col-md-6 mb-4">
                     <div class="form-group">
-                      <input
-                        type="text"
-                        name="fname"
-                        class="input-value shadow-sm"
-                        placeholder="Last Name"
-                        required
-                        formControlName="lastName"
-                      />
-                      <div
-                        class="input-alert-box"
-                        *ngIf="
-                          dealerFormControls.lastName.invalid && manualChecker
-                        "
-                      >
-                        <div>
-                          <span class="alert-input-msg">
-                            {{ getErrorMessage('lastName') }}
-                          </span>
-                          <span
-                            class="fa fa-exclamation-triangle alert-input-icon"
-                            style="float: right;"
-                          ></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                      <label for="">Email Address</label>
 
-                <div class="form-row">
-                  <div class="col-md-6 mb-4">
-                    <div class="form-group">
                       <input
                         type="text"
                         name="email"
@@ -116,7 +89,7 @@
                       <div
                         class="input-alert-box"
                         *ngIf="
-                          dealerFormControls.email.invalid && manualChecker
+                          vendorUserFormControls.email.invalid && manualChecker
                         "
                       >
                         <div>
@@ -131,57 +104,35 @@
                       </div>
                     </div>
                   </div>
-
-                  <div class="col-md-6 mb-4">
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        name="username"
-                        class="input-value shadow-sm"
-                        placeholder="Username"
-                        required
-                        formControlName="email"
-                      />
-                      <div
-                        class="input-alert-box"
-                        *ngIf="
-                          dealerFormControls.username.invalid && manualChecker
-                        "
-                      >
-                        <div>
-                          <span class="alert-input-msg">
-                            {{ getErrorMessage('username') }}
-                          </span>
-                          <span
-                            class="fa fa-exclamation-triangle alert-input-icon"
-                            style="float: right;"
-                          ></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
 
                 <div class="form-row">
                   <div class="col-md-6 mb-4">
                     <div class="form-group">
+                      <label for="">Vendor</label>
+
                       <select
+                        (change)="assignVendor(vendor)"
                         type="text"
-                        name="username"
+                        name="vendor"
                         class="input-value shadow-sm"
-                        placeholder="Username"
+                        placeholder="Select Vendor"
                         required
+                        formControlName="vendor"
+                        #vendor
                       >
                         <option value="">
                           Select vendor
                         </option>
-                        <option value="hurr">Durr</option>
+                        <option *ngFor="let data of allVendor">
+                          {{ data.vendor_name }}
+                        </option>
                       </select>
 
                       <div
                         class="input-alert-box"
                         *ngIf="
-                          dealerFormControls.vendor.invalid && manualChecker
+                          vendorUserFormControls.vendor.invalid && manualChecker
                         "
                       >
                         <div>
@@ -199,19 +150,90 @@
 
                   <div class="col-md-6 mb-4">
                     <div class="form-group">
+                      <label for="">Password</label>
+
+                      <input
+                        type="text"
+                        class="input-value shadow-sm"
+                        name="password"
+                        placeholder="password"
+                        required
+                        formControlName="password"
+                      />
+
+                      <div
+                        class="input-alert-box"
+                        *ngIf="vendorUserFormControls.password && manualChecker"
+                      >
+                        <div>
+                          <span class="alert-input-msg">
+                            {{ getErrorMessage('password') }}
+                          </span>
+                          <span
+                            class="fa fa-exclamation-triangle alert-input-icon"
+                            style="float: right;"
+                          ></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-md-6 mb-4">
+                    <div class="form-group">
+                      <label for="">Location</label>
+
+                      <select
+                        type="text"
+                        name="location"
+                        class="input-value shadow-sm"
+                        placeholder="Location"
+                        required
+                        formControlName="location"
+                      >
+                        <option value="">
+                          Select Location
+                        </option>
+                        <option value="hurr">Canada</option>
+                      </select>
+
+                      <div
+                        class="input-alert-box"
+                        *ngIf="
+                          vendorUserFormControls.location.invalid &&
+                          manualChecker
+                        "
+                      >
+                        <div>
+                          <span class="alert-input-msg">
+                            {{ getErrorMessage('location') }}
+                          </span>
+                          <span
+                            class="fa fa-exclamation-triangle alert-input-icon"
+                            style="float: right;"
+                          ></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mb-4">
+                    <div class="form-group">
+                      <label for="">Privilege Vendors</label>
+
                       <input
                         type="text"
                         class="input-value shadow-sm"
                         name="privilegeVendors"
                         placeholder="privilege vendors"
-                        required
                         formControlName="privilegeVendors"
                       />
 
                       <div
                         class="input-alert-box"
                         *ngIf="
-                          dealerFormControls.privilegeVendors.invalid &&
+                          vendorUserFormControls.privilegeVendors.invalid &&
                           manualChecker
                         "
                       >
@@ -229,46 +251,9 @@
                   </div>
                 </div>
 
-                <div class="form-row">
-                  <div class="col-md-6 mb-4">
-                    <div class="form-group">
-                      <select
-                        type="text"
-                        name="username"
-                        class="input-value shadow-sm"
-                        placeholder="Username"
-                        required
-                      >
-                        <option value="">
-                          Select Location
-                        </option>
-                        <option value="hurr">Durr</option>
-                      </select>
-
-                      <div
-                        class="input-alert-box"
-                        *ngIf="
-                          dealerFormControls.vendor.invalid && manualChecker
-                        "
-                      >
-                        <div>
-                          <span class="alert-input-msg">
-                            {{ getErrorMessage('vendor') }}
-                          </span>
-                          <span
-                            class="fa fa-exclamation-triangle alert-input-icon"
-                            style="float: right;"
-                          ></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6 mb-4"></div>
-                </div>
-
                 <button class="submit-btn" (click)="submit()">
                   <span>
-                    Add Dealer
+                    Add Vendor User
                     <span class="fa fa-user-plus dealer-icon"></span>
                   </span>
                   <div *ngIf="btnLoader">

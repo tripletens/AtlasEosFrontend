@@ -80,34 +80,34 @@
 /* Works on Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: red;
+  // scrollbar-color: #a20029;
 }
 
 /* Works on Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
 }
 
 *::-webkit-scrollbar-track {
-  background: darkgreen;
+  background: transparent;
 }
 
 *::-webkit-scrollbar-thumb {
   background-color: blue;
   border-radius: 20px;
-  border: 3px solid red;
+  border: 0px;
 }
 
-.support-sec::after {
-  font-family: 'Font Awesome 5 Free';
-  font-weight: 900;
-  content: '\f107';
-  color: #abb4be;
-  position: absolute;
-  right: 0;
-  top: 0;
-  padding: 14px 25px;
-}
+// .support-sec::after {
+//   font-family: 'Font Awesome 5 Free';
+//   font-weight: 900;
+//   content: '\f107';
+//   color: #abb4be;
+//   position: absolute;
+//   right: 0;
+//   top: 0;
+//   padding: 14px 25px;
+// }
 
 .support-body {
   background-color: #21262d;
@@ -216,7 +216,7 @@
   background-color: #a20029;
   color: #ffffff;
   padding: 10px;
-  z-index: 9999999999;
+  z-index: 1;
   position: fixed;
   top: 64px;
 }

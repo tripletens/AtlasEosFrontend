@@ -151,12 +151,11 @@ export class AdminLoginComponent implements OnInit {
 
           let token = result.token.original.access_token
           let adminData = result.data.admin
-          //console.log(adminData)
           this.tokenStorage.save(adminData, token)
           // this.location = result.data.dealer.location
           // this.dealer = result.data.dealer.id
           //  this.callLogger()
-          //  this.router.navigate(['/admin/dashboard'])
+          this.router.navigate(['/admin/dashboard'])
         } else {
           this.toastr.error('Something went wrong', `${result.message}`)
         }

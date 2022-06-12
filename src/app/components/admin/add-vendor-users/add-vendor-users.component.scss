@@ -95,12 +95,11 @@ html {
 }
 
 .submit-btn {
-  width: 150px;
   font-weight: bold;
   border: 0 none;
   border-radius: 1px;
   cursor: pointer;
-  padding: 10px 5px;
+  padding: 10px 10px;
   margin: 10px 5px;
   background-color: #00008b;
   border-radius: 5px;
@@ -169,4 +168,8 @@ html {
 
 .file-input-tag {
   display: none;
+}
+
+label {
+  font-size: 13px;
 }
