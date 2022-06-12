@@ -83,6 +83,10 @@ const routes: Routes = [
         path: 'add-admin',
         component: AddAdminComponent,
       },
+      {
+        path: 'all-vendor-users',
+        component: AddAdminComponent,
+      },
     ],
   },
 ]

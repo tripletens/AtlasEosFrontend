@@ -152,6 +152,16 @@ export class AdminLoginComponent implements OnInit {
           let token = result.token.original.access_token
           let adminData = result.data.admin
           this.tokenStorage.save(adminData, token)
+          if ((adminData.role = '1')) {
+            this.router.navigate(['/admin/dashboard'])
+          } else if ((adminData.role = '2')) {
+            this.router.navigate(['/branch/dashboard'])
+          } else if ((adminData.role = '5')) {
+            this.router.navigate(['/branch/dashboard'])
+          } else {
+            this.router.navigate(['/branch/dashboard'])
+          }
+
           // this.location = result.data.dealer.location
           // this.dealer = result.data.dealer.id
           //  this.callLogger()

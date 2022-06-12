@@ -252,7 +252,7 @@
                 </div>
 
                 <button class="submit-btn" (click)="submit()">
-                  <span>
+                  <span *ngIf="btnText">
                     Add Vendor User
                     <span class="fa fa-user-plus dealer-icon"></span>
                   </span>

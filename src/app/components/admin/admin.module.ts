@@ -20,7 +20,8 @@ import { RespondReportComponent } from './respond-report/respond-report.componen
 import { AllVendorsComponent } from './all-vendors/all-vendors.component'
 import { MatTableModule } from '@angular/material/table';
 import { AddVendorUsersComponent } from './add-vendor-users/add-vendor-users.component';
-import { AddAdminComponent } from './add-admin/add-admin.component'
+import { AddAdminComponent } from './add-admin/add-admin.component';
+import { AllVendorUsersComponent } from './all-vendor-users/all-vendor-users.component'
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { AddAdminComponent } from './add-admin/add-admin.component'
     AllVendorsComponent,
     AddVendorUsersComponent,
     AddAdminComponent,
+    AllVendorUsersComponent,
   ],
   imports: [
     CommonModule,

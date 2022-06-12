@@ -37,11 +37,11 @@ const ELEMENT_DATA: PeriodicElement[] = [
 ]
 
 @Component({
-  selector: 'app-all-vendors',
-  templateUrl: './all-vendors.component.html',
-  styleUrls: ['./all-vendors.component.scss'],
+  selector: 'app-all-vendor-users',
+  templateUrl: './all-vendor-users.component.html',
+  styleUrls: ['./all-vendor-users.component.scss'],
 })
-export class AllVendorsComponent implements OnInit {
+export class AllVendorUsersComponent implements OnInit {
   tableView = true
   loader = true
   allVendor: any
@@ -57,6 +57,8 @@ export class AllVendorsComponent implements OnInit {
   dataSource = ELEMENT_DATA
 
   loaderData = [9, 8, 6]
+
+  ngOnInit(): void {}
 
   constructor(
     private postData: HttpRequestsService,
@@ -79,6 +81,4 @@ export class AllVendorsComponent implements OnInit {
         // this.toastr.error('Try again', 'Something went wrong')
       })
   }
-
-  ngOnInit(): void {}
 }

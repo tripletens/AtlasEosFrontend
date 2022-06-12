@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { BranchRoutingModule } from './branch-routing.module';
 import { BranchComponent } from './branch.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 @NgModule({
   declarations: [
-    BranchComponent
+    BranchComponent,
+    DashboardComponent
   ],
   imports: [
     CommonModule,
