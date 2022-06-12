@@ -105,7 +105,10 @@
                     </tbody>
                   </table>
                 </div>
-                <div class="table-responsive table-data-section">
+                <div
+                  class="table-responsive table-data-section"
+                  *ngIf="tableView"
+                >
                   <table
                     mat-table
                     [dataSource]="dataSource"
@@ -115,18 +118,18 @@
                         The actual rendered columns are set as a property on the row definition" -->
 
                     <!-- Position Column -->
-                    <ng-container matColumnDef="vendor">
+                    <ng-container matColumnDef="vendor_id">
                       <th mat-header-cell *matHeaderCellDef>Vendor #</th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.vendor }}
+                        {{ element.vendor_id }}
                       </td>
                     </ng-container>
 
                     <!-- Name Column -->
-                    <ng-container matColumnDef="company_name">
+                    <ng-container matColumnDef="vendor_name">
                       <th mat-header-cell *matHeaderCellDef>Company Name #</th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.company_name }}
+                        {{ element.vendor_name }}
                       </td>
                     </ng-container>
 
@@ -134,15 +137,16 @@
                     <ng-container matColumnDef="status">
                       <th mat-header-cell *matHeaderCellDef>Status</th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.status }}
+                        <span *ngIf="element.status == 1">active</span>
+                        <span *ngIf="element.status == 0">inactive</span>
                       </td>
                     </ng-container>
 
                     <!-- Symbol Column -->
-                    <ng-container matColumnDef="created_date">
+                    <ng-container matColumnDef="created_at">
                       <th mat-header-cell *matHeaderCellDef>Created Date</th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.created_date }}
+                        {{ element.created_at | date: 'medium' }}
                       </td>
                     </ng-container>
 

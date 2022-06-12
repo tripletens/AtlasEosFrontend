@@ -5,6 +5,7 @@ import { AddDealersComponent } from './add-dealers/add-dealers.component'
 import { AddVendorUsersComponent } from './add-vendor-users/add-vendor-users.component'
 import { AddVendorsComponent } from './add-vendors/add-vendors.component'
 import { AdminComponent } from './admin.component'
+import { AllVendorUsersComponent } from './all-vendor-users/all-vendor-users.component'
 import { AllVendorsComponent } from './all-vendors/all-vendors.component'
 import { DashboardComponent } from './dashboard/dashboard.component'
 import { DealerSummaryComponent } from './dealer-summary/dealer-summary.component'
@@ -85,7 +86,7 @@ const routes: Routes = [
       },
       {
         path: 'all-vendor-users',
-        component: AddAdminComponent,
+        component: AllVendorUsersComponent,
       },
     ],
   },

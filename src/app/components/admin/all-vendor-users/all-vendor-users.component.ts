@@ -42,7 +42,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./all-vendor-users.component.scss'],
 })
 export class AllVendorUsersComponent implements OnInit {
-  tableView = true
+  tableView = false
   loader = true
   allVendor: any
 
@@ -58,16 +58,18 @@ export class AllVendorUsersComponent implements OnInit {
 
   loaderData = [9, 8, 6]
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getVendorUsers()
+  }
 
   constructor(
     private postData: HttpRequestsService,
     private toastr: ToastrService,
   ) {}
 
-  getVendors() {
+  getVendorUsers() {
     this.postData
-      .httpGetRequest('/get-all-vendors')
+      .httpGetRequest('/get-all-vendor-users')
       .then((result: any) => {
         console.log(result)
 
