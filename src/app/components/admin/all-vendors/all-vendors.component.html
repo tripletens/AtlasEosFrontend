@@ -20,6 +20,9 @@
                 <div class="d-flex justify-content-end">
                   <div class="input-wrapper">
                     <input
+                      (keyup)="applyFilter($event)"
+                      placeholder="Search columns"
+                      #input
                       type="text"
                       placeholder="Search...."
                       class="table-search"
@@ -110,6 +113,7 @@
                   *ngIf="tableView"
                 >
                   <table
+                    id="myTable"
                     mat-table
                     [dataSource]="dataSource"
                     class="mat-elevation w-100 table table-striped table-bordered"
@@ -137,8 +141,8 @@
                     <ng-container matColumnDef="status">
                       <th mat-header-cell *matHeaderCellDef>Status</th>
                       <td mat-cell *matCellDef="let element">
-                        <span *ngIf="element.status == 1">active</span>
-                        <span *ngIf="element.status == 0">inactive</span>
+                        <span *ngIf="element.status == 1">Active</span>
+                        <span *ngIf="element.status == 0">Inactive</span>
                       </td>
                     </ng-container>
 
@@ -153,11 +157,34 @@
                     <ng-container matColumnDef="action">
                       <th mat-header-cell *matHeaderCellDef>Action</th>
                       <td mat-cell *matCellDef="let element">
-                        <button class="edit-btn" title="edit button">
+                        <button
+                          class="edit-btn"
+                          (click)="editVendor(element)"
+                          title="edit button"
+                          type="button"
+                          class="btn btn-primary"
+                          data-toggle="modal"
+                          data-target="#editModal"
+                        >
                           <span class="fa fa-edit"></span>
                         </button>
-                        <button class="delete-btn" title="delete button">
-                          <span class="fa fa-trash"></span>
+                        <button
+                          class="delete-btn"
+                          (click)="removeVendor(element.id)"
+                          title="delete button"
+                        >
+                          <span
+                            class="fa fa-trash"
+                            id="remove-icon-{{ element.id }}"
+                          ></span>
+                          <div
+                            class="remove-loader"
+                            id="remove-loader-{{ element.id }}"
+                          >
+                            <span
+                              class="spinner-border spinner-border-sm"
+                            ></span>
+                          </div>
                         </button>
                       </td>
                     </ng-container>
@@ -169,6 +196,11 @@
                     ></tr>
                   </table>
                 </div>
+                <mat-paginator
+                  [pageSizeOptions]="pageSizes"
+                  pageSize="20"
+                  showFirstLastButtons
+                ></mat-paginator>
               </div>
             </div>
           </div>
@@ -177,3 +209,104 @@
     </div>
   </div>
 </section>
+
+<!-- Edit Vendor Modal -->
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="editModal"
+  tabindex="1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Edit Vendor:
+        </h5>
+        <h5 class="vendor-name">
+          <b>{{ editVendorData?.vendor_name }}</b>
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="msform" [formGroup]="vendorForm" class="pt-2">
+          <div class="form-group mb-3">
+            <label for="">Vendor Name</label>
+            <input
+              type="text"
+              name="vendorName"
+              class="input-value shadow-sm"
+              placeholder="Vendor Name"
+              required
+              formControlName="vendorName"
+              value="{{ editVendorData?.vendor_name }}"
+            />
+            <div
+              class="input-alert-box"
+              *ngIf="vendorFormControls.vendorName.invalid && manualChecker"
+            >
+              <div>
+                <span class="alert-input-msg">
+                  {{ getErrorMessage('vendorName') }}
+                </span>
+                <span
+                  class="fa fa-exclamation-triangle alert-input-icon"
+                  style="float: right;"
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="">Vendor Code</label>
+
+            <input
+              type="text"
+              class="input-value shadow-sm"
+              name="vendorCode"
+              placeholder="Enter Vendor Code"
+              required
+              formControlName="vendorCode"
+              value="{{ editVendorData?.vendor_id }}"
+            />
+
+            <div
+              class="input-alert-box"
+              *ngIf="vendorFormControls.vendorCode.invalid && manualChecker"
+            >
+              <div>
+                <span class="alert-input-msg">
+                  {{ getErrorMessage('vendorCode') }}
+                </span>
+                <span
+                  class="fa fa-exclamation-triangle alert-input-icon"
+                  style="float: right;"
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <button class="submit-btn btn btn-primary" (click)="submit()">
+            <span *ngIf="btnText">
+              Save
+            </span>
+            <div *ngIf="btnLoader">
+              <span class="spinner-border spinner-border-sm"></span>
+            </div>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

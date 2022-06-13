@@ -66,14 +66,21 @@
   ::ng-deep {
     table thead {
       background-color: #4a0013;
+
       color: #ffffff;
       * {
         color: #ffffff;
         text-align: center;
+        font-size: 10px !important;
+        padding: 15px !important;
       }
     }
 
     table tbody {
+      * {
+        font-size: 10px !important;
+        padding: 5px !important;
+      }
       .delete-btn {
         background-color: darkred;
         color: #ffffff;

@@ -1,8 +1,14 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ViewChild } from '@angular/core'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 import { ToastrService } from 'ngx-toastr'
+import { MatPaginator } from '@angular/material/paginator'
+import { MatTableDataSource } from '@angular/material/table'
+import Swal from 'sweetalert2'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 
-export interface PeriodicElement {
+declare var $: any
+
+export interface VendorData {
   vendor_id: string
   vendor_name: string
   status: string
@@ -27,14 +33,171 @@ export class AllVendorsComponent implements OnInit {
     'action',
   ]
 
-  dataSource: any
+  dataSource = new MatTableDataSource<VendorData>()
+  @ViewChild(MatPaginator) paginator!: MatPaginator
 
+  incomingData: any
+  // dataSource: any
+  // dataSource: any
   loaderData = [9, 8, 6]
+  pageSizes = [20, 60, 80]
+
+  vendorForm!: FormGroup
+
+  editVendorData: any
+
+  manualChecker = false
+  btnLoader = false
+  btnText = true
 
   constructor(
     private postData: HttpRequestsService,
     private toastr: ToastrService,
+    private fb: FormBuilder,
   ) {}
+
+  ngOnInit(): void {
+    this.getVendors()
+    this.buildDealerForm()
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator
+  }
+
+  get vendorFormControls() {
+    return this.vendorForm.controls
+  }
+
+  getErrorMessage(instance: string) {
+    if (
+      instance === 'vendorName' &&
+      this.vendorFormControls.vendorName.hasError('required')
+    ) {
+      return 'enter vendor name'
+    } else if (
+      instance === 'vendorCode' &&
+      this.vendorFormControls.vendorCode.hasError('required')
+    ) {
+      return 'enter vendor code'
+    } else {
+      return
+    }
+  }
+
+  submit() {
+    this.toastr.error('Coming Soon', 'Try again')
+  }
+
+  buildDealerForm(): void {
+    this.vendorForm = this.fb.group({
+      vendorName: ['', [Validators.required]],
+      vendorCode: ['', [Validators.required]],
+    })
+  }
+
+  editVendor(data: any) {
+    console.log(data)
+    this.editVendorData = data
+    //this.vendorForm.value.vendorName = data.vendor_name
+  }
+
+  async removeVendor(index: any) {
+    let confirmStatus = await this.confirmBox()
+
+    if (confirmStatus) {
+      $('#remove-icon-' + index).css('display', 'none')
+      $('#remove-loader-' + index).css('display', 'inline-block')
+
+      setTimeout(() => {
+        this.toastr.error('Coming Soon', 'Try again')
+
+        $('#remove-icon-' + index).css('display', 'inline-block')
+        $('#remove-loader-' + index).css('display', 'none')
+      }, 3000)
+
+      // this.postData
+      //   .httpGetRequest('/deactivate-vendor' + index)
+      //   .then((result: any) => {
+      //     $('#remove-icon-' + index).css('display', 'inline-block')
+      //     $('#remove-loader-' + index).css('display', 'none')
+
+      //     if (result.status) {
+      //     } else {
+      //     }
+      //   })
+      //   .catch((err) => {})
+    } else {
+    }
+
+    console.log(index, confirmStatus)
+  }
+
+  async confirmBox() {
+    return await Swal.fire({
+      title: 'You Are About To Remove This Vendor',
+      text: '',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.value) {
+        return true
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        return false
+      } else {
+        return false
+      }
+    })
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value
+    this.incomingData.vendor_name = filterValue.trim().toLowerCase()
+
+    this.dataSource = this.filterArray('*' + filterValue)
+
+    //console.log(res)
+  }
+
+  filterArray(expression: string) {
+    var regex = this.convertWildcardStringToRegExp(expression)
+    //console.log('RegExp: ' + regex);
+    return this.incomingData.filter(function (item: any) {
+      return regex.test(item.vendor_name)
+    })
+  }
+
+  escapeRegExp(str: string) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  }
+
+  convertWildcardStringToRegExp(expression: string) {
+    var terms = expression.split('*')
+
+    var trailingWildcard = false
+
+    var expr = ''
+    for (var i = 0; i < terms.length; i++) {
+      if (terms[i]) {
+        if (i > 0 && terms[i - 1]) {
+          expr += '.*'
+        }
+        trailingWildcard = false
+        expr += this.escapeRegExp(terms[i])
+      } else {
+        trailingWildcard = true
+        expr += '.*'
+      }
+    }
+
+    if (!trailingWildcard) {
+      expr += '.*'
+    }
+
+    return new RegExp('^' + expr + '$', 'i')
+  }
 
   getVendors() {
     this.postData
@@ -45,9 +208,10 @@ export class AllVendorsComponent implements OnInit {
         this.tableView = true
 
         if (result.status) {
-          this.dataSource = result.data
-
-          //this.allVendor = result.data
+          this.incomingData = result.data
+          // this.dataSource = result.data
+          this.dataSource = new MatTableDataSource(result.data)
+          this.dataSource.paginator = this.paginator
         } else {
           this.toastr.error(result.message, 'Try again')
         }
@@ -55,9 +219,5 @@ export class AllVendorsComponent implements OnInit {
       .catch((err) => {
         this.toastr.error('Try again', 'Something went wrong')
       })
-  }
-
-  ngOnInit(): void {
-    this.getVendors()
   }
 }
