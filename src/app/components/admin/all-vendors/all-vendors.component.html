@@ -125,7 +125,7 @@
                     <ng-container matColumnDef="vendor_id">
                       <th mat-header-cell *matHeaderCellDef>Vendor #</th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.vendor_id }}
+                        {{ element.vendor_code }}
                       </td>
                     </ng-container>
 
@@ -278,7 +278,7 @@
               placeholder="Enter Vendor Code"
               required
               formControlName="vendorCode"
-              value="{{ editVendorData?.vendor_id }}"
+              value="{{ editVendorData?.vendor_code }}"
             />
 
             <div

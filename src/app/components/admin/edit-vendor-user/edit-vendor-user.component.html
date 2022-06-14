@@ -21,7 +21,7 @@
           <div class="row">
             <div class="col-md-4">
               <div class="card card-body">
-                <div class="d-flex flex-column">
+                <div class="d-flex flex-column" *ngIf="profileDataStatus">
                   <div>
                     <img
                       src="../../../../assets//dummy-profile-pic.jpg"
@@ -30,9 +30,13 @@
                     />
                   </div>
                   <div>
-                    <span class="full-name-text">Achawayne Sixtus</span>
+                    <span class="full-name-text">
+                      {{ vendorUserData?.first_name }}
+                    </span>
                     <br />
-                    <span class="designation">Branch manager</span>
+                    <span class="designation">
+                      {{ vendorUserData?.role_name }}
+                    </span>
                   </div>
 
                   <div>
@@ -43,7 +47,7 @@
                       <h6>
                         <span class="fa fa-check icon-el"></span>
                         <span class="profile-text">
-                          First Name: Achawayne sixtus
+                          First Name: {{ vendorUserData?.first_name }}
                         </span>
                       </h6>
                     </div>
@@ -58,7 +62,7 @@
                       <h6>
                         <span class="fa fa-check icon-el"></span>
                         <span class="profile-text">
-                          Email: Achawayne@gmail.com
+                          Email: {{ vendorUserData?.email }}
                         </span>
                       </h6>
                     </div>
@@ -71,8 +75,34 @@
                     <div>
                       <h6>
                         <span class="fa fa-check icon-el"></span>
-                        <span class="profile-text">Status: Active</span>
+                        <span
+                          class="profile-text"
+                          *ngIf="vendorUserData?.status == 1"
+                        >
+                          Status: Active
+                        </span>
+                        <span
+                          class="profile-text"
+                          *ngIf="vendorUserData?.status == 0"
+                        >
+                          Status: Inactive
+                        </span>
                       </h6>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="" *ngIf="profileLoader">
+                  <div class="ph-item">
+                    <div class="ph-col-12">
+                      <div class="ph-picture"></div>
+                      <div class="ph-row">
+                        <div class="ph-col-12"></div>
+                        <div class="ph-col-12"></div>
+
+                        <div class="ph-col-12"></div>
+                        <div class="ph-col-12"></div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -153,20 +183,20 @@
                     <div class="form-row">
                       <div class="col-md-6">
                         <div class="form-group mb-3">
-                          <label for="">First Name</label>
+                          <label for="">Full Name</label>
                           <input
                             type="text"
                             name="firstName"
                             class="input-value shadow-sm"
                             placeholder="First Name"
                             required
-                            formControlName="vendorName"
+                            formControlName="firstName"
                             value=""
                           />
                           <div
                             class="input-alert-box"
                             *ngIf="
-                              vendorUserFormControls.firstNameinvalid &&
+                              vendorUserFormControls.firstName.invalid &&
                               manualChecker
                             "
                           >
@@ -183,6 +213,7 @@
                         </div>
                       </div>
 
+                      <!--                       
                       <div class="col-md-6">
                         <div class="form-group mb-3">
                           <label for="">Last Name</label>
@@ -213,10 +244,8 @@
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
+                      </div> -->
 
-                    <div class="form-row">
                       <div class="col-md-6">
                         <div class="form-group mb-3">
                           <label for="">Email Address</label>
@@ -248,7 +277,9 @@
                           </div>
                         </div>
                       </div>
+                    </div>
 
+                    <div class="form-row">
                       <div class="col-md-6">
                         <div class="form-group mb-3">
                           <label for="">Phone Number</label>
@@ -280,9 +311,6 @@
                           </div>
                         </div>
                       </div>
-                    </div>
-
-                    <div class="form-row">
                       <div class="col-md-6">
                         <div class="form-group mb-3">
                           <label for="">Role</label>
@@ -295,10 +323,14 @@
                             formControlName="role"
                           >
                             <option value="">
-                              Status
+                              Role
                             </option>
-                            <option value="active">Active</option>
-                            <option value="active">Inactive</option>
+                            <option value="1">Super Admin</option>
+                            <option value="2">Branch Manager</option>
+                            <option value="3">Vendor</option>
+                            <option value="4">Dealer</option>
+                            <option value="5">Inside Sales</option>
+                            <option value="6">Outside Sales</option>
                           </select>
 
                           <div
@@ -320,7 +352,9 @@
                           </div>
                         </div>
                       </div>
+                    </div>
 
+                    <div class="form-row">
                       <div class="col-md-6">
                         <div class="form-group mb-3">
                           <label for="">Status</label>
@@ -335,8 +369,8 @@
                             <option value="">
                               Status
                             </option>
-                            <option value="active">Active</option>
-                            <option value="active">Inactive</option>
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
                           </select>
 
                           <div
@@ -349,118 +383,6 @@
                             <div>
                               <span class="alert-input-msg">
                                 {{ getErrorMessage('status') }}
-                              </span>
-                              <span
-                                class="fa fa-exclamation-triangle alert-input-icon"
-                                style="float: right;"
-                              ></span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="form-row">
-                      <div class="col-md-6">
-                        <div class="form-group mb-3">
-                          <label for="">Dealer</label>
-                          <select
-                            type="text"
-                            name="dealer"
-                            class="input-value shadow-sm"
-                            placeholder="Dealer"
-                            required
-                            formControlName="dealer"
-                          >
-                            <option value="">
-                              Dealer..
-                            </option>
-                            <option value="active">Revent</option>
-                            <option value="active">Aladdin</option>
-                          </select>
-
-                          <div
-                            class="input-alert-box"
-                            *ngIf="
-                              vendorUserFormControls.dealer.invalid &&
-                              manualChecker
-                            "
-                          >
-                            <div>
-                              <span class="alert-input-msg">
-                                {{ getErrorMessage('dealer') }}
-                              </span>
-                              <span
-                                class="fa fa-exclamation-triangle alert-input-icon"
-                                style="float: right;"
-                              ></span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-md-6">
-                        <div class="form-group mb-3">
-                          <label for="">Vendor</label>
-                          <select
-                            type="text"
-                            name="vendor"
-                            class="input-value shadow-sm"
-                            placeholder="Vendor"
-                            required
-                            formControlName="vendor"
-                          >
-                            <option value="">
-                              Vendor...
-                            </option>
-                            <option value="active">Mortal Kombat</option>
-                            <option value="active">God Of War</option>
-                          </select>
-
-                          <div
-                            class="input-alert-box"
-                            *ngIf="
-                              vendorUserFormControls.vendor.invalid &&
-                              manualChecker
-                            "
-                          >
-                            <div>
-                              <span class="alert-input-msg">
-                                {{ getErrorMessage('vendor') }}
-                              </span>
-                              <span
-                                class="fa fa-exclamation-triangle alert-input-icon"
-                                style="float: right;"
-                              ></span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="form-row">
-                      <div class="col-md-6">
-                        <div class="form-group mb-3">
-                          <label for="">Privileged Dealer</label>
-                          <input
-                            type="text"
-                            name="privilegeDealer"
-                            class="input-value shadow-sm"
-                            placeholder="Privileged Dealer"
-                            required
-                            formControlName="privilegedDealer"
-                            value=""
-                          />
-                          <div
-                            class="input-alert-box"
-                            *ngIf="
-                              vendorUserFormControls.privilegeDealer.invalid &&
-                              manualChecker
-                            "
-                          >
-                            <div>
-                              <span class="alert-input-msg">
-                                {{ getErrorMessage('privilegeDealer') }}
                               </span>
                               <span
                                 class="fa fa-exclamation-triangle alert-input-icon"
@@ -505,6 +427,120 @@
                     </div>
 
                     <div class="form-row">
+                      <!-- <div class="col-md-6">
+                        <div class="form-group mb-3">
+                          <label for="">Dealer</label>
+                          <select
+                            type="text"
+                            name="dealer"
+                            class="input-value shadow-sm"
+                            placeholder="Dealer"
+                            required
+                            formControlName="dealer"
+                          >
+                            <option value="">
+                              Dealer..
+                            </option>
+                            <option value="active">Revent</option>
+                            <option value="active">Aladdin</option>
+                          </select>
+
+                          <div
+                            class="input-alert-box"
+                            *ngIf="
+                              vendorUserFormControls.dealer.invalid &&
+                              manualChecker
+                            "
+                          >
+                            <div>
+                              <span class="alert-input-msg">
+                                {{ getErrorMessage('dealer') }}
+                              </span>
+                              <span
+                                class="fa fa-exclamation-triangle alert-input-icon"
+                                style="float: right;"
+                              ></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div> -->
+
+                      <div class="col-md-6">
+                        <div class="form-group mb-3">
+                          <label for="">Vendor</label>
+                          <select
+                            (change)="assignVendor(vendor)"
+                            type="text"
+                            name="vendor"
+                            class="input-value shadow-sm"
+                            placeholder="Vendor"
+                            required
+                            formControlName="vendor"
+                            #vendor
+                          >
+                            <option value="">
+                              Vendor...
+                            </option>
+                            <option *ngFor="let data of allVendor">
+                              {{ data.vendor_name }}
+                            </option>
+                          </select>
+
+                          <div
+                            class="input-alert-box"
+                            *ngIf="
+                              vendorUserFormControls.vendor.invalid &&
+                              manualChecker
+                            "
+                          >
+                            <div>
+                              <span class="alert-input-msg">
+                                {{ getErrorMessage('vendor') }}
+                              </span>
+                              <span
+                                class="fa fa-exclamation-triangle alert-input-icon"
+                                style="float: right;"
+                              ></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group mb-3">
+                          <label for="">Privilege Vendor</label>
+                          <input
+                            type="text"
+                            name="privilegeVendor"
+                            class="input-value shadow-sm"
+                            placeholder="Privilege Vendor"
+                            required
+                            formControlName="privilegeVendor"
+                            value=""
+                          />
+                          <div
+                            class="input-alert-box"
+                            *ngIf="
+                              vendorUserFormControls.privilegeVendor.invalid &&
+                              manualChecker
+                            "
+                          >
+                            <div>
+                              <span class="alert-input-msg">
+                                {{ getErrorMessage('privilegeVendor') }}
+                              </span>
+                              <span
+                                class="fa fa-exclamation-triangle alert-input-icon"
+                                style="float: right;"
+                              ></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 
+                    <div class="form-row">
                       <div class="col-md-6">
                         <div class="form-group mb-3">
                           <label for="">Company Name</label>
@@ -539,26 +575,26 @@
 
                       <div class="col-md-6">
                         <div class="form-group mb-3">
-                          <label for="">Vendor Name</label>
+                          <label for="">Super Vendor</label>
                           <input
                             type="text"
-                            name="vendorName"
+                            name="superVendor"
                             class="input-value shadow-sm"
-                            placeholder="Vendor Name"
+                            placeholder="Super Vendor"
                             required
-                            formControlName="vendorName"
+                            formControlName="superVendor"
                             value=""
                           />
                           <div
                             class="input-alert-box"
                             *ngIf="
-                              vendorUserFormControls.vendorName.invalid &&
+                              vendorUserFormControls.superVendor.invalid &&
                               manualChecker
                             "
                           >
                             <div>
                               <span class="alert-input-msg">
-                                {{ getErrorMessage('vendorName') }}
+                                {{ getErrorMessage('superVendor') }}
                               </span>
                               <span
                                 class="fa fa-exclamation-triangle alert-input-icon"
@@ -568,13 +604,13 @@
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
 
                     <button
                       class="submit-btn btn btn-primary"
                       (click)="submit()"
                     >
-                      <span>
+                      <span *ngIf="btnText">
                         Save
                       </span>
                       <div *ngIf="btnLoader">

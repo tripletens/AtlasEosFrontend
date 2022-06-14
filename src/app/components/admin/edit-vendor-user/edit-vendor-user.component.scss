@@ -4,10 +4,16 @@
 
 .ph-item {
   padding: 0px !important;
+  border: 0px !important;
 }
 
 .ph-picture {
-  height: 50px !important;
+  height: 100px !important;
+  width: 150px !important;
+}
+
+.ph-col-12 {
+  margin-bottom: 10px;
 }
 
 .btn-wrapper2 {
@@ -105,4 +111,17 @@
 
 label {
   font-size: 10px;
+}
+
+.alert-input-msg {
+  font-size: 13px;
+  color: red;
+  margin-top: 1px;
+  display: block;
+}
+
+.alert-input-icon {
+  font-size: 13px;
+  color: red;
+  margin-top: -18px;
 }

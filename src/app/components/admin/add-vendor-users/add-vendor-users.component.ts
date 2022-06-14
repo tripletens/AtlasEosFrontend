@@ -79,7 +79,7 @@ export class AddVendorUsersComponent implements OnInit {
     for (let index = 0; index < this.allVendor.length; index++) {
       const vendor = this.allVendor[index]
       if (vendor.vendor_name == data.value) {
-        this.vendorUserForm.value.vendor = vendor.vendor_id
+        this.vendorUserForm.value.vendor = vendor.vendor_code
         this.vendorUserForm.value.vendorName = vendor.vendor_name
       }
     }

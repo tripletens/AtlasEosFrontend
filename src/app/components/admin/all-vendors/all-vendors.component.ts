@@ -49,6 +49,7 @@ export class AllVendorsComponent implements OnInit {
   manualChecker = false
   btnLoader = false
   btnText = true
+  vendorId!: number
 
   constructor(
     private postData: HttpRequestsService,
@@ -86,7 +87,11 @@ export class AllVendorsComponent implements OnInit {
   }
 
   submit() {
-    this.toastr.error('Coming Soon', 'Try again')
+    ///this.toastr.error('Coming Soon', 'Try again')
+
+    this.vendorForm.value.vendorId = this.vendorId
+
+    console.log(this.vendorForm.value)
   }
 
   buildDealerForm(): void {
@@ -99,7 +104,14 @@ export class AllVendorsComponent implements OnInit {
   editVendor(data: any) {
     console.log(data)
     this.editVendorData = data
-    //this.vendorForm.value.vendorName = data.vendor_name
+    this.vendorId = data.id
+
+    this.vendorForm = this.fb.group({
+      vendorName: [data.vendor_name, [Validators.required]],
+      vendorCode: [data.vendor_code, [Validators.required]],
+    })
+    // this.vendorForm.value.vendorName = data.vendor_name
+    // this.vendorForm.value.vendorCode = data.vendor_code
   }
 
   async removeVendor(index: any) {
