@@ -9,6 +9,7 @@ import { AllVendorUsersComponent } from './all-vendor-users/all-vendor-users.com
 import { AllVendorsComponent } from './all-vendors/all-vendors.component'
 import { DashboardComponent } from './dashboard/dashboard.component'
 import { DealerSummaryComponent } from './dealer-summary/dealer-summary.component'
+import { EditUserComponent } from './edit-user/edit-user.component'
 import { FaqComponent } from './faq/faq.component'
 import { MyMessagesComponent } from './my-messages/my-messages.component'
 import { PriceOverrideComponent } from './price-override/price-override.component'
@@ -87,6 +88,10 @@ const routes: Routes = [
       {
         path: 'all-vendor-users',
         component: AllVendorUsersComponent,
+      },
+      {
+        path: 'edit-user/:user',
+        component: EditUserComponent,
       },
     ],
   },

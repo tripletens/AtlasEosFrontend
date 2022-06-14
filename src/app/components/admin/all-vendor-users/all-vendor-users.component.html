@@ -170,11 +170,30 @@
                     <ng-container matColumnDef="action">
                       <th mat-header-cell *matHeaderCellDef>Action</th>
                       <td mat-cell *matCellDef="let element">
-                        <button class="edit-btn" title="edit button">
+                        <button
+                          class="edit-btn"
+                          routerLink="/admin/edit-user/{{ element.id }}"
+                          title="edit button"
+                        >
                           <span class="fa fa-edit"></span>
                         </button>
-                        <button class="delete-btn" title="delete button">
-                          <span class="fa fa-trash"></span>
+                        <button
+                          class="delete-btn"
+                          (click)="removeVendor(element.id)"
+                          title="delete button"
+                        >
+                          <span
+                            class="fa fa-trash"
+                            id="remove-icon-{{ element.id }}"
+                          ></span>
+                          <div
+                            class="remove-loader"
+                            id="remove-loader-{{ element.id }}"
+                          >
+                            <span
+                              class="spinner-border spinner-border-sm"
+                            ></span>
+                          </div>
                         </button>
                       </td>
                     </ng-container>

@@ -3,6 +3,9 @@ import { HttpRequestsService } from 'src/app/core/services/http-requests.service
 import { ToastrService } from 'ngx-toastr'
 import { MatPaginator } from '@angular/material/paginator'
 import { MatTableDataSource } from '@angular/material/table'
+import Swal from 'sweetalert2'
+
+declare var $: any
 
 export interface PeriodicElement {
   full_name: string
@@ -12,73 +15,6 @@ export interface PeriodicElement {
   status: string
   created_date: string
 }
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    full_name: 'rests',
-    email: 'achawayne@gmail.com',
-    password: '7646473478348784',
-    company_name: 'ATLAS SHOWCASE',
-    status: 'active',
-    created_date: 'Nov. 4, 2021, 9:24 a.m.',
-  },
-  {
-    full_name: 'rests',
-    email: 'achawayne@gmail.com',
-    password: '7646473478348784',
-    company_name: 'DINOSAUR ELECTRONICS',
-    status: 'inactive',
-    created_date: 'Nov. 4, 2021, 9:24 a.m.',
-  },
-  {
-    full_name: 'rests',
-    email: 'achawayne@gmail.com',
-    password: '7646473478348784',
-    company_name: 'BLUE OX',
-    status: 'active',
-    created_date: 'Nov. 4, 2021, 9:24 a.m.',
-  },
-  {
-    full_name: 'rests',
-    email: 'achawayne@gmail.com',
-    password: '7646473478348784',
-    company_name: 'CANADIAN RV MATS',
-    status: 'active',
-    created_date: 'Nov. 4, 2021, 9:24 a.m.',
-  },
-  {
-    full_name: 'rests',
-    email: 'achawayne@gmail.com',
-    password: '7646473478348784',
-    company_name: 'CANADIAN RV MATS',
-    status: 'active',
-    created_date: 'Nov. 4, 2021, 9:24 a.m.',
-  },
-  {
-    full_name: 'rests',
-    email: 'achawayne@gmail.com',
-    password: '7646473478348784',
-    company_name: 'CANADIAN RV MATS',
-    status: 'active',
-    created_date: 'Nov. 4, 2021, 9:24 a.m.',
-  },
-  {
-    full_name: 'rests',
-    email: 'achawayne@gmail.com',
-    password: '7646473478348784',
-    company_name: 'CANADIAN RV MATS',
-    status: 'active',
-    created_date: 'Nov. 4, 2021, 9:24 a.m.',
-  },
-  {
-    full_name: 'rests',
-    email: 'achawayne@gmail.com',
-    password: '7646473478348784',
-    company_name: 'CANADIAN RV MATS',
-    status: 'active',
-    created_date: 'Nov. 4, 2021, 9:24 a.m.',
-  },
-]
 
 @Component({
   selector: 'app-all-vendor-users',
@@ -122,6 +58,56 @@ export class AllVendorUsersComponent implements OnInit {
     private postData: HttpRequestsService,
     private toastr: ToastrService,
   ) {}
+
+  async removeVendor(index: any) {
+    let confirmStatus = await this.confirmBox()
+
+    if (confirmStatus) {
+      $('#remove-icon-' + index).css('display', 'none')
+      $('#remove-loader-' + index).css('display', 'inline-block')
+
+      setTimeout(() => {
+        this.toastr.error('Coming Soon', 'Try again')
+
+        $('#remove-icon-' + index).css('display', 'inline-block')
+        $('#remove-loader-' + index).css('display', 'none')
+      }, 3000)
+
+      // this.postData
+      //   .httpGetRequest('/deactivate-vendor' + index)
+      //   .then((result: any) => {
+      //     $('#remove-icon-' + index).css('display', 'inline-block')
+      //     $('#remove-loader-' + index).css('display', 'none')
+
+      //     if (result.status) {
+      //     } else {
+      //     }
+      //   })
+      //   .catch((err) => {})
+    } else {
+    }
+
+    console.log(index, confirmStatus)
+  }
+
+  async confirmBox() {
+    return await Swal.fire({
+      title: 'You Are About To Remove This Vendor User',
+      text: '',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.value) {
+        return true
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        return false
+      } else {
+        return false
+      }
+    })
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value
