@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core'
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 import { ToastrService } from 'ngx-toastr'
 import { MatPaginator } from '@angular/material/paginator'
@@ -51,6 +51,8 @@ export class AllVendorsComponent implements OnInit {
   btnText = true
   vendorId!: number
 
+  @ViewChild('closeButton') closeButton!: ElementRef
+
   constructor(
     private postData: HttpRequestsService,
     private toastr: ToastrService,
@@ -87,11 +89,30 @@ export class AllVendorsComponent implements OnInit {
   }
 
   submit() {
-    ///this.toastr.error('Coming Soon', 'Try again')
-
+    this.btnText = false
+    this.btnLoader = true
     this.vendorForm.value.vendorId = this.vendorId
 
-    console.log(this.vendorForm.value)
+    this.postData
+      .httpPostRequest('/edit-vendor-data', this.vendorForm.value)
+      .then((result: any) => {
+        console.log(result)
+        this.btnText = true
+        this.btnLoader = false
+
+        if (result.status == true) {
+          this.toastr.success('Successful', result.message)
+          this.getVendors()
+          this.closeButton.nativeElement.click()
+        } else {
+          this.toastr.error('Server Error', 'Try again')
+        }
+      })
+      .catch((err) => {
+        this.btnText = true
+        this.btnLoader = false
+        this.toastr.error('Try again', 'Something went wrong')
+      })
   }
 
   buildDealerForm(): void {
@@ -121,28 +142,25 @@ export class AllVendorsComponent implements OnInit {
       $('#remove-icon-' + index).css('display', 'none')
       $('#remove-loader-' + index).css('display', 'inline-block')
 
-      setTimeout(() => {
-        this.toastr.error('Coming Soon', 'Try again')
-
-        $('#remove-icon-' + index).css('display', 'inline-block')
-        $('#remove-loader-' + index).css('display', 'none')
-      }, 3000)
-
-      // this.postData
-      //   .httpGetRequest('/deactivate-vendor' + index)
-      //   .then((result: any) => {
-      //     $('#remove-icon-' + index).css('display', 'inline-block')
-      //     $('#remove-loader-' + index).css('display', 'none')
-
-      //     if (result.status) {
-      //     } else {
-      //     }
-      //   })
-      //   .catch((err) => {})
+      this.postData
+        .httpGetRequest('/deactivate-vendor/' + index)
+        .then((result: any) => {
+          $('#remove-icon-' + index).css('display', 'inline-block')
+          $('#remove-loader-' + index).css('display', 'none')
+          if (result.status) {
+            this.toastr.success('Successful', result.message)
+            this.getVendors()
+          } else {
+            this.toastr.error('Something went wrong', 'Try again')
+          }
+        })
+        .catch((err) => {
+          $('#remove-icon-' + index).css('display', 'inline-block')
+          $('#remove-loader-' + index).css('display', 'none')
+          this.toastr.error('Something went wrong', 'try again')
+        })
     } else {
     }
-
-    console.log(index, confirmStatus)
   }
 
   async confirmBox() {

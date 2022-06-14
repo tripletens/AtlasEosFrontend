@@ -25,7 +25,8 @@ import { AllVendorUsersComponent } from './all-vendor-users/all-vendor-users.com
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatPaginatorModule } from '@angular/material/paginator'
 import { EditVendorUserComponent } from './edit-vendor-user/edit-vendor-user.component'
-import { AllDealersComponent } from './all-dealers/all-dealers.component'
+import { AllDealerUsersComponent } from './all-dealer-users/all-dealer-users.component';
+import { EditDealerUsersComponent } from './edit-dealer-users/edit-dealer-users.component'
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { AllDealersComponent } from './all-dealers/all-dealers.component'
     AddAdminComponent,
     AllVendorUsersComponent,
     EditVendorUserComponent,
-    AllDealersComponent,
+    AllDealerUsersComponent,
+    EditDealerUsersComponent,
   ],
   imports: [
     CommonModule,

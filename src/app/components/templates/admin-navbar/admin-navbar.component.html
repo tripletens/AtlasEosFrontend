@@ -96,8 +96,11 @@
         <div class="panel-body support-body">
           <ul class="support-ul">
             <li>
-              <a routerLink="/admin/all-dealer" routerLinkActive="active-link">
-                All Dealers
+              <a
+                routerLink="/admin/all-dealer-users"
+                routerLinkActive="active-link"
+              >
+                All Dealer Users
               </a>
             </li>
             <li>
@@ -239,7 +242,7 @@
             data-target="#nav-collapse"
           >
             <h6 class="nav-text-title">Atlas Admin</h6>
-            <h6 class="nav-sub-text-title">User ID: achawayne@gmail.com</h6>
+            <h6 class="nav-sub-text-title">User ID: {{ adminData?.email }}</h6>
           </div>
 
           <div id="nav-collapse" class="collapse">

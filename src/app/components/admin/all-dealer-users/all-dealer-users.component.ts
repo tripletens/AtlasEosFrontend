@@ -17,11 +17,11 @@ export interface PeriodicElement {
 }
 
 @Component({
-  selector: 'app-all-vendor-users',
-  templateUrl: './all-vendor-users.component.html',
-  styleUrls: ['./all-vendor-users.component.scss'],
+  selector: 'app-all-dealer-users',
+  templateUrl: './all-dealer-users.component.html',
+  styleUrls: ['./all-dealer-users.component.scss'],
 })
-export class AllVendorUsersComponent implements OnInit {
+export class AllDealerUsersComponent implements OnInit {
   tableView = false
   loader = true
   allVendor: any
@@ -49,7 +49,7 @@ export class AllVendorUsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getVendorUsers()
+    this.getDealerUsers()
   }
 
   pageSizes = [3, 5, 7]
@@ -67,27 +67,23 @@ export class AllVendorUsersComponent implements OnInit {
       $('#remove-loader-' + index).css('display', 'inline-block')
 
       this.postData
-        .httpGetRequest('/deactivate-vendor-user/' + index)
+        .httpGetRequest('/deactivate-dealer-user/' + index)
         .then((result: any) => {
           $('#remove-icon-' + index).css('display', 'inline-block')
           $('#remove-loader-' + index).css('display', 'none')
 
           if (result.status) {
             this.toastr.success('Successful', result.message)
-            this.getVendorUsers()
+            this.getDealerUsers()
           } else {
-            this.toastr.error('Something went wrong', 'try again')
+            this.toastr.error('Something went wrong', 'Try again')
           }
         })
         .catch((err) => {
-          $('#remove-icon-' + index).css('display', 'inline-block')
-          $('#remove-loader-' + index).css('display', 'none')
-          this.toastr.error('Something went wrong', 'try again')
+          this.toastr.error('Something went wrong', 'Try again')
         })
     } else {
     }
-
-    console.log(index, confirmStatus)
   }
 
   async confirmBox() {
@@ -156,9 +152,9 @@ export class AllVendorUsersComponent implements OnInit {
     return new RegExp('^' + expr + '$', 'i')
   }
 
-  getVendorUsers() {
+  getDealerUsers() {
     this.postData
-      .httpGetRequest('/get-all-vendor-users')
+      .httpGetRequest('/get-all-dealer-users')
       .then((result: any) => {
         console.log(result)
 

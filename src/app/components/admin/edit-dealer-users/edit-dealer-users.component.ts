@@ -8,11 +8,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 
 @Component({
-  selector: 'app-edit-vendor-user',
-  templateUrl: './edit-vendor-user.component.html',
-  styleUrls: ['./edit-vendor-user.component.scss'],
+  selector: 'app-edit-dealer-users',
+  templateUrl: './edit-dealer-users.component.html',
+  styleUrls: ['./edit-dealer-users.component.scss'],
 })
-export class EditVendorUserComponent implements OnInit {
+export class EditDealerUsersComponent implements OnInit {
   vendorUserForm!: FormGroup
   manualChecker = false
   btnText = true
@@ -60,6 +60,8 @@ export class EditVendorUserComponent implements OnInit {
       .then((result: any) => {
         this.profileLoader = false
         this.profileDataStatus = true
+
+        console.log(result)
 
         if (result.status) {
           this.vendorUserData = result.data
