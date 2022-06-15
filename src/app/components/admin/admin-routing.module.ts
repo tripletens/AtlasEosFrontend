@@ -6,6 +6,7 @@ import { AddVendorUsersComponent } from './add-vendor-users/add-vendor-users.com
 import { AddVendorsComponent } from './add-vendors/add-vendors.component'
 import { AdminComponent } from './admin.component'
 import { AllDealerUsersComponent } from './all-dealer-users/all-dealer-users.component'
+import { AllProductsComponent } from './all-products/all-products.component'
 import { AllVendorUsersComponent } from './all-vendor-users/all-vendor-users.component'
 import { AllVendorsComponent } from './all-vendors/all-vendors.component'
 import { DashboardComponent } from './dashboard/dashboard.component'
@@ -102,6 +103,10 @@ const routes: Routes = [
       {
         path: 'all-dealer-users',
         component: AllDealerUsersComponent,
+      },
+      {
+        path: 'all-products',
+        component: AllProductsComponent,
       },
     ],
   },

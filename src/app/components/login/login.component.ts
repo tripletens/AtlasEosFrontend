@@ -141,7 +141,7 @@ export class LoginComponent implements OnInit {
     this.loginText = false
     this.loginLoader = true
     this.postData
-      .httpPostRequest('/dealer-login', this.login)
+      .httpPostRequest('/login', this.login)
       .then((result: any) => {
         console.log(result)
         this.loginLoader = false
@@ -152,10 +152,10 @@ export class LoginComponent implements OnInit {
           this.location = result.data.dealer.location
           this.dealer = result.data.dealer.id
           this.toastr.info('Thank you for your Order', `Booking is now closed`)
-          this.callLogger()
-          this.ordercheckservice.orderChecker()
+          // this.callLogger()
+          // this.ordercheckservice.orderChecker()
 
-          this.router.navigate(['/dealer/dashboard'])
+          this.router.navigate(['/dealers/dashboard'])
         } else {
           this.toastr.error('Something went wrong', `${result.message}`)
         }
