@@ -96,8 +96,11 @@
         <div class="panel-body support-body">
           <ul class="support-ul">
             <li>
-              <a routerLink="/admin/all-dealer" routerLinkActive="active-link">
-                All Dealers
+              <a
+                routerLink="/admin/all-dealer-users"
+                routerLinkActive="active-link"
+              >
+                All Dealer Users
               </a>
             </li>
             <li>
@@ -105,6 +108,40 @@
                 Add Dealer
               </a>
             </li>
+          </ul>
+        </div>
+      </div>
+    </li>
+
+    <!-- Dropdown-->
+    <li class="slide panel panel-default" id="dropdown">
+      <a
+        class="side-menu__item"
+        data-toggle="collapse"
+        href="#dropdown-products"
+      >
+        <span class="fa fa fa-cube navbar-icons"></span>
+        <span class="side-menu__label support-sec">Products</span>
+        <span class="fa fa-angle-down"></span>
+      </a>
+      <!-- Dropdown level 1 -->
+      <div id="dropdown-products" class="panel-collapse collapse">
+        <div class="panel-body support-body">
+          <ul class="support-ul">
+            <li>
+              <a
+                routerLink="/admin/all-products"
+                routerLinkActive="active-link"
+              >
+                All Products
+              </a>
+            </li>
+
+            <!-- <li>
+                <a routerLink="/admin/add-dealer" routerLinkActive="active-link">
+                  Add Dealer
+                </a>
+              </li> -->
           </ul>
         </div>
       </div>
@@ -239,7 +276,7 @@
             data-target="#nav-collapse"
           >
             <h6 class="nav-text-title">Atlas Admin</h6>
-            <h6 class="nav-sub-text-title">User ID: achawayne@gmail.com</h6>
+            <h6 class="nav-sub-text-title">User ID: {{ adminData?.email }}</h6>
           </div>
 
           <div id="nav-collapse" class="collapse">

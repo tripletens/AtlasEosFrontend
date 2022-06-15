@@ -8,7 +8,7 @@
               <a class="card-link" data-toggle="collapse" href="#collapseSeven">
                 <span class="fa fas fa-list-ul pr-2"></span>
 
-                All Vendors
+                All Dealer Users
               </a>
             </div>
             <div
@@ -20,12 +20,11 @@
                 <div class="d-flex justify-content-end">
                   <div class="input-wrapper">
                     <input
-                      (keyup)="applyFilter($event)"
-                      placeholder="Search columns"
-                      #input
                       type="text"
                       placeholder="Search...."
                       class="table-search"
+                      (keyup)="applyFilter($event)"
+                      #input
                     />
                   </div>
                 </div>
@@ -113,27 +112,41 @@
                   *ngIf="tableView"
                 >
                   <table
-                    id="myTable"
                     mat-table
                     [dataSource]="dataSource"
                     class="mat-elevation w-100 table table-striped table-bordered"
                   >
                     <!--- Note that these columns can be defined in any order.
-                        The actual rendered columns are set as a property on the row definition" -->
+                            The actual rendered columns are set as a property on the row definition" -->
 
                     <!-- Position Column -->
-                    <ng-container matColumnDef="vendor_id">
-                      <th mat-header-cell *matHeaderCellDef>Vendor #</th>
+
+                    <ng-container matColumnDef="full_name">
+                      <th mat-header-cell *matHeaderCellDef>Full Name</th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.vendor_code }}
+                        {{ element.full_name }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="email">
+                      <th mat-header-cell *matHeaderCellDef>Email</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.email }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="password">
+                      <th mat-header-cell *matHeaderCellDef>Password</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.password_show }}
                       </td>
                     </ng-container>
 
                     <!-- Name Column -->
-                    <ng-container matColumnDef="vendor_name">
+                    <ng-container matColumnDef="company_name">
                       <th mat-header-cell *matHeaderCellDef>Company Name #</th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element.vendor_name }}
+                        {{ element.company_name }}
                       </td>
                     </ng-container>
 
@@ -147,7 +160,7 @@
                     </ng-container>
 
                     <!-- Symbol Column -->
-                    <ng-container matColumnDef="created_at">
+                    <ng-container matColumnDef="created_date">
                       <th mat-header-cell *matHeaderCellDef>Created Date</th>
                       <td mat-cell *matCellDef="let element">
                         {{ element.created_at | date: 'medium' }}
@@ -159,12 +172,8 @@
                       <td mat-cell *matCellDef="let element">
                         <button
                           class="edit-btn"
-                          (click)="editVendor(element)"
+                          routerLink="/admin/edit-dealer-user/{{ element.id }}"
                           title="edit button"
-                          type="button"
-                          class="btn btn-primary"
-                          data-toggle="modal"
-                          data-target="#editModal"
                         >
                           <span class="fa fa-edit"></span>
                         </button>
@@ -196,10 +205,12 @@
                     ></tr>
                   </table>
                 </div>
+
                 <mat-paginator
-                  [pageSizeOptions]="pageSizes"
-                  pageSize="20"
+                  #paginator
+                  [pageSizeOptions]="[20, 60, 80]"
                   showFirstLastButtons
+                  pageSize="20"
                 ></mat-paginator>
               </div>
             </div>
@@ -209,105 +220,3 @@
     </div>
   </div>
 </section>
-
-<!-- Edit Vendor Modal -->
-
-<!-- Modal -->
-<div
-  class="modal fade"
-  id="editModal"
-  tabindex="1"
-  role="dialog"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">
-          Edit Vendor:
-        </h5>
-        <h5 class="vendor-name">
-          <b>{{ editVendorData?.vendor_name }}</b>
-        </h5>
-        <button
-          #closeButton
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="msform" [formGroup]="vendorForm" class="pt-2">
-          <div class="form-group mb-3">
-            <label for="">Vendor Name</label>
-            <input
-              type="text"
-              name="vendorName"
-              class="input-value shadow-sm"
-              placeholder="Vendor Name"
-              required
-              formControlName="vendorName"
-              value="{{ editVendorData?.vendor_name }}"
-            />
-            <div
-              class="input-alert-box"
-              *ngIf="vendorFormControls.vendorName.invalid && manualChecker"
-            >
-              <div>
-                <span class="alert-input-msg">
-                  {{ getErrorMessage('vendorName') }}
-                </span>
-                <span
-                  class="fa fa-exclamation-triangle alert-input-icon"
-                  style="float: right;"
-                ></span>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group mb-3">
-            <label for="">Vendor Code</label>
-
-            <input
-              type="text"
-              class="input-value shadow-sm"
-              name="vendorCode"
-              placeholder="Enter Vendor Code"
-              required
-              formControlName="vendorCode"
-              value="{{ editVendorData?.vendor_code }}"
-            />
-
-            <div
-              class="input-alert-box"
-              *ngIf="vendorFormControls.vendorCode.invalid && manualChecker"
-            >
-              <div>
-                <span class="alert-input-msg">
-                  {{ getErrorMessage('vendorCode') }}
-                </span>
-                <span
-                  class="fa fa-exclamation-triangle alert-input-icon"
-                  style="float: right;"
-                ></span>
-              </div>
-            </div>
-          </div>
-
-          <button class="submit-btn btn btn-primary" (click)="submit()">
-            <span *ngIf="btnText">
-              Save
-            </span>
-            <div *ngIf="btnLoader">
-              <span class="spinner-border spinner-border-sm"></span>
-            </div>
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>

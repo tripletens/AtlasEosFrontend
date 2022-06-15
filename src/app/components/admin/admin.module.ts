@@ -18,10 +18,16 @@ import { FaqComponent } from './faq/faq.component'
 import { VeiwReportComponent } from './veiw-report/veiw-report.component'
 import { RespondReportComponent } from './respond-report/respond-report.component'
 import { AllVendorsComponent } from './all-vendors/all-vendors.component'
-import { MatTableModule } from '@angular/material/table';
-import { AddVendorUsersComponent } from './add-vendor-users/add-vendor-users.component';
-import { AddAdminComponent } from './add-admin/add-admin.component';
+import { MatTableModule } from '@angular/material/table'
+import { AddVendorUsersComponent } from './add-vendor-users/add-vendor-users.component'
+import { AddAdminComponent } from './add-admin/add-admin.component'
 import { AllVendorUsersComponent } from './all-vendor-users/all-vendor-users.component'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatPaginatorModule } from '@angular/material/paginator'
+import { EditVendorUserComponent } from './edit-vendor-user/edit-vendor-user.component'
+import { AllDealerUsersComponent } from './all-dealer-users/all-dealer-users.component';
+import { EditDealerUsersComponent } from './edit-dealer-users/edit-dealer-users.component';
+import { AllProductsComponent } from './all-products/all-products.component'
 
 @NgModule({
   declarations: [
@@ -43,6 +49,10 @@ import { AllVendorUsersComponent } from './all-vendor-users/all-vendor-users.com
     AddVendorUsersComponent,
     AddAdminComponent,
     AllVendorUsersComponent,
+    EditVendorUserComponent,
+    AllDealerUsersComponent,
+    EditDealerUsersComponent,
+    AllProductsComponent,
   ],
   imports: [
     CommonModule,
@@ -50,6 +60,8 @@ import { AllVendorUsersComponent } from './all-vendor-users/all-vendor-users.com
     MatTableModule,
     ReactiveFormsModule,
     AdminRoutingModule,
+    MatFormFieldModule,
+    MatPaginatorModule,
   ],
 })
 export class AdminModule {}
