@@ -201,3 +201,22 @@ label {
 .input-alert-box {
   width: 60%;
 }
+
+.upload-btn {
+  background-color: #00008b;
+  cursor: pointer;
+  padding: 10px 30px;
+  color: #ffffff;
+  border: 0px !important;
+  border-radius: 5px;
+}
+
+.upload-icon {
+  color: #ffffff;
+  display: inline-block;
+  padding-left: 10px;
+}
+
+.file-input-tag {
+  display: none;
+}

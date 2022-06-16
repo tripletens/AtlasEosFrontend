@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 import { ToastrService } from 'ngx-toastr'
@@ -13,6 +13,25 @@ export class AddProductComponent implements OnInit {
   manualChecker = false
   saveBtnStatus = true
 
+  uploadCsvSendBtn = false
+  setCsvBtn = true
+  csvDataFile: any
+  csvBtnLoader = false
+  csvBtnText = true
+
+  @ViewChild('fileCsv') csvFile!: ElementRef
+
+  imgURL!: any
+
+  imgUploadStatus = false
+
+  PreviewImg = false
+  dummyImg = true
+  csvForm!: FormGroup
+
+  imgStatus = false
+  imgFileCount = false
+
   constructor(
     private fb: FormBuilder,
     private postData: HttpRequestsService,
@@ -21,6 +40,59 @@ export class AddProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildProductForm()
+  }
+
+  callUploadInput() {
+    this.csvFile.nativeElement.click()
+  }
+
+  fileCsvUpload(files: any) {
+    if (files.length === 0) return
+    var mimeType = files[0].type
+    if (mimeType !== 'application/vnd.ms-excel') {
+      this.toastr.error(
+        'File type not supported, upload a CSV file',
+        `Upload Error`,
+      )
+      return
+    }
+
+    this.uploadCsvSendBtn = true
+    this.setCsvBtn = false
+    this.csvDataFile = files
+  }
+
+  uploadCsvServer() {
+    this.csvBtnLoader = true
+    this.csvBtnText = false
+
+    let fd = new FormData()
+    fd.append('csv', this.csvDataFile[0])
+
+    this.postData
+      .uploadFile('/upload-product-csv', fd)
+      .then((result) => {
+        this.csvBtnLoader = false
+        this.csvBtnText = true
+
+        if (result.status) {
+          this.dummyImg = true
+          this.PreviewImg = false
+          this.imgURL = ''
+          this.setCsvBtn = true
+          this.uploadCsvSendBtn = false
+
+          this.toastr.success('Csv File Uploaded successfully', `Success`)
+        } else {
+          this.toastr.error('Somethin went wrong, Try again', `Uploading Error`)
+        }
+      })
+      .catch((err) => {
+        this.csvBtnLoader = false
+        this.csvBtnText = true
+
+        this.toastr.error('Somethin went wrong, Try again', `Uploading Error`)
+      })
   }
 
   submit() {

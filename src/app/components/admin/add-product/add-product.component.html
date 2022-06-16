@@ -17,6 +17,37 @@
               data-parent="#accordion7"
             >
               <div class="card card-body">
+                <button
+                  *ngIf="setCsvBtn"
+                  (click)="callUploadInput()"
+                  class="btn btn-block upload-btn mb-2"
+                >
+                  <span class="fa fa-upload upload-icon"></span>
+                  <span>Upload Products Csv</span>
+                </button>
+                <button
+                  *ngIf="uploadCsvSendBtn"
+                  (click)="uploadCsvServer()"
+                  class="btn btn-success btn-block mb-2 p-2"
+                >
+                  <span *ngIf="csvBtnText">
+                    <span class="fa fa-upload upload-icon"></span>
+                    Upload
+                  </span>
+                  <div *ngIf="csvBtnLoader">
+                    <span class="spinner-border spinner-border-sm"></span>
+                  </div>
+                </button>
+                <input
+                  required
+                  type="file"
+                  class="file-input-tag"
+                  #fileCsv
+                  id="csvFile"
+                  (change)="fileCsvUpload(fileCsv.files)"
+                  name="csvFile"
+                />
+
                 <form [formGroup]="productForm">
                   <div class="d-flex flex-column">
                     <div class="w-100 in-form-section vendor-wrapper">
