@@ -6,7 +6,7 @@
           <div class="card">
             <div class="card-header">
               <a class="card-link" data-toggle="collapse" href="#collapseSix">
-                Dealer Summary
+                All Seminars
               </a>
             </div>
             <div
@@ -15,25 +15,6 @@
               data-parent="#accordion6"
             >
               <div class="card-body">
-                <div class="d-flex w-100 filter-wrapper">
-                  <div class="text-wrapper">
-                    <h5>Dealer Account</h5>
-                  </div>
-                  <div class="input-wrapper">
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Enter Account No......"
-                    />
-                  </div>
-                  <div class="btn-wrapper">
-                    <button class="">
-                      <span class="fa fa-search"></span>
-                      Search
-                    </button>
-                  </div>
-                </div>
-
                 <div class="table-responsive mb-3">
                   <table class="table" *ngIf="loader">
                     <thead>
@@ -118,14 +99,17 @@
                   >
                     <thead>
                       <tr>
-                        <th class="thead-custom">Account #</th>
-                        <th class="thead-custom">Dealer Name</th>
-                        <th class="thead-custom">Show Total ($)</th>
+                        <th class="thead-custom">S/N #</th>
+                        <th class="thead-custom">Date</th>
+                        <th class="thead-custom">Time Scheduled</th>
+                        <th class="thead-custom">Vendor Name</th>
+                        <th class="thead-custom">Topic</th>
+                        <th class="thead-custom">Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td colspan="3" class="text-center">No order found</td>
+                        <td colspan="6" class="text-center">No order found</td>
                       </tr>
                     </tbody>
                   </table>

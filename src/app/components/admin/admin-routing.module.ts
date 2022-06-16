@@ -3,11 +3,13 @@ import { RouterModule, Routes } from '@angular/router'
 import { AddAdminComponent } from './add-admin/add-admin.component'
 import { AddDealersComponent } from './add-dealers/add-dealers.component'
 import { AddProductComponent } from './add-product/add-product.component'
+import { AddSeminarComponent } from './add-seminar/add-seminar.component'
 import { AddVendorUsersComponent } from './add-vendor-users/add-vendor-users.component'
 import { AddVendorsComponent } from './add-vendors/add-vendors.component'
 import { AdminComponent } from './admin.component'
 import { AllDealerUsersComponent } from './all-dealer-users/all-dealer-users.component'
 import { AllProductsComponent } from './all-products/all-products.component'
+import { AllSeminarsComponent } from './all-seminars/all-seminars.component'
 import { AllVendorUsersComponent } from './all-vendor-users/all-vendor-users.component'
 import { AllVendorsComponent } from './all-vendors/all-vendors.component'
 import { DashboardComponent } from './dashboard/dashboard.component'
@@ -121,6 +123,14 @@ const routes: Routes = [
       {
         path: 'add-product',
         component: AddProductComponent,
+      },
+      {
+        path: 'add-seminars',
+        component: AddSeminarComponent,
+      },
+      {
+        path: 'all-seminars',
+        component: AllSeminarsComponent,
       },
     ],
   },

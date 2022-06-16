@@ -32,7 +32,8 @@ import { EditProductComponent } from './edit-product/edit-product.component';
 import { EditProductPriceComponent } from './edit-product-price/edit-product-price.component';
 import { AddProductComponent } from './add-product/add-product.component';
 import { AddSeminarComponent } from './add-seminar/add-seminar.component';
-import { AllSeminarsComponent } from './all-seminars/all-seminars.component'
+import { AllSeminarsComponent } from './all-seminars/all-seminars.component';
+import { AllAdminComponent } from './all-admin/all-admin.component'
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { AllSeminarsComponent } from './all-seminars/all-seminars.component'
     AddProductComponent,
     AddSeminarComponent,
     AllSeminarsComponent,
+    AllAdminComponent,
   ],
   imports: [
     CommonModule,

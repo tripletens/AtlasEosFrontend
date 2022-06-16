@@ -23,6 +23,7 @@
     "apexcharts": "^3.35.3",
     "ng-apexcharts": "^1.7.1",
     "ng2-pdf-viewer": "^9.0.0",
+    "ngx-mat-timepicker": "^14.0.0",
     "ngx-toastr": "^14.3.0",
     "placeholder-loading": "^0.5.0",
     "rxjs": "~7.5.0",

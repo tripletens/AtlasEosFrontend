@@ -147,6 +147,43 @@
       </div>
     </li>
 
+    <!-- Dropdown-->
+    <li class="slide panel panel-default" id="dropdown">
+      <a
+        class="side-menu__item"
+        data-toggle="collapse"
+        href="#dropdown-seminars"
+      >
+        <span class="fa fa-address-card-o navbar-icons"></span>
+        <span class="side-menu__label support-sec">Seminars</span>
+        <span class="fa fa-angle-down"></span>
+      </a>
+      <!-- Dropdown level 1 -->
+      <div id="dropdown-seminars" class="panel-collapse collapse">
+        <div class="panel-body support-body">
+          <ul class="support-ul">
+            <li>
+              <a
+                routerLink="/admin/all-seminars"
+                routerLinkActive="active-link"
+              >
+                All Seminars
+              </a>
+            </li>
+
+            <li>
+              <a
+                routerLink="/admin/add-seminars"
+                routerLinkActive="active-link"
+              >
+                Add Seminar
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </li>
+
     <li class="slide" (click)="closeOverLay()">
       <a
         class="side-menu__item"
@@ -210,7 +247,7 @@
     <!-- Dropdown-->
     <li class="slide panel panel-default" id="dropdown">
       <a class="side-menu__item" data-toggle="collapse" href="#dropdown-lvl9">
-        <span class="fa fas fa-headphones navbar-icons"></span>
+        <span class="fa fa-briefcase navbar-icons"></span>
         <span class="side-menu__label support-sec">Admin</span>
         <span class="fa fa-angle-down"></span>
       </a>
@@ -223,9 +260,11 @@
                 Add Administrators
               </a>
             </li>
-            <!-- <li>
-              <a routerLink="/admin/faq" routerLinkActive="active-link">FAQs</a>
-            </li> -->
+            <li>
+              <a routerLink="/admin/all-admin" routerLinkActive="active-link">
+                All Administrators
+              </a>
+            </li>
           </ul>
         </div>
       </div>
