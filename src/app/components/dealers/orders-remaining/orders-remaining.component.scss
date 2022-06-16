@@ -4,16 +4,21 @@
   font-size: 15px;
   padding: 10px;
   border-radius: 5px;
-}.btn-primary{
+}
+.btn-primary{
     background-color: #00547A !important;
 }
+.card-header{
+  // background-color: #f6f6f6;
+  // border-bottom: .2px solid #a8a8a8;
+font-size: 20px;}
 .header-search-ctn {
   button {
     background-color: #054e6e !important;
   }
 }
 .search-input {
-  max-width: 400px;
+  max-width: 230px;
 }
 .paginate {
   color: #054e6e;

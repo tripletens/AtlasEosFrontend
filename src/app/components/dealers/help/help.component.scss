@@ -4,8 +4,14 @@
   font-size: 15px;
   padding: 10px;
   border-radius: 5px;
-}.btn-primary{
-    background-color: #00547A !important;
+}
+.btn-primary {
+  background-color: #00547a !important;
+}
+.card-header {
+  // background-color: #f6f6f6;
+  // border-bottom: .2px solid #a8a8a8;
+  font-size: 20px;
 }
 .header-search-ctn {
   button {
@@ -13,7 +19,7 @@
   }
 }
 .search-input {
-  max-width: 400px;
+  max-width: 230px;
 }
 .paginate {
   color: #054e6e;
@@ -45,4 +51,19 @@
       }
     }
   }
+}
+.accordion-header {
+  border-left: 3px solid #00547a;
+  // border-radius: 10px;
+  overflow: hidden;
+  height: 48px;
+  font-weight: 700;
+  font-size: 18px;
+  button {
+    text-decoration: none !important;
+  }
+}
+.accordion-body{
+  font-size: 15px;
+  color: #5a5858;
 }
