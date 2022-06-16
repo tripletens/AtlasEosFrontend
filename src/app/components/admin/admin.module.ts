@@ -27,7 +27,10 @@ import { MatPaginatorModule } from '@angular/material/paginator'
 import { EditVendorUserComponent } from './edit-vendor-user/edit-vendor-user.component'
 import { AllDealerUsersComponent } from './all-dealer-users/all-dealer-users.component';
 import { EditDealerUsersComponent } from './edit-dealer-users/edit-dealer-users.component';
-import { AllProductsComponent } from './all-products/all-products.component'
+import { AllProductsComponent } from './all-products/all-products.component';
+import { EditProductComponent } from './edit-product/edit-product.component';
+import { EditProductPriceComponent } from './edit-product-price/edit-product-price.component';
+import { AddProductComponent } from './add-product/add-product.component'
 
 @NgModule({
   declarations: [
@@ -53,6 +56,9 @@ import { AllProductsComponent } from './all-products/all-products.component'
     AllDealerUsersComponent,
     EditDealerUsersComponent,
     AllProductsComponent,
+    EditProductComponent,
+    EditProductPriceComponent,
+    AddProductComponent,
   ],
   imports: [
     CommonModule,

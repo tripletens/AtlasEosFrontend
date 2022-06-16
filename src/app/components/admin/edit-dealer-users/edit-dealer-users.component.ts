@@ -150,6 +150,7 @@ export class EditDealerUsersComponent implements OnInit {
         this.btnLoader = false
         this.toastr.error('Try again', 'Something went wrong')
       })
+
     // } else {
     //   this.manualChecker = true
     // }
