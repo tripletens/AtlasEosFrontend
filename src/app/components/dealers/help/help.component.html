@@ -10,19 +10,19 @@
                 <i class="fa fa-comments mr-3"></i> Frequently Asked Questions
               </div>
               <div class="card-body">
-                <div class="accordion" id="accordionExample">
-                  <div class="card accordion-card">
+                <div class="accordion" id="accordionExample" *ngIf="faqDataStatus">
+                  <div class="card accordion-card" *ngFor="let faq of faqData">
                     <div class="card-header accordion-header" id="headingOne">
                       <h2 class="mb-0">
                         <button
                           class="btn btn-link btn-block text-left"
                           type="button"
                           data-toggle="collapse"
-                          data-target="#collapseOne"
+                          data-target='#collapseOne'
                           aria-expanded="true"
                           aria-controls="collapseOne"
                         >
-                          How do i use the dashboard Menu
+                          {{faq.title}}
                         </button>
                       </h2>
                     </div>
@@ -34,85 +34,17 @@
                       data-parent="#accordionExample"
                     >
                       <div class="card-body accordion-body">
-                        <p class="m-0">DASHBOARD VIDEO</p>
+                        <p class="m-0">{{faq.subtitle}}</p>
                         <br />
-                        Kindly and paste the link into your browser to watch the
-                        video in English & French. <br />
-                        LINK: https://atlasvirtualshow.ca/dealer/training.php
+                       {{faq.description}} <br />
+                        LINK: <a href="{{faq.link}}">{{faq.link}}</a> 
                         <br />
-                        Username: atlas <br />
-                        Password: Atlas2021
+                        Username: {{faq.username}}  <br />
+                        Password: {{faq.password}} 
                       </div>
                     </div>
                   </div>
-                  <div class="card accordion-card">
-                    <div class="card-header accordion-header" id="heading3">
-                      <h2 class="mb-0">
-                        <button
-                          class="btn btn-link btn-block text-left"
-                          type="button"
-                          data-toggle="collapse"
-                          data-target="#collapse3"
-                          aria-expanded="true"
-                          aria-controls="collapse3"
-                        >
-                          How do i use the dashboard Menu
-                        </button>
-                      </h2>
-                    </div>
-
-                    <div
-                      id="collapse3"
-                      class="collapse "
-                      aria-labelledby="heading3"
-                      data-parent="#accordionExample"
-                    >
-                      <div class="card-body accordion-body">
-                        <p class="m-0">DASHBOARD VIDEO</p>
-                        <br />
-                        Kindly and paste the link into your browser to watch the
-                        video in English & French. <br />
-                        LINK: https://atlasvirtualshow.ca/dealer/training.php
-                        <br />
-                        Username: atlas <br />
-                        Password: Atlas2021
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card accordion-card">
-                    <div class="card-header accordion-header" id="heading3">
-                      <h2 class="mb-0">
-                        <button
-                          class="btn btn-link btn-block text-left"
-                          type="button"
-                          data-toggle="collapse"
-                          data-target="#collapse3"
-                          aria-expanded="true"
-                          aria-controls="collapse3"
-                        >
-                          How do i use the dashboard Menu
-                        </button>
-                      </h2>
-                    </div>
-
-                    <div
-                      id="collapse3"
-                      class="collapse "
-                      aria-labelledby="heading3"
-                      data-parent="#accordionExample"
-                    >
-                      <div class="card-body accordion-body">
-                        <p class="m-0">DASHBOARD VIDEO</p>
-                        <br />
-                        Kindly and paste the link into your browser to watch the
-                        video in English & French. <br />
-                        LINK: https://atlasvirtualshow.ca/dealer/training.php
-                        <br />
-                        Username: atlas <br />
-                        Password: Atlas2021
-                      </div>
-                    </div>
-                  </div>
+                  
                 </div>
               </div>
             </div>
