@@ -10,6 +10,7 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
 import { OrdersRemainingComponent } from './orders-remaining/orders-remaining.component';
 import { ProductSeminiarsComponent } from './product-seminiars/product-seminiars.component';
 import { QuickOrderComponent } from './quick-order/quick-order.component';
+import { ReportProblemComponent } from './report-problem/report-problem.component';
 import { ShowOrdersComponent } from './show-orders/show-orders.component';
 import { SpecialOrderComponent } from './special-order/special-order.component';
 
@@ -67,6 +68,10 @@ const routes: Routes = [
       {
         path: 'edit-order',
         component: EditOrderComponent,
+      },
+      {
+        path: 'report-problem',
+        component: ReportProblemComponent,
       },
     ],
   },

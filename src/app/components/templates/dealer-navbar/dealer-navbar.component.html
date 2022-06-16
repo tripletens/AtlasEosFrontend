@@ -208,7 +208,9 @@
     </li>
 
     <li class="slide" (click)="closeOverLay()">
-      <a class="side-menu__item" href="mailto:michael.Habib@atlastrailer.com">
+      <a class="side-menu__item"
+        routerLink="/dealers/report-problem"
+        routerLinkActive="active-item">
         <span class="fa fa-bell navbar-icons"></span
         ><span class="side-menu__label" *ngIf="toggle">Report a Problem</span>
       </a>
