@@ -5,6 +5,10 @@
 .app-sidebar {
   background-color: rgb(162, 0, 41) !important;
 
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  overflow: hidden;
+
   * {
     color: #ffffff !important;
   }
@@ -80,23 +84,24 @@
 /* Works on Firefox */
 * {
   scrollbar-width: thin;
-  // scrollbar-color: #a20029;
+  scrollbar-color: transparent;
+  overflow: hidden;
 }
 
 /* Works on Chrome, Edge, and Safari */
-*::-webkit-scrollbar {
-  width: 5px;
-}
+// *::-webkit-scrollbar {
+//   width: 5px;
+// }
 
-*::-webkit-scrollbar-track {
-  background: transparent;
-}
+// *::-webkit-scrollbar-track {
+//   background: transparent;
+// }
 
-*::-webkit-scrollbar-thumb {
-  background-color: blue;
-  border-radius: 20px;
-  border: 0px;
-}
+// *::-webkit-scrollbar-thumb {
+//   background-color: blue;
+//   border-radius: 20px;
+//   border: 0px;
+// }
 
 // .support-sec::after {
 //   font-family: 'Font Awesome 5 Free';
@@ -134,7 +139,7 @@
 }
 
 .side-header {
-  height: 54px;
+  height: 64px;
 }
 
 .navbar-inner-section-bell {

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { AddAdminComponent } from './add-admin/add-admin.component'
 import { AddDealersComponent } from './add-dealers/add-dealers.component'
+import { AddProductComponent } from './add-product/add-product.component'
 import { AddVendorUsersComponent } from './add-vendor-users/add-vendor-users.component'
 import { AddVendorsComponent } from './add-vendors/add-vendors.component'
 import { AdminComponent } from './admin.component'
@@ -12,6 +13,7 @@ import { AllVendorsComponent } from './all-vendors/all-vendors.component'
 import { DashboardComponent } from './dashboard/dashboard.component'
 import { DealerSummaryComponent } from './dealer-summary/dealer-summary.component'
 import { EditDealerUsersComponent } from './edit-dealer-users/edit-dealer-users.component'
+import { EditProductComponent } from './edit-product/edit-product.component'
 import { EditVendorUserComponent } from './edit-vendor-user/edit-vendor-user.component'
 import { FaqComponent } from './faq/faq.component'
 import { MyMessagesComponent } from './my-messages/my-messages.component'
@@ -107,6 +109,18 @@ const routes: Routes = [
       {
         path: 'all-products',
         component: AllProductsComponent,
+      },
+      {
+        path: 'edit-product/:id',
+        component: EditProductComponent,
+      },
+      {
+        path: 'edit-product',
+        component: EditProductComponent,
+      },
+      {
+        path: 'add-product',
+        component: AddProductComponent,
       },
     ],
   },

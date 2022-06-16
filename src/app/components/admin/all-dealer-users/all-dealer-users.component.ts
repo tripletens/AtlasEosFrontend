@@ -38,9 +38,6 @@ export class AllDealerUsersComponent implements OnInit {
     'action',
   ]
 
-  // dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA)
-  // @ViewChild(MatPaginator) paginator!: MatPaginator
-
   dataSource = new MatTableDataSource<PeriodicElement>()
   @ViewChild(MatPaginator) paginator!: MatPaginator
 
