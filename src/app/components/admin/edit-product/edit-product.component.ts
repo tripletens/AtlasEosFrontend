@@ -21,6 +21,7 @@ export class EditProductComponent implements OnInit {
   deleteBtnState = true
 
   productId!: string | number
+  selectedDataDescription: string = ''
 
   constructor(
     private postData: HttpRequestsService,
@@ -32,7 +33,28 @@ export class EditProductComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.productId = params['id']
+      this.getCurrentItem()
     })
+  }
+
+  getCurrentItem() {
+    this.postData
+      .httpGetRequest('/get-product/' + this.productId)
+      .then((result: any) => {
+        if (result.status) {
+          this.selectedData = result.data
+          this.editItem.atlasId = this.selectedData.atlas_id
+          this.editItem.vendor = this.selectedData.vendor
+          this.editItem.desc = this.selectedData.description
+          this.editItem.regular = this.selectedData.booking
+          this.editItem.special = this.selectedData.special
+        } else {
+          //this.toastr.error(result.message, 'Try again')
+        }
+      })
+      .catch((err) => {
+        //this.toastr.error('Something went wrong', 'Try again')
+      })
   }
 
   deactivateItem() {
@@ -97,6 +119,7 @@ export class EditProductComponent implements OnInit {
           this.editItem.atlasId = this.selectedData.atlas_id
           this.editItem.vendor = this.selectedData.vendor
           this.editItem.desc = this.selectedData.description
+          this.selectedDataDescription = this.selectedData.description
           this.editItem.regular = this.selectedData.booking
           this.editItem.special = this.selectedData.special
         } else {
