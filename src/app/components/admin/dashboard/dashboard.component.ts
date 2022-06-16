@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit {
   totalServicePart = 0
   recentOrders: any
   totalAmount = 0
+  totalVendor = 0
   constructor(private getData: HttpRequestsService) {}
 
   ngOnInit(): void {
@@ -37,8 +38,9 @@ export class DashboardComponent implements OnInit {
           this.totalProducts = result.data.total_products
           this.totalDealer = result.data.total_dealers
           this.totalCatalogue = result.data.total_catalogue_orders
-          this.totalAmount = result.data.total_amount
-          this.totalOrder = result.data.total_orders
+          this.totalVendor = result.data.total_vendors
+          //  this.totalAmount = result.data.total_amount
+          this.totalOrder = result.data.total_order
           this.recentOrders = result.data.recent_orders
           //this.allCategoryData = result.data;
         } else {
