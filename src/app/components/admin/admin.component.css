@@ -3,6 +3,9 @@
     background-color: #a20029;
     color: #ffffff;
     padding: 10px;
+    z-index: 1;
+position: fixed;
+top: 64px;
   }
 
   .text-alert{
@@ -15,6 +18,10 @@
       font-weight: 400;
   }
 
+
+  .app-content{
+      padding-top: 50px;
+  }
 
   
 

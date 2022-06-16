@@ -18,7 +18,7 @@ export class AddVendorUsersComponent implements OnInit {
   lastNameStatus = false
   locationStatus = false
   phoneStatus = false
-  dealerForm!: FormGroup
+  vendorUserForm!: FormGroup
   manualChecker = false
   btnLoader = false
   btnText = true
@@ -42,6 +42,7 @@ export class AddVendorUsersComponent implements OnInit {
 
   imgStatus = false
   imgFileCount = false
+  allVendor: any
 
   constructor(
     private fb: FormBuilder,
@@ -51,9 +52,38 @@ export class AddVendorUsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildDealerForm()
+    this.getVendors()
+  }
+
+  getVendors() {
+    this.postData
+      .httpGetRequest('/get-all-vendors')
+      .then((result: any) => {
+        console.log(result)
+
+        if (result.status) {
+          this.allVendor = result.data
+        } else {
+          // this.toastr.error(result.message, 'Try again')
+        }
+      })
+      .catch((err) => {
+        // this.toastr.error('Try again', 'Something went wrong')
+      })
   }
 
   SubmitDealer() {}
+
+  assignVendor(data: any) {
+    console.log(data.value)
+    for (let index = 0; index < this.allVendor.length; index++) {
+      const vendor = this.allVendor[index]
+      if (vendor.vendor_name == data.value) {
+        this.vendorUserForm.value.vendor = vendor.vendor_code
+        this.vendorUserForm.value.vendorName = vendor.vendor_name
+      }
+    }
+  }
 
   callUploadInput() {
     this.csvFile.nativeElement.click()
@@ -110,35 +140,28 @@ export class AddVendorUsersComponent implements OnInit {
       })
   }
 
-  checkStepOne() {
-    this.step1 = false
-    this.step2 = true
-  }
-
-  Previous() {
-    this.step1 = true
-    this.step2 = false
-  }
-
   buildDealerForm(): void {
-    this.dealerForm = this.fb.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      phone: ['', [Validators.required]],
-      location: ['', [Validators.required]],
+    this.vendorUserForm = this.fb.group({
+      fullName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
-      account_id: ['', [Validators.required]],
+      vendor: ['', [Validators.required]],
+      vendorName: [''],
+
+      privilegeVendors: [''],
+      location: ['', [Validators.required]],
     })
   }
 
   submit() {
-    if (this.dealerForm.status == 'VALID') {
-      console.log(this.dealerForm.value)
+    console.log(this.vendorUserForm.value)
+    console.log(this.vendorUserForm.status)
+    if (this.vendorUserForm.status == 'VALID') {
+      console.log(this.vendorUserForm.value)
       this.btnText = false
       this.btnLoader = true
       this.postData
-        .httpPostRequest('/register-dealer', this.dealerForm.value)
+        .httpPostRequest('/register-dealer', this.vendorUserForm.value)
         .then((result: any) => {
           console.log(result)
           this.btnText = true
@@ -147,7 +170,8 @@ export class AddVendorUsersComponent implements OnInit {
           if (result.status) {
             this.step1 = true
             this.step2 = false
-            this.dealerForm.reset()
+            this.vendorUserForm.reset()
+            this.vendorUserForm.value.vendor = 'Select Vendor'
             this.toastr.success(
               'Dealer Added Successful',
               `New Dealer has been added`,
@@ -163,60 +187,63 @@ export class AddVendorUsersComponent implements OnInit {
         })
     } else {
       this.manualChecker = true
-      this.toastr.error(
-        'An input field has not been filled',
-        'Empty Input Field',
-      )
     }
   }
 
-  get dealerFormControls() {
-    return this.dealerForm.controls
+  get vendorUserFormControls() {
+    return this.vendorUserForm.controls
   }
 
   getErrorMessage(instance: string) {
     if (
-      instance === 'firstName' &&
-      this.dealerFormControls.firstName.hasError('required')
+      instance === 'fullName' &&
+      this.vendorUserFormControls.fullName.hasError('required')
     ) {
-      return 'enter first name'
-    } else if (
-      instance === 'lastName' &&
-      this.dealerFormControls.lastName.hasError('required')
+      return 'enter full name'
+    }
+
+    if (
+      instance === 'email' &&
+      this.vendorUserFormControls.email.hasError('required')
     ) {
-      return 'enter last name'
-    } else if (
-      instance === 'phone' &&
-      this.dealerFormControls.phone.hasError('required')
-    ) {
-      return 'enter phone number'
-    } else if (
-      instance === 'account_id' &&
-      this.dealerFormControls.account_id.hasError('required')
-    ) {
-      return 'enter account id'
-    } else if (
-      instance === 'location' &&
-      this.dealerFormControls.location.hasError('required')
-    ) {
-      return 'Choose Location'
-    } else if (
+      return 'enter email address'
+    }
+
+    if (
       instance === 'password' &&
-      this.dealerFormControls.password.hasError('required')
+      this.vendorUserFormControls.password.hasError('required')
+    ) {
+      return 'enter password'
+    }
+
+    if (
+      instance === 'location' &&
+      this.vendorUserFormControls.location.hasError('required')
+    ) {
+      return 'Choose vendor Location'
+    }
+
+    if (
+      instance === 'password' &&
+      this.vendorUserFormControls.password.hasError('required')
     ) {
       return 'Please enter your password'
-    } else if (
-      instance === 'email' &&
-      this.dealerFormControls.email.hasError('required')
+    }
+
+    if (
+      instance === 'vendor' &&
+      this.vendorUserFormControls.vendor.hasError('required')
     ) {
-      return 'Enter email address'
-    } else if (
+      return 'Please select the vendor'
+    }
+
+    if (
       instance === 'email' &&
-      this.dealerFormControls.email.hasError('email')
+      this.vendorUserFormControls.email.hasError('email')
     ) {
       return 'Enter a valid email address'
-    } else {
-      return
     }
+
+    return
   }
 }

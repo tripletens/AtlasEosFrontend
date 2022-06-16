@@ -1,3 +1,15 @@
+.loader-td {
+  padding: 0px !important;
+}
+
+.ph-item {
+  padding: 0px !important;
+}
+
+.ph-picture {
+  height: 50px !important;
+}
+
 .btn-wrapper2 {
   text-align: end;
   text-align: right;
@@ -58,10 +70,16 @@
       * {
         color: #ffffff;
         text-align: center;
+        font-size: 10px !important;
+        padding: 15px !important;
       }
     }
 
     table tbody {
+      * {
+        font-size: 10px !important;
+        padding: 5px !important;
+      }
       .delete-btn {
         background-color: darkred;
         color: #ffffff;
@@ -90,4 +108,34 @@
       }
     }
   }
+}
+
+.remove-loader {
+  display: none;
+}
+
+.modal-dialog {
+  top: 70px !important;
+}
+
+.input-value {
+  font-size: 15px;
+  padding: 15px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  width: 100%;
+}
+
+label {
+  font-size: 13px;
+}
+
+.modal-title {
+  font-size: 14px;
+  display: block;
+}
+
+.vendor-name {
+  text-align: center;
+  display: block;
 }

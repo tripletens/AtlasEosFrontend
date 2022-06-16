@@ -1,38 +1,19 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
+import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
+import { ToastrService } from 'ngx-toastr'
+import { MatPaginator } from '@angular/material/paginator'
+import { MatTableDataSource } from '@angular/material/table'
+import Swal from 'sweetalert2'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 
-export interface PeriodicElement {
-  vendor: string
-  company_name: string
+declare var $: any
+
+export interface VendorData {
+  vendor_id: string
+  vendor_name: string
   status: string
   created_date: string
 }
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    vendor: 'S0002',
-    company_name: 'ATLAS SHOWCASE',
-    status: 'active',
-    created_date: 'Nov. 4, 2021, 9:24 a.m.',
-  },
-  {
-    vendor: 'S1310',
-    company_name: 'DINOSAUR ELECTRONICS',
-    status: 'inactive',
-    created_date: 'Nov. 4, 2021, 9:24 a.m.',
-  },
-  {
-    vendor: 'S1075',
-    company_name: 'BLUE OX',
-    status: 'active',
-    created_date: 'Nov. 4, 2021, 9:24 a.m.',
-  },
-  {
-    vendor: 'S0750',
-    company_name: 'CANADIAN RV MATS',
-    status: 'active',
-    created_date: 'Nov. 4, 2021, 9:24 a.m.',
-  },
-]
 
 @Component({
   selector: 'app-all-vendors',
@@ -40,20 +21,233 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./all-vendors.component.scss'],
 })
 export class AllVendorsComponent implements OnInit {
-  tableView = true
-  loader = false
+  tableView = false
+  loader = true
+  allVendor: any
 
   displayedColumns: string[] = [
-    'vendor',
-    'company_name',
+    'vendor_id',
+    'vendor_name',
     'status',
-    'created_date',
+    'created_at',
     'action',
   ]
 
-  dataSource = ELEMENT_DATA
+  dataSource = new MatTableDataSource<VendorData>()
+  @ViewChild(MatPaginator) paginator!: MatPaginator
 
-  constructor() {}
+  incomingData: any
+  // dataSource: any
+  // dataSource: any
+  loaderData = [9, 8, 6]
+  pageSizes = [20, 60, 80]
 
-  ngOnInit(): void {}
+  vendorForm!: FormGroup
+
+  editVendorData: any
+
+  manualChecker = false
+  btnLoader = false
+  btnText = true
+  vendorId!: number
+
+  @ViewChild('closeButton') closeButton!: ElementRef
+
+  constructor(
+    private postData: HttpRequestsService,
+    private toastr: ToastrService,
+    private fb: FormBuilder,
+  ) {}
+
+  ngOnInit(): void {
+    this.getVendors()
+    this.buildDealerForm()
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator
+  }
+
+  get vendorFormControls() {
+    return this.vendorForm.controls
+  }
+
+  getErrorMessage(instance: string) {
+    if (
+      instance === 'vendorName' &&
+      this.vendorFormControls.vendorName.hasError('required')
+    ) {
+      return 'enter vendor name'
+    } else if (
+      instance === 'vendorCode' &&
+      this.vendorFormControls.vendorCode.hasError('required')
+    ) {
+      return 'enter vendor code'
+    } else {
+      return
+    }
+  }
+
+  submit() {
+    this.btnText = false
+    this.btnLoader = true
+    this.vendorForm.value.vendorId = this.vendorId
+
+    this.postData
+      .httpPostRequest('/edit-vendor-data', this.vendorForm.value)
+      .then((result: any) => {
+        console.log(result)
+        this.btnText = true
+        this.btnLoader = false
+
+        if (result.status == true) {
+          this.toastr.success('Successful', result.message)
+          this.getVendors()
+          this.closeButton.nativeElement.click()
+        } else {
+          this.toastr.error('Server Error', 'Try again')
+        }
+      })
+      .catch((err) => {
+        this.btnText = true
+        this.btnLoader = false
+        this.toastr.error('Try again', 'Something went wrong')
+      })
+  }
+
+  buildDealerForm(): void {
+    this.vendorForm = this.fb.group({
+      vendorName: ['', [Validators.required]],
+      vendorCode: ['', [Validators.required]],
+    })
+  }
+
+  editVendor(data: any) {
+    console.log(data)
+    this.editVendorData = data
+    this.vendorId = data.id
+
+    this.vendorForm = this.fb.group({
+      vendorName: [data.vendor_name, [Validators.required]],
+      vendorCode: [data.vendor_code, [Validators.required]],
+    })
+    // this.vendorForm.value.vendorName = data.vendor_name
+    // this.vendorForm.value.vendorCode = data.vendor_code
+  }
+
+  async removeVendor(index: any) {
+    let confirmStatus = await this.confirmBox()
+
+    if (confirmStatus) {
+      $('#remove-icon-' + index).css('display', 'none')
+      $('#remove-loader-' + index).css('display', 'inline-block')
+
+      this.postData
+        .httpGetRequest('/deactivate-vendor/' + index)
+        .then((result: any) => {
+          $('#remove-icon-' + index).css('display', 'inline-block')
+          $('#remove-loader-' + index).css('display', 'none')
+          if (result.status) {
+            this.toastr.success('Successful', result.message)
+            this.getVendors()
+          } else {
+            this.toastr.error('Something went wrong', 'Try again')
+          }
+        })
+        .catch((err) => {
+          $('#remove-icon-' + index).css('display', 'inline-block')
+          $('#remove-loader-' + index).css('display', 'none')
+          this.toastr.error('Something went wrong', 'try again')
+        })
+    } else {
+    }
+  }
+
+  async confirmBox() {
+    return await Swal.fire({
+      title: 'You Are About To Remove This Vendor',
+      text: '',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.value) {
+        return true
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        return false
+      } else {
+        return false
+      }
+    })
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value
+    this.incomingData.vendor_name = filterValue.trim().toLowerCase()
+
+    this.dataSource = this.filterArray('*' + filterValue)
+
+    //console.log(res)
+  }
+
+  filterArray(expression: string) {
+    var regex = this.convertWildcardStringToRegExp(expression)
+    //console.log('RegExp: ' + regex);
+    return this.incomingData.filter(function (item: any) {
+      return regex.test(item.vendor_name)
+    })
+  }
+
+  escapeRegExp(str: string) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  }
+
+  convertWildcardStringToRegExp(expression: string) {
+    var terms = expression.split('*')
+
+    var trailingWildcard = false
+
+    var expr = ''
+    for (var i = 0; i < terms.length; i++) {
+      if (terms[i]) {
+        if (i > 0 && terms[i - 1]) {
+          expr += '.*'
+        }
+        trailingWildcard = false
+        expr += this.escapeRegExp(terms[i])
+      } else {
+        trailingWildcard = true
+        expr += '.*'
+      }
+    }
+
+    if (!trailingWildcard) {
+      expr += '.*'
+    }
+
+    return new RegExp('^' + expr + '$', 'i')
+  }
+
+  getVendors() {
+    this.postData
+      .httpGetRequest('/get-all-vendors')
+      .then((result: any) => {
+        console.log(result)
+        this.loader = false
+        this.tableView = true
+
+        if (result.status) {
+          this.incomingData = result.data
+          // this.dataSource = result.data
+          this.dataSource = new MatTableDataSource(result.data)
+          this.dataSource.paginator = this.paginator
+        } else {
+          this.toastr.error(result.message, 'Try again')
+        }
+      })
+      .catch((err) => {
+        this.toastr.error('Try again', 'Something went wrong')
+      })
+  }
 }

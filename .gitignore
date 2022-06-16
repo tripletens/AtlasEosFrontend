@@ -5,9 +5,8 @@
 /tmp
 /out-tsc
 /bazel-out
-/.firebase
 /firebase-server
-
+/.firebase
 # Node
 /node_modules
 npm-debug.log

@@ -10,6 +10,7 @@ import { Router } from '@angular/router'
 })
 export class AdminNavbarComponent implements OnInit {
   @ViewChild('overlay') overlay!: ElementRef
+  adminData: any
   constructor(
     private tokenStorage: TokenStorageService,
     private router: Router,
@@ -17,6 +18,7 @@ export class AdminNavbarComponent implements OnInit {
   ngOnInit(): void {
     const query = window.matchMedia('(max-width: 700px)')
     console.log(query)
+    this.adminData = this.tokenStorage.getAdmin()
   }
 
   closeOverLay() {

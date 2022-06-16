@@ -85,7 +85,7 @@ export class AddDealersComponent implements OnInit {
     fd.append('csv', this.csvDataFile[0])
 
     this.postData
-      .uploadFile('/dealer-csv-upload', fd)
+      .uploadFile('/upload-dealer-users', fd)
       .then((result) => {
         this.csvBtnLoader = false
         this.csvBtnText = true

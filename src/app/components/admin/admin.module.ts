@@ -18,8 +18,19 @@ import { FaqComponent } from './faq/faq.component'
 import { VeiwReportComponent } from './veiw-report/veiw-report.component'
 import { RespondReportComponent } from './respond-report/respond-report.component'
 import { AllVendorsComponent } from './all-vendors/all-vendors.component'
-import { MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table'
 import { AddVendorUsersComponent } from './add-vendor-users/add-vendor-users.component'
+import { AddAdminComponent } from './add-admin/add-admin.component'
+import { AllVendorUsersComponent } from './all-vendor-users/all-vendor-users.component'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatPaginatorModule } from '@angular/material/paginator'
+import { EditVendorUserComponent } from './edit-vendor-user/edit-vendor-user.component'
+import { AllDealerUsersComponent } from './all-dealer-users/all-dealer-users.component';
+import { EditDealerUsersComponent } from './edit-dealer-users/edit-dealer-users.component';
+import { AllProductsComponent } from './all-products/all-products.component';
+import { EditProductComponent } from './edit-product/edit-product.component';
+import { EditProductPriceComponent } from './edit-product-price/edit-product-price.component';
+import { AddProductComponent } from './add-product/add-product.component'
 
 @NgModule({
   declarations: [
@@ -39,6 +50,15 @@ import { AddVendorUsersComponent } from './add-vendor-users/add-vendor-users.com
     RespondReportComponent,
     AllVendorsComponent,
     AddVendorUsersComponent,
+    AddAdminComponent,
+    AllVendorUsersComponent,
+    EditVendorUserComponent,
+    AllDealerUsersComponent,
+    EditDealerUsersComponent,
+    AllProductsComponent,
+    EditProductComponent,
+    EditProductPriceComponent,
+    AddProductComponent,
   ],
   imports: [
     CommonModule,
@@ -46,6 +66,8 @@ import { AddVendorUsersComponent } from './add-vendor-users/add-vendor-users.com
     MatTableModule,
     ReactiveFormsModule,
     AdminRoutingModule,
+    MatFormFieldModule,
+    MatPaginatorModule,
   ],
 })
 export class AdminModule {}
