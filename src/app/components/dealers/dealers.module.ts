@@ -18,6 +18,8 @@ import { HelpComponent } from './help/help.component';
 import { FormsModule } from '@angular/forms';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { NewOrdersComponent } from './new-orders/new-orders.component';
+import { ReportProblemComponent } from './report-problem/report-problem.component';
 
 
 @NgModule({
@@ -35,6 +37,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     FlyersComponent,
     ProductSeminiarsComponent,
     HelpComponent,
+    NewOrdersComponent,
+    ReportProblemComponent,
   ],
   imports: [
     CommonModule,

@@ -18,9 +18,10 @@
       <a
         aria-label="Hide Sidebar"
         class="ms-5"
-        style="color: white; height:30px; width:30px;"
+        style="color: white; height: 30px; width: 30px"
         data-toggle="sidebar"
-        href="#" (click)="toggleSideNav()"
+        href="#"
+        (click)="toggleSideNav()"
       >
         <span class="fa fa-bars header-top-sidebar-icons"></span>
       </a>
@@ -65,34 +66,54 @@
         ><span class="side-menu__label" *ngIf="toggle">Special Order</span>
       </a>
     </li>
+    <li class="slide" (click)="closeOverLay()">
+      <a
+        class="side-menu__item"
+        routerLink="/dealers/new-order"
+        routerLinkActive="active-item"
+      >
+        <span class="fa fa-shopping-cart navbar-icons"></span
+        ><span class="side-menu__label" *ngIf="toggle">New Order</span>
+      </a>
+    </li>
 
     <ng-container>
       <ng-container>
         <li class="slide" (click)="closeOverLay()">
           <a
-            class="side-menu__item nohover"
+            class="side-menu__item"
             routerLink="/dealers/orders-remaining"
+            routerLinkActive="active-item"
           >
-            <span class="fa fa-list navbar-icons"></span
-            ><span class="side-menu__label" *ngIf="toggle">Orders Remaining</span>
+            <span class="fa fa-shopping-cart navbar-icons"></span
+            ><span class="side-menu__label" *ngIf="toggle"
+              >Orders Remaining</span
+            >
           </a>
         </li> </ng-container
       ><ng-container>
         <li class="slide" (click)="closeOverLay()">
-          <a class="side-menu__item nohover" routerLink="/dealers/edit-order">
+          <a
+            class="side-menu__item"
+            routerLink="/dealers/edit-order"
+            routerLinkActive="active-item"
+          >
             <span class="fa fa-pencil-square-o navbar-icons"></span
-            ><span class="side-menu__label" *ngIf="toggle">Edit My Order</span>
+            ><span class="side-menu__label" *ngIf="toggle">Edit Orders</span>
           </a>
         </li>
       </ng-container>
       <ng-container>
         <li class="slide" (click)="closeOverLay()">
           <a
-            class="side-menu__item nohover"
-            routerLink="/dealers/orders-summary"
+            class="side-menu__item"
+            routerLink="/dealers/order-summary"
+            routerLinkActive="active-item"
           >
             <span class="fa fa-list navbar-icons"></span
-            ><span class="side-menu__label" *ngIf="toggle">Dealer Order Summary</span>
+            ><span class="side-menu__label" *ngIf="toggle"
+              >Dealer Order Summary</span
+            >
           </a>
         </li>
       </ng-container>
@@ -103,7 +124,9 @@
             routerLink="/dealers/purchase-summary"
           >
             <span class="fa fa-list navbar-icons"></span
-            ><span class="side-menu__label" *ngIf="toggle">Purchaser Summary Display</span>
+            ><span class="side-menu__label" *ngIf="toggle"
+              >Purchaser Summary Display</span
+            >
           </a>
         </li>
       </ng-container>
@@ -125,7 +148,9 @@
             routerLink="/dealers/order-summary"
           >
             <span class="fa fa-columns navbar-icons"></span
-            ><span class="side-menu__label" *ngIf="toggle">Dealer Order Summary</span>
+            ><span class="side-menu__label" *ngIf="toggle"
+              >Dealer Order Summary</span
+            >
           </a>
         </li>
       </ng-container>
@@ -138,7 +163,9 @@
             routerLinkActive="active-item"
           >
             <span class="fa fa-columns navbar-icons"></span
-            ><span class="side-menu__label" *ngIf="toggle">Purchaser Summary Display</span>
+            ><span class="side-menu__label" *ngIf="toggle"
+              >Purchaser Summary Display</span
+            >
           </a>
         </li>
       </ng-template>
@@ -151,7 +178,9 @@
         routerLinkActive="active-item"
       >
         <span class="fa fa-newspaper-o navbar-icons"></span
-        ><span class="side-menu__label" *ngIf="toggle">Promotional Flyers Form</span>
+        ><span class="side-menu__label" *ngIf="toggle"
+          >Promotional Flyers Form</span
+        >
       </a>
     </li>
 
@@ -161,8 +190,10 @@
         routerLink="/dealers/seminars"
         routerLinkActive="active-item"
       >
-        <span class="fa fa-dashboard navbar-icons"></span
-        ><span class="side-menu__label" *ngIf="toggle"> Recorded Product Seminars</span>
+        <span class="fa fa-play-circle navbar-icons"></span
+        ><span class="side-menu__label" *ngIf="toggle">
+          Recorded Product Seminars</span
+        >
       </a>
     </li>
     <li class="slide" (click)="closeOverLay()">
@@ -171,14 +202,16 @@
         routerLink="/dealers/help"
         routerLinkActive="active-item"
       >
-        <span class="fa fa-newspaper-o navbar-icons"></span
+        <span class="fa fa-headphones navbar-icons"></span
         ><span class="side-menu__label" *ngIf="toggle">Help </span>
       </a>
     </li>
 
     <li class="slide" (click)="closeOverLay()">
-      <a class="side-menu__item" href="mailto:michael.Habib@atlastrailer.com">
-        <span class="fa fa-file-text-o navbar-icons"></span
+      <a class="side-menu__item"
+        routerLink="/dealers/report-problem"
+        routerLinkActive="active-item">
+        <span class="fa fa-bell navbar-icons"></span
         ><span class="side-menu__label" *ngIf="toggle">Report a Problem</span>
       </a>
     </li>

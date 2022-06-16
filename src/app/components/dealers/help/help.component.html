@@ -1,1 +1,56 @@
-<p>help works!</p>
+<section class="overview-section">
+  <div class="container-fluid p-0">
+    <div class="row my-5 ml-4">
+      <div class="col-12">
+        <div class="form-table-ctn px-2pt-4">
+          <div class="card">
+            <div class="card-header">User Help</div>
+            <div class="card-body">
+              <div class="card-header">
+                <i class="fa fa-comments mr-3"></i> Frequently Asked Questions
+              </div>
+              <div class="card-body">
+                <div class="accordion" id="accordionExample" *ngIf="faqDataStatus">
+                  <div class="card accordion-card" *ngFor="let faq of faqData">
+                    <div class="card-header accordion-header" id="headingOne">
+                      <h2 class="mb-0">
+                        <button
+                          class="btn btn-link btn-block text-left"
+                          type="button"
+                          data-toggle="collapse"
+                          data-target='#collapseOne'
+                          aria-expanded="true"
+                          aria-controls="collapseOne"
+                        >
+                          {{faq.title}}
+                        </button>
+                      </h2>
+                    </div>
+
+                    <div
+                      id="collapseOne"
+                      class="collapse show"
+                      aria-labelledby="headingOne"
+                      data-parent="#accordionExample"
+                    >
+                      <div class="card-body accordion-body">
+                        <p class="m-0" style="text-transform: uppercase;">{{faq.subtitle}}</p>
+                        <br />
+                       {{faq.description}} <br />
+                        LINK: <a href="{{faq.link}}">{{faq.link}}</a> 
+                        <br />
+                        Username: {{faq.username}}  <br />
+                        Password: {{faq.password}} 
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
