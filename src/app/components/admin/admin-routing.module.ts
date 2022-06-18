@@ -7,6 +7,7 @@ import { AddSeminarComponent } from './add-seminar/add-seminar.component'
 import { AddVendorUsersComponent } from './add-vendor-users/add-vendor-users.component'
 import { AddVendorsComponent } from './add-vendors/add-vendors.component'
 import { AdminComponent } from './admin.component'
+import { AllAdminComponent } from './all-admin/all-admin.component'
 import { AllDealerUsersComponent } from './all-dealer-users/all-dealer-users.component'
 import { AllProductsComponent } from './all-products/all-products.component'
 import { AllSeminarsComponent } from './all-seminars/all-seminars.component'
@@ -91,6 +92,10 @@ const routes: Routes = [
       {
         path: 'add-admin',
         component: AddAdminComponent,
+      },
+      {
+        path: 'all-admin',
+        component: AllAdminComponent,
       },
       {
         path: 'all-vendor-users',
