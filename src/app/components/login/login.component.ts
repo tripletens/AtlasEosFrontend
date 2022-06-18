@@ -143,19 +143,16 @@ export class LoginComponent implements OnInit {
     this.postData
       .httpPostRequest('/login', this.login)
       .then((result: any) => {
-        console.log(result)
         this.loginLoader = false
         this.loginText = true
         if (result.status) {
+          this.tokenStorage.signOut()
           let token = result.token.original.access_token
           this.tokenStorage.save(result.data.dealer, token)
-          this.location = result.data.dealer.location
-          this.dealer = result.data.dealer.id
-          this.toastr.info('Thank you for your Order', `Booking is now closed`)
+
           // this.callLogger()
           // this.ordercheckservice.orderChecker()
-
-          this.router.navigate(['/dealers/dashboard'])
+          this.redirectUrl()
         } else {
           this.toastr.error('Something went wrong', `${result.message}`)
         }
@@ -163,5 +160,43 @@ export class LoginComponent implements OnInit {
       .catch((err) => {
         this.toastr.error('Try again', 'Something went wrong')
       })
+  }
+
+  redirectUrl() {
+    let userData = this.tokenStorage.getUser()
+    let role = userData.role
+    switch (role) {
+      case '1':
+        this.router.navigate(['/admin/dashboard'])
+        break
+
+      case '2':
+        this.router.navigate(['/branch/dashboard'])
+        break
+
+      case '3':
+        this.router.navigate(['/vendor/dashboard'])
+        break
+
+      case '4':
+        this.toastr.info('Thank you for your Order', `Booking is now closed`)
+        this.router.navigate(['/dealers/dashboard'])
+        break
+
+      default:
+        break
+    }
+
+    // if ((userData.role = '1')) {
+    //   this.router.navigate(['/admin/dashboard'])
+    // } else if ((userData.role = '2')) {
+    //   this.router.navigate(['/branch/dashboard'])
+    // } else if ((userData.role = '3')) {
+    //   this.router.navigate(['/vendor/dashboard'])
+    // } else if ((userData.role = '4')) {
+    //   this.router.navigate(['/dealers/dashboard'])
+    // } else if ((userData.role = '5')) {
+    //   this.router.navigate(['/branch/dashboard'])
+    // }
   }
 }

@@ -18,7 +18,7 @@ export class AdminNavbarComponent implements OnInit {
   ngOnInit(): void {
     const query = window.matchMedia('(max-width: 700px)')
     console.log(query)
-    this.adminData = this.tokenStorage.getAdmin()
+    this.adminData = this.tokenStorage.getUser()
   }
 
   closeOverLay() {

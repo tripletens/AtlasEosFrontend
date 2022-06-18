@@ -13,17 +13,15 @@ export interface PeriodicElement {
   password: string
   company_name: string
   status: string
-  last_login: string
-  order_status: string
   created_date: string
 }
 
 @Component({
-  selector: 'app-all-dealer-users',
-  templateUrl: './all-dealer-users.component.html',
-  styleUrls: ['./all-dealer-users.component.scss'],
+  selector: 'app-all-admin',
+  templateUrl: './all-admin.component.html',
+  styleUrls: ['./all-admin.component.scss'],
 })
-export class AllDealerUsersComponent implements OnInit {
+export class AllAdminComponent implements OnInit {
   tableView = false
   loader = true
   allVendor: any
@@ -36,9 +34,7 @@ export class AllDealerUsersComponent implements OnInit {
     'password',
     'company_name',
     'status',
-    'last_login',
-    'order_status',
-    // 'created_date',
+    'created_date',
     'action',
   ]
 
@@ -155,7 +151,7 @@ export class AllDealerUsersComponent implements OnInit {
 
   getDealerUsers() {
     this.postData
-      .httpGetRequest('/get-all-dealer-users')
+      .httpGetRequest('/all-admins')
       .then((result: any) => {
         console.log(result)
 
