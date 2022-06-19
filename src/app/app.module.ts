@@ -10,10 +10,10 @@ import { HttpClientModule } from '@angular/common/http'
 import { AdminNavbarComponent } from './components/templates/admin-navbar/admin-navbar.component'
 import { SeminarNavbarComponent } from './components/templates/seminar-navbar/seminar-navbar.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { DealerNavbarComponent } from './components/templates/dealer-navbar/dealer-navbar.component'
+import { DealerNavbarComponent } from './components/templates/dealer-navbar/dealer-navbar.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent],
+  declarations: [AppComponent, LoginComponent, ],
   imports: [
     BrowserModule,
     HttpClientModule,

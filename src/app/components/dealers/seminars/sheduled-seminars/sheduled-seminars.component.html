@@ -1,12 +1,10 @@
-<section>
-  <div class="container-fluid p-0">
+<section class="ml-4">
+  <div class="container-fluid p-0 mt-5">
     <div class="row">
       <div class="col-md-12 col-sm-12">
         <div class="card recent-order-card">
-          <div class="d-flex justify-content-between p-3">
-            <div>
-              <h3 class="card-title">All Seminars</h3>
-            </div>
+          <div>
+            <div class="card-header mb-4">Sheduled Seminars</div>
           </div>
 
           <div class="">
@@ -143,60 +141,90 @@
                       </tr>
                     </tbody>
                   </table>
-
-                  <table
-                    mat-table
-                    [dataSource]="dataSource"
-                    class="mat-elevation w-100"
+                  <div
+                    class="table-ctn mt-3 mat-elevation-z8"
+                    *ngIf="tableView"
                   >
-                    <!--- Note that these columns can be defined in any order.
-                          The actual rendered columns are set as a property on the row definition" -->
+                    <table
+                      class="order-form-table w-100 mat-elevation"
+                      mat-table
+                      [dataSource]="dataSrc"
+                    >
+                      <ng-container matColumnDef="no">
+                        <th
+                          mat-header-cell
+                          *matHeaderCellDef
+                          style="white-space: nowrap"
+                        >
+                          S/No
+                          <button class="btn">
+                            <i class="fa fa-sort text-white"></i>
+                          </button>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                          {{ element.no }}
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef>
+                          DATE<button class="btn">
+                            <i class="fa fa-sort text-white"></i>
+                          </button>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                          {{ element.date }}
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="meeting_time">
+                        <th mat-header-cell *matHeaderCellDef>Meeting Time</th>
+                        <td mat-cell *matCellDef="let element">
+                          {{ element.meeting_time }}
+                        </td> </ng-container
+                      ><ng-container matColumnDef="vendor_name">
+                        <th mat-header-cell *matHeaderCellDef>Vendor Name</th>
+                        <td mat-cell *matCellDef="let element">
+                          {{ element.vendor_name }}
+                        </td>
+                      </ng-container>
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="seminar_topic">
+                        <th mat-header-cell *matHeaderCellDef>Seminar Topic</th>
+                        <td mat-cell *matCellDef="let element">
+                          {{ element.seminar_topic }}
+                        </td>
+                      </ng-container>
 
-                    <!-- Position Column -->
-                    <ng-container matColumnDef="no">
-                      <th mat-header-cell *matHeaderCellDef>No.</th>
-                      <td mat-cell *matCellDef="let element">
-                        {{ element.no }}
-                      </td>
-                    </ng-container>
-
-                    <!-- Name Column -->
-                    <ng-container matColumnDef="seminar_topic">
-                      <th mat-header-cell *matHeaderCellDef>Seminar Topic</th>
-                      <td mat-cell *matCellDef="let element">
-                        {{ element.seminar_topic }}
-                      </td>
-                    </ng-container>
-
-                    <!-- Weight Column -->
-                    <ng-container matColumnDef="vendor_name">
-                      <th mat-header-cell *matHeaderCellDef>Vendor Name</th>
-                      <td mat-cell *matCellDef="let element">
-                        {{ element.vendor_name }}
-                      </td>
-                    </ng-container>
-
-                    <!-- Symbol Column -->
-                    <ng-container matColumnDef="meeting_time">
-                      <th mat-header-cell *matHeaderCellDef>Meeting Time</th>
-                      <td mat-cell *matCellDef="let element">
-                        {{ element.meeting_time }}
-                      </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="action">
-                      <th mat-header-cell *matHeaderCellDef>Action</th>
-                      <!-- <td mat-cell *matCellDef="let element">
+                      <ng-container matColumnDef="link">
+                        <th mat-header-cell *matHeaderCellDef>Action</th>
+                        <!-- <td mat-cell *matCellDef="let element">
                           {{ element.symbol }}
                         </td> -->
-                    </ng-container>
+                        <td class="p-3" mat-cell *matCellDef="let element">
+                          <a class="btn btn-success" href="{{ element.link }}">
+                            <i class="fa fa-video-camera"></i><br />
+                            WATCH
+                          </a>
+                        </td>
+                      </ng-container>
 
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr
-                      mat-row
-                      *matRowDef="let row; columns: displayedColumns"
-                    ></tr>
-                  </table>
+                      <tr
+                        mat-header-row
+                        *matHeaderRowDef="displayedColumns"
+                      ></tr>
+                      <tr
+                        mat-row
+                        *matRowDef="let row; columns: displayedColumns"
+                      ></tr>
+                     
+                    </table>
+                    <p class="text-center mt-3" *ngIf="noData"><i>No Data Found</i></p>
+                    <mat-paginator
+                      [pageSizeOptions]="[5, 10, 20]"
+                      showFirstLastButtons
+                      aria-label="Select page seminar pages"
+                    >
+                    </mat-paginator>
+                  </div>
                 </div>
               </div>
             </div>

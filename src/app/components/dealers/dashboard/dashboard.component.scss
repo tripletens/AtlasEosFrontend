@@ -2,6 +2,10 @@
   border: 0px solid transparent;
   border-left: 2px solid #0a5476;
   min-height: 100px;
+  text-decoration: none !important;
+}
+a{
+  text-decoration: none !important;
 }
 .card-icon {
   color: white;
@@ -30,6 +34,11 @@
 }
 .card-val {
   font-size: 1.2rem;
+  color: #000;
+  text-decoration: none !important;
+}
+.blue-title{
+  color: #00547a;
   text-decoration: none !important;
 }
 .grey{
@@ -40,4 +49,11 @@
       color: rgb(60, 60, 60) !important;
 
   }
+}
+.section-header {
+  color: #ffffff;
+  background-color: #a8a8a8;
+  font-size: 15px;
+  padding: 10px;
+  border-radius: 5px;
 }
