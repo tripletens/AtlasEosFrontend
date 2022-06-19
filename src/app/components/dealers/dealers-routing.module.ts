@@ -11,6 +11,9 @@ import { OrdersRemainingComponent } from './orders-remaining/orders-remaining.co
 import { ProductSeminiarsComponent } from './product-seminiars/product-seminiars.component';
 import { QuickOrderComponent } from './quick-order/quick-order.component';
 import { ReportProblemComponent } from './report-problem/report-problem.component';
+import { AllSeminarsComponent } from './seminars/all-seminars/all-seminars.component';
+import { OngoingSeminarsComponent } from './seminars/ongoing-seminars/ongoing-seminars.component';
+import { SheduledSeminarsComponent } from './seminars/sheduled-seminars/sheduled-seminars.component';
 import { ShowOrdersComponent } from './show-orders/show-orders.component';
 import { SpecialOrderComponent } from './special-order/special-order.component';
 
@@ -62,12 +65,28 @@ const routes: Routes = [
         component: SpecialOrderComponent,
       },
       {
-        path: 'new-order',
+        path: 'new-product',
         component: NewOrdersComponent,
       },
       {
         path: 'edit-order',
         component: EditOrderComponent,
+      },
+      {
+        path: 'report-problem',
+        component: ReportProblemComponent,
+      },
+      {
+        path: 'all-seminars',
+        component: AllSeminarsComponent,
+      },
+      {
+        path: 'ongoing-seminars',
+        component: OngoingSeminarsComponent,
+      },
+      {
+        path: 'sheduled-seminars',
+        component: SheduledSeminarsComponent,
       },
       {
         path: 'report-problem',
