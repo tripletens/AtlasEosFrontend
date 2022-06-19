@@ -38,9 +38,9 @@ export class TokenStorageService {
   }
 
   isLoggedIn(): boolean {
-    const admin = localStorage.getItem('user')
+    const user = localStorage.getItem('user')
     const token = localStorage.getItem('token')
-    return admin !== null && token !== null ? true : false
+    return user !== null && token !== null ? true : false
   }
 
   signOut(): void {

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
+import { AuthGuardGuard } from 'src/app/core/guard/auth-guard.guard'
 import { AddAdminComponent } from './add-admin/add-admin.component'
 import { AddDealersComponent } from './add-dealers/add-dealers.component'
 import { AddProductComponent } from './add-product/add-product.component'
@@ -138,6 +139,7 @@ const routes: Routes = [
         component: AllSeminarsComponent,
       },
     ],
+    canActivate: [AuthGuardGuard],
   },
 ]
 

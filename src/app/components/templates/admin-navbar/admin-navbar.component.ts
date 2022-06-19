@@ -30,6 +30,6 @@ export class AdminNavbarComponent implements OnInit {
 
   logout() {
     this.tokenStorage.signOut()
-    return this.router.navigate(['/admin/login'])
+    return this.router.navigate(['/'])
   }
 }
