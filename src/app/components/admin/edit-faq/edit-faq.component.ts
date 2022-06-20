@@ -2,49 +2,81 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 import { ToastrService } from 'ngx-toastr'
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
-  selector: 'app-faq',
-  templateUrl: './faq.component.html',
-  styleUrls: ['./faq.component.scss'],
+  selector: 'app-edit-faq',
+  templateUrl: './edit-faq.component.html',
+  styleUrls: ['./edit-faq.component.scss'],
 })
-export class FaqComponent implements OnInit {
+export class EditFaqComponent implements OnInit {
   faqForm!: FormGroup
   manualChecker = false
 
   btnText = true
   btnLoader = false
+  faqId: any
 
   constructor(
     private fb: FormBuilder,
     private postData: HttpRequestsService,
     private toastr: ToastrService,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
     this.buildFaqForm()
+
+    this.route.params.subscribe((params) => {
+      this.faqId = params['id']
+      this.getFaqData(this.faqId)
+    })
+  }
+
+  getFaqData(idData: any) {
+    this.postData
+      .httpGetRequest('/get-faq-id/' + idData)
+      .then((result: any) => {
+        console.log(result)
+
+        if (result.status) {
+          this.faqForm = this.fb.group({
+            title: [result.data.title, [Validators.required]],
+            subtitle: [result.data.subtitle, [Validators.required]],
+            description: [result.data.description, [Validators.required]],
+            link: [result.data.link],
+            role: [result.data.role, [Validators.required]],
+          })
+        } else {
+          this.toastr.error(result.message, 'Try again')
+        }
+      })
+      .catch((err) => {
+        this.btnText = true
+        this.btnLoader = false
+        this.toastr.error('Try again', 'Something went wrong')
+      })
   }
 
   submit() {
     if (this.faqForm.status == 'VALID') {
       this.manualChecker = false
 
+      this.faqForm.value.id = this.faqId
+
+      console.log(this.faqForm.value)
+
       this.btnText = false
       this.btnLoader = true
       this.postData
-        .httpPostRequest('/create-faq', this.faqForm.value)
+        .httpPostRequest('/edit-faq', this.faqForm.value)
         .then((result: any) => {
           console.log(result)
           this.btnText = true
           this.btnLoader = false
 
           if (result.status) {
-            this.faqForm.reset()
-            this.faqForm.value.role = 'Select Role'
-            this.toastr.success(
-              'FAQ Added Successful',
-              `New FAQ has been added`,
-            )
+            this.toastr.success('Successful', result.message)
           } else {
             this.toastr.error(result.message, 'Try again')
           }

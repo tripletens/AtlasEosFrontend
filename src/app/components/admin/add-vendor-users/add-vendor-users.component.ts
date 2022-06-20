@@ -157,7 +157,6 @@ export class AddVendorUsersComponent implements OnInit {
     console.log(this.vendorUserForm.value)
     console.log(this.vendorUserForm.status)
     if (this.vendorUserForm.status == 'VALID') {
-      console.log(this.vendorUserForm.value)
       this.btnText = false
       this.btnLoader = true
       this.postData

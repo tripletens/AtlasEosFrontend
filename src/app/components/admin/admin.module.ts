@@ -33,7 +33,9 @@ import { EditProductPriceComponent } from './edit-product-price/edit-product-pri
 import { AddProductComponent } from './add-product/add-product.component';
 import { AddSeminarComponent } from './add-seminar/add-seminar.component';
 import { AllSeminarsComponent } from './all-seminars/all-seminars.component';
-import { AllAdminComponent } from './all-admin/all-admin.component'
+import { AllAdminComponent } from './all-admin/all-admin.component';
+import { AllFaqComponent } from './all-faq/all-faq.component';
+import { EditFaqComponent } from './edit-faq/edit-faq.component'
 
 @NgModule({
   declarations: [
@@ -65,6 +67,8 @@ import { AllAdminComponent } from './all-admin/all-admin.component'
     AddSeminarComponent,
     AllSeminarsComponent,
     AllAdminComponent,
+    AllFaqComponent,
+    EditFaqComponent,
   ],
   imports: [
     CommonModule,

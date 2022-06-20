@@ -10,6 +10,7 @@ import { AddVendorsComponent } from './add-vendors/add-vendors.component'
 import { AdminComponent } from './admin.component'
 import { AllAdminComponent } from './all-admin/all-admin.component'
 import { AllDealerUsersComponent } from './all-dealer-users/all-dealer-users.component'
+import { AllFaqComponent } from './all-faq/all-faq.component'
 import { AllProductsComponent } from './all-products/all-products.component'
 import { AllSeminarsComponent } from './all-seminars/all-seminars.component'
 import { AllVendorUsersComponent } from './all-vendor-users/all-vendor-users.component'
@@ -17,6 +18,7 @@ import { AllVendorsComponent } from './all-vendors/all-vendors.component'
 import { DashboardComponent } from './dashboard/dashboard.component'
 import { DealerSummaryComponent } from './dealer-summary/dealer-summary.component'
 import { EditDealerUsersComponent } from './edit-dealer-users/edit-dealer-users.component'
+import { EditFaqComponent } from './edit-faq/edit-faq.component'
 import { EditProductComponent } from './edit-product/edit-product.component'
 import { EditVendorUserComponent } from './edit-vendor-user/edit-vendor-user.component'
 import { FaqComponent } from './faq/faq.component'
@@ -77,6 +79,14 @@ const routes: Routes = [
       {
         path: 'faq',
         component: FaqComponent,
+      },
+      {
+        path: 'all-faq',
+        component: AllFaqComponent,
+      },
+      {
+        path: 'edit-faq/:id',
+        component: EditFaqComponent,
       },
       {
         path: 'all-vendors',
