@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuardGuard } from 'src/app/core/guard/auth-guard.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DealersComponent } from './dealers.component';
 import { EditOrderComponent } from './edit-order/edit-order.component';
@@ -28,6 +29,10 @@ const routes: Routes = [
     path: '',
     component: DealersComponent,
     children: [
+      {
+        path: '',
+        component: DashboardComponent,
+      },
       {
         path: 'dashboard',
         component: DashboardComponent,
@@ -93,6 +98,7 @@ const routes: Routes = [
         component: ReportProblemComponent,
       },
     ],
+    canActivate: [AuthGuardGuard],
   },
 ];
 @NgModule({

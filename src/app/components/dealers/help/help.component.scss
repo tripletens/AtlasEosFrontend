@@ -13,6 +13,16 @@
   // border-bottom: .2px solid #a8a8a8;
   font-size: 20px;
 }
+.iframe {
+  border: 2px solid rgba(211, 211, 211, 0.719);
+  box-shadow: none;
+  // border-radius: 20px;
+  min-height: 300px;
+  width: 100%;
+  @media (max-width: 500px) {
+    min-height: 200px;
+  }
+}
 .header-search-ctn {
   button {
     background-color: #054e6e !important;

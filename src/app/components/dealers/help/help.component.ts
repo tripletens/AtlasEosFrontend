@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
@@ -10,9 +10,11 @@ import { HttpRequestsService } from 'src/app/core/services/http-requests.service
   styleUrls: ['./help.component.scss'],
 })
 export class HelpComponent implements OnInit {
-  faqData :any;
+  faqData: any;
   faqDataStatus = false;
   faqLoader = true;
+  link =
+    'https://us02web.zoom.us/rec/play/lJTtcY76xGwVXmiPNL7Tpu096KLlKXw0dcnuJXyTrbSITjKQKmLfz44_n8iQaxIZp0QPxJ2R6NAcEMq7.NwDu1E74CTu692Bl?startTime=1652304851000&_x_zm_rtaid=3vJprS7PTn-BZSCVGrdKXg.1654937390766.c442308e0b7a0a5b19682f9dc5f7862d&_x_zm_rhtaid=321';
   constructor(
     private request: HttpRequestsService,
     private http: HttpClient,
@@ -20,7 +22,7 @@ export class HelpComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.FetchFaq()
+    this.FetchFaq();
   }
   FetchFaq() {
     this.faqDataStatus = false;
