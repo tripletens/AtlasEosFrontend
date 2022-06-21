@@ -86,7 +86,7 @@ export class DashboardComponent implements OnInit {
 
     // Output the result in an element with id="demo"
     // document.getElementById('countdown').innerText = this.count;
-    let date = days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's ';
+    let date = days + 'd ' + hours + 'h ' ;
     console.log('countdown', date);
     this.count = date;
     setInterval(this.countDownTimer(), 1000);
