@@ -25,6 +25,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { OngoingSeminarsComponent } from './seminars/ongoing-seminars/ongoing-seminars.component';
 import { SheduledSeminarsComponent } from './seminars/sheduled-seminars/sheduled-seminars.component';
+import { SafepipePipe } from 'src/app/core/pipes/safepipe.pipe';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
@@ -46,13 +48,15 @@ import { SheduledSeminarsComponent } from './seminars/sheduled-seminars/sheduled
     AllSeminarsComponent,
     OngoingSeminarsComponent,
     SheduledSeminarsComponent,
+    SafepipePipe,
   ],
   imports: [
     CommonModule,
     DealersRoutingModule,
     FormsModule,
     NgApexchartsModule,
-    MatTableModule,MatPaginatorModule,
+    MatTableModule,
+    MatPaginatorModule,
     PdfViewerModule,
   ],
 })

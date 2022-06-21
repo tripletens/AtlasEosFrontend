@@ -1,7 +1,7 @@
 .data-card {
   border: 0px solid transparent;
   border-left: 2px solid #0a5476;
-  min-height: 100px;
+  height: 120px;
   text-decoration: none !important;
 }
 a{
@@ -22,8 +22,18 @@ a{
 
   font-size: 32px;
 }
+.countdown-header{
+  background-color: #A8A8A8;
+  color: #fff;
+  font-size: 13px;
+}
 .card-details {
   color: #000 !important;
+}
+.countdown{
+  font-weight: 600;
+  color: #353434;
+  // font-style: italic;
 }
 .card-header-text {
   background-color: transparent !important;
@@ -40,6 +50,7 @@ a{
 .blue-title{
   color: #00547a;
   text-decoration: none !important;
+  font-size: 19px !important;
 }
 .grey{
   background-color: #e6e3e3;

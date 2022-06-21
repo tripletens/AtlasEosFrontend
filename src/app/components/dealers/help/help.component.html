@@ -9,42 +9,90 @@
               <div class="card-header">
                 <i class="fa fa-comments mr-3"></i> Frequently Asked Questions
               </div>
+
               <div class="card-body">
-                <div class="accordion" id="accordionExample" *ngIf="faqDataStatus">
+                 <div class="loader-td" *ngIf="faqLoader">
+                    <div
+                      class="ph-item"
+                      style="
+                        padding: 10px 10px;
+                        border: 0px;
+                        margin-bottom: 0px;
+                      "
+                    >
+                      <div>
+                        <div class="ph-row pt-2">
+                          <div class="ph-col-12 p-1 rounded"></div>
+                          <div class="ph-col-12 p-1 rounded"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="ph-item"
+                      style="
+                        padding: 10px 10px;
+                        border: 0px;
+                        margin-bottom: 0px;
+                      "
+                    >
+                      <div>
+                        <div class="ph-row pt-2">
+                          <div class="ph-col-12 p-1 rounded"></div>
+                          <div class="ph-col-12 p-1 rounded"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <div
+                  class="accordion"
+                  id="accordionExample"
+                  *ngIf="faqDataStatus"
+                >
                   <div class="card accordion-card" *ngFor="let faq of faqData">
-                    <div class="card-header accordion-header" id="headingOne">
+                    <div
+                      class="card-header accordion-header"
+                      [id]="'heading' + faq.id"
+                      *ngIf="faq.status == 1"
+                    >
                       <h2 class="mb-0">
                         <button
                           class="btn btn-link btn-block text-left"
                           type="button"
                           data-toggle="collapse"
-                          data-target='#collapseOne'
+                          [attr.data-target]="'#collapse' + faq.id"
                           aria-expanded="true"
-                          aria-controls="collapseOne"
+                          [attr.aria-controls]="'collapse' + faq.id"
                         >
-                          {{faq.title}}
+                          {{ faq.title }}
                         </button>
                       </h2>
                     </div>
 
                     <div
-                      id="collapseOne"
-                      class="collapse show"
-                      aria-labelledby="headingOne"
+                      [id]="'collapse' + faq.id"
+                      class="collapse"
+                      [attr.data-target]="'heading' + faq.id"
                       data-parent="#accordionExample"
                     >
                       <div class="card-body accordion-body">
-                        <p class="m-0" style="text-transform: uppercase;">{{faq.subtitle}}</p>
+                        <p class="m-0" style="text-transform: uppercase">
+                          {{ faq.subtitle }}
+                        </p>
                         <br />
-                       {{faq.description}} <br />
-                        LINK: <a href="{{faq.link}}">{{faq.link}}</a> 
-                        <br />
-                        Username: {{faq.username}}  <br />
-                        Password: {{faq.password}} 
+                        {{ faq.description }} <br />
                       </div>
+                      <!-- {{faq.link}} -->
+                      <iframe
+                        allow="microphone; camera"
+                        *ngIf="faq.link"
+                        [src]="faq.link | safe: 'resourceUrl'"
+                        allow="autoplay; encrypted-media"
+                        allowfullscreen
+                        class="iframe mb-3"
+                        frameborder="0"
+                      ></iframe>
                     </div>
                   </div>
-                  
                 </div>
               </div>
             </div>

@@ -15,15 +15,17 @@ import { AdminLoginComponent } from './components/admin-login/admin-login.compon
 import {
   authInterceptorProviders,
   JwtAuthInterceptor,
-} from './core/services/jwt-auth.interceptor'
+} from './core/services/jwt-auth.interceptor';
+import { SafepipePipe } from './core/pipes/safepipe.pipe'
+import { CommonModule } from '@angular/common'
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, AdminLoginComponent],
+  declarations: [AppComponent, LoginComponent, AdminLoginComponent,  ],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule,
+    FormsModule,CommonModule,
 
     ToastrModule.forRoot({
       timeOut: 3000,
