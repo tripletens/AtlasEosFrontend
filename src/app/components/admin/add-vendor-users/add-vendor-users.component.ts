@@ -160,7 +160,7 @@ export class AddVendorUsersComponent implements OnInit {
       this.btnText = false
       this.btnLoader = true
       this.postData
-        .httpPostRequest('/register-dealer', this.vendorUserForm.value)
+        .httpPostRequest('/register-vendor-users', this.vendorUserForm.value)
         .then((result: any) => {
           console.log(result)
           this.btnText = true
