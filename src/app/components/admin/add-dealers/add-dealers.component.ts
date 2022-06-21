@@ -124,21 +124,27 @@ export class AddDealersComponent implements OnInit {
     this.dealerForm = this.fb.group({
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
-      phone: ['', [Validators.required]],
+      // phone: ['', [Validators.required]],
       location: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
-      account_id: ['', [Validators.required]],
+      accountId: ['', [Validators.required]],
+      companyName: ['', [Validators.required]],
+      companyCode: ['', [Validators.required]],
+
+      privilegedVendors: [''],
     })
   }
 
   submit() {
+    console.log(this.dealerForm.value)
+
     if (this.dealerForm.status == 'VALID') {
       console.log(this.dealerForm.value)
       this.btnText = false
       this.btnLoader = true
       this.postData
-        .httpPostRequest('/register-dealer', this.dealerForm.value)
+        .httpPostRequest('/register-dealer-users', this.dealerForm.value)
         .then((result: any) => {
           console.log(result)
           this.btnText = true
@@ -191,8 +197,8 @@ export class AddDealersComponent implements OnInit {
     ) {
       return 'enter phone number'
     } else if (
-      instance === 'account_id' &&
-      this.dealerFormControls.account_id.hasError('required')
+      instance === 'accountId' &&
+      this.dealerFormControls.accountId.hasError('required')
     ) {
       return 'enter account id'
     } else if (
@@ -200,6 +206,16 @@ export class AddDealersComponent implements OnInit {
       this.dealerFormControls.location.hasError('required')
     ) {
       return 'Choose Location'
+    } else if (
+      instance === 'companyName' &&
+      this.dealerFormControls.companyName.hasError('required')
+    ) {
+      return 'Enter company name'
+    } else if (
+      instance === 'companyCode' &&
+      this.dealerFormControls.companyCode.hasError('required')
+    ) {
+      return 'Enter company code'
     } else if (
       instance === 'password' &&
       this.dealerFormControls.password.hasError('required')

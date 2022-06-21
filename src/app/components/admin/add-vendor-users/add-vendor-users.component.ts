@@ -43,6 +43,7 @@ export class AddVendorUsersComponent implements OnInit {
   imgStatus = false
   imgFileCount = false
   allVendor: any
+  stateVendorName!: string
 
   constructor(
     private fb: FormBuilder,
@@ -80,6 +81,7 @@ export class AddVendorUsersComponent implements OnInit {
       const vendor = this.allVendor[index]
       if (vendor.vendor_name == data.value) {
         this.vendorUserForm.value.vendor = vendor.vendor_code
+        this.stateVendorName = vendor.vendor_name
         this.vendorUserForm.value.vendorName = vendor.vendor_name
       }
     }
@@ -146,8 +148,7 @@ export class AddVendorUsersComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
       vendor: ['', [Validators.required]],
-      vendorName: [''],
-
+      // vendorName: [''],
       privilegeVendors: [''],
       location: ['', [Validators.required]],
     })
@@ -157,6 +158,7 @@ export class AddVendorUsersComponent implements OnInit {
     console.log(this.vendorUserForm.value)
     console.log(this.vendorUserForm.status)
     if (this.vendorUserForm.status == 'VALID') {
+      this.vendorUserForm.value.vendorName = this.stateVendorName
       this.btnText = false
       this.btnLoader = true
       this.postData
