@@ -106,7 +106,7 @@
   padding: 8px;
   border: 1px solid #ced4da;
   border-radius: 4px;
-  width: 100%;
+  // width: 100%;
 }
 
 label {
@@ -143,6 +143,10 @@ label {
 }
 
 .input-section {
+  width: 50%;
+}
+
+select {
   width: 60%;
 }
 
@@ -196,4 +200,8 @@ label {
     font-size: 13px;
     padding: 6px 15px;
   }
+}
+
+.input-alert-box {
+  width: 60%;
 }
