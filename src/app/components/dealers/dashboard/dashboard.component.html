@@ -77,6 +77,8 @@
                   <apx-chart
                     [series]="chartOptions.series"
                     [chart]="chartOptions.chart"
+                     [xaxis]="chartOptions.xaxis"
+                      [yaxis]="chartOptions.yaxis"
                     [title]="chartOptions.title"
                   ></apx-chart>
                 </div>
@@ -86,18 +88,68 @@
         </div>
       </div>
       <div class="col-md-5">
-        <div class="card mb-3"> <p class="text-center m-0 countdown-header">COUNTDOWN TO END OF PROGRAM</p>
-          <div class="card-body">
-            <h3 class="text-center countdown">{{count}}</h3>
+        <div id="accordion3">
+          <div class="card">
+            <div class="card-header">
+              <a class="card-link text-center" data-toggle="collapse" href="#collapseThree">
+                <span class="fa fas fa-clock"></span>
+                EVENT ENDS IN
+              </a>
+            </div>
+            <div
+              id="collapseThree"
+              class="collapse show"
+              data-parent="#accordion3"
+            >
+              <div class="card-body p-3 pt-4">
+                <table
+                  
+                  class="table text-nowrap table-wrapper align-items-center mb-0"
+                >
+                  <tbody>
+                    <tr>
+                      <td>
+                        <span class="tbody-text-timer">0 Days</span>
+                      </td>
+                      <td>
+                        <span class="tbody-text-timer">
+                          0 Hours
+                        </span>
+                      </td>
+                      <td>
+                        <span class="tbody-text-timer">0 Mintues</span>
+                      </td>
+                      <td>
+                        <span class="tbody-text-timer">0 Seconds</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
 
         <h3 class="section-header mb-2">PROMOTIONAL FlYER</h3>
         <div class="card promotional-flyer-ctn px-4">
           <div class="py-5">
-            <iframe
-              title="Terms & Conditions"
-              src="https://atlasbookingprogram.com/assets/2022%20Booking%20Program%20Terms%20&%20Conditions.pdf"
+            <select
+            name=""
+            (change)="fetchFlyer($event)"
+            class="form-control custom-select select2 my-3"
+          >
+            <option selected value="1">Select Vendor</option>
+            <option
+              class="category-text"
+              value="{{ category.id }}"
+              *ngFor="let category of allCategoryData"
+            >
+              {{ category.vendor_name }}
+            </option>
+          </select>
+            <iframe 
+              title="{{promotionalAds.description}}"
+              [src]="promotionalAds.pdf_url | safe: 'resourceUrl'"
               width="100%"
               height="500px"
               style="background-color: #525659; border: none"

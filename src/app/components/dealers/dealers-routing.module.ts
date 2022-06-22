@@ -10,8 +10,11 @@ import { NewOrdersComponent } from './new-orders/new-orders.component';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
 import { OrdersRemainingComponent } from './orders-remaining/orders-remaining.component';
 import { ProductSeminiarsComponent } from './product-seminiars/product-seminiars.component';
+import { PromotionalFlyerComponent } from './promotional-flyer/promotional-flyer.component';
+
 import { QuickOrderComponent } from './quick-order/quick-order.component';
 import { ReportProblemComponent } from './report-problem/report-problem.component';
+import { SearchComponent } from './search/search.component';
 import { AllSeminarsComponent } from './seminars/all-seminars/all-seminars.component';
 import { OngoingSeminarsComponent } from './seminars/ongoing-seminars/ongoing-seminars.component';
 import { SheduledSeminarsComponent } from './seminars/sheduled-seminars/sheduled-seminars.component';
@@ -94,8 +97,16 @@ const routes: Routes = [
         component: SheduledSeminarsComponent,
       },
       {
+        path: 'promotional-flyers',
+        component: PromotionalFlyerComponent,
+      },
+      {
         path: 'report-problem',
         component: ReportProblemComponent,
+      },
+      {
+        path: 'search/:search',
+        component: SearchComponent,
       },
     ],
     canActivate: [AuthGuardGuard],

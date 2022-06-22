@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 
 import { DealersRoutingModule } from './dealers-routing.module';
 import { DealersComponent } from './dealers.component';
@@ -28,6 +28,9 @@ import { SheduledSeminarsComponent } from './seminars/sheduled-seminars/sheduled
 import { SafepipePipe } from 'src/app/core/pipes/safepipe.pipe';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { PromotionalFlyerComponent } from './promotional-flyer/promotional-flyer.component';
+import { SearchComponent } from './search/search.component';
+
 @NgModule({
   declarations: [
     DealersComponent,
@@ -49,6 +52,8 @@ import { BrowserModule } from '@angular/platform-browser';
     OngoingSeminarsComponent,
     SheduledSeminarsComponent,
     SafepipePipe,
+    PromotionalFlyerComponent,
+    SearchComponent,
   ],
   imports: [
     CommonModule,

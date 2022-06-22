@@ -1,0 +1,38 @@
+<section class="overview-section mt-5 ml-4">
+  <div class="container-fluid p-0">
+    <div class="row">
+      <div class="col-md-3 col-sm-12">
+        <div class="form-group m-0">
+          <select
+            name=""
+            (change)="fetchFlyer($event)"
+            class="form-control custom-select select2"
+          >
+            <option selected value="1">Select Vendor</option>
+            <option
+              class="category-text"
+              value="{{ category.id }}"
+              *ngFor="let category of allCategoryData"
+            >
+              {{ category.vendor_name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+        <div class="card promotional-flyer-ctn px-4" style="min-height: 70vh;">
+          <div class="py-5" *ngIf="promotionalData">
+            <iframe 
+              title="{{promotionalAds.description}}"
+              [src]="promotionalAds.pdf_url | safe: 'resourceUrl'"
+              width="100%"
+              height="500px"
+              style="background-color: #525659; border: none"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -13,7 +13,13 @@
     background-color: #054e6e !important;
   }
 }
-.search-input {
+.input-group {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  input{
+    margin-left: 5px;
+  }
 }
 .paginate {
   color: #054e6e;

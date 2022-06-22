@@ -1,0 +1,42 @@
+.flyer {
+  height: 300px;
+  background-color: cadetblue;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.overview-section {
+  margin-top: 20px;
+}
+option{
+  width: 150px;
+}
+
+@media (min-width: 1200px) {
+  .overview-section {
+    margin-top: 40px;
+  }
+}
+
+.picture-loader {
+  padding: 0px !important;
+  height: 200px !important;
+}
+
+.body-loader {
+  padding: 0px !important;
+  border: 0px !important;
+}
+
+.no-flyer-text {
+  font-size: 12px;
+  text-align: center;
+}
+
+.category-text {
+  text-transform: capitalize;
+}
+
+.caro-body {
+  z-index: 1;
+}
