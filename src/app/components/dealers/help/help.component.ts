@@ -13,8 +13,7 @@ export class HelpComponent implements OnInit {
   faqData: any;
   faqDataStatus = false;
   faqLoader = true;
-  link =
-    'https://us02web.zoom.us/rec/play/lJTtcY76xGwVXmiPNL7Tpu096KLlKXw0dcnuJXyTrbSITjKQKmLfz44_n8iQaxIZp0QPxJ2R6NAcEMq7.NwDu1E74CTu692Bl?startTime=1652304851000&_x_zm_rtaid=3vJprS7PTn-BZSCVGrdKXg.1654937390766.c442308e0b7a0a5b19682f9dc5f7862d&_x_zm_rhtaid=321';
+  link = 'https://www.youtube.com/watch?v=010K4j8oi_4';
   constructor(
     private request: HttpRequestsService,
     private http: HttpClient,

@@ -179,7 +179,7 @@ export class LoginComponent implements OnInit {
         break
 
       case '4':
-        this.toastr.info('Thank you for your Order', `Booking is now closed`)
+        // this.toastr.info('Thank you for your Order', `Booking is now closed`)
         this.router.navigate(['/dealers/dashboard'])
         break
 

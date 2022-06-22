@@ -39,8 +39,8 @@ export class DashboardComponent implements OnInit {
     this.chartOptions = {
       series: [
         {
-          name: 'My-series',
-          data: [10, 41, 35, 51, 49, 62, 69, 91, 148],
+          name: 'Sales summary',
+          data: [30, 35000],
         },
       ],
       chart: {
@@ -48,25 +48,20 @@ export class DashboardComponent implements OnInit {
         type: 'bar',
       },
       title: {
-        text: 'My First Angular Chart',
+        text: '',
+      },
+      colors: {
+        
       },
       xaxis: {
-        categories: [
-          'Jan',
-          'Feb',
-          'Mar',
-          'Apr',
-          'May',
-          'Jun',
-          'Jul',
-          'Aug',
-          'Sep',
-        ],
+        categories: ['Day 1', 'Day 2'],
+      },
+      yaxis: {
+        categories: ['0', '5000','10000','15000','20000','25000','30000','35000','40000','45000'],
       },
     };
   }
   ngOnInit(): void {
-    this.countDownTimer();
   }
 
   countDownTimer() {
@@ -86,7 +81,7 @@ export class DashboardComponent implements OnInit {
 
     // Output the result in an element with id="demo"
     // document.getElementById('countdown').innerText = this.count;
-    let date = days + 'd ' + hours + 'h ' ;
+    let date = days + 'd ' + hours + 'h ' + minutes + 'm ' ;
     console.log('countdown', date);
     this.count = date;
     setInterval(this.countDownTimer(), 1000);

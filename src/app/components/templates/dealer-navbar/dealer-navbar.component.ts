@@ -9,9 +9,10 @@ import { Router } from '@angular/router';
 export class DealerNavbarComponent implements OnInit {
   @ViewChild('overlay') overlay!: ElementRef;
   toggle = true;
+  search = '';
   constructor(private router: Router) {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
   closeOverLay() {
     const query = window.matchMedia('(max-width: 700px)');
     if (query.matches) {
@@ -24,5 +25,11 @@ export class DealerNavbarComponent implements OnInit {
   logout() {
     // this.tokenStorage.signOut();
     return this.router.navigate(['/']);
+  }
+  searchData() {
+    console.log('hehheh');
+    if (this.search != '') {
+      this.router.navigate(['dealers/search/' + this.search]);
+    }
   }
 }

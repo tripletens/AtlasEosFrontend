@@ -17,15 +17,16 @@ import {
   JwtAuthInterceptor,
 } from './core/services/jwt-auth.interceptor';
 import { SafepipePipe } from './core/pipes/safepipe.pipe'
-import { CommonModule } from '@angular/common'
+import { CommonModule, CurrencyPipe } from '@angular/common'
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, AdminLoginComponent,  ],
+  declarations: [AppComponent, LoginComponent, AdminLoginComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule,CommonModule,
+    FormsModule,
+    CommonModule,
 
     ToastrModule.forRoot({
       timeOut: 3000,
@@ -33,7 +34,7 @@ import { CommonModule } from '@angular/common'
     AppRoutingModule,
     BrowserAnimationsModule,
   ],
-  providers: [authInterceptorProviders],
+  providers: [authInterceptorProviders, CurrencyPipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -140,7 +140,7 @@
       </ng-template>
     </ng-container>
 
-    <ng-template #closedProgram>
+    <ng-template #hasOrderedItem>
       <ng-container>
         <li class="slide" (click)="closeOverLay()">
           <a
@@ -170,20 +170,16 @@
         </li>
       </ng-template>
     </ng-template>
-
     <li class="slide" (click)="closeOverLay()">
       <a
         class="side-menu__item"
         routerLink="/dealers/promotional-flyers"
         routerLinkActive="active-item"
       >
-        <span class="fa fa-newspaper-o navbar-icons"></span
-        ><span class="side-menu__label" *ngIf="toggle"
-          >Promotional Flyers Form</span
-        >
+        <span class="fa fa-columns navbar-icons"></span
+        ><span class="side-menu__label" *ngIf="toggle">Promotional Flyers</span>
       </a>
     </li>
-
     <li class="slide" (click)="closeOverLay()">
       <a
         class="side-menu__item"
@@ -195,12 +191,10 @@
         aria-controls="collapseExample"
       >
         <span class="fa fa-play-circle navbar-icons"></span
-        ><span class="side-menu__label" *ngIf="toggle"> Seminars</span> <span class="fa fa-angle-down"></span
-        >
+        ><span class="side-menu__label" *ngIf="toggle"> Seminars</span>
+        <span class="fa fa-angle-down"></span>
       </a>
-      <div
-        class="collapse ml-4" id="collapseExample"
-      >
+      <div class="collapse ml-4" id="collapseExample">
         <a
           class="side-menu__item"
           routerLinkActive="active-item"
@@ -273,8 +267,7 @@
       </a>
       <div class="app-sidebar__toggle"></div>
       <div class="header-search d-none d-md-flex">
-        <form class="form-inline">
-          
+        <form class="form-inline" #headerSearch="ngForm">
           <div class="search-element">
             <span class="mr-3 text-bold">Atlas #/Vendor #</span>
             <input
@@ -284,9 +277,16 @@
               placeholder="Search Product.."
               aria-label="Search"
               tabindex="1"
+              type="search"
+              name="search"
+              [(ngModel)]="search"
             />
 
-            <button class="btn btn-primary-color" type="submit">
+            <button
+              class="btn btn-primary-color"
+              type="submit"
+              (click)="searchData()"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="24"
@@ -317,7 +317,7 @@
 
         <div class="dropdown d-none d-md-flex notifications">
           <a class="nav-link icon mb-2 bell-icon" routerLink="/dealer/cart">
-         <i class="fa fa-bell text-secondary"></i>
+            <i class="fa fa-bell text-secondary"></i>
           </a>
         </div>
 
