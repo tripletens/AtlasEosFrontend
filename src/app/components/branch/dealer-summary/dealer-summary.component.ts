@@ -8,33 +8,24 @@ import Swal from 'sweetalert2'
 declare var $: any
 
 export interface PeriodicElement {
-  seminarDate: string
-  scheduledTime: string
-  vendorName: string
-  topic: string
-  link: string
+  account: string
+  dealer_name: string
+  show_total: string
 }
 
 @Component({
-  selector: 'app-all-seminars',
-  templateUrl: './all-seminars.component.html',
-  styleUrls: ['./all-seminars.component.scss'],
+  selector: 'app-dealer-summary',
+  templateUrl: './dealer-summary.component.html',
+  styleUrls: ['./dealer-summary.component.scss'],
 })
-export class AllSeminarsComponent implements OnInit {
+export class DealerSummaryComponent implements OnInit {
   tableView = false
   loader = true
   allVendor: any
   loaderData = [9, 8, 6]
   incomingData: any
 
-  displayedColumns: string[] = [
-    'seminar_date',
-    'scheduled_time',
-    'vendor_name',
-    'topic',
-    'link',
-    'action',
-  ]
+  displayedColumns: string[] = ['account', 'dealer_name', 'show_total']
 
   dataSource = new MatTableDataSource<PeriodicElement>()
   @ViewChild(MatPaginator) paginator!: MatPaginator
@@ -44,7 +35,7 @@ export class AllSeminarsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllSeminars()
+    this.getDealerUsers()
   }
 
   pageSizes = [3, 5, 7]
@@ -69,7 +60,7 @@ export class AllSeminarsComponent implements OnInit {
 
           if (result.status) {
             this.toastr.success('Successful', result.message)
-            this.getAllSeminars()
+            this.getDealerUsers()
           } else {
             this.toastr.error('Something went wrong', 'Try again')
           }
@@ -100,56 +91,9 @@ export class AllSeminarsComponent implements OnInit {
     })
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value
-    this.incomingData.vendor_name = filterValue.trim().toLowerCase()
-
-    this.dataSource = this.filterArray('*' + filterValue)
-
-    //console.log(res)
-  }
-
-  filterArray(expression: string) {
-    var regex = this.convertWildcardStringToRegExp(expression)
-    //console.log('RegExp: ' + regex);
-    return this.incomingData.filter(function (item: any) {
-      return regex.test(item.full_name)
-    })
-  }
-
-  escapeRegExp(str: string) {
-    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  }
-
-  convertWildcardStringToRegExp(expression: string) {
-    var terms = expression.split('*')
-
-    var trailingWildcard = false
-
-    var expr = ''
-    for (var i = 0; i < terms.length; i++) {
-      if (terms[i]) {
-        if (i > 0 && terms[i - 1]) {
-          expr += '.*'
-        }
-        trailingWildcard = false
-        expr += this.escapeRegExp(terms[i])
-      } else {
-        trailingWildcard = true
-        expr += '.*'
-      }
-    }
-
-    if (!trailingWildcard) {
-      expr += '.*'
-    }
-
-    return new RegExp('^' + expr + '$', 'i')
-  }
-
-  getAllSeminars() {
+  getDealerUsers() {
     this.postData
-      .httpGetRequest('/get-all-seminar')
+      .httpGetRequest('/all-admins')
       .then((result: any) => {
         console.log(result)
 

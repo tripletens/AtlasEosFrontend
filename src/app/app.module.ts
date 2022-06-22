@@ -15,9 +15,10 @@ import { AdminLoginComponent } from './components/admin-login/admin-login.compon
 import {
   authInterceptorProviders,
   JwtAuthInterceptor,
-} from './core/services/jwt-auth.interceptor';
+} from './core/services/jwt-auth.interceptor'
 import { SafepipePipe } from './core/pipes/safepipe.pipe'
 import { CommonModule, CurrencyPipe } from '@angular/common'
+import { BranchNavbarComponent } from './components/templates/branch-navbar/branch-navbar.component'
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, AdminLoginComponent],

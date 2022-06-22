@@ -11,9 +11,13 @@ declare var $: any
   styleUrls: ['./add-seminar.component.scss'],
 })
 export class AddSeminarComponent implements OnInit {
-  productForm!: FormGroup
+  seminarForm!: FormGroup
   manualChecker = false
   saveBtnStatus = true
+
+  allVendor: any
+
+  saveVendorCode!: string
 
   constructor(
     private fb: FormBuilder,
@@ -21,21 +25,66 @@ export class AddSeminarComponent implements OnInit {
     private toastr: ToastrService,
   ) {}
 
+  // defaultValue = { hour: 13, minute: 30 }
+
+  // timeChangeHandler(event: Event) {
+  //   console.log(event)
+  // }
+
+  // invalidInputHandler() {
+  //   // some error handling
+  // }
+
   ngOnInit(): void {
     this.buildProductForm()
+    this.getVendors()
+  }
+
+  assignVendor(data: any) {
+    console.log(data.value)
+    for (let index = 0; index < this.allVendor.length; index++) {
+      const vendor = this.allVendor[index]
+      if (vendor.vendor_name == data.value) {
+        this.seminarForm.value.vendor = vendor.vendor_code
+        this.saveVendorCode = vendor.vendor_code
+        this.seminarForm.value.vendorName = vendor.vendor_name
+      }
+    }
+  }
+
+  getVendors() {
+    this.postData
+      .httpGetRequest('/get-all-vendors')
+      .then((result: any) => {
+        console.log(result)
+
+        if (result.status) {
+          this.allVendor = result.data
+        } else {
+          // this.toastr.error(result.message, 'Try again')
+        }
+      })
+      .catch((err) => {
+        // this.toastr.error('Try again', 'Something went wrong')
+      })
   }
 
   submit() {
-    if (this.productForm.status == 'VALID') {
+    console.log(this.seminarForm.value)
+    if (this.seminarForm.status == 'VALID') {
       this.manualChecker = false
       this.saveBtnStatus = false
 
+      this.seminarForm.value.vendorCode = this.saveVendorCode
+
+      // console.log(this.seminarForm.value)
+
       this.postData
-        .httpPostRequest('/add-product', this.productForm.value)
+        .httpPostRequest('/create-seminar', this.seminarForm.value)
         .then((result: any) => {
           this.saveBtnStatus = true
           if (result.status) {
-            this.productForm.reset()
+            this.seminarForm.reset()
             this.toastr.success(result.message, `Successful`)
           } else {
             this.toastr.error(result.message, 'Try again')
@@ -52,57 +101,57 @@ export class AddSeminarComponent implements OnInit {
   }
 
   resetForm() {
-    this.productForm.reset()
+    this.seminarForm.reset()
   }
 
   get productFormControls() {
-    return this.productForm.controls
+    return this.seminarForm.controls
   }
 
   getErrorMessage(instance: string) {
     if (
-      instance === 'vendorAccount' &&
-      this.productFormControls.vendorAccount.hasError('required')
+      instance === 'topic' &&
+      this.productFormControls.topic.hasError('required')
     ) {
-      return 'enter vendor account code'
+      return 'enter seminar topic'
     } else if (
-      instance === 'atlasId' &&
-      this.productFormControls.atlasId.hasError('required')
+      instance === 'vendorName' &&
+      this.productFormControls.vendorName.hasError('required')
     ) {
-      return 'enter atlas ID'
+      return 'select the vendor'
     } else if (
-      instance === 'vendorItemId' &&
-      this.productFormControls.vendorItemId.hasError('required')
+      instance === 'startTime' &&
+      this.productFormControls.startTime.hasError('required')
     ) {
-      return 'enter vendor item ID'
+      return 'select the start time'
     } else if (
-      instance === 'description' &&
-      this.productFormControls.description.hasError('required')
+      instance === 'stopTime' &&
+      this.productFormControls.stopTime.hasError('required')
     ) {
-      return 'enter description'
+      return 'select the stop time'
     } else if (
-      instance === 'regular' &&
-      this.productFormControls.regular.hasError('required')
+      instance === 'seminarDate' &&
+      this.productFormControls.seminarDate.hasError('required')
     ) {
-      return 'enter the regular price'
+      return 'select the seminar date'
     } else if (
-      instance === 'special' &&
-      this.productFormControls.special.hasError('required')
+      instance === 'link' &&
+      this.productFormControls.link.hasError('required')
     ) {
-      return 'enter the special price'
+      return 'enter the link'
     } else {
       return
     }
   }
 
   buildProductForm(): void {
-    this.productForm = this.fb.group({
-      vendorAccount: ['', [Validators.required]],
-      atlasId: ['', [Validators.required]],
-      vendorItemId: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      regular: ['', [Validators.required]],
-      special: ['', [Validators.required]],
+    this.seminarForm = this.fb.group({
+      topic: ['', [Validators.required]],
+      link: ['', [Validators.required]],
+      startTime: ['', [Validators.required]],
+      stopTime: ['', [Validators.required]],
+      seminarDate: ['', [Validators.required]],
+      vendorName: ['', [Validators.required]],
     })
   }
 }

@@ -25,17 +25,20 @@ import { AllVendorUsersComponent } from './all-vendor-users/all-vendor-users.com
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatPaginatorModule } from '@angular/material/paginator'
 import { EditVendorUserComponent } from './edit-vendor-user/edit-vendor-user.component'
-import { AllDealerUsersComponent } from './all-dealer-users/all-dealer-users.component';
-import { EditDealerUsersComponent } from './edit-dealer-users/edit-dealer-users.component';
-import { AllProductsComponent } from './all-products/all-products.component';
-import { EditProductComponent } from './edit-product/edit-product.component';
-import { EditProductPriceComponent } from './edit-product-price/edit-product-price.component';
-import { AddProductComponent } from './add-product/add-product.component';
-import { AddSeminarComponent } from './add-seminar/add-seminar.component';
-import { AllSeminarsComponent } from './all-seminars/all-seminars.component';
-import { AllAdminComponent } from './all-admin/all-admin.component';
-import { AllFaqComponent } from './all-faq/all-faq.component';
+import { AllDealerUsersComponent } from './all-dealer-users/all-dealer-users.component'
+import { EditDealerUsersComponent } from './edit-dealer-users/edit-dealer-users.component'
+import { AllProductsComponent } from './all-products/all-products.component'
+import { EditProductComponent } from './edit-product/edit-product.component'
+import { EditProductPriceComponent } from './edit-product-price/edit-product-price.component'
+import { AddProductComponent } from './add-product/add-product.component'
+import { AddSeminarComponent } from './add-seminar/add-seminar.component'
+import { AllSeminarsComponent } from './all-seminars/all-seminars.component'
+import { AllAdminComponent } from './all-admin/all-admin.component'
+import { AllFaqComponent } from './all-faq/all-faq.component'
 import { EditFaqComponent } from './edit-faq/edit-faq.component'
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MatNativeDateModule } from '@angular/material/core'
+import { MatTimepickerModule } from 'mat-timepicker'
 
 @NgModule({
   declarations: [
@@ -78,6 +81,9 @@ import { EditFaqComponent } from './edit-faq/edit-faq.component'
     AdminRoutingModule,
     MatFormFieldModule,
     MatPaginatorModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatTimepickerModule,
   ],
 })
 export class AdminModule {}
