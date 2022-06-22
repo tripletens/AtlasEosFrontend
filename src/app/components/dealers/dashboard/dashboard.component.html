@@ -133,9 +133,23 @@
         <h3 class="section-header mb-2">PROMOTIONAL FlYER</h3>
         <div class="card promotional-flyer-ctn px-4">
           <div class="py-5">
-            <iframe
-              title="Terms & Conditions"
-              src="https://atlasbookingprogram.com/assets/2022%20Booking%20Program%20Terms%20&%20Conditions.pdf"
+            <select
+            name=""
+            (change)="fetchFlyer($event)"
+            class="form-control custom-select select2 my-3"
+          >
+            <option selected value="1">Select Vendor</option>
+            <option
+              class="category-text"
+              value="{{ category.id }}"
+              *ngFor="let category of allCategoryData"
+            >
+              {{ category.vendor_name }}
+            </option>
+          </select>
+            <iframe 
+              title="{{promotionalAds.description}}"
+              [src]="promotionalAds.pdf_url | safe: 'resourceUrl'"
               width="100%"
               height="500px"
               style="background-color: #525659; border: none"

@@ -14,6 +14,7 @@ import {
   ApexXAxis,
   ApexTitleSubtitle,
 } from 'ng-apexcharts';
+import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -27,6 +28,11 @@ export type ChartOptions = {
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
+  promotionalLoader = true;
+  promotionalData = false;
+  promotionalStatus = false;
+  promotionalAds: any;
+  allCategoryData: any;
   public chartOptions: any;
   countDownDate = new Date('June 25, 2022 15:37:25').getTime();
   count: any = 34;
@@ -35,7 +41,9 @@ export class DashboardComponent implements OnInit {
   );
   pdfSrc =
     'https://atlasbookingprogram.com/assets/2022%20Booking%20Program%20Terms%20&%20Conditions.pdf';
-  constructor() {
+  constructor(private getData: HttpRequestsService) {
+    this.getAllVendors();
+    this.fetchFlyerAlt();
     this.chartOptions = {
       series: [
         {
@@ -50,19 +58,27 @@ export class DashboardComponent implements OnInit {
       title: {
         text: '',
       },
-      colors: {
-        
-      },
+      colors: {},
       xaxis: {
         categories: ['Day 1', 'Day 2'],
       },
       yaxis: {
-        categories: ['0', '5000','10000','15000','20000','25000','30000','35000','40000','45000'],
+        categories: [
+          '0',
+          '5000',
+          '10000',
+          '15000',
+          '20000',
+          '25000',
+          '30000',
+          '35000',
+          '40000',
+          '45000',
+        ],
       },
     };
   }
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   countDownTimer() {
     // Get today's date and time
@@ -81,7 +97,7 @@ export class DashboardComponent implements OnInit {
 
     // Output the result in an element with id="demo"
     // document.getElementById('countdown').innerText = this.count;
-    let date = days + 'd ' + hours + 'h ' + minutes + 'm ' ;
+    let date = days + 'd ' + hours + 'h ' + minutes + 'm ';
     console.log('countdown', date);
     this.count = date;
     setInterval(this.countDownTimer(), 1000);
@@ -94,5 +110,71 @@ export class DashboardComponent implements OnInit {
     //   clearInterval(x);
     //   document.getElementById('demo').innerHTML = 'EXPIRED';
     // }
+  }
+  getAllVendors() {
+    this.getData
+      .httpGetRequest('/get-all-vendors')
+      .then((result: any) => {
+        console.log(result);
+        if (result.status) {
+          this.allCategoryData = result.data;
+        } else {
+        }
+      })
+      .catch((err) => {});
+  }
+  fetchFlyer(data: any) {
+    console.log(data.target.value);
+    this.promotionalLoader = true;
+    this.promotionalData = false;
+    this.promotionalStatus = false;
+
+    let id = data.target.value;
+    console.log(id, 'id');
+    this.getData
+      .httpGetRequest('/show-promotional-flier-by-id/' + id)
+      .then((result: any) => {
+        console.log(result, 'promotion');
+
+        this.promotionalLoader = false;
+        if (result.status) {
+          // this.promotionalData = result.data.length > 0 ? true : false;
+          // this.promotionalStatus = result.data.length <= 0 ? true : false;
+          this.promotionalAds = result.data;
+          this.promotionalData = true;
+        } else {
+        }
+      })
+      .catch((err) => {
+        this.promotionalLoader = false;
+        this.promotionalData = true;
+      });
+  }
+  fetchFlyerAlt() {
+    ///console.log(data.target.value);
+    this.promotionalLoader = true;
+    this.promotionalData = false;
+    this.promotionalStatus = false;
+
+    let id = 1;
+    console.log(id, 'id');
+    this.getData
+      .httpGetRequest('/show-promotional-flier-by-id/' + id)
+      .then((result: any) => {
+        console.log(result, 'promotion');
+
+        this.promotionalLoader = false;
+        if (result.status) {
+          // this.promotionalData = result.data.length > 0 ? true : false;
+          // this.promotionalStatus = result.data.length <= 0 ? true : false;
+          this.promotionalAds = result.data;
+          this.promotionalData = true;
+        } else {
+        }
+      })
+      .catch((err) => {
+        this.promotionalLoader = false;
+        this.promotionalData = true;
+      });
   }
 }
