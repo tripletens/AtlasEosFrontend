@@ -8,10 +8,7 @@ const routes: Routes = [
     path: '',
     component: LoginComponent,
   },
-  {
-    path: 'admin/login',
-    component: AdminLoginComponent,
-  },
+
   {
     path: 'admin',
     loadChildren: () =>
@@ -35,13 +32,6 @@ const routes: Routes = [
     path: 'branch',
     loadChildren: () =>
       import('./components/branch/branch.module').then((m) => m.BranchModule),
-  },
-  {
-    path: 'seminar',
-    loadChildren: () =>
-      import('./components/seminar/seminar.module').then(
-        (m) => m.SeminarModule,
-      ),
   },
 ]
 

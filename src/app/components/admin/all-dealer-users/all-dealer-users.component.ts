@@ -13,6 +13,8 @@ export interface PeriodicElement {
   password: string
   company_name: string
   status: string
+  last_login: string
+  order_status: string
   created_date: string
 }
 
@@ -34,7 +36,9 @@ export class AllDealerUsersComponent implements OnInit {
     'password',
     'company_name',
     'status',
-    'created_date',
+    'last_login',
+    'order_status',
+    // 'created_date',
     'action',
   ]
 

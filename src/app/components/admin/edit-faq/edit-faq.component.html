@@ -1,0 +1,215 @@
+<section>
+  <div class="container-fluid p-0">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <div class="card-header mb-3">
+          <div class="d-flex justify-content-between w-100 col-top-header">
+            <div>
+              <a class="card-link">
+                FAQs
+              </a>
+            </div>
+            <div>
+              <button class="" routerLink="/admin/all-faq">
+                <span class="fa fas fa-bars"></span>
+                view tickets
+              </button>
+              <!-- <button></button> -->
+            </div>
+          </div>
+        </div>
+
+        <div id="accordion6" class="mb-3">
+          <div class="card">
+            <div class="card-header mb-2">
+              <div class="d-flex justify-content-between w-100 col-top-header">
+                <div>
+                  <span class="fa fas fa-comments"></span>
+
+                  <a class="card-link">
+                    New Question & Answer
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              id="collapseSix"
+              class="collapse show"
+              data-parent="#accordion6"
+            >
+              <div class="card-body">
+                <!-- <h6 class="reported-text">Ticket replied by Admin</h6> -->
+
+                <form [formGroup]="faqForm">
+                  <div class="reply-text-wrapper">
+                    <div class="input-section mb-4">
+                      <input
+                        type="text"
+                        name="title"
+                        placeholder="Title"
+                        id=""
+                        formControlName="title"
+                        placeholder="Title"
+                      />
+
+                      <div
+                        class="input-alert-box"
+                        *ngIf="faqFormControls.title.invalid && manualChecker"
+                      >
+                        <div>
+                          <span class="alert-input-msg">
+                            {{ getErrorMessage('title') }}
+                          </span>
+                          <span
+                            class="fa fa-exclamation-triangle alert-input-icon"
+                            style="float: right;"
+                          ></span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="input-section mb-4">
+                      <input
+                        type="text"
+                        name="subtitle"
+                        placeholder="Subtitle"
+                        id=""
+                        formControlName="subtitle"
+                      />
+
+                      <div
+                        class="input-alert-box"
+                        *ngIf="
+                          faqFormControls.subtitle.invalid && manualChecker
+                        "
+                      >
+                        <div>
+                          <span class="alert-input-msg">
+                            {{ getErrorMessage('subtitle') }}
+                          </span>
+                          <span
+                            class="fa fa-exclamation-triangle alert-input-icon"
+                            style="float: right;"
+                          ></span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="input-section mb-4">
+                      <textarea
+                        class="reply-text"
+                        name="description"
+                        placeholder="Description"
+                        id=""
+                        formControlName="description"
+                      ></textarea>
+
+                      <!-- <input
+                          type="text"
+                          link
+                          name="link"
+                          formControlName="link"
+                          class="input-filter-edit shadow-sm"
+                        /> -->
+
+                      <div
+                        class="input-alert-box"
+                        *ngIf="
+                          faqFormControls.description.invalid && manualChecker
+                        "
+                      >
+                        <div>
+                          <span class="alert-input-msg">
+                            {{ getErrorMessage('description') }}
+                          </span>
+                          <span
+                            class="fa fa-exclamation-triangle alert-input-icon"
+                            style="float: right;"
+                          ></span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="input-section mb-4">
+                      <input
+                        type="text"
+                        link
+                        name="link"
+                        formControlName="link"
+                        class="input-filter-edit shadow-sm"
+                        placeholder="Link"
+                      />
+
+                      <div
+                        class="input-alert-box"
+                        *ngIf="faqFormControls.link.invalid && manualChecker"
+                      >
+                        <div>
+                          <span class="alert-input-msg">
+                            {{ getErrorMessage('link') }}
+                          </span>
+                          <span
+                            class="fa fa-exclamation-triangle alert-input-icon"
+                            style="float: right;"
+                          ></span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="input-section mb-4">
+                      <select
+                        type="text"
+                        name="role"
+                        formControlName="role"
+                        class="input-filter-edit shadow-sm"
+                        placeholder="Role"
+                        name="role"
+                        #role
+                      >
+                        <option value="" selected>Role Option</option>
+                        <option value="1">Admin</option>
+                        <option value="2">Branch Manager</option>
+                        <option value="3">Vendor</option>
+                        <option value="4">Dealer</option>
+                        <option value="5">Outside sales</option>
+                        <option value="6">Inside Sales</option>
+                      </select>
+
+                      <div
+                        class="input-alert-box"
+                        *ngIf="faqFormControls.role.invalid && manualChecker"
+                      >
+                        <div>
+                          <span class="alert-input-msg">
+                            {{ getErrorMessage('role') }}
+                          </span>
+                          <span
+                            class="fa fa-exclamation-triangle alert-input-icon"
+                            style="float: right;"
+                          ></span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex w-100 reply-btn-wrapper">
+                      <button (click)="submit()">
+                        <span *ngIf="btnText">
+                          <span class="icons icon-plus"></span>
+                          Update FAQ
+                        </span>
+
+                        <div *ngIf="btnLoader">
+                          <span class="spinner-border spinner-border-sm"></span>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

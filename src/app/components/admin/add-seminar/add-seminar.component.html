@@ -1,0 +1,210 @@
+<section>
+  <div class="container-fluid p-0">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <div id="accordion7" class="mb-3">
+          <div class="card">
+            <div class="card-header">
+              <a class="card-link" data-toggle="collapse" href="#collapseSeven">
+                <span class="fa fas fa-list-ul pr-2"></span>
+                Add New Seminar
+              </a>
+            </div>
+            <div
+              id="collapseSeven"
+              class="collapse show"
+              data-parent="#accordion7"
+            >
+              <div class="card card-body">
+                <form [formGroup]="productForm">
+                  <div class="d-flex flex-column">
+                    <div class="w-100 in-form-section">
+                      <div class="label-section">
+                        <h6>Topic *</h6>
+                      </div>
+                      <div class="input-section">
+                        <input
+                          type="text"
+                          name="atlasId"
+                          required
+                          formControlName="atlasId"
+                          class="input-filter-edit shadow-sm"
+                        />
+
+                        <div
+                          class="input-alert-box"
+                          *ngIf="
+                            productFormControls.atlasId.invalid && manualChecker
+                          "
+                        >
+                          <div>
+                            <span class="alert-input-msg">
+                              {{ getErrorMessage('atlasId') }}
+                            </span>
+                            <span
+                              class="fa fa-exclamation-triangle alert-input-icon"
+                              style="float: right;"
+                            ></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="w-100 in-form-section">
+                      <div class="label-section">
+                        <h6>Start Time *</h6>
+                      </div>
+                      <div class="input-section">
+                        <input
+                          type="time"
+                          name="time"
+                          required
+                          formControlName="vendorItemId"
+                          class="input-filter-edit shadow-sm"
+                          id="timePicker"
+                        />
+                        <div
+                          class="input-alert-box"
+                          *ngIf="
+                            productFormControls.vendorItemId.invalid &&
+                            manualChecker
+                          "
+                        >
+                          <div>
+                            <span class="alert-input-msg">
+                              {{ getErrorMessage('vendorItemId') }}
+                            </span>
+                            <span
+                              class="fa fa-exclamation-triangle alert-input-icon"
+                              style="float: right;"
+                            ></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="w-100 in-form-section">
+                      <div class="label-section">
+                        <h6>End Time *</h6>
+                      </div>
+                      <div class="input-section">
+                        <input
+                          type="time"
+                          name="description"
+                          required
+                          formControlName="description"
+                          class="input-filter-edit shadow-sm"
+                          placeholder="Description"
+                        />
+
+                        <div
+                          class="input-alert-box"
+                          *ngIf="
+                            productFormControls.description.invalid &&
+                            manualChecker
+                          "
+                        >
+                          <div>
+                            <span class="alert-input-msg">
+                              {{ getErrorMessage('description') }}
+                            </span>
+                            <span
+                              class="fa fa-exclamation-triangle alert-input-icon"
+                              style="float: right;"
+                            ></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="w-100 in-form-section">
+                      <div class="label-section">
+                        <h6>Date *</h6>
+                      </div>
+                      <div class="input-section">
+                        <input
+                          type="date"
+                          name="regular"
+                          required
+                          formControlName="regular"
+                          class="input-filter-edit shadow-sm"
+                          placeholder="Regular Price (eg: 89.90)"
+                        />
+
+                        <div
+                          class="input-alert-box"
+                          *ngIf="
+                            productFormControls.regular.invalid && manualChecker
+                          "
+                        >
+                          <div>
+                            <span class="alert-input-msg">
+                              {{ getErrorMessage('regular') }}
+                            </span>
+                            <span
+                              class="fa fa-exclamation-triangle alert-input-icon"
+                              style="float: right;"
+                            ></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="w-100 in-form-section">
+                      <div class="label-section">
+                        <h6>Vendor *</h6>
+                      </div>
+                      <div class="input-section">
+                        <input
+                          type="text"
+                          name="special"
+                          required
+                          formControlName="special"
+                          class="input-filter-edit shadow-sm"
+                          placeholder="Special Price (eg: 89.90)"
+                        />
+
+                        <div
+                          class="input-alert-box"
+                          *ngIf="
+                            productFormControls.special.invalid && manualChecker
+                          "
+                        >
+                          <div>
+                            <span class="alert-input-msg">
+                              {{ getErrorMessage('special') }}
+                            </span>
+                            <span
+                              class="fa fa-exclamation-triangle alert-input-icon"
+                              style="float: right;"
+                            ></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="w-100 in-form-section">
+                      <div class="label-section"></div>
+                      <div class="input-section btn-wrapper">
+                        <button (click)="submit()">
+                          <span *ngIf="saveBtnStatus">Save</span>
+
+                          <div *ngIf="!saveBtnStatus">
+                            <span
+                              class="spinner-border spinner-border-sm"
+                            ></span>
+                          </div>
+                        </button>
+                        <button (click)="resetForm()">Reset</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

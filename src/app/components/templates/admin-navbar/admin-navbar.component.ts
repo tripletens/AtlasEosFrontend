@@ -18,7 +18,7 @@ export class AdminNavbarComponent implements OnInit {
   ngOnInit(): void {
     const query = window.matchMedia('(max-width: 700px)')
     console.log(query)
-    this.adminData = this.tokenStorage.getAdmin()
+    this.adminData = this.tokenStorage.getUser()
   }
 
   closeOverLay() {
@@ -30,6 +30,6 @@ export class AdminNavbarComponent implements OnInit {
 
   logout() {
     this.tokenStorage.signOut()
-    return this.router.navigate(['/admin/login'])
+    return this.router.navigate(['/'])
   }
 }

@@ -139,10 +139,20 @@ ul.sidemenu a {
   display: inline-block;
   padding-right: 20px;
 }
-.app-sidebar__toggle{
+.app-sidebar__toggle {
   padding-left: 35px;
 }
-
+.bell-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 2px 2px 0 rgb(0 0 0 / 30%);
+  height: 30px;
+  position: relative;
+  width: 30px;
+  text-align: center;
+}
 .sub-header-text {
   padding-left: 260px;
   padding-top: 10px;

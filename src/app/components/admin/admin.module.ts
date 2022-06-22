@@ -30,7 +30,12 @@ import { EditDealerUsersComponent } from './edit-dealer-users/edit-dealer-users.
 import { AllProductsComponent } from './all-products/all-products.component';
 import { EditProductComponent } from './edit-product/edit-product.component';
 import { EditProductPriceComponent } from './edit-product-price/edit-product-price.component';
-import { AddProductComponent } from './add-product/add-product.component'
+import { AddProductComponent } from './add-product/add-product.component';
+import { AddSeminarComponent } from './add-seminar/add-seminar.component';
+import { AllSeminarsComponent } from './all-seminars/all-seminars.component';
+import { AllAdminComponent } from './all-admin/all-admin.component';
+import { AllFaqComponent } from './all-faq/all-faq.component';
+import { EditFaqComponent } from './edit-faq/edit-faq.component'
 
 @NgModule({
   declarations: [
@@ -59,6 +64,11 @@ import { AddProductComponent } from './add-product/add-product.component'
     EditProductComponent,
     EditProductPriceComponent,
     AddProductComponent,
+    AddSeminarComponent,
+    AllSeminarsComponent,
+    AllAdminComponent,
+    AllFaqComponent,
+    EditFaqComponent,
   ],
   imports: [
     CommonModule,

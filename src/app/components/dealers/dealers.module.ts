@@ -18,7 +18,15 @@ import { HelpComponent } from './help/help.component';
 import { FormsModule } from '@angular/forms';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
-
+import { NewOrdersComponent } from './new-orders/new-orders.component';
+import { ReportProblemComponent } from './report-problem/report-problem.component';
+import { AllSeminarsComponent } from './seminars/all-seminars/all-seminars.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { OngoingSeminarsComponent } from './seminars/ongoing-seminars/ongoing-seminars.component';
+import { SheduledSeminarsComponent } from './seminars/sheduled-seminars/sheduled-seminars.component';
+import { SafepipePipe } from 'src/app/core/pipes/safepipe.pipe';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
@@ -35,12 +43,20 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     FlyersComponent,
     ProductSeminiarsComponent,
     HelpComponent,
+    NewOrdersComponent,
+    ReportProblemComponent,
+    AllSeminarsComponent,
+    OngoingSeminarsComponent,
+    SheduledSeminarsComponent,
+    SafepipePipe,
   ],
   imports: [
     CommonModule,
     DealersRoutingModule,
     FormsModule,
     NgApexchartsModule,
+    MatTableModule,
+    MatPaginatorModule,
     PdfViewerModule,
   ],
 })
