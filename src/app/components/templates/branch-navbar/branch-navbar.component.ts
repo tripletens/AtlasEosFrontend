@@ -4,11 +4,11 @@ import { TokenStorageService } from 'src/app/core/services/token-storage.service
 import { Router } from '@angular/router'
 
 @Component({
-  selector: 'app-admin-navbar',
-  templateUrl: './admin-navbar.component.html',
-  styleUrls: ['./admin-navbar.component.scss'],
+  selector: 'app-branch-navbar',
+  templateUrl: './branch-navbar.component.html',
+  styleUrls: ['./branch-navbar.component.scss'],
 })
-export class AdminNavbarComponent implements OnInit {
+export class BranchNavbarComponent implements OnInit {
   @ViewChild('overlay') overlay!: ElementRef
   adminData: any
   constructor(

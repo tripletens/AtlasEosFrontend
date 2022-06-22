@@ -25,6 +25,16 @@ export class AddSeminarComponent implements OnInit {
     private toastr: ToastrService,
   ) {}
 
+  // defaultValue = { hour: 13, minute: 30 }
+
+  // timeChangeHandler(event: Event) {
+  //   console.log(event)
+  // }
+
+  // invalidInputHandler() {
+  //   // some error handling
+  // }
+
   ngOnInit(): void {
     this.buildProductForm()
     this.getVendors()

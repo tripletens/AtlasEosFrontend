@@ -16,6 +16,7 @@ import {
   authInterceptorProviders,
   JwtAuthInterceptor,
 } from './core/services/jwt-auth.interceptor'
+import { BranchNavbarComponent } from './components/templates/branch-navbar/branch-navbar.component'
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, AdminLoginComponent],
@@ -24,7 +25,6 @@ import {
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-
     ToastrModule.forRoot({
       timeOut: 3000,
     }),
