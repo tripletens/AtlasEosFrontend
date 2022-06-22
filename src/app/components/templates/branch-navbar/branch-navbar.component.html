@@ -20,11 +20,10 @@
       <a
         class="side-menu__item"
         data-toggle="slide"
-        routerLink="/admin/dashboard"
+        routerLink="/branch/dashboard"
         routerLinkActive="active-link"
       >
         <span class="fa fa-dashboard navbar-icons"></span>
-
         <span class="side-menu__label">Dashboard</span>
       </a>
     </li>
@@ -32,242 +31,34 @@
     <li class="slide" (click)="closeOverLay()">
       <a
         class="side-menu__item"
-        routerLink="/admin/vendor-order-form"
+        routerLink="/branch/dealer-summary"
         routerLinkActive="active-link"
       >
         <span class="fa fas fa-list-alt navbar-icons"></span>
-        <span class="side-menu__label">Vendor Order Form</span>
+        <span class="side-menu__label">Dealer Summary</span>
       </a>
-    </li>
-
-    <!-- Dropdown-->
-    <li class="slide panel panel-default" id="dropdown">
-      <a class="side-menu__item" data-toggle="collapse" href="#dropdown-lvl1">
-        <span class="fa fas fa-users navbar-icons"></span>
-        <span class="side-menu__label support-sec">Vendor</span>
-        <span class="fa fa-angle-down"></span>
-      </a>
-      <!-- Dropdown level 1 -->
-      <div id="dropdown-lvl1" class="panel-collapse collapse">
-        <div class="panel-body support-body">
-          <ul class="support-ul">
-            <li>
-              <a routerLink="/admin/all-vendors" routerLinkActive="active-link">
-                All Vendors
-              </a>
-            </li>
-            <li>
-              <a routerLink="/admin/add-vendor" routerLinkActive="active-link">
-                Add Vendors
-              </a>
-            </li>
-
-            <li>
-              <a
-                routerLink="/admin/add-vendor-users"
-                routerLinkActive="active-link"
-              >
-                Add Vendor Users
-              </a>
-            </li>
-
-            <li>
-              <a
-                routerLink="/admin/all-vendor-users"
-                routerLinkActive="active-link"
-              >
-                All Vendor Users
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </li>
-
-    <!-- Dropdown-->
-    <li class="slide panel panel-default" id="dropdown">
-      <a class="side-menu__item" data-toggle="collapse" href="#dropdown-lvl2">
-        <span class="fa fas fa-link navbar-icons"></span>
-        <span class="side-menu__label support-sec">Dealer</span>
-        <span class="fa fa-angle-down"></span>
-      </a>
-      <!-- Dropdown level 1 -->
-      <div id="dropdown-lvl2" class="panel-collapse collapse">
-        <div class="panel-body support-body">
-          <ul class="support-ul">
-            <li>
-              <a
-                routerLink="/admin/all-dealer-users"
-                routerLinkActive="active-link"
-              >
-                All Dealer Users
-              </a>
-            </li>
-            <li>
-              <a routerLink="/admin/add-dealer" routerLinkActive="active-link">
-                Add Dealer
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </li>
-
-    <!-- Dropdown-->
-    <li class="slide panel panel-default" id="dropdown">
-      <a
-        class="side-menu__item"
-        data-toggle="collapse"
-        href="#dropdown-products"
-      >
-        <span class="fa fa fa-cube navbar-icons"></span>
-        <span class="side-menu__label support-sec">Products</span>
-        <span class="fa fa-angle-down"></span>
-      </a>
-      <!-- Dropdown level 1 -->
-      <div id="dropdown-products" class="panel-collapse collapse">
-        <div class="panel-body support-body">
-          <ul class="support-ul">
-            <li>
-              <a
-                routerLink="/admin/all-products"
-                routerLinkActive="active-link"
-              >
-                All Products
-              </a>
-            </li>
-
-            <li>
-              <a routerLink="/admin/add-product" routerLinkActive="active-link">
-                Add Product
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </li>
-
-    <!-- Dropdown-->
-    <li class="slide panel panel-default" id="dropdown">
-      <a
-        class="side-menu__item"
-        data-toggle="collapse"
-        href="#dropdown-seminars"
-      >
-        <span class="fa fa-address-card-o navbar-icons"></span>
-        <span class="side-menu__label support-sec">Seminars</span>
-        <span class="fa fa-angle-down"></span>
-      </a>
-      <!-- Dropdown level 1 -->
-      <div id="dropdown-seminars" class="panel-collapse collapse">
-        <div class="panel-body support-body">
-          <ul class="support-ul">
-            <li>
-              <a
-                routerLink="/admin/all-seminars"
-                routerLinkActive="active-link"
-              >
-                All Seminars
-              </a>
-            </li>
-
-            <li>
-              <a
-                routerLink="/admin/add-seminars"
-                routerLinkActive="active-link"
-              >
-                Add Seminar
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
     </li>
 
     <li class="slide" (click)="closeOverLay()">
       <a
         class="side-menu__item"
-        routerLink="/admin/price-override"
+        routerLink="/branch/detail-dealer-summary"
         routerLinkActive="active-link"
       >
         <span class="fa fa-history navbar-icons"></span>
-        <span class="side-menu__label">Price Override</span>
+        <span class="side-menu__label">Detail Dealer Summary</span>
       </a>
     </li>
 
     <li class="slide" (click)="closeOverLay()">
       <a
         class="side-menu__item"
-        routerLink="/admin/my-messages"
+        routerLink="/branch/my-messages"
         routerLinkActive="active-link"
       >
         <span class="fa fas fa-envelope navbar-icons"></span>
         <span class="side-menu__label">My Messages</span>
       </a>
-    </li>
-
-    <li class="slide" (click)="closeOverLay()">
-      <a
-        class="side-menu__item"
-        routerLink="/admin/dealer-summary"
-        routerLinkActive="active-link"
-      >
-        <span class="fa fas fa-th navbar-icons"></span>
-        <span class="side-menu__label">Dealer Summary</span>
-      </a>
-    </li>
-
-    <!-- Dropdown-->
-    <li class="slide panel panel-default" id="dropdown">
-      <a class="side-menu__item" data-toggle="collapse" href="#dropdown-lvl5">
-        <span class="fa fas fa-headphones navbar-icons"></span>
-        <span class="side-menu__label support-sec">Supports</span>
-        <span class="fa fa-angle-down"></span>
-      </a>
-      <!-- Dropdown level 1 -->
-      <div id="dropdown-lvl5" class="panel-collapse collapse">
-        <div class="panel-body support-body">
-          <ul class="support-ul">
-            <li>
-              <a
-                routerLink="/admin/resolve-problem"
-                routerLinkActive="active-link"
-              >
-                Resolve a Problem
-              </a>
-            </li>
-            <li>
-              <a routerLink="/admin/faq" routerLinkActive="active-link">FAQs</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </li>
-
-    <!-- Dropdown-->
-    <li class="slide panel panel-default" id="dropdown">
-      <a class="side-menu__item" data-toggle="collapse" href="#dropdown-lvl9">
-        <span class="fa fa-briefcase navbar-icons"></span>
-        <span class="side-menu__label support-sec">Admin</span>
-        <span class="fa fa-angle-down"></span>
-      </a>
-      <!-- Dropdown level 1 -->
-      <div id="dropdown-lvl9" class="panel-collapse collapse">
-        <div class="panel-body support-body">
-          <ul class="support-ul">
-            <li>
-              <a routerLink="/admin/add-admin" routerLinkActive="active-link">
-                Add Administrators
-              </a>
-            </li>
-            <li>
-              <a routerLink="/admin/all-admin" routerLinkActive="active-link">
-                All Administrators
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
     </li>
 
     <li class="slide" (click)="logout()" style="cursor: pointer;">

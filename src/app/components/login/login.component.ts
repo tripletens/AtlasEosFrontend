@@ -175,7 +175,7 @@ export class LoginComponent implements OnInit {
         break
 
       case '3':
-        this.router.navigate(['/vendor/dashboard'])
+        this.router.navigate(['/vendors/dashboard'])
         break
 
       case '4':
