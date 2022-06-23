@@ -60,18 +60,20 @@ export class AllDealerUsersComponent implements OnInit {
     private toastr: ToastrService,
   ) {}
 
-  async removeVendor(index: any) {
-    let confirmStatus = await this.confirmBox()
+  async removeVendor(data: any) {
+    console.log(data)
+
+    let confirmStatus = await this.confirmBox(data)
 
     if (confirmStatus) {
-      $('#remove-icon-' + index).css('display', 'none')
-      $('#remove-loader-' + index).css('display', 'inline-block')
+      $('#remove-icon-' + data.id).css('display', 'none')
+      $('#remove-loader-' + data.id).css('display', 'inline-block')
 
       this.postData
-        .httpGetRequest('/deactivate-dealer-user/' + index)
+        .httpGetRequest('/deactivate-dealer-user/' + data.id)
         .then((result: any) => {
-          $('#remove-icon-' + index).css('display', 'inline-block')
-          $('#remove-loader-' + index).css('display', 'none')
+          $('#remove-icon-' + data.id).css('display', 'inline-block')
+          $('#remove-loader-' + data.id).css('display', 'none')
 
           if (result.status) {
             this.toastr.success('Successful', result.message)
@@ -87,9 +89,14 @@ export class AllDealerUsersComponent implements OnInit {
     }
   }
 
-  async confirmBox() {
+  async confirmBox(data: any) {
     return await Swal.fire({
-      title: 'You Are About To Remove This Vendor User',
+      title:
+        'You Are About To Remove This Vendor User ( ' +
+        data.first_name +
+        ' ' +
+        data.last_name +
+        ')',
       text: '',
       icon: 'warning',
       showCancelButton: true,
