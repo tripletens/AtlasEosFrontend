@@ -64,7 +64,7 @@ export class AllAdminComponent implements OnInit {
       $('#remove-loader-' + index).css('display', 'inline-block')
 
       this.postData
-        .httpGetRequest('/deactivate-dealer-user/' + index)
+        .httpGetRequest('/deactivate-admin/' + index)
         .then((result: any) => {
           $('#remove-icon-' + index).css('display', 'inline-block')
           $('#remove-loader-' + index).css('display', 'none')
@@ -105,10 +105,7 @@ export class AllAdminComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value
     this.incomingData.vendor_name = filterValue.trim().toLowerCase()
-
     this.dataSource = this.filterArray('*' + filterValue)
-
-    //console.log(res)
   }
 
   filterArray(expression: string) {
