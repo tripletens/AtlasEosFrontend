@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr'
   styleUrls: ['./add-admin.component.scss'],
 })
 export class AddAdminComponent implements OnInit {
-  productForm!: FormGroup
+  adminForm!: FormGroup
   manualChecker = false
   saveBtnStatus = true
 
@@ -32,6 +32,11 @@ export class AddAdminComponent implements OnInit {
   imgStatus = false
   imgFileCount = false
 
+  step1 = true
+  step2 = false
+  btnLoader = false
+  btnText = true
+
   constructor(
     private fb: FormBuilder,
     private postData: HttpRequestsService,
@@ -40,6 +45,16 @@ export class AddAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildProductForm()
+  }
+
+  checkStepOne() {
+    this.step1 = false
+    this.step2 = true
+  }
+
+  Previous() {
+    this.step1 = true
+    this.step2 = false
   }
 
   callUploadInput() {
@@ -96,16 +111,21 @@ export class AddAdminComponent implements OnInit {
   }
 
   submit() {
-    if (this.productForm.status == 'VALID') {
+    console.log(this.adminForm.value)
+    if (this.adminForm.status == 'VALID') {
       this.manualChecker = false
       this.saveBtnStatus = false
+      this.btnText = false
+      this.btnLoader = true
 
       this.postData
-        .httpPostRequest('/add-product', this.productForm.value)
+        .httpPostRequest('/register-admin-users', this.adminForm.value)
         .then((result: any) => {
           this.saveBtnStatus = true
           if (result.status) {
-            this.productForm.reset()
+            this.btnText = true
+            this.btnLoader = false
+            this.adminForm.reset()
             this.toastr.success(result.message, `Successful`)
           } else {
             this.toastr.error(result.message, 'Try again')
@@ -122,57 +142,63 @@ export class AddAdminComponent implements OnInit {
   }
 
   resetForm() {
-    this.productForm.reset()
+    this.adminForm.reset()
   }
 
-  get productFormControls() {
-    return this.productForm.controls
+  get adminFormControls() {
+    return this.adminForm.controls
   }
 
   getErrorMessage(instance: string) {
     if (
-      instance === 'vendorAccount' &&
-      this.productFormControls.vendorAccount.hasError('required')
+      instance === 'fullName' &&
+      this.adminFormControls.fullName.hasError('required')
     ) {
-      return 'enter vendor account code'
+      return 'enter full name'
     } else if (
-      instance === 'atlasId' &&
-      this.productFormControls.atlasId.hasError('required')
+      instance === 'designation' &&
+      this.adminFormControls.designation.hasError('required')
     ) {
-      return 'enter atlas ID'
+      return 'enter the designation'
     } else if (
-      instance === 'vendorItemId' &&
-      this.productFormControls.vendorItemId.hasError('required')
+      instance === 'role' &&
+      this.adminFormControls.role.hasError('required')
     ) {
-      return 'enter vendor item ID'
+      return 'select the role'
     } else if (
-      instance === 'description' &&
-      this.productFormControls.description.hasError('required')
+      instance === 'accountAccess' &&
+      this.adminFormControls.accountAccess.hasError('required')
     ) {
-      return 'enter description'
+      return 'enter account access level'
     } else if (
-      instance === 'regular' &&
-      this.productFormControls.regular.hasError('required')
+      instance === 'region' &&
+      this.adminFormControls.region.hasError('required')
     ) {
-      return 'enter the regular price'
+      return 'enter the region'
     } else if (
-      instance === 'special' &&
-      this.productFormControls.special.hasError('required')
+      instance === 'email' &&
+      this.adminFormControls.email.hasError('required')
     ) {
-      return 'enter the special price'
+      return 'enter the email address'
+    } else if (
+      instance === 'password' &&
+      this.adminFormControls.password.hasError('required')
+    ) {
+      return 'enter the password'
     } else {
       return
     }
   }
 
   buildProductForm(): void {
-    this.productForm = this.fb.group({
-      vendorAccount: ['', [Validators.required]],
-      atlasId: ['', [Validators.required]],
-      vendorItemId: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      regular: ['', [Validators.required]],
-      special: ['', [Validators.required]],
+    this.adminForm = this.fb.group({
+      fullName: ['', [Validators.required]],
+      designation: ['', [Validators.required]],
+      role: ['', [Validators.required]],
+      accountAccess: ['', [Validators.required]],
+      region: ['', [Validators.required]],
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required]],
     })
   }
 }
