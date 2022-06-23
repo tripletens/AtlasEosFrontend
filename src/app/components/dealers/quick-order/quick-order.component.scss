@@ -13,11 +13,30 @@
     background-color: #054e6e !important;
   }
 }
+.search-data-ctn {
+  margin-left: 30px;
+  h5 {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .value {
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .value.red {
+    color: rgb(160, 9, 9);
+    font-size: 11px;
+  }
+  td {
+    padding: 15px;
+  }
+}
 .input-group {
   display: flex;
   align-items: center;
   padding: 5px;
-  input{
+  input {
     margin-left: 5px;
   }
 }

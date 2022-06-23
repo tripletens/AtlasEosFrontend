@@ -15,7 +15,7 @@
                   name="searchId"
                   class="search-input form-control"
                   style="max-width: 170px !important"
-                  (change)="fetchProductById()"
+                  (input)="fetchProductById()"
                   #searchid
                 />
               </div>
@@ -23,21 +23,43 @@
                 <span class="">Vendor Name </span>
                 <input
                   type="text"
+                  disabled
+                  [value]="searchResultData.vendor_name"
                   class="search-input form-control"
-                  style="max-width: 170px !important"
+                  style="width: 200px !important"
                 />
               </div>
 
               <div class="input-group">
                 <span class="mr-3">Qty </span>
                 <input
-                  type="text"
+                  type="number"
                   class="search-input form-control"
                   style="max-width: 70px !important"
                 />
                 <button class="btn btn-primary ml-3">ADD</button>
               </div>
             </div>
+          </div>
+          <div class="w-100 search-data-ctn mb-3" *ngIf="searchStatus">
+            <table>
+              <tr>
+                <td>
+                  <h5 class="m-0">
+                    {{ searchResultData.description }}
+                  </h5>
+                </td>
+                <td class="value ">
+                  {{ searchResultData.booking | currency }}
+                </td>
+              </tr>
+              <tr>
+                <td class="value red">SPECIAL</td>
+                <td class="value blue">
+                  {{ searchResultData.special | currency }}
+                </td>
+              </tr>
+            </table>
           </div>
           <div class="table-ctn mt-3">
             <table class="order-form-table w-100">
@@ -63,7 +85,8 @@
                 <th>Extended</th>
               </thead>
               <tbody>
-                <tr>
+                <tr><td colspan="7"></td></tr>
+                <!-- <tr>
                   <td class="text-center">
                     <input type="number" class="mx-auto" />
                   </td>
@@ -74,67 +97,7 @@
                   <td>$ 849.00</td>
                   <td>$ 799.00</td>
                   <td></td>
-                </tr>
-                <tr>
-                  <td class="text-center">
-                    <input type="number" class="mx-auto" />
-                  </td>
-                  <td>1095-2</td>
-                  <td>ACM135</td>
-                  <td>Ethan Hayes</td>
-                  <td><p class="">15K BTU ADVENT A/C-WHITE</p></td>
-                  <td>$ 849.00</td>
-                  <td>$ 799.00</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td class="text-center">
-                    <input type="number" class="mx-auto" />
-                  </td>
-                  <td>1095-2</td>
-                  <td>ACM135</td>
-                  <td>Ethan Hayes</td>
-                  <td><p class="">15K BTU ADVENT A/C-WHITE</p></td>
-                  <td>$ 849.00</td>
-                  <td>$ 799.00</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td class="text-center">
-                    <input type="number" class="mx-auto" />
-                  </td>
-                  <td>1095-2</td>
-                  <td>ACM135</td>
-                  <td>Ethan Hayes</td>
-                  <td><p class="">15K BTU ADVENT A/C-WHITE</p></td>
-                  <td>$ 849.00</td>
-                  <td>$ 799.00</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td class="text-center">
-                    <input type="number" class="mx-auto" />
-                  </td>
-                  <td>1095-2</td>
-                  <td>ACM135</td>
-                  <td>Ethan Hayes</td>
-                  <td><p class="">15K BTU ADVENT A/C-WHITE</p></td>
-                  <td>$ 849.00</td>
-                  <td>$ 799.00</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td class="text-center">
-                    <input type="number" class="mx-auto" />
-                  </td>
-                  <td>1095-2</td>
-                  <td>ACM135</td>
-                  <td>Ethan Hayes</td>
-                  <td><p class="">15K BTU ADVENT A/C-WHITE</p></td>
-                  <td>$ 849.00</td>
-                  <td>$ 799.00</td>
-                  <td></td>
-                </tr>
+                </tr> -->
               </tbody>
             </table>
           </div>

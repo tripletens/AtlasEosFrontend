@@ -7,8 +7,20 @@
           <div class="header-search-ctn">
             <form action="" class="d-flex align-items-center">
               <span class="mr-3">Vendor Name </span>
-              <input type="text" class="search-input form-control" />
-              <button class="btn btn-primary ml-3">
+              <select name="" class="form-control search-input" #vendorId>
+                <option selected value="0">Select Vendor</option>
+                <option
+                  class="category-text"
+                  value="{{ category.vendor_code }}"
+                  *ngFor="let category of allCategoryData"
+                >
+                  {{ category.vendor_name }}
+                </option>
+              </select>
+              <button
+                class="btn btn-primary ml-3"
+                (click)="getProductByVendorId()"
+              >
                 <i class="fa fa-search me-2"></i> Search
               </button>
             </form>
@@ -17,90 +29,41 @@
             <table class="order-form-table w-100">
               <thead>
                 <th>Qty</th>
-                <th>Atlas # <button class="btn"><i class="fa fa-sort text-white"></i></button></th>
-                <th>Vendor # <button class="btn"><i class="fa fa-sort text-white"></i></button></th>
+                <th>
+                  Atlas #
+                  <button class="btn">
+                    <i class="fa fa-sort text-white"></i>
+                  </button>
+                </th>
+                <th>
+                  Vendor #
+                  <button class="btn">
+                    <i class="fa fa-sort text-white"></i>
+                  </button>
+                </th>
                 <th>Description</th>
                 <th>Regular($)</th>
                 <th>Special($)</th>
                 <th>Extended</th>
               </thead>
               <tbody>
-                <tr>
+                <tr *ngFor="let product of productData">
                   <td class="text-center">
                     <input type="number" class="mx-auto" />
                   </td>
-                  <td>1095-2</td>
-                  <td>ACM135</td>
-                  <td><p class="">15K BTU ADVENT A/C-WHITE</p></td>
-                  <td>$ 849.00</td>
-                  <td>$ 799.00</td>
+                  <td>{{ product.atlas_id }}</td>
+                  <td>
+                     <p class="">{{ product.vendor_name }}</p>
+                  </td>
+                  <td>{{ product.description }}</td>
+                  <td>{{ product.booking | currency }}</td>
+
+                  <td>{{ product.special | currency }}</td>
                   <td></td>
                 </tr>
+
                 <tr>
-                  <td class="text-center">
-                    <input type="number" class="mx-auto" />
-                  </td>
-                  <td>1095-2</td>
-                  <td>ACM135</td>
-                  <td><p class="">15K BTU ADVENT A/C-WHITE</p></td>
-                  <td>$ 849.00</td>
-                  <td>$ 799.00</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td class="text-center">
-                    <input type="number" class="mx-auto" />
-                  </td>
-                  <td>1095-2</td>
-                  <td>ACM135</td>
-                  <td><p class="">15K BTU ADVENT A/C-WHITE</p></td>
-                  <td>$ 849.00</td>
-                  <td>$ 799.00</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td class="text-center">
-                    <input type="number" class="mx-auto" />
-                  </td>
-                  <td>1095-2</td>
-                  <td>ACM135</td>
-                  <td><p class="">15K BTU ADVENT A/C-WHITE</p></td>
-                  <td>$ 849.00</td>
-                  <td>$ 799.00</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td class="text-center">
-                    <input type="number" class="mx-auto" />
-                  </td>
-                  <td>1095-2</td>
-                  <td>ACM135</td>
-                  <td><p class="">15K BTU ADVENT A/C-WHITE</p></td>
-                  <td>$ 849.00</td>
-                  <td>$ 799.00</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td class="text-center">
-                    <input type="number" class="mx-auto" />
-                  </td>
-                  <td>1095-2</td>
-                  <td>ACM135</td>
-                  <td><p class="">15K BTU ADVENT A/C-WHITE</p></td>
-                  <td>$ 849.00</td>
-                  <td>$ 799.00</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td class="text-center">
-                    <input type="number" class="mx-auto" />
-                  </td>
-                  <td>1095-2</td>
-                  <td>ACM135</td>
-                  <td><p class="">15K BTU ADVENT A/C-WHITE</p></td>
-                  <td>$ 849.00</td>
-                  <td>$ 799.00</td>
-                  <td></td>
+                  <td colspan="7"></td>
                 </tr>
               </tbody>
             </table>
