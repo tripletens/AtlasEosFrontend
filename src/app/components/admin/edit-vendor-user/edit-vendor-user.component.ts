@@ -74,7 +74,7 @@ export class EditVendorUserComponent implements OnInit {
             role: [''],
             status: [''],
             dealer: [''],
-            vendor: [''],
+            vendor: [this.vendorUserData.vendor_name],
             privilegeDealer: [this.vendorUserData.privileged_dealers],
             privilegeVendor: [this.vendorUserData.privileged_vendors],
 

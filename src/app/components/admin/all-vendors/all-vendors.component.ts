@@ -135,18 +135,18 @@ export class AllVendorsComponent implements OnInit {
     // this.vendorForm.value.vendorCode = data.vendor_code
   }
 
-  async removeVendor(index: any) {
-    let confirmStatus = await this.confirmBox()
+  async removeVendor(data: any) {
+    let confirmStatus = await this.confirmBox(data)
 
     if (confirmStatus) {
-      $('#remove-icon-' + index).css('display', 'none')
-      $('#remove-loader-' + index).css('display', 'inline-block')
+      $('#remove-icon-' + data.id).css('display', 'none')
+      $('#remove-loader-' + data.id).css('display', 'inline-block')
 
       this.postData
-        .httpGetRequest('/deactivate-vendor/' + index)
+        .httpGetRequest('/deactivate-vendor/' + data.id)
         .then((result: any) => {
-          $('#remove-icon-' + index).css('display', 'inline-block')
-          $('#remove-loader-' + index).css('display', 'none')
+          $('#remove-icon-' + data.id).css('display', 'inline-block')
+          $('#remove-loader-' + data.id).css('display', 'none')
           if (result.status) {
             this.toastr.success('Successful', result.message)
             this.getVendors()
@@ -155,17 +155,17 @@ export class AllVendorsComponent implements OnInit {
           }
         })
         .catch((err) => {
-          $('#remove-icon-' + index).css('display', 'inline-block')
-          $('#remove-loader-' + index).css('display', 'none')
+          $('#remove-icon-' + data.id).css('display', 'inline-block')
+          $('#remove-loader-' + data.id).css('display', 'none')
           this.toastr.error('Something went wrong', 'try again')
         })
     } else {
     }
   }
 
-  async confirmBox() {
+  async confirmBox(data: any) {
     return await Swal.fire({
-      title: 'You Are About To Remove This Vendor',
+      title: 'You Are About To Remove This Vendor (' + data.vendor_name + ')',
       text: '',
       icon: 'warning',
       showCancelButton: true,

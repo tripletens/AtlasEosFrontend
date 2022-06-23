@@ -478,9 +478,9 @@
                             formControlName="vendor"
                             #vendor
                           >
-                            <option value="">
+                            <!-- <option value="">
                               Vendor...
-                            </option>
+                            </option> -->
                             <option *ngFor="let data of allVendor">
                               {{ data.vendor_name }}
                             </option>
@@ -538,73 +538,6 @@
                         </div>
                       </div>
                     </div>
-
-                    <!-- 
-                    <div class="form-row">
-                      <div class="col-md-6">
-                        <div class="form-group mb-3">
-                          <label for="">Company Name</label>
-                          <input
-                            type="text"
-                            name="companyName"
-                            class="input-value shadow-sm"
-                            placeholder="CompanyName"
-                            required
-                            formControlName="CompanyName"
-                            value=""
-                          />
-                          <div
-                            class="input-alert-box"
-                            *ngIf="
-                              vendorUserFormControls.CompanyName.invalid &&
-                              manualChecker
-                            "
-                          >
-                            <div>
-                              <span class="alert-input-msg">
-                                {{ getErrorMessage('CompanyName') }}
-                              </span>
-                              <span
-                                class="fa fa-exclamation-triangle alert-input-icon"
-                                style="float: right;"
-                              ></span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-md-6">
-                        <div class="form-group mb-3">
-                          <label for="">Super Vendor</label>
-                          <input
-                            type="text"
-                            name="superVendor"
-                            class="input-value shadow-sm"
-                            placeholder="Super Vendor"
-                            required
-                            formControlName="superVendor"
-                            value=""
-                          />
-                          <div
-                            class="input-alert-box"
-                            *ngIf="
-                              vendorUserFormControls.superVendor.invalid &&
-                              manualChecker
-                            "
-                          >
-                            <div>
-                              <span class="alert-input-msg">
-                                {{ getErrorMessage('superVendor') }}
-                              </span>
-                              <span
-                                class="fa fa-exclamation-triangle alert-input-icon"
-                                style="float: right;"
-                              ></span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div> -->
 
                     <button
                       class="submit-btn btn btn-primary"

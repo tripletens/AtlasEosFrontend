@@ -59,18 +59,18 @@ export class AllVendorUsersComponent implements OnInit {
     private toastr: ToastrService,
   ) {}
 
-  async removeVendor(index: any) {
-    let confirmStatus = await this.confirmBox()
+  async removeVendor(data: any) {
+    let confirmStatus = await this.confirmBox(data)
 
     if (confirmStatus) {
-      $('#remove-icon-' + index).css('display', 'none')
-      $('#remove-loader-' + index).css('display', 'inline-block')
+      $('#remove-icon-' + data.id).css('display', 'none')
+      $('#remove-loader-' + data.id).css('display', 'inline-block')
 
       this.postData
-        .httpGetRequest('/deactivate-vendor-user/' + index)
+        .httpGetRequest('/deactivate-vendor-user/' + data.id)
         .then((result: any) => {
-          $('#remove-icon-' + index).css('display', 'inline-block')
-          $('#remove-loader-' + index).css('display', 'none')
+          $('#remove-icon-' + data.id).css('display', 'inline-block')
+          $('#remove-loader-' + data.id).css('display', 'none')
 
           if (result.status) {
             this.toastr.success('Successful', result.message)
@@ -80,19 +80,23 @@ export class AllVendorUsersComponent implements OnInit {
           }
         })
         .catch((err) => {
-          $('#remove-icon-' + index).css('display', 'inline-block')
-          $('#remove-loader-' + index).css('display', 'none')
+          $('#remove-icon-' + data.id).css('display', 'inline-block')
+          $('#remove-loader-' + data.id).css('display', 'none')
           this.toastr.error('Something went wrong', 'try again')
         })
     } else {
     }
-
-    console.log(index, confirmStatus)
   }
 
-  async confirmBox() {
+  async confirmBox(data: any) {
+    let lastName = data.last_name != null ? data.last_name : ''
     return await Swal.fire({
-      title: 'You Are About To Remove This Vendor User',
+      title:
+        'You Are About To Remove This Vendor User (' +
+        data.first_name +
+        ' ' +
+        lastName +
+        ')',
       text: '',
       icon: 'warning',
       showCancelButton: true,

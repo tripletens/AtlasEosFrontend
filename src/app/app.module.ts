@@ -19,6 +19,7 @@ import {
 import { SafepipePipe } from './core/pipes/safepipe.pipe'
 import { CommonModule, CurrencyPipe } from '@angular/common'
 import { BranchNavbarComponent } from './components/templates/branch-navbar/branch-navbar.component'
+import { VendorNavbarComponent } from './components/templates/vendor-navbar/vendor-navbar.component'
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, AdminLoginComponent],

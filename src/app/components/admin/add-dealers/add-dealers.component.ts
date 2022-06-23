@@ -130,7 +130,6 @@ export class AddDealersComponent implements OnInit {
       password: ['', [Validators.required]],
       accountId: ['', [Validators.required]],
       companyName: ['', [Validators.required]],
-      companyCode: ['', [Validators.required]],
 
       privilegedVendors: [''],
     })
@@ -211,11 +210,6 @@ export class AddDealersComponent implements OnInit {
       this.dealerFormControls.companyName.hasError('required')
     ) {
       return 'Enter company name'
-    } else if (
-      instance === 'companyCode' &&
-      this.dealerFormControls.companyCode.hasError('required')
-    ) {
-      return 'Enter company code'
     } else if (
       instance === 'password' &&
       this.dealerFormControls.password.hasError('required')
