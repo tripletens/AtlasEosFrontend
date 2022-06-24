@@ -55,7 +55,7 @@ export class QuickOrderComponent implements OnInit {
             console.log('search result', this.searchResultData);
           } else {this.searchStatus = false;
           this.searchLoader = false;
-            this.toastr.info(`Cannot find product/vendor`, 'Search error');
+            // this.toastr.info(`Cannot find product/vendor`, 'Search error');
           }
         })
         .catch((err: any) => {
