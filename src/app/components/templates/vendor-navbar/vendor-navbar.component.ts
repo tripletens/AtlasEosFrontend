@@ -6,7 +6,7 @@ import { Router } from '@angular/router'
 @Component({
   selector: 'app-vendor-navbar',
   templateUrl: './vendor-navbar.component.html',
-  styleUrls: ['./vendor-navbar.component.css'],
+  styleUrls: ['./vendor-navbar.component.scss'],
 })
 export class VendorNavbarComponent implements OnInit {
   @ViewChild('overlay') overlay!: ElementRef
