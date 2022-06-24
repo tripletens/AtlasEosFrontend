@@ -1,0 +1,191 @@
+<section>
+  <div class="container-fluid p-0">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <div id="accordion6" class="mb-3">
+          <div class="card">
+            <div class="card-header">
+              <a class="card-link" data-toggle="collapse" href="#collapseSix">
+                Purchases By Dealers
+              </a>
+            </div>
+            <div
+              id="collapseSix"
+              class="collapse show"
+              data-parent="#accordion6"
+            >
+              <div class="card-body">
+                <div class="d-flex w-100 filter-wrapper">
+                  <div class="input-wrapper">
+                    <div class="form-group">
+                      <div class="select-wrapper">
+                        <select name="" id="">
+                          <option value="">ACUVA TECHNOLOGIES</option>
+                          <option value="">AP - BRAKE COMPONENTS</option>
+                          <option value="">AP - SURFACE SHEILDS</option>
+                          <option value="">B'LASTER HOLDINGS LLC</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="btn-wrapper">
+                    <button class="">
+                      Search
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="accordion7" class="mb-3">
+          <div class="card">
+            <div class="card-header">
+              <a class="card-link" data-toggle="collapse" href="#collapseSeven">
+                <span class="fa fas fa-list-ul pr-2"></span>
+
+                Total Sales
+              </a>
+            </div>
+            <div
+              id="collapseSeven"
+              class="collapse show"
+              data-parent="#accordion7"
+            >
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table" *ngIf="loader">
+                    <thead>
+                      <tr>
+                        <td class="loader-td" colspan="8">
+                          <div
+                            class="ph-item"
+                            style="
+                              padding: 0px 0px;
+                              border: 0px;
+                              margin-bottom: 0px;
+                            "
+                          >
+                            <div>
+                              <div class="ph-picture"></div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="loader-td">
+                          <div
+                            class="ph-item"
+                            style="
+                              padding: 10px 10px;
+                              border: 0px;
+                              margin-bottom: 0px;
+                            "
+                          >
+                            <div>
+                              <div class="ph-row pt-2">
+                                <div class="ph-col-12 p-1 rounded"></div>
+                                <div class="ph-col-12 p-1 rounded"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+
+                        <td class="loader-td">
+                          <div
+                            class="ph-item"
+                            style="
+                              padding: 10px 10px;
+                              border: 0px;
+                              margin-bottom: 0px;
+                            "
+                          >
+                            <div>
+                              <div class="ph-row pt-2">
+                                <div class="ph-col-12 p-1 rounded"></div>
+                                <div class="ph-col-12 p-1 rounded"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="loader-td">
+                          <div
+                            class="ph-item"
+                            style="
+                              padding: 10px 10px;
+                              border: 0px;
+                              margin-bottom: 0px;
+                            "
+                          >
+                            <div>
+                              <div class="ph-row pt-2">
+                                <div class="ph-col-12 p-1 rounded"></div>
+                                <div class="ph-col-12 p-1 rounded"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <table
+                    *ngIf="tableView"
+                    class="table table-striped text-nowrap table-wrapper2 align-items-center mb-0"
+                  >
+                    <thead>
+                      <tr>
+                        <th class="thead-custom">Qty</th>
+                        <th class="thead-custom">Account</th>
+
+                        <th class="thead-custom">Dealer Name</th>
+                        <th class="thead-custom">Contact Person</th>
+                        <th class="thead-custom">Total ($)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td colspan="7" class="text-center">No order listed</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <hr />
+                <div class="d-flex justify-content-end btn-section">
+                  <div>
+                    <button class="download-btn">
+                      <span class="fa fa-download"></span>
+                      Download as Excel
+                    </button>
+                  </div>
+                  <div>
+                    <button class="download-btn">
+                      <span class="fa fa-download"></span>
+                      Download Detailed Records
+                    </button>
+                  </div>
+                  <div>
+                    <button class="download-btn">
+                      <span class="fa fa-download"></span>
+                      Download Special Orders
+                    </button>
+                  </div>
+                  <div>
+                    <button class="download-btn">
+                      <span class="fa fa-download"></span>
+                      Download Vendor Orders
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

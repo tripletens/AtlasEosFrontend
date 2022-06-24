@@ -1,0 +1,134 @@
+.control-btn {
+  margin-right: 10px;
+  font-size: 13px;
+}
+
+.tbody-text-timer {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.table-wrapper2 {
+  thead {
+    background-color: #4a0013;
+  }
+
+  thead th {
+    color: #ffffff !important;
+    // background-color: #4a0013;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  td {
+    border-top: 1px solid #dee2e6;
+    color: #ffffff;
+  }
+}
+
+.table-wrapper {
+  background-color: #4a0013;
+
+  thead th {
+    color: #ffffff !important;
+    background-color: #4a0013;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  td {
+    // padding: 0.75rem;
+    // vertical-align: top;
+    border-top: 1px solid #dee2e6;
+    color: #ffffff;
+  }
+}
+
+.card-link {
+  font-size: 20px;
+  font-weight: 400;
+  color: black;
+  padding-left: 10px;
+}
+
+.loader-td {
+  padding: 0px !important;
+}
+
+.ph-item {
+  padding: 0px !important;
+}
+
+.ph-picture {
+  height: 50px !important;
+}
+
+.thead-custom {
+  font-weight: bold;
+}
+
+.recent-btn {
+  background-color: darkblue;
+  padding: 4px 8px 4px 8px;
+  border-radius: 5px;
+  border: 0px;
+  color: #ffffff;
+}
+
+.tbody-text {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.card-title {
+  font-weight: bold;
+  font-size: 14px;
+}
+.dashboard-link {
+  cursor: pointer;
+  width: fit-content;
+  text-decoration: none;
+  color: black;
+}
+.view-all-btn {
+  text-decoration: none !important;
+  float: right;
+  background-color: darkblue;
+  color: #ffffff;
+  font-size: 14px;
+  border: 0px;
+  border-radius: 5px;
+  padding: 3px 6px;
+}
+
+.card-icon-wrapper {
+  background-color: #4a0013;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  padding: 10px;
+  text-align: center;
+
+  .icon-content {
+    color: #ffffff;
+    font-size: 30px;
+  }
+}
+
+.overview-wrapper {
+  border-left: 3px solid #ccc;
+  border-radius: 4px;
+}
+
+.content-section {
+  gap: 20px;
+}
+
+.overview-title {
+  font-size: 13px;
+}
+
+.overview-value {
+  font-weight: 700;
+  font-size: 15px;
+}

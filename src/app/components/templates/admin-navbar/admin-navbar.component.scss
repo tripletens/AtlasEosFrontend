@@ -115,7 +115,7 @@
 // }
 
 .support-body {
-  background-color: #21262d;
+  // background-color: #21262d;
   margin-top: -5px;
   padding-top: 7px;
   padding-bottom: 7px;
@@ -123,10 +123,20 @@
 
 .support-ul {
   li {
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+
+  li:hover {
+    background-color: #21262d;
+  }
+
+  a {
+    display: block;
+    width: 100%;
     padding-left: 40px;
     padding-top: 6px;
     padding-bottom: 6px;
-    font-size: 13px;
   }
 
   a:hover {
