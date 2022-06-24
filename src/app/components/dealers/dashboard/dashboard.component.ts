@@ -48,7 +48,7 @@ export class DashboardComponent implements OnInit {
       series: [
         {
           name: 'Sales summary',
-          data: [30, 35000],
+          data: [30, 1500,35000],
         },
       ],
       chart: {
@@ -60,7 +60,7 @@ export class DashboardComponent implements OnInit {
       },
       colors: {},
       xaxis: {
-        categories: ['Day 1', 'Day 2'],
+        categories: ['Day 1', 'Day 2','Day 3'],
       },
       yaxis: {
         categories: [

@@ -9,7 +9,7 @@ import { TokenStorageService } from 'src/app/core/services/token-storage.service
   styleUrls: ['./quick-order.component.scss'],
 })
 export class QuickOrderComponent implements OnInit {
- searchId = ''
+  searchId = '';
   searchLoader = true;
   searchStatus = false;
 
@@ -22,7 +22,7 @@ export class QuickOrderComponent implements OnInit {
     private token: TokenStorageService
   ) {
     // this.searchResultData.vendor_name = '';
-    this.fetchProductById()
+    this.fetchProductById();
   }
 
   ngOnInit(): void {}
@@ -40,6 +40,7 @@ export class QuickOrderComponent implements OnInit {
   }
   fetchProductById() {
     let atlasId = this.searchId;
+
     console.log('search id', atlasId);
     if (atlasId !== '') {
       this.searchStatus = false;
@@ -47,17 +48,18 @@ export class QuickOrderComponent implements OnInit {
       this.getData
         .httpGetRequest('/quick-order-filter-atlasid/' + atlasId)
         .then((res: any) => {
-          this.searchStatus = true;
+          
+          if (res.status) {this.searchStatus = true;
           this.searchLoader = false;
-          if (res.status) {
             this.searchResultData = res.data;
             console.log('search result', this.searchResultData);
-          } else {
-            this.toastr.info(`Cannot find product/vendor`, 'Search error');
+          } else {this.searchStatus = false;
+          this.searchLoader = false;
+            // this.toastr.info(`Cannot find product/vendor`, 'Search error');
           }
         })
         .catch((err: any) => {
-          this.searchStatus = true;
+          this.searchStatus = false;
           this.searchLoader = false;
           console.log(err);
           this.toastr.error('Something went wrong, try again', ' Error');
