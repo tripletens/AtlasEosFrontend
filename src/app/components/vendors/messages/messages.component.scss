@@ -1,5 +1,6 @@
 .filter-wrapper {
   gap: 20px;
+  margin-bottom: 20px;
 
   .input-wrapper {
     width: 30%;
@@ -20,6 +21,9 @@
   }
 
   .btn-wrapper {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-top: 31px;
     width: 20%;
     button {
       border: 0px;
@@ -48,6 +52,23 @@
     width: 40%;
     background-color: #4a0013;
     padding: 8px;
+  }
+}
+
+.select-wrapper {
+  width: 300px;
+
+  select {
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #555;
+    font-size: 14px;
+    outline: 0;
+    height: 38.5px;
+    line-height: 1.7;
+    padding: 6px 24px 6px 12px;
   }
 }
 
@@ -143,43 +164,17 @@
 
 .table-wrapper2 {
   thead {
-    background-color: #1d7471;
+    background-color: #4a0013;
   }
 
   thead th {
     color: #ffffff !important;
+    background-color: #4a0013;
     padding: 10px;
     border-radius: 5px;
   }
 }
 
-.select-wrapper {
-  width: 300px;
-
-  select {
-    width: 300px !important;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    color: #555;
-    font-size: 14px;
-    outline: 0;
-    height: 38.5px;
-    line-height: 1.7;
-    padding: 6px 24px 6px 12px;
-  }
-}
-
-.download-btn {
-  background-color: #555;
-  padding: 5px;
-  border-radius: 4px;
-  border: 0px;
-  color: #ffffff;
-  font-size: 13px;
-}
-
-.btn-section {
-  gap: 10px;
+.chat-wrapper {
+  height: 300px;
 }
