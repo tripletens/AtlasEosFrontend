@@ -21,7 +21,6 @@ export class ChatService {
     this.socket = io(this.url)
     this.socket.on('connect', () => {
       socketUrl = this.socket.id
-
       this.tokenStorage.storeSocketId(socketUrl)
     })
   }
