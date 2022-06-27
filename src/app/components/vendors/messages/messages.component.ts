@@ -13,12 +13,17 @@ export class MessagesComponent implements OnInit {
   allUsers: any
   selectedUserData: any
   messages: any[] = []
-
   loggedInUser: any
 
   msg = ''
   uniqueUserId!: string
   userId!: string
+  vendorCode!: string
+  coworkersData: any
+  userData: any
+  userSelected = false
+  coworkerLoader = true
+  chatHistoryLoader = false
 
   @ViewChild('chatWrapper') private chatWrapper!: ElementRef
 
@@ -28,8 +33,6 @@ export class MessagesComponent implements OnInit {
     private tokeStore: TokenStorageService,
   ) {}
   ngOnInit(): void {
-    this.getUsers()
-
     this.chatService.getMessages().subscribe((message: string) => {
       this.messages.push(message)
       console.log(this.messages)
@@ -37,12 +40,17 @@ export class MessagesComponent implements OnInit {
 
     this.loggedInUser = this.tokeStore.getUser()
     let user = this.tokeStore.getUser()
+    this.userData = this.tokeStore.getUser()
+
     this.userId = user.id
     let userId = user.id + user.first_name
     this.uniqueUserId = userId
+    this.vendorCode = user.vendor_code
+
+    this.getVendorCoworkers()
 
     this.chatService.openChatConnection(userId)
-    this.getUserChat()
+    // this.getUserChat()
   }
 
   scrollToElement(): void {
@@ -55,7 +63,7 @@ export class MessagesComponent implements OnInit {
 
   sendMsg() {
     let data = {
-      user: '1Jo-ann',
+      user: this.selectedUserData.id + this.selectedUserData.first_name,
       msg: this.msg,
     }
 
@@ -70,9 +78,12 @@ export class MessagesComponent implements OnInit {
 
   getUserChat() {
     this.postData
-      .httpGetRequest('/get-user-chat/' + this.userId)
+      .httpGetRequest(
+        '/get-user-chat/' + this.userId + '/' + this.selectedUserData.id,
+      )
       .then((result: any) => {
         console.log(result)
+        this.chatHistoryLoader = false
         if (result.status) {
           if (result.data.length > 0) {
             this.messages = result.data
@@ -89,9 +100,14 @@ export class MessagesComponent implements OnInit {
   storeChatDatabase() {
     let data = {
       chatFrom: this.userId,
-      chatTo: 1,
+      chatTo: this.selectedUserData.id,
       msg: this.msg,
-      chatUser: '1Jo-ann',
+      chatUser: this.selectedUserData.id + this.selectedUserData.first_name,
+      uniqueId:
+        this.userData.id +
+        this.userData.first_name +
+        this.selectedUserData.id +
+        this.selectedUserData.first_name,
     }
 
     this.postData
@@ -109,12 +125,10 @@ export class MessagesComponent implements OnInit {
 
   selectedUser(data: any) {
     this.selectedUserData = data
-    if (!data.chat_id) {
-      console.log('no chat id')
-    } else {
-      console.log('chat id')
-    }
-
+    this.userSelected = true
+    this.chatHistoryLoader = true
+    this.messages = []
+    this.getUserChat()
     console.log(data)
   }
 
@@ -125,11 +139,13 @@ export class MessagesComponent implements OnInit {
     }
   }
 
-  getUsers() {
+  getVendorCoworkers() {
     this.postData
-      .httpGetRequest('/get-all-users')
+      .httpGetRequest('/vendor/get-vendor-coworkers/' + this.vendorCode)
       .then((result: any) => {
         if (result.status) {
+          this.coworkerLoader = false
+          this.coworkersData = result.data
           //let sortedData = this.alphabeticalOrder(result.data)
 
           this.allUsers = result.data
