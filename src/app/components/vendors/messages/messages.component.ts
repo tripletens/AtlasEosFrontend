@@ -34,6 +34,12 @@ export class MessagesComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.chatService.getMessages().subscribe((message: string) => {
+      if (message != '') {
+        setTimeout(() => {
+          this.scrollToElement()
+        }, 80)
+      }
+
       this.messages.push(message)
       console.log(this.messages)
     })
@@ -62,18 +68,20 @@ export class MessagesComponent implements OnInit {
   }
 
   sendMsg() {
-    let data = {
-      user: this.selectedUserData.id + this.selectedUserData.first_name,
-      msg: this.msg,
-    }
+    if (this.msg != '') {
+      let data = {
+        user: this.selectedUserData.id + this.selectedUserData.first_name,
+        msg: this.msg,
+      }
 
-    this.storeChatDatabase()
-    this.messages.push(data)
-    this.chatService.sendMsgEvent(data)
-    setTimeout(() => {
-      this.scrollToElement()
-    }, 80)
-    this.msg = ''
+      this.storeChatDatabase()
+      this.messages.push(data)
+      this.chatService.sendMsgEvent(data)
+      setTimeout(() => {
+        this.scrollToElement()
+      }, 80)
+      this.msg = ''
+    }
   }
 
   getUserChat() {
@@ -129,7 +137,6 @@ export class MessagesComponent implements OnInit {
     this.chatHistoryLoader = true
     this.messages = []
     this.getUserChat()
-    console.log(data)
   }
 
   generateSocketId() {
