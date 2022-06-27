@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import { io } from 'socket.io-client'
 import { Observable } from 'rxjs'
 import { TokenStorageService } from './token-storage.service'
+import { ToastrService } from 'ngx-toastr'
 
 @Injectable({
   providedIn: 'root',
@@ -9,10 +10,13 @@ import { TokenStorageService } from './token-storage.service'
 export class ChatService {
   // private url = 'http://localhost:3000'
   private url = 'https://atlas-chat-server.glitch.me'
-  // private url = 'https://gainful-ten-utahraptor.glitch.me'
+  /// private url = 'https://gainful-ten-utahraptor.glitch.me'
   private socket: any
 
-  constructor(private tokenStorage: TokenStorageService) {
+  constructor(
+    private tokenStorage: TokenStorageService,
+    private toaster: ToastrService,
+  ) {
     this.connectToSocketIo()
   }
 
@@ -46,6 +50,21 @@ export class ChatService {
         console.log(message)
         observer.next(message)
       })
+    })
+  }
+
+  getNotification() {
+    return Observable.create((observer: any) => {
+      this.socket.on('notification', (data: any) => {
+        console.log(data)
+        observer.next(data)
+      })
+    })
+
+    this.socket.on('notification', (data: any) => {
+      this.toaster.success('you have a new message', 'Chat Notification')
+      console.log(data)
+      //observer.next(message)
     })
   }
 
