@@ -85,5 +85,6 @@ import { MatTimepickerModule } from 'mat-timepicker'
     MatNativeDateModule,
     MatTimepickerModule,
   ],
+  exports: [],
 })
 export class AdminModule {}

@@ -18,6 +18,7 @@ import {
 } from './core/services/jwt-auth.interceptor'
 import { BranchNavbarComponent } from './components/templates/branch-navbar/branch-navbar.component'
 import { VendorNavbarComponent } from './components/templates/vendor-navbar/vendor-navbar.component'
+import { ChatService } from './core/services/chat.service'
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, AdminLoginComponent],
@@ -32,7 +33,8 @@ import { VendorNavbarComponent } from './components/templates/vendor-navbar/vend
     AppRoutingModule,
     BrowserAnimationsModule,
   ],
-  providers: [authInterceptorProviders],
+  providers: [authInterceptorProviders, ChatService],
   bootstrap: [AppComponent],
+  exports: [],
 })
 export class AppModule {}

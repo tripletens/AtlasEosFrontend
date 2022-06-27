@@ -11,6 +11,8 @@ import { DealerLoggerService } from 'src/app/core/services/dealer-logger.service
 import { HttpClient } from '@angular/common/http'
 import { OrderCheckService } from 'src/app/core/services/order-check.service'
 
+import { ChatService } from 'src/app/core/services/chat.service'
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -32,7 +34,9 @@ export class LoginComponent implements OnInit {
   location = ''
   dealer = ''
   broData: any
-
+  socketUserId!: string
+  userId!: number
+  generateSocketInterval: any
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -44,14 +48,22 @@ export class LoginComponent implements OnInit {
     private getData: HttpRequestsService,
     private http: HttpClient,
     private ordercheckservice: OrderCheckService,
+    private chatServer: ChatService,
   ) {
     // translate.addLangs(['en', 'nl'])
     // translate.setDefaultLang('en')
+
+    this.chatServer.connectToSocketIo()
+    this.socketUserId = this.tokenStorage.getSocketId()
+
+    // setTimeout(() => {
+    //   this.generateSocketInterval = setInterval(this.genarateSetter, 5000)
+    // }, 5000)
+
+    // console.log(this.socketUserId, 'we test')
   }
 
-  switchLang() {
-    /// this.translate.use('nl')
-  }
+  switchLang() {}
 
   login = new Login('', '')
 
@@ -162,9 +174,48 @@ export class LoginComponent implements OnInit {
       })
   }
 
+  genarateSetter() {
+    this.chatServer.connectToSocketIo()
+  }
+
+  myStopFunction() {
+    clearInterval(this.generateSocketInterval)
+  }
+
+  logSocketUserData() {
+    let intervalCount
+    if (this.socketUserId == '') {
+      this.chatServer.connectToSocketIo()
+
+      this.socketUserId = this.tokenStorage.getSocketId()
+
+      setTimeout(() => {
+        this.logSocketUserData()
+      }, 5000)
+    } else {
+      this.myStopFunction()
+      let data = {
+        id: this.userId,
+        chatId: this.socketUserId,
+      }
+      this.postData
+        .httpPostRequest('/save-chat-id', data)
+        .then((result: any) => {
+          if (result.status) {
+          } else {
+          }
+        })
+        .catch((err) => {
+          this.toastr.error('Try again', 'Something went wrong')
+        })
+    }
+  }
+
   redirectUrl() {
     let userData = this.tokenStorage.getUser()
     let role = userData.role
+    this.userId = userData.id
+    this.logSocketUserData()
     switch (role) {
       case '1':
         this.router.navigate(['/admin/dashboard'])
@@ -186,17 +237,5 @@ export class LoginComponent implements OnInit {
       default:
         break
     }
-
-    // if ((userData.role = '1')) {
-    //   this.router.navigate(['/admin/dashboard'])
-    // } else if ((userData.role = '2')) {
-    //   this.router.navigate(['/branch/dashboard'])
-    // } else if ((userData.role = '3')) {
-    //   this.router.navigate(['/vendor/dashboard'])
-    // } else if ((userData.role = '4')) {
-    //   this.router.navigate(['/dealers/dashboard'])
-    // } else if ((userData.role = '5')) {
-    //   this.router.navigate(['/branch/dashboard'])
-    // }
   }
 }
