@@ -9,6 +9,18 @@ export class TokenStorageService {
   }
   constructor() {}
 
+  public storeSocketId(socketId: string) {
+    window.localStorage.setItem('socketid', socketId)
+  }
+
+  public getSocketId() {
+    const socketId = window.localStorage.getItem('socketid')
+    if (socketId) {
+      return socketId
+    }
+    return ''
+  }
+
   public getToken(): string | null {
     return window.localStorage.getItem('token')
   }

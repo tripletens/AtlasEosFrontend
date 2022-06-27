@@ -1,3 +1,35 @@
+.ph-loader-item {
+  padding: 0px !important;
+  border: 0px !important;
+}
+
+.ph-picture {
+  height: 100px !important;
+  width: 150px !important;
+}
+
+.loader-col {
+  margin-bottom: 10px;
+}
+
+.right-loader-col {
+  float: right;
+  margin-left: auto;
+  height: 50px;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.left-loader-col {
+  float: left;
+  margin-right: auto;
+  height: 50px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
 .filter-wrapper {
   gap: 20px;
   margin-bottom: 20px;
@@ -177,4 +209,71 @@
 
 .chat-wrapper {
   height: 300px;
+  overflow: auto;
+  margin-bottom: 20px;
+}
+
+.chat-msg {
+  width: 100%;
+  height: 70px;
+  resize: none;
+  border-radius: 3px;
+}
+
+.send-btn {
+  border: 0px;
+  border-radius: 5px;
+  padding: 7px 13px;
+  background-color: #4a0013;
+  color: #ffffff;
+  font-size: 12px;
+  height: 70px;
+}
+
+.chat-ul-wrapper {
+  padding: 0px;
+  margin: 0px;
+  list-style-type: none;
+
+  .shit-left {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: gray;
+    color: #ffffff;
+    padding: 10px;
+    float: left;
+    width: 60%;
+  }
+
+  .shit-right {
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: cadetblue;
+    color: #ffffff;
+    padding: 10px;
+    text-align: end;
+    float: right;
+    width: 60%;
+  }
+
+  li {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}
+
+.coworker-ul {
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+  li {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #555;
+    font-weight: 700;
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }

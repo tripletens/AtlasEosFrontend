@@ -22,10 +22,14 @@
                         <div class="card-header">
                           <div class="select-wrapper">
                             <select name="" id="">
-                              <option value="">ACUVA TECHNOLOGIES</option>
-                              <option value="">AP - BRAKE COMPONENTS</option>
-                              <option value="">AP - SURFACE SHEILDS</option>
-                              <option value="">B'LASTER HOLDINGS LLC</option>
+                              <option value="">Select Users</option>
+                              <option
+                                value=""
+                                (click)="selectedUser(data)"
+                                *ngFor="let data of allUsers"
+                              >
+                                {{ data.first_name }} {{ data.last_name }}
+                              </option>
                             </select>
                           </div>
                         </div>
@@ -41,11 +45,45 @@
                       <div class="card">
                         <div class="card-header">
                           <div class="select-wrapper">
-                            <h6>Chat With Achawayne Sixtus</h6>
+                            <h6>
+                              Chat With {{ selectedUserData?.first_name }}
+                              {{ selectedUserData?.last_name }}
+                            </h6>
                           </div>
                         </div>
                         <div>
-                          <div class="card-body chat-wrapper"></div>
+                          <div class="card-body chat-wrapper" #chatWrapper>
+                            <ul class="chat-ul-wrapper">
+                              <div *ngFor="let data of messages">
+                                <li
+                                  [ngClass]="
+                                    data.user == uniqueUserId
+                                      ? 'shit-right'
+                                      : 'shit-left'
+                                  "
+                                >
+                                  {{ data.msg }}
+                                </li>
+                              </div>
+                            </ul>
+                          </div>
+                          <div class="d-flex">
+                            <div class="flex-fill">
+                              <textarea
+                                class="chat-msg"
+                                name=""
+                                id=""
+                                cols="30"
+                                rows="10"
+                                [(ngModel)]="msg"
+                              ></textarea>
+                            </div>
+                            <div>
+                              <button (click)="sendMsg()" class="send-btn">
+                                Send
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>

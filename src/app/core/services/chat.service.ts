@@ -1,37 +1,61 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core'
 import { io } from 'socket.io-client'
 import { Observable } from 'rxjs'
-
+import { TokenStorageService } from './token-storage.service'
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ChatService {
-
-  private url = 'http://localhost:3000'
-  // private url = 'https://atlas-chat-server.glitch.me'
+  // private url = 'http://localhost:3000'
+  private url = 'https://atlas-chat-server.glitch.me'
   // private url = 'https://gainful-ten-utahraptor.glitch.me'
-  private socket
+  private socket: any
 
-  constructor() {
+  constructor(private tokenStorage: TokenStorageService) {
+    this.connectToSocketIo()
+  }
+
+  connectToSocketIo() {
+    let socketUrl
     this.socket = io(this.url)
-
     this.socket.on('connect', () => {
-      console.log(this.socket.id)
+      socketUrl = this.socket.id
+
+      this.tokenStorage.storeSocketId(socketUrl)
     })
   }
 
-  public sendMessage(message: string) {
+  openChatConnection(user: string) {
+    this.socket.emit('connected', user)
+  }
+
+  sendMsgEvent(data: any) {
+    this.socket.emit('send-msg', {
+      user: data.user,
+      msg: data.msg,
+    })
+  }
+
+  sendMessage(message: string) {
     this.socket.emit('new-message', message)
   }
 
-  public getMessages = () => {
+  getTestMsg = () => {
     return Observable.create((observer: any) => {
-      this.socket.on('data', (message) => {
+      this.socket.on('data', (message: any) => {
         console.log(message)
         observer.next(message)
       })
     })
   }
 
+  getMessages = () => {
+    return Observable.create((observer: any) => {
+      this.socket.on('msgRec', (message: any) => {
+        console.log(message)
+        observer.next(message)
+      })
+    })
+  }
 }

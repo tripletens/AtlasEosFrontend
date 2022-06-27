@@ -20,6 +20,7 @@ import { SafepipePipe } from './core/pipes/safepipe.pipe'
 import { CommonModule, CurrencyPipe } from '@angular/common'
 import { BranchNavbarComponent } from './components/templates/branch-navbar/branch-navbar.component'
 import { VendorNavbarComponent } from './components/templates/vendor-navbar/vendor-navbar.component'
+import { ChatService } from './core/services/chat.service'
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, AdminLoginComponent],
@@ -36,7 +37,8 @@ import { VendorNavbarComponent } from './components/templates/vendor-navbar/vend
     AppRoutingModule,
     BrowserAnimationsModule,
   ],
-  providers: [authInterceptorProviders, CurrencyPipe],
+  providers: [authInterceptorProviders, CurrencyPipe, ChatService],
   bootstrap: [AppComponent],
+  exports: [],
 })
 export class AppModule {}

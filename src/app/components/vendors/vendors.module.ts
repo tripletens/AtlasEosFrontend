@@ -13,6 +13,7 @@ import { PurchasesDealerComponent } from './purchases-dealer/purchases-dealer.co
 import { VendorOrderComponent } from './vendor-order/vendor-order.component'
 import { ReportProblemComponent } from './report-problem/report-problem.component'
 import { MessagesComponent } from './messages/messages.component'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 @NgModule({
   declarations: [
@@ -28,6 +29,11 @@ import { MessagesComponent } from './messages/messages.component'
     ReportProblemComponent,
     MessagesComponent,
   ],
-  imports: [CommonModule, VendorsRoutingModule],
+  imports: [
+    CommonModule,
+    VendorsRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
 export class VendorsModule {}
