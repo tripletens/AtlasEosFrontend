@@ -174,48 +174,12 @@ export class LoginComponent implements OnInit {
       })
   }
 
-  genarateSetter() {
-    this.chatServer.connectToSocketIo()
-  }
-
-  myStopFunction() {
-    clearInterval(this.generateSocketInterval)
-  }
-
-  logSocketUserData() {
-    let intervalCount
-    if (this.socketUserId == '') {
-      this.chatServer.connectToSocketIo()
-
-      this.socketUserId = this.tokenStorage.getSocketId()
-
-      setTimeout(() => {
-        this.logSocketUserData()
-      }, 5000)
-    } else {
-      this.myStopFunction()
-      let data = {
-        id: this.userId,
-        chatId: this.socketUserId,
-      }
-      this.postData
-        .httpPostRequest('/save-chat-id', data)
-        .then((result: any) => {
-          if (result.status) {
-          } else {
-          }
-        })
-        .catch((err) => {
-          this.toastr.error('Try again', 'Something went wrong')
-        })
-    }
-  }
-
   redirectUrl() {
     let userData = this.tokenStorage.getUser()
     let role = userData.role
     this.userId = userData.id
-    this.logSocketUserData()
+    this.chatServer.openChatConnection(userData.id + userData.first_name)
+
     switch (role) {
       case '1':
         this.router.navigate(['/admin/dashboard'])
@@ -230,7 +194,7 @@ export class LoginComponent implements OnInit {
         break
 
       case '4':
-        this.toastr.info('Thank you for your Order', `Booking is now closed`)
+        // this.toastr.info('Thank you for your Order', `Booking is now closed`)
         this.router.navigate(['/dealers/dashboard'])
         break
 
