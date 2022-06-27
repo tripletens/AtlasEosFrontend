@@ -1,25 +1,27 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { AuthGuardGuard } from 'src/app/core/guard/auth-guard.guard';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { DealersComponent } from './dealers.component';
-import { EditOrderComponent } from './edit-order/edit-order.component';
-import { FlyersComponent } from './flyers/flyers.component';
-import { HelpComponent } from './help/help.component';
-import { NewOrdersComponent } from './new-orders/new-orders.component';
-import { OrderSummaryComponent } from './order-summary/order-summary.component';
-import { OrdersRemainingComponent } from './orders-remaining/orders-remaining.component';
-import { ProductSeminiarsComponent } from './product-seminiars/product-seminiars.component';
-import { PromotionalFlyerComponent } from './promotional-flyer/promotional-flyer.component';
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
+import { AuthGuardGuard } from 'src/app/core/guard/auth-guard.guard'
 
-import { QuickOrderComponent } from './quick-order/quick-order.component';
-import { ReportProblemComponent } from './report-problem/report-problem.component';
-import { SearchComponent } from './search/search.component';
-import { AllSeminarsComponent } from './seminars/all-seminars/all-seminars.component';
-import { OngoingSeminarsComponent } from './seminars/ongoing-seminars/ongoing-seminars.component';
-import { SheduledSeminarsComponent } from './seminars/sheduled-seminars/sheduled-seminars.component';
-import { ShowOrdersComponent } from './show-orders/show-orders.component';
-import { SpecialOrderComponent } from './special-order/special-order.component';
+import { DashboardComponent } from './dashboard/dashboard.component'
+import { DealersComponent } from './dealers.component'
+import { EditOrderComponent } from './edit-order/edit-order.component'
+import { FlyersComponent } from './flyers/flyers.component'
+import { HelpComponent } from './help/help.component'
+import { NewOrdersComponent } from './new-orders/new-orders.component'
+import { OrderSummaryComponent } from './order-summary/order-summary.component'
+import { OrdersRemainingComponent } from './orders-remaining/orders-remaining.component'
+import { ProductSeminiarsComponent } from './product-seminiars/product-seminiars.component'
+import { PromotionalFlyerComponent } from './promotional-flyer/promotional-flyer.component'
+
+import { ReportProblemComponent } from './report-problem/report-problem.component'
+import { SearchComponent } from './search/search.component'
+import { AllSeminarsComponent } from './seminars/all-seminars/all-seminars.component'
+import { OngoingSeminarsComponent } from './seminars/ongoing-seminars/ongoing-seminars.component'
+import { SheduledSeminarsComponent } from './seminars/sheduled-seminars/sheduled-seminars.component'
+import { ShowOrdersComponent } from './show-orders/show-orders.component'
+import { SpecialOrderComponent } from './special-order/special-order.component'
+import { MessagesComponent } from './messages/messages.component'
+import { QuickOrderComponent } from './quick-order/quick-order.component'
 
 const routes: Routes = [
   {
@@ -108,12 +110,16 @@ const routes: Routes = [
         path: 'search/:search',
         component: SearchComponent,
       },
+      {
+        path: 'messages',
+        component: MessagesComponent,
+      },
     ],
     canActivate: [AuthGuardGuard],
   },
-];
+]
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class DealersRoutingModule { }
+export class DealersRoutingModule {}

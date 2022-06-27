@@ -75,9 +75,10 @@ html {
   cursor: pointer;
   padding: 10px 5px;
   margin: 10px 5px;
-  background-color: lightskyblue;
+  background-color: darkred;
   border-radius: 5px;
   transition: 0.4s linear;
+  color: #ffffff;
 }
 
 .previous-btn {
@@ -88,9 +89,10 @@ html {
   cursor: pointer;
   padding: 10px 5px;
   margin: 10px 5px;
-  background-color: #ff00ff;
+  background-color: darkred;
   border-radius: 5px;
   transition: 0.4s linear;
+  color: #ffffff;
 }
 
 .submit-btn {
@@ -101,7 +103,7 @@ html {
   cursor: pointer;
   padding: 10px 5px;
   margin: 10px 5px;
-  background-color: #00008b;
+  background-color: darkred;
   border-radius: 5px;
   transition: 0.4s linear;
   color: #ffffff;

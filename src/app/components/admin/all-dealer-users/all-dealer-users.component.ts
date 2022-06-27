@@ -8,6 +8,7 @@ import Swal from 'sweetalert2'
 declare var $: any
 
 export interface PeriodicElement {
+  account_id: string
   full_name: string
   email: string
   password: string
@@ -31,10 +32,12 @@ export class AllDealerUsersComponent implements OnInit {
   incomingData: any
 
   displayedColumns: string[] = [
+    'account_id',
+    'company_name',
+
     'full_name',
     'email',
     'password',
-    'company_name',
     'status',
     'last_login',
     'order_status',

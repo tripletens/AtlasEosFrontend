@@ -3,7 +3,7 @@
 <aside class="app-sidebar scrollable">
   <div
     class="side-header d-flex align-items-center"
-    style="height: 80px; width: 290px"
+    style="height: 80px; width: 290px;"
   >
     <a class="header-brand1" href="/login">
       <img
@@ -18,7 +18,7 @@
       <a
         aria-label="Hide Sidebar"
         class="ms-5"
-        style="color: white; height: 30px; width: 30px"
+        style="color: white; height: 30px; width: 30px;"
         data-toggle="sidebar"
         href="#"
         (click)="toggleSideNav()"
@@ -32,8 +32,8 @@
         routerLink="/dealers/dashboard"
         routerLinkActive="active-item"
       >
-        <span class="fa fa-home navbar-icons"></span
-        ><span class="side-menu__label" *ngIf="toggle">Dashboard</span>
+        <span class="fa fa-home navbar-icons"></span>
+        <span class="side-menu__label" *ngIf="toggle">Dashboard</span>
       </a>
     </li>
     <li class="slide" (click)="closeOverLay()">
@@ -42,8 +42,8 @@
         routerLink="/dealers/show-orders"
         routerLinkActive="active-item"
       >
-        <span class="fa fa-wpforms navbar-icons"></span
-        ><span class="side-menu__label" *ngIf="toggle">Show Order Forms</span>
+        <span class="fa fa-wpforms navbar-icons"></span>
+        <span class="side-menu__label" *ngIf="toggle">Show Order Forms</span>
       </a>
     </li>
     <li class="slide" (click)="closeOverLay()">
@@ -52,8 +52,8 @@
         routerLink="/dealers/quick-order"
         routerLinkActive="active-item"
       >
-        <span class="fa fa-shopping-cart navbar-icons"></span
-        ><span class="side-menu__label" *ngIf="toggle">Quick Order</span>
+        <span class="fa fa-shopping-cart navbar-icons"></span>
+        <span class="side-menu__label" *ngIf="toggle">Quick Order</span>
       </a>
     </li>
     <li class="slide" (click)="closeOverLay()">
@@ -62,8 +62,8 @@
         routerLink="/dealers/special-order"
         routerLinkActive="active-item"
       >
-        <span class="fa fa-shopping-cart navbar-icons"></span
-        ><span class="side-menu__label" *ngIf="toggle">Special Order</span>
+        <span class="fa fa-shopping-cart navbar-icons"></span>
+        <span class="side-menu__label" *ngIf="toggle">Special Order</span>
       </a>
     </li>
     <li class="slide" (click)="closeOverLay()">
@@ -72,8 +72,8 @@
         routerLink="/dealers/new-product"
         routerLinkActive="active-item"
       >
-        <span class="fa fa-shopping-cart navbar-icons"></span
-        ><span class="side-menu__label" *ngIf="toggle">New Product</span>
+        <span class="fa fa-shopping-cart navbar-icons"></span>
+        <span class="side-menu__label" *ngIf="toggle">New Product</span>
       </a>
     </li>
 
@@ -85,21 +85,22 @@
             routerLink="/dealers/orders-remaining"
             routerLinkActive="active-item"
           >
-            <span class="fa fa-shopping-cart navbar-icons"></span
-            ><span class="side-menu__label" *ngIf="toggle"
-              >Orders Remaining</span
-            >
+            <span class="fa fa-shopping-cart navbar-icons"></span>
+            <span class="side-menu__label" *ngIf="toggle">
+              Orders Remaining
+            </span>
           </a>
-        </li> </ng-container
-      ><ng-container>
+        </li>
+      </ng-container>
+      <ng-container>
         <li class="slide" (click)="closeOverLay()">
           <a
             class="side-menu__item"
             routerLink="/dealers/edit-order"
             routerLinkActive="active-item"
           >
-            <span class="fa fa-pencil-square-o navbar-icons"></span
-            ><span class="side-menu__label" *ngIf="toggle">Edit Orders</span>
+            <span class="fa fa-pencil-square-o navbar-icons"></span>
+            <span class="side-menu__label" *ngIf="toggle">Edit Orders</span>
           </a>
         </li>
       </ng-container>
@@ -110,10 +111,10 @@
             routerLink="/dealers/order-summary"
             routerLinkActive="active-item"
           >
-            <span class="fa fa-list navbar-icons"></span
-            ><span class="side-menu__label" *ngIf="toggle"
-              >Dealer Order Summary</span
-            >
+            <span class="fa fa-list navbar-icons"></span>
+            <span class="side-menu__label" *ngIf="toggle">
+              Dealer Order Summary
+            </span>
           </a>
         </li>
       </ng-container>
@@ -123,18 +124,18 @@
             class="side-menu__item nohover"
             routerLink="/dealers/purchase-summary"
           >
-            <span class="fa fa-list navbar-icons"></span
-            ><span class="side-menu__label" *ngIf="toggle"
-              >Purchaser Summary Display</span
-            >
+            <span class="fa fa-list navbar-icons"></span>
+            <span class="side-menu__label" *ngIf="toggle">
+              Purchaser Summary Display
+            </span>
           </a>
         </li>
       </ng-container>
       <ng-template #hasOrderedItem>
         <li class="slide" (click)="closeOverLay()">
           <a class="side-menu__item nohover" routerLink="/dealers/edit-order">
-            <span class="fa fa-pencil-square-o navbar-icons"></span
-            ><span class="side-menu__label" *ngIf="toggle">Edit My Order</span>
+            <span class="fa fa-pencil-square-o navbar-icons"></span>
+            <span class="side-menu__label" *ngIf="toggle">Edit My Order</span>
           </a>
         </li>
       </ng-template>
@@ -147,10 +148,10 @@
             class="side-menu__item nohover"
             routerLink="/dealers/order-summary"
           >
-            <span class="fa fa-columns navbar-icons"></span
-            ><span class="side-menu__label" *ngIf="toggle"
-              >Dealer Order Summary</span
-            >
+            <span class="fa fa-columns navbar-icons"></span>
+            <span class="side-menu__label" *ngIf="toggle">
+              Dealer Order Summary
+            </span>
           </a>
         </li>
       </ng-container>
@@ -162,10 +163,10 @@
             routerLink="/dealers/total-summary"
             routerLinkActive="active-item"
           >
-            <span class="fa fa-columns navbar-icons"></span
-            ><span class="side-menu__label" *ngIf="toggle"
-              >Purchaser Summary Display</span
-            >
+            <span class="fa fa-columns navbar-icons"></span>
+            <span class="side-menu__label" *ngIf="toggle">
+              Purchaser Summary Display
+            </span>
           </a>
         </li>
       </ng-template>
@@ -176,8 +177,8 @@
         routerLink="/dealers/promotional-flyers"
         routerLinkActive="active-item"
       >
-        <span class="fa fa-columns navbar-icons"></span
-        ><span class="side-menu__label" *ngIf="toggle">Promotional Flyers</span>
+        <span class="fa fa-columns navbar-icons"></span>
+        <span class="side-menu__label" *ngIf="toggle">Promotional Flyers</span>
       </a>
     </li>
     <li class="slide" (click)="closeOverLay()">
@@ -190,8 +191,8 @@
         aria-expanded="false"
         aria-controls="collapseExample"
       >
-        <span class="fa fa-play-circle navbar-icons"></span
-        ><span class="side-menu__label" *ngIf="toggle"> Seminars</span>
+        <span class="fa fa-play-circle navbar-icons"></span>
+        <span class="side-menu__label" *ngIf="toggle">Seminars</span>
         <span class="fa fa-angle-down"></span>
       </a>
       <div class="collapse ml-4" id="collapseExample">
@@ -218,14 +219,26 @@
         </a>
       </div>
     </li>
+
+    <li class="slide" (click)="closeOverLay()">
+      <a
+        class="side-menu__item"
+        routerLink="/dealers/messages"
+        routerLinkActive="active-item"
+      >
+        <span class="fa fa-newspaper-o navbar-icons"></span>
+        <span class="side-menu__label" *ngIf="toggle">My Messages</span>
+      </a>
+    </li>
+
     <li class="slide" (click)="closeOverLay()">
       <a
         class="side-menu__item"
         routerLink="/dealers/help"
         routerLinkActive="active-item"
       >
-        <span class="fa fa-headphones navbar-icons"></span
-        ><span class="side-menu__label" *ngIf="toggle">Help </span>
+        <span class="fa fa-headphones navbar-icons"></span>
+        <span class="side-menu__label" *ngIf="toggle">Help</span>
       </a>
     </li>
 
@@ -235,15 +248,15 @@
         routerLink="/dealers/report-problem"
         routerLinkActive="active-item"
       >
-        <span class="fa fa-bell navbar-icons"></span
-        ><span class="side-menu__label" *ngIf="toggle">Report a Problem</span>
+        <span class="fa fa-bell navbar-icons"></span>
+        <span class="side-menu__label" *ngIf="toggle">Report a Problem</span>
       </a>
     </li>
 
     <li class="slide" (click)="closeOverLay()">
       <a class="side-menu__item" (click)="logout()">
-        <span class="fa fa-mail-forward navbar-icons"></span
-        ><span class="side-menu__label" *ngIf="toggle">Logout</span>
+        <span class="fa fa-mail-forward navbar-icons"></span>
+        <span class="side-menu__label" *ngIf="toggle">Logout</span>
       </a>
     </li>
   </ul>
@@ -255,7 +268,7 @@
 <div class="app-header header d-block pt-0">
   <div
     class="container-fluid p-0 d-flex align-items-center w-100"
-    style="height: 80px"
+    style="height: 80px;"
   >
     <div class="d-flex over-layer-header w-100">
       <a class="header-brand d-md-none">
@@ -330,7 +343,8 @@
                   data-image-src="../../assets/images/users/1.jpg"
                 ></span>
                 <div>
-                  <strong>Madeleine</strong> Hey! there I' am available....
+                  <strong>Madeleine</strong>
+                  Hey! there I' am available....
                   <div class="small text-muted">3 hours ago</div>
                 </div>
               </a>
@@ -385,8 +399,13 @@
             <!-- <a class="dropdown-item" href="#">
               <i class="dropdown-icon mdi mdi-account-outline"></i> My Profile
             </a> -->
-            <a class="dropdown-item" (click)="logout()" style="cursor: pointer">
-              <i class="dropdown-icon mdi mdi-logout-variant"></i> Sign out
+            <a
+              class="dropdown-item"
+              (click)="logout()"
+              style="cursor: pointer;"
+            >
+              <i class="dropdown-icon mdi mdi-logout-variant"></i>
+              Sign out
             </a>
           </div>
         </div>
@@ -493,8 +512,8 @@
                   <span
                     class="avatar mr-3 br-3 align-self-center avatar-md cover-image bg-primary brround"
                   >
-                    <i class="fe fe-mail"></i
-                  ></span>
+                    <i class="fe fe-mail"></i>
+                  </span>
 
                   <div>
                     <span class="font-weight-bold">
@@ -524,8 +543,8 @@
                   </span>
                   <div>
                     <span class="font-weight-bold">
-                      User account has Updated</span
-                    >
+                      User account has Updated
+                    </span>
                     <div class="small text-muted d-flex">20 mins ago</div>
                   </div>
                 </a>
@@ -536,7 +555,7 @@
                     <i class="fe fe-shopping-cart"></i>
                   </span>
                   <div>
-                    <span class="font-weight-bold"> New Order Recevied</span>
+                    <span class="font-weight-bold">New Order Recevied</span>
                     <div class="small text-muted d-flex">1 hour ago</div>
                   </div>
                 </a>
@@ -547,7 +566,7 @@
                     <i class="fa fa-commenting-o"></i>
                   </span>
                   <div>
-                    <span class="font-weight-bold"> 3 New Comments</span>
+                    <span class="font-weight-bold">3 New Comments</span>
                     <div class="small text-muted d-flex">1 day ago</div>
                   </div>
                 </a>
@@ -564,9 +583,9 @@
                 </a>
               </div>
               <div class="dropdown-divider"></div>
-              <a href="#" class="dropdown-item text-center"
-                >View all Notification</a
-              >
+              <a href="#" class="dropdown-item text-center">
+                View all Notification
+              </a>
             </div>
           </div>
           <!-- NOTIFICATIONS -->
@@ -584,9 +603,9 @@
                   d="M4 20h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2zM20 6l-8 4.99L4 6h16zM4 8l8 5 8-5v10H4V8z"
                 />
               </svg>
-              <span class="nav-unread badge badge-danger badge-pill pulse"
-                >78</span
-              >
+              <span class="nav-unread badge badge-danger badge-pill pulse">
+                78
+              </span>
             </a>
             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
               <div class="message-menu">
@@ -596,7 +615,8 @@
                     data-image-src="../../assets/images/users/1.jpg"
                   ></span>
                   <div>
-                    <strong>Madeleine</strong> Hey! there I' am available....
+                    <strong>Madeleine</strong>
+                    Hey! there I' am available....
                     <div class="small text-muted">3 hours ago</div>
                   </div>
                 </a>
@@ -606,7 +626,8 @@
                     data-image-src="../../assets/images/users/12.jpg"
                   ></span>
                   <div>
-                    <strong>Anthony</strong> New product Launching...
+                    <strong>Anthony</strong>
+                    New product Launching...
                     <div class="small text-muted">5 hour ago</div>
                   </div>
                 </a>
@@ -616,7 +637,8 @@
                     data-image-src="../../assets/images/users/4.jpg"
                   ></span>
                   <div>
-                    <strong>Olivia</strong> New Schedule Realease......
+                    <strong>Olivia</strong>
+                    New Schedule Realease......
                     <div class="small text-muted">45 mintues ago</div>
                   </div>
                 </a>
@@ -626,7 +648,8 @@
                     data-image-src="../../assets/images/users/15.jpg"
                   ></span>
                   <div>
-                    <strong>Sanderson</strong> New Schedule Realease......
+                    <strong>Sanderson</strong>
+                    New Schedule Realease......
                     <div class="small text-muted">2 days ago</div>
                   </div>
                 </a>
@@ -673,6 +696,6 @@
   </div>
   <div
     class="container-fluid p-0 d-flex align-items-center"
-    style="height: 50px; background-color: #14abef"
+    style="height: 50px; background-color: #14abef;"
   ></div>
 </div>
