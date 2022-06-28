@@ -66,10 +66,7 @@ export class MessagesComponent implements OnInit {
     })
 
     this.chatService.getNotification().subscribe((data: any) => {
-      console.log(data)
       this.getVendorAsync()
-      this.toaster.success('you have a new message', 'Chat Notification')
-      this.audioTag.nativeElement.play()
     })
   }
 
