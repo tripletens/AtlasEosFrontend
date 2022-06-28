@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
+import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
+
+import { ChatService } from 'src/app/core/services/chat.service'
+import { TokenStorageService } from 'src/app/core/services/token-storage.service'
+import { ToastrService } from 'ngx-toastr'
 
 @Component({
   selector: 'app-vendors',
@@ -6,7 +11,18 @@ import { Component, OnInit } from '@angular/core'
   styleUrls: ['./vendors.component.scss'],
 })
 export class VendorsComponent implements OnInit {
-  constructor() {}
+  @ViewChild('audioTag') private audioTag!: ElementRef
 
-  ngOnInit(): void {}
+  constructor(
+    private chatService: ChatService,
+    private tokeStore: TokenStorageService,
+    private toaster: ToastrService,
+  ) {}
+  ngOnInit(): void {
+    this.chatService.getNotification().subscribe((data: any) => {
+      console.log(data)
+      this.toaster.success('you have a new message', 'Chat Notification')
+      this.audioTag.nativeElement.play()
+    })
+  }
 }
