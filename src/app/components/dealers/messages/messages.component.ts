@@ -26,6 +26,11 @@ export class MessagesComponent implements OnInit {
   coworkerLoader = true
   chatHistoryLoader = false
   userHasBeenSelected = false
+  allVendors: any
+  unreadMsgData: any
+  showUnreadMsg = false
+  selectedVendorUser: any
+  adminUserData: any
 
   @ViewChild('chatWrapper') private chatWrapper!: ElementRef
   @ViewChild('audioTag') private audioTag!: ElementRef
@@ -37,6 +42,7 @@ export class MessagesComponent implements OnInit {
     private toaster: ToastrService,
   ) {}
   ngOnInit(): void {
+    this.getAllVendors()
     this.loggedInUser = this.tokeStore.getUser()
     let user = this.tokeStore.getUser()
     this.userData = this.tokeStore.getUser()
@@ -68,6 +74,69 @@ export class MessagesComponent implements OnInit {
     this.chatService.getNotification().subscribe((data: any) => {
       this.getVendorAsync()
     })
+    this.getUnreadMsg()
+    this.getAllDamin()
+  }
+
+  getAllDamin() {
+    this.postData
+      .httpGetRequest('/get-all-admin-users/' + this.userId)
+      .then((result: any) => {
+        if (result.status) {
+          this.adminUserData = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
+
+  getUnreadMsg() {
+    // this.selectedDealerUser = []
+    this.postData
+      .httpGetRequest('/dealer/get-dealer-unread-msg/' + this.userId)
+      .then((result: any) => {
+        if (result.status) {
+          this.showUnreadMsg = result.data.length > 0 ? true : false
+
+          this.unreadMsgData = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
+
+  getAllVendors() {
+    this.postData
+      .httpGetRequest('/dealer/get-vendors')
+      .then((result: any) => {
+        if (result.status) {
+          this.allVendors = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
+
+  getAllSelectedDealerUsers(data: any) {
+    this.coworkerLoader = true
+    this.selectedVendorUser = []
+    this.postData
+      .httpGetRequest(
+        '/dealer/get-selected-company-vendor/' +
+          data.vendor_code +
+          '/' +
+          this.userId,
+      )
+      .then((result: any) => {
+        this.coworkerLoader = false
+        if (result.status) {
+          // this.getUnreadMsg()
+
+          this.selectedVendorUser = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
   }
 
   scrollToElement(): void {

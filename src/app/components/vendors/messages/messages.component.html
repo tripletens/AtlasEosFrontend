@@ -39,6 +39,15 @@
                                 Dealers
                               </a>
                             </li>
+                            <li class="nav-item">
+                              <a
+                                class="nav-link"
+                                data-toggle="pill"
+                                href="#menu3"
+                              >
+                                Atlas
+                              </a>
+                            </li>
                           </ul>
                         </div>
 
@@ -137,6 +146,27 @@
                                     </div>
                                   </ul>
                                 </div>
+                              </div>
+
+                              <div class="tab-pane container" id="menu3">
+                                <ul class="coworker-ul">
+                                  <div *ngFor="let data of adminUserData">
+                                    <li
+                                      *ngIf="data.id != userId"
+                                      (click)="selectedUser(data)"
+                                    >
+                                      <span
+                                        class="fa fa-address-card coworker-icon"
+                                      ></span>
+                                      {{ data?.first_name }}
+                                      {{ data?.last_name }}
+
+                                      <span class="badge badge-danger">
+                                        {{ data?.notification }}
+                                      </span>
+                                    </li>
+                                  </div>
+                                </ul>
                               </div>
                             </div>
                           </div>
