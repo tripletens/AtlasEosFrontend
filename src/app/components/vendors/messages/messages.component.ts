@@ -30,6 +30,7 @@ export class MessagesComponent implements OnInit {
   selectedDealerUser: any
   showUnreadMsg = false
   unreadMsgData: any
+  adminUserData: any
 
   @ViewChild('chatWrapper') private chatWrapper!: ElementRef
   @ViewChild('audioTag') private audioTag!: ElementRef
@@ -78,6 +79,19 @@ export class MessagesComponent implements OnInit {
     this.chatService.openChatConnection(userId)
     // this.getUserChat()
     this.getUnreadMsg()
+    this.getAllDamin()
+  }
+
+  getAllDamin() {
+    this.postData
+      .httpGetRequest('/get-all-admin-users/' + this.userId)
+      .then((result: any) => {
+        if (result.status) {
+          this.adminUserData = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
   }
 
   getUnreadMsg() {
