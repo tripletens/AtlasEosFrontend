@@ -26,6 +26,10 @@ export class MessagesComponent implements OnInit {
   coworkerLoader = true
   chatHistoryLoader = false
   userHasBeenSelected = false
+  allDealers: any
+  selectedDealerUser: any
+  showUnreadMsg = false
+  unreadMsgData: any
 
   @ViewChild('chatWrapper') private chatWrapper!: ElementRef
   @ViewChild('audioTag') private audioTag!: ElementRef
@@ -37,6 +41,7 @@ export class MessagesComponent implements OnInit {
     private toaster: ToastrService,
   ) {}
   ngOnInit(): void {
+    this.getAllDealers()
     this.chatService.getMessages().subscribe((message: string) => {
       if (message != '') {
         setTimeout(() => {
@@ -49,16 +54,15 @@ export class MessagesComponent implements OnInit {
       }
 
       this.messages.push(message)
-      console.log(this.messages)
     })
 
-    this.chatService.getNotification().subscribe((data: any) => {
-      console.log(data)
-      // this.getVendorAsync()
-      // this.toaster.success('you have a new message', 'Chat Notification')
-      // this.bellNotification()
-      // this.audioTag.nativeElement.play()
-    })
+    // this.chatService.getNotification().subscribe((data: any) => {
+    //   console.log(data)
+    //   this.getVendorAsync()
+    //   this.toaster.success('you have a new message', 'Chat Notification')
+    //   this.bellNotification()
+    //   this.audioTag.nativeElement.play()
+    // })
 
     this.loggedInUser = this.tokeStore.getUser()
     let user = this.tokeStore.getUser()
@@ -73,6 +77,56 @@ export class MessagesComponent implements OnInit {
 
     this.chatService.openChatConnection(userId)
     // this.getUserChat()
+    this.getUnreadMsg()
+  }
+
+  getUnreadMsg() {
+    // this.selectedDealerUser = []
+    this.postData
+      .httpGetRequest('/vendor/get-vendor-unread-msg/' + this.userId)
+      .then((result: any) => {
+        if (result.status) {
+          this.showUnreadMsg = result.data.length > 0 ? true : false
+
+          this.unreadMsgData = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
+
+  getAllSelectedDealerUsers(data: any) {
+    this.coworkerLoader = true
+    this.selectedDealerUser = []
+    this.postData
+      .httpGetRequest(
+        '/vendor/get-selected-company-dealers/' +
+          data.account_id +
+          '/' +
+          this.userId,
+      )
+      .then((result: any) => {
+        this.coworkerLoader = false
+        if (result.status) {
+          this.getUnreadMsg()
+
+          this.selectedDealerUser = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
+
+  getAllDealers() {
+    this.postData
+      .httpGetRequest('/vendor/get-dealers')
+      .then((result: any) => {
+        if (result.status) {
+          this.allDealers = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
   }
 
   bellNotification() {}
@@ -178,7 +232,7 @@ export class MessagesComponent implements OnInit {
           this.coworkersData = result.data
           //let sortedData = this.alphabeticalOrder(result.data)
 
-          this.allUsers = result.data
+          // this.allUsers = result.data
         } else {
         }
       })
