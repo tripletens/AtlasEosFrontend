@@ -67,9 +67,14 @@ const routes: Routes = [
         component: ProductSeminiarsComponent,
       },
       {
+        path: 'show-orders/:vendorId/:atlasId',
+        component: ShowOrdersComponent,
+      },
+      {
         path: 'show-orders',
         component: ShowOrdersComponent,
       },
+
       {
         path: 'special-order',
         component: SpecialOrderComponent,
@@ -117,7 +122,7 @@ const routes: Routes = [
     ],
     canActivate: [AuthGuardGuard],
   },
-]
+];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

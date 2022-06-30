@@ -13,8 +13,9 @@
     background-color: #054e6e !important;
   }
 }
+
 .search-input {
-  max-width: 300px;
+  max-width: 400px;
 }
 .paginate {
   color: #054e6e;
@@ -24,26 +25,36 @@
   th {
     border: 0.1px solid #fff;
   }
-  thead {
-    background-color: #054e6e;
-    color: #fff;
-    font-size: 17px;
-    th {
+   th {
+      background-color: #054e6e;
+      color: #fff;
+      font-size: 17px;
       padding: 10px;
+      text-transform: uppercase;
       font-weight: 500;
     }
-  }
-  tbody {
-    background-color: #dfdfdf;
-    td {
-      padding: 8px;
-      input {
-        background-color: #fff;
-        width: 60px;
-        height: 30px;
-        border-radius: 4px;
-        border: none;
-      }
+
+  td {
+    background-color: #dfdfdf ;
+    padding: 8px;
+    text-transform: capitalize;
+    font-size: 16px;
+    input {
+      background-color: #fff;
+      width: 60px;
+      height: 30px;
+      border-radius: 4px;
+      border: none;
     }
+  }
+}
+
+.bg-blue{
+  background-color: #006EA0;
+  color: #fff;
+}
+.highlight{
+  td{
+    background-color: #6ba4bc;
   }
 }

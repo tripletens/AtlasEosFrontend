@@ -5,104 +5,106 @@
         <h3 class="section-header mb-4">New Products</h3>
         <div class="form-table-ctn px-2">
           <div class="header-search-ctn">
-            <form
-              action=""
-              class="d-flex align-items-center justify-content-between"
-            >
-              <div class="input-group">
-                <span class="mr-3 mt-2">Vendor Name </span>
-                <!-- <input
-                      type="text"
-                      class="search-input form-control"
-                      style="max-width: 170px !important"
-                    /> -->
-                <select
-                  class="search-input form-control px-3"
-                  style="display: block"
-                  placeholder="Select Vendor.."
-                  data-live-search="true"
+            <form action="" class="d-flex align-items-center">
+              <span class="mr-3">Vendor Name </span>
+              <select name="" class="form-control search-input" #vendorId>
+                <option selected value="0">Select Vendor</option>
+                <option
+                  class="category-text"
+                  value="{{ category.vendor_code }}"
+                  *ngFor="let category of allCategoryData"
                 >
-                  <option data-tokens="ketchup mustard">
-                    Select a Vendor..
-                  </option>
-                  <option data-tokens="2EZEE SKIN COVERS">
-                    2EZEE SKIN COVERS
-                  </option>
-                  <option data-tokens="303/GOLD EAGLE">303/GOLD EAGLE</option>
-                  <option data-tokens="ACUVA TECHNOLOGIES">
-                    ACUVA TECHNOLOGIES
-                  </option>
-                  <option data-tokens="ADCO">ADCO</option>
-                </select>
-                <button class="btn btn-primary ml-3">
-                  <i class="fa fa-search mr-2"></i> Search
-                </button>
-              </div>
+                  {{ category.vendor_name }}
+                </option>
+              </select>
+              <button
+                class="btn btn-primary ml-3"
+                (click)="getProductByVendorId()"
+              >
+                <i class="fa fa-search me-2"></i> Search
+              </button>
             </form>
           </div>
-          <div class="table-ctn mt-3">
-            <table class="order-form-table w-100">
-              <thead>
-                <th>Atlas # <button class="btn"><i class="fa fa-sort text-white"></i></button></th>
-                <th>Vendor # <button class="btn"><i class="fa fa-sort text-white"></i></button></th>
-                <th>Vendor Name</th>
-                <th>Description</th>
 
-                <th>Regular($)</th>
-                <th>Special($)</th>
-                <th>Extended</th>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1095-2</td>
-                  <td>ACM135</td>
-                  <td>Ethan Hayes</td>
-                  <td><p class="">15K BTU ADVENT A/C-WHITE</p></td>
-                  <td>$ 849.00</td>
-                  <td>$ 799.00</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>1095-2</td>
-                  <td>ACM135</td>
-                  <td>Ethan Hayes</td>
-                  <td><p class="">15K BTU ADVENT A/C-WHITE</p></td>
-                  <td>$ 849.00</td>
-                  <td>$ 799.00</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>1095-2</td>
-                  <td>ACM135</td>
-                  <td>Ethan Hayes</td>
-                  <td><p class="">15K BTU ADVENT A/C-WHITE</p></td>
-                  <td>$ 849.00</td>
-                  <td>$ 799.00</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>1095-2</td>
-                  <td>ACM135</td>
-                  <td>Ethan Hayes</td>
-                  <td><p class="">15K BTU ADVENT A/C-WHITE</p></td>
-                  <td>$ 849.00</td>
-                  <td>$ 799.00</td>
-                  <td></td>
-                </tr>
-              </tbody>
+          <div class="table-ctn mt-3 p-3" style="background-color: white">
+            <table
+              class="order-form-table w-100 mat-elevation"
+              mat-table
+              [dataSource]="dataSrc"
+            >
+              <ng-container matColumnDef="qty">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  style="white-space: nowrap"
+                >
+                  Qty
+                </th>
+                <td mat-cell *matCellDef="let element" class="text-center">
+                  <input type="number" class="mx-auto" />
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="atlas_id">
+                <th mat-header-cell *matHeaderCellDef>
+                  Atlas #<button class="btn">
+                    <i class="fa fa-sort text-white"></i>
+                  </button>
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.atlas_id }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="vendor">
+                <th mat-header-cell *matHeaderCellDef>Vendor #</th>
+                <td mat-cell *matCellDef="let element">
+                  <a
+                    routerLink="/dealers/show-orders/{{ productData.vendor }}/{{
+                      productData.atlas_id
+                    }}"
+                    class="link"
+                  >
+                    {{ element.vendor }}</a
+                  >
+                </td>
+              </ng-container>
+              <!-- Name Column -->
+              <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef>Description</th>
+                <th></th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.description }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="booking">
+                <th mat-header-cell *matHeaderCellDef>Regular ($)</th>
+
+                <td mat-cell *matCellDef="let element">
+                  {{ element.booking | currency }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="special">
+                <th mat-header-cell *matHeaderCellDef>Special ($)</th>
+
+                <td mat-cell *matCellDef="let element">
+                  {{ element.special | currency }}
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
             </table>
+            <tr>
+              <td colspan="10" class="p-4"></td>
+            </tr>
+
+            <mat-paginator
+              [pageSizeOptions]="[10, 20, 50, 100]"
+              showFirstLastButtons
+              aria-label="Select page seminar pages"
+            >
+            </mat-paginator>
           </div>
-          <nav aria-label="Page navigation example paginate">
-            <ul class="pagination mt-4 d-flex justify-content-end text-end">
-              <li class="page-item">
-                <a class="page-link" href="#">Previous</a>
-              </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
-          </nav>
         </div>
       </div>
     </div>
