@@ -80,9 +80,15 @@ export class MyMessagesComponent implements OnInit {
 
     this.chatService.openChatConnection(userId)
     this.getVendorUnreadMsg()
+    this.getDealerUnreadMsg()
+
     this.getAllDamin()
     this.getAllVendors()
-    this.getDealerUnreadMsg()
+
+    setInterval(() => {
+      this.getVendorUnreadMsg()
+      this.getDealerUnreadMsg()
+    }, 10000)
   }
 
   getAllSelectedVendorUsers(data: any) {
