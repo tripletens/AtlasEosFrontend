@@ -20,21 +20,231 @@
                     <div id="accordion6" class="mb-3">
                       <div class="card">
                         <div class="card-header">
-                          <div class="select-wrapper">
-                            <select name="" id="">
-                              <option value="">Select Users</option>
-                              <option
-                                value=""
-                                (click)="selectedUser(data)"
-                                *ngFor="let data of allUsers"
+                          <ul class="nav nav-pills">
+                            <li class="nav-item">
+                              <a
+                                class="nav-link active"
+                                data-toggle="pill"
+                                href="#coworkers"
                               >
-                                {{ data.first_name }} {{ data.last_name }}
-                              </option>
-                            </select>
-                          </div>
+                                Co-workers
+                              </a>
+                            </li>
+                            <li class="nav-item">
+                              <a
+                                class="nav-link"
+                                data-toggle="pill"
+                                href="#dealers"
+                              >
+                                Dealers
+                              </a>
+                            </li>
+                            <li class="nav-item">
+                              <a
+                                class="nav-link"
+                                data-toggle="pill"
+                                href="#vendors"
+                              >
+                                Vendors
+                              </a>
+                            </li>
+                          </ul>
                         </div>
                         <div>
-                          <div class="card-body chat-wrapper"></div>
+                          <div class="card-body chat-wrapper">
+                            <div class="tab-content">
+                              <div
+                                class="tab-pane container active"
+                                id="coworkers"
+                              >
+                                <ul class="coworker-ul">
+                                  <div *ngFor="let data of adminUserData">
+                                    <li
+                                      *ngIf="data.id != userId"
+                                      (click)="selectedUser(data)"
+                                    >
+                                      <span
+                                        class="fa fa-address-card coworker-icon"
+                                      ></span>
+                                      {{ data?.first_name }}
+                                      {{ data?.last_name }}
+
+                                      <span class="badge badge-danger">
+                                        {{ data?.notification }}
+                                      </span>
+                                    </li>
+                                  </div>
+                                </ul>
+
+                                <!-- 
+                                <ul class="coworker-ul">
+                                  <div *ngFor="let data of coworkersData">
+                                    <li
+                                      *ngIf="data.id != userId"
+                                      (click)="selectedUser(data)"
+                                    >
+                                      <span
+                                        class="fa fa-address-card coworker-icon"
+                                      ></span>
+                                      {{ data?.first_name }}
+                                      {{ data?.last_name }}
+
+                                      <span class="badge badge-danger">
+                                        {{ data?.notification }}
+                                      </span>
+                                    </li>
+                                  </div>
+                                </ul> -->
+                              </div>
+                              <div class="tab-pane container fade" id="dealers">
+                                <div class="select-wrapper">
+                                  <select name="" id="">
+                                    <option value="">
+                                      Select Dealer Company
+                                    </option>
+                                    <option
+                                      value=""
+                                      (click)="getAllSelectedDealerUsers(data)"
+                                      *ngFor="let data of allDealers"
+                                    >
+                                      {{ data.company_name }}
+                                    </option>
+                                  </select>
+                                </div>
+
+                                <ul class="coworker-ul">
+                                  <div *ngFor="let data of selectedDealerUser">
+                                    <li
+                                      *ngIf="data.id != userId"
+                                      (click)="selectedUser(data)"
+                                    >
+                                      <span
+                                        class="fa fa-address-card coworker-icon"
+                                      ></span>
+                                      {{ data?.first_name }}
+                                      {{ data?.last_name }}
+
+                                      <span class="badge badge-danger">
+                                        {{ data?.notification }}
+                                      </span>
+                                    </li>
+                                  </div>
+                                </ul>
+
+                                <div class="" *ngIf="coworkerLoader">
+                                  <div class="ph-item ph-loader-item">
+                                    <div class="ph-col-12">
+                                      <div class="ph-row">
+                                        <div class="ph-col-12 loader-col"></div>
+                                        <div class="ph-col-12 loader-col"></div>
+                                        <div class="ph-col-12 loader-col"></div>
+                                        <div class="ph-col-12 loader-col"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="" *ngIf="showDealerUnreadMsg">
+                                  <h6 class="unread-msg-text">
+                                    Unread Messages
+                                  </h6>
+
+                                  <ul class="coworker-ul">
+                                    <div *ngFor="let data of dealerUnreadMsg">
+                                      <li
+                                        *ngIf="data.id != userId"
+                                        (click)="selectedUser(data)"
+                                      >
+                                        <span
+                                          class="fa fa-address-card coworker-icon"
+                                        ></span>
+                                        {{ data?.first_name }}
+                                        {{ data?.last_name }}
+
+                                        <span class="badge badge-danger">
+                                          {{ data?.notification }}
+                                        </span>
+                                      </li>
+                                    </div>
+                                  </ul>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane container" id="vendors">
+                                <div class="select-wrapper">
+                                  <select name="" id="">
+                                    <option value="">
+                                      Select Vendor Company
+                                    </option>
+                                    <option
+                                      value=""
+                                      (click)="getAllSelectedVendorUsers(data)"
+                                      *ngFor="let data of allVendors"
+                                    >
+                                      {{ data.vendor_name }}
+                                    </option>
+                                  </select>
+                                </div>
+
+                                <ul class="coworker-ul">
+                                  <div *ngFor="let data of selectedVendorUsers">
+                                    <li
+                                      *ngIf="data.id != userId"
+                                      (click)="selectedUser(data)"
+                                    >
+                                      <span
+                                        class="fa fa-address-card coworker-icon"
+                                      ></span>
+                                      {{ data?.first_name }}
+                                      {{ data?.last_name }}
+
+                                      <span class="badge badge-danger">
+                                        {{ data?.notification }}
+                                      </span>
+                                    </li>
+                                  </div>
+                                </ul>
+
+                                <div class="" *ngIf="coworkerLoader">
+                                  <div class="ph-item ph-loader-item">
+                                    <div class="ph-col-12">
+                                      <div class="ph-row">
+                                        <div class="ph-col-12 loader-col"></div>
+                                        <div class="ph-col-12 loader-col"></div>
+                                        <div class="ph-col-12 loader-col"></div>
+                                        <div class="ph-col-12 loader-col"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="" *ngIf="showVenorUnreadMsg">
+                                  <h6 class="unread-msg-text">
+                                    Unread Messages
+                                  </h6>
+
+                                  <ul class="coworker-ul">
+                                    <div *ngFor="let data of vendorUnreadMsg">
+                                      <li
+                                        *ngIf="data.id != userId"
+                                        (click)="selectedUser(data)"
+                                      >
+                                        <span
+                                          class="fa fa-address-card coworker-icon"
+                                        ></span>
+                                        {{ data?.first_name }}
+                                        {{ data?.last_name }}
+
+                                        <span class="badge badge-danger">
+                                          {{ data?.notification }}
+                                        </span>
+                                      </li>
+                                    </div>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -66,8 +276,34 @@
                                 </li>
                               </div>
                             </ul>
+
+                            <div class="" *ngIf="chatHistoryLoader">
+                              <div class="ph-item ph-loader-item">
+                                <div class="ph-col-12">
+                                  <div class="ph-row">
+                                    <div class="ph-col-6 left-loader-col"></div>
+                                  </div>
+
+                                  <div class="ph-row">
+                                    <div
+                                      class="ph-col-6 right-loader-col"
+                                    ></div>
+                                  </div>
+
+                                  <div class="ph-row">
+                                    <div class="ph-col-6 left-loader-col"></div>
+                                  </div>
+
+                                  <div class="ph-row">
+                                    <div
+                                      class="ph-col-6 right-loader-col"
+                                    ></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                          <div class="d-flex">
+                          <div class="d-flex" *ngIf="userSelected">
                             <div class="flex-fill">
                               <textarea
                                 class="chat-msg"

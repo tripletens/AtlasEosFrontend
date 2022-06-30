@@ -57,14 +57,6 @@ export class MessagesComponent implements OnInit {
       this.messages.push(message)
     })
 
-    // this.chatService.getNotification().subscribe((data: any) => {
-    //   console.log(data)
-    //   this.getVendorAsync()
-    //   this.toaster.success('you have a new message', 'Chat Notification')
-    //   this.bellNotification()
-    //   this.audioTag.nativeElement.play()
-    // })
-
     this.loggedInUser = this.tokeStore.getUser()
     let user = this.tokeStore.getUser()
     this.userData = this.tokeStore.getUser()
@@ -77,7 +69,6 @@ export class MessagesComponent implements OnInit {
     this.getVendorCoworkers()
 
     this.chatService.openChatConnection(userId)
-    // this.getUserChat()
     this.getUnreadMsg()
     this.getAllDamin()
   }
