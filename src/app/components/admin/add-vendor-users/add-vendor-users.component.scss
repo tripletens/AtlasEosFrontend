@@ -173,3 +173,20 @@ html {
 label {
   font-size: 13px;
 }
+
+.upload-btn-wrapper {
+  display: flex;
+  gap: 10px;
+}
+
+.template-btn {
+  background-color: red;
+  padding: 10px;
+  border: 0px;
+  border-radius: 4px;
+  color: #ffffff;
+}
+
+#vendor-template {
+  display: none;
+}
