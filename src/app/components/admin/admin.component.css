@@ -28,3 +28,7 @@ top: 64px;
 
 
   
+.audio-tag {
+    visibility: hidden;
+  }
+  
