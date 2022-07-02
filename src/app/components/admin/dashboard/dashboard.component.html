@@ -530,18 +530,27 @@
                   <tbody>
                     <tr>
                       <td>
-                        <span class="tbody-text-timer">0 Days</span>
-                      </td>
-                      <td>
                         <span class="tbody-text-timer">
-                          0 Hours
+                          {{ timeDays }} Days
                         </span>
                       </td>
                       <td>
-                        <span class="tbody-text-timer">0 Mintues</span>
+                        <span class="tbody-text-timer">
+                          {{ timeHours }} Hours
+                        </span>
                       </td>
                       <td>
-                        <span class="tbody-text-timer">0 Seconds</span>
+                        <span class="tbody-text-timer">
+                          {{ timeMinutes }} Mintues
+                        </span>
+                      </td>
+                      <td>
+                        <span class="tbody-text-timer">
+                          <span *ngIf="showSecondsExtrazero" class="extra-zero">
+                            0
+                          </span>
+                          {{ timeSeconds }} Seconds
+                        </span>
                       </td>
                     </tr>
                   </tbody>

@@ -25,6 +25,7 @@ import { MyMessagesComponent } from './my-messages/my-messages.component'
 import { PriceOverrideComponent } from './price-override/price-override.component'
 import { ResolveProblemComponent } from './resolve-problem/resolve-problem.component'
 import { RespondReportComponent } from './respond-report/respond-report.component'
+import { SetCountdownComponent } from './set-countdown/set-countdown.component'
 import { VeiwReportComponent } from './veiw-report/veiw-report.component'
 import { VendorOrderFormComponent } from './vendor-order-form/vendor-order-form.component'
 
@@ -146,6 +147,11 @@ const routes: Routes = [
       {
         path: 'all-seminars',
         component: AllSeminarsComponent,
+      },
+
+      {
+        path: 'set-countdown',
+        component: SetCountdownComponent,
       },
     ],
   },
