@@ -22,7 +22,7 @@ export class PromotionalFlyerComponent implements OnInit {
 
   getAllVendors() {
     this.getData
-      .httpGetRequest('/get-all-vendors')
+      .httpGetRequest('/promotional_fliers/vendors')
       .then((result: any) => {
         console.log(result);
         if (result.status) {

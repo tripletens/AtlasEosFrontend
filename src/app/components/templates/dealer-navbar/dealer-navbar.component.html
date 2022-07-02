@@ -383,16 +383,16 @@
           >
             <div class="profile-icon-ctn mb-1">
               <div class="profile-icon">
-                E
-                <!-- {{ firstName.charAt(0) }} -->
+               
+                {{ firstName.charAt(0) }}{{ lastName.charAt(0) }}
               </div>
 
               <span></span>
             </div>
             <div class="d-none d-xl-block">
-              <h6 class="mb-0 name-text">Edidiong Akpanowo</h6>
-              <h6 class="mb-0 acc-text text-bold">#55-453-21</h6>
-              <h6 class="mb-1 location-text">Calgary</h6>
+              <h6 class="mb-0 name-text">{{ firstName }} {{ lastName }}</h6>
+              <!-- <h6 class="mb-0 acc-text text-bold">#{{ acct }}</h6> -->
+              <h6 class="mb-1 location-text">{{ location }}</h6>
             </div>
           </a>
           <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
