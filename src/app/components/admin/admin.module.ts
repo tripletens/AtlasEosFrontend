@@ -38,7 +38,8 @@ import { AllFaqComponent } from './all-faq/all-faq.component'
 import { EditFaqComponent } from './edit-faq/edit-faq.component'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatNativeDateModule } from '@angular/material/core'
-import { MatTimepickerModule } from 'mat-timepicker'
+import { MatTimepickerModule } from 'mat-timepicker';
+import { SetCountdownComponent } from './set-countdown/set-countdown.component'
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { MatTimepickerModule } from 'mat-timepicker'
     AllAdminComponent,
     AllFaqComponent,
     EditFaqComponent,
+    SetCountdownComponent,
   ],
   imports: [
     CommonModule,

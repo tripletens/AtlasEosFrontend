@@ -1,0 +1,122 @@
+<section>
+  <div class="container-fluid p-0">
+    <div class="row">
+      <div class="col-md-6 col-sm-12">
+        <div id="accordion7" class="mb-3">
+          <div class="card">
+            <div class="card-header">
+              <a class="card-link" data-toggle="collapse" href="#collapseSeven">
+                <span class="fa fas fa-list-ul pr-2"></span>
+                Set Program Countdown
+              </a>
+            </div>
+            <div
+              id="collapseSeven"
+              class="collapse show"
+              data-parent="#accordion7"
+            >
+              <div class="card card-body">
+                <!-- multistep form -->
+                <form id="msform" [formGroup]="TimerForm" class="pt-2">
+                  <!-- fieldsets -->
+                  <fieldset class="shadow-sm">
+                    <div class="w-100 in-form-section">
+                      <div class="label-section">
+                        <h6>Date *</h6>
+                      </div>
+                      <div class="input-section">
+                        <input
+                          type="date"
+                          name="countdownDate"
+                          required
+                          formControlName="countdownDate"
+                          class="input-filter-edit shadow-sm"
+                          placeholder="Select Date"
+                        />
+
+                        <div
+                          class="input-alert-box"
+                          *ngIf="
+                            timerFormControls.countdownDate.invalid &&
+                            manualChecker
+                          "
+                        >
+                          <div>
+                            <span class="alert-input-msg">
+                              {{ getErrorMessage('countdownDate') }}
+                            </span>
+                            <span
+                              class="fa fa-exclamation-triangle alert-input-icon"
+                              style="float: right;"
+                            ></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="w-100 in-form-section">
+                      <div class="label-section">
+                        <h6>Time *</h6>
+                      </div>
+                      <div class="input-section">
+                        <input
+                          matTimepicker
+                          #t="matTimepicker"
+                          mode="24h"
+                          type="time"
+                          name="countdownTime"
+                          formControlName="countdownTime"
+                          class="input-filter-edit shadow-sm"
+                          id="timePicker"
+                          time="true"
+                          (timeChange)="timeChangeHandler(t)"
+                        />
+
+                        <div
+                          class="input-alert-box"
+                          *ngIf="
+                            timerFormControls.countdownTime.invalid &&
+                            manualChecker
+                          "
+                        >
+                          <div>
+                            <span class="alert-input-msg">
+                              {{ getErrorMessage('countdownTime') }}
+                            </span>
+                            <span
+                              class="fa fa-exclamation-triangle alert-input-icon"
+                              style="float: right;"
+                            ></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="btn-wrapper">
+                      <div>
+                        <button class="submit-btn" (click)="submit()">
+                          <span *ngIf="btnText">
+                            Save
+                          </span>
+                          <div *ngIf="btnLoader">
+                            <span
+                              class="spinner-border spinner-border-sm"
+                            ></span>
+                          </div>
+                        </button>
+                      </div>
+
+                      <div>
+                        <button class="reset-btn">Reset</button>
+                      </div>
+                    </div>
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

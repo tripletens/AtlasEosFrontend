@@ -6655,8 +6655,8 @@ a.card-tabs-item.active {
 }
 
 .floating {
-  animation: floating 3s ease infinite;
-  will-change: transform;
+  /* animation: floating 3s ease infinite;
+  will-change: transform; */
 }
 
 .dropdown-item:hover,
@@ -14874,8 +14874,8 @@ textarea.form-control {
 }
 
 .floating {
-  animation: floating 3s ease infinite;
-  will-change: transform;
+  /* animation: floating 3s ease infinite;
+  will-change: transform; */
 }
 .floating:hover {
   animation-play-state: paused;
