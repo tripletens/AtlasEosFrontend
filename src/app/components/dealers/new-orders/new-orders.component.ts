@@ -14,6 +14,7 @@ import { HttpRequestsService } from 'src/app/core/services/http-requests.service
 export interface PeriodicElement {
   atlas_id: string;
   vendor: string;
+  vendor_name: string;
   description: string;
   booking: number;
   special: number;
@@ -34,9 +35,9 @@ export class NewOrdersComponent implements OnInit {
   searchatlasId: any;
   tableData: PeriodicElement[] = [];
   displayedColumns: string[] = [
-    'qty',
     'atlas_id',
     'vendor',
+    'vendor_name',
     'description',
     'booking',
     'special',
@@ -44,7 +45,6 @@ export class NewOrdersComponent implements OnInit {
   dataSrc = new MatTableDataSource<PeriodicElement>();
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
-  orderBtnStatus = false;
   constructor(
     private getData: HttpRequestsService,
     private toastr: ToastrService
@@ -74,33 +74,9 @@ export class NewOrdersComponent implements OnInit {
         this.toastr.info(`Something went wrong`, 'Error');
       });
   }
-  getProductByVendorId() {
-    let id = this.vendor.nativeElement.value;
-    this.orderBtnStatus = false;
-    this.getData
-      .httpGetRequest('/sort-newproduct-by-atlas-id/' + id)
-      .then((result: any) => {
-        console.log(result, 'promotion');
 
-        if (result.status) {
-          console.log('search vendor res', result.data);
-          this.tableData = result.data;
-          this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
-          this.dataSrc.paginator = this.paginator;
-          this.orderBtnStatus = true;
-        } else {
-          this.toastr.info(`Something went wrong`, 'Error');
-          this.orderBtnStatus = false;
-        }
-      })
-      .catch((err) => {
-        this.toastr.info(`Something went wrong`, 'Error');
-        this.orderBtnStatus = false;
-      });
-  }
   getAllNewProducts() {
     // let id = this.vendor.nativeElement.value;
-    this.orderBtnStatus = false;
     this.getData
       .httpGetRequest('/get-all-new-products')
       .then((result: any) => {
@@ -111,15 +87,36 @@ export class NewOrdersComponent implements OnInit {
           this.tableData = result.data;
           this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
           this.dataSrc.paginator = this.paginator;
-          this.orderBtnStatus = true;
         } else {
           this.toastr.info(`Something went wrong`, 'Error');
-          this.orderBtnStatus = false;
         }
       })
       .catch((err) => {
         this.toastr.info(`Something went wrong`, 'Error');
-        this.orderBtnStatus = false;
       });
+  }
+  getProductByVendorId() {
+    let id = this.vendor.nativeElement.value;
+    if (id == '0') {
+      this.getAllNewProducts();
+    } else {
+      this.getData
+        .httpGetRequest('/sort-newproduct-by-atlas-id/' + id)
+        .then((result: any) => {
+          console.log(result, 'promotion');
+
+          if (result.status) {
+            console.log('search vendor res', result.data);
+            this.tableData = result.data;
+            this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
+            this.dataSrc.paginator = this.paginator;
+          } else {
+            this.toastr.info(`Something went wrong`, 'Error');
+          }
+        })
+        .catch((err) => {
+          this.toastr.info(`Something went wrong`, 'Error');
+        });
+    }
   }
 }

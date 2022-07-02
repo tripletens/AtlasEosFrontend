@@ -57,7 +57,7 @@ export class ShowOrdersComponent implements OnInit {
   dataSrc = new MatTableDataSource<PeriodicElement>();
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
-  orderBtnStatus = false;
+  canOrder = false;
   constructor(
     private getData: HttpRequestsService,
     private toastr: ToastrService,
@@ -68,12 +68,13 @@ export class ShowOrdersComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.vendorId = params['vendorId'];
       this.searchatlasId = params['atlasId'];
-      this.searchVendorId(this.vendorId!);
+      if (this.searchatlasId) {
+        console.log('got in', this.vendorId, this.searchatlasId);
+        this.searchVendorId(this.vendorId!);
+      }
     });
   }
-  ngOnInit(): void {
-   
-  }
+  ngOnInit(): void {}
   ngAfterViewInit() {
     this.dataSrc.paginator = this.paginator;
   }
@@ -95,11 +96,11 @@ export class ShowOrdersComponent implements OnInit {
   }
   filterTop(array: any) {
     let prodigal = array.filter((item: any) => {
-      return item.atlas_id == this.searchatlasId;
+      return item.atlas_id == this.searchatlasId!;
     });
     let newArray = array.filter((item: any) => {
       // console.log('item reduce', item.atlas_id !== this.searchatlasId, item);
-      return item.atlas_id !== this.searchatlasId;
+      return item.atlas_id !== this.searchatlasId!;
     });
     console.log(' filter res', prodigal, newArray);
 
@@ -109,7 +110,7 @@ export class ShowOrdersComponent implements OnInit {
     return newArray;
   }
   searchVendorId(id: any) {
-    this.orderBtnStatus = false;
+    this.canOrder = false;
     this.getData
       .httpGetRequest('/get-vendor-products/' + id)
       .then((result: any) => {
@@ -119,22 +120,21 @@ export class ShowOrdersComponent implements OnInit {
           this.dataSrc = new MatTableDataSource<PeriodicElement>(
             this.filterTop(result.data)
           );
-          this.orderBtnStatus = true;
+          this.canOrder = true;
           this.dataSrc.paginator = this.paginator;
           $('table-ctn').addClass('highlight');
         } else {
-          this.orderBtnStatus = false;
           // this.toastr.info(`Something went wrong`, 'Error');
         }
       })
       .catch((err) => {
-        this.orderBtnStatus = false;
         // this.toastr.info(`Something went wrong`, 'Error');
       });
   }
   getProductByVendorId() {
+    this.canOrder = false;
+
     let id = this.vendor.nativeElement.value;
-    this.orderBtnStatus = false;
     this.getData
       .httpGetRequest('/get-vendor-products/' + id)
       .then((result: any) => {
@@ -143,17 +143,17 @@ export class ShowOrdersComponent implements OnInit {
         if (result.status) {
           console.log('search vendor res', result.data);
           this.tableData = result.data;
+          if (result.data.length !== 0) {
+            this.canOrder = true;
+          }
           this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
           this.dataSrc.paginator = this.paginator;
-          this.orderBtnStatus = true;
         } else {
           this.toastr.info(`Something went wrong`, 'Error');
-          this.orderBtnStatus = false;
         }
       })
       .catch((err) => {
         this.toastr.info(`Something went wrong`, 'Error');
-        this.orderBtnStatus = false;
       });
   }
 }

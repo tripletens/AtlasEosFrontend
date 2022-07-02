@@ -32,7 +32,7 @@
                 <div>
                   <span class="view-title-label">Name</span>
                   <h5 class="view-text-value">
-                    {{ currentData?.description }}
+                    {{ currentData?.description! }}
                   </h5>
                 </div>
                 <div>
@@ -256,15 +256,15 @@
                         <!-- *ngFor="let data of productData; let i = index" -->
                         <td>
                           <span class="atlas-text-id">{{
-                            productData.atlas_id
+                            productData.atlas_id!
                           }}</span>
                         </td>
                         <td>
-                          {{ productData.vendor }}
+                          {{ productData.vendor! }}
                         </td>
                         <td>
                           <a
-                            routerLink="/dealers/show-orders/{{ productData.vendor}}/{{ productData.atlas_id }}"
+                            routerLink="/dealers/show-orders/{{ productData.vendor!}}/{{ productData.atlas_id! }}"
                             class="link"
                           >
                             {{ productData.vendor_name }}</a
@@ -272,7 +272,7 @@
                         </td>
                         <td>
                           <span class="desc-text">{{
-                            productData.description
+                            productData.description!
                           }}</span>
                           <span
                             *ngFor="
