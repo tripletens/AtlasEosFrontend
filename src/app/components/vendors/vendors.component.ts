@@ -20,7 +20,6 @@ export class VendorsComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.chatService.getNotification().subscribe((data: any) => {
-      console.log(data)
       this.toaster.success('you have a new message', 'Chat Notification')
       this.audioTag.nativeElement.play()
     })
