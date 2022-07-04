@@ -11,15 +11,17 @@
                 <i class="fa fa-comments mr-3"></i> Please tell us more
               </div>
               <div class="card-body">
-                <form action="">
+                <form>
                   <input
                     type="text"
+                    #subject
                     class="form-control mb-2"
                     placeholder="Subject"
                   />
                   <textarea
                     name="complaint"
                     class="form-control"
+                    #description
                     placeholder="Please give a detailed description of the problem, and a member of our admin team would  be in touch with you as soon as possible"
                     id=""
                     cols="30"
@@ -30,10 +32,26 @@
                     is 5MB, File format supported (pdf, doc, docx, xls, jpeg,
                     png, gif)
                   </div>
-                  <input name="file" type="file" class="form-control-file p-2" style="border: .2px solid #ced4da;" />
+                  <input
+                    name="file"
+                    #photo
+                    type="file"
+                    class="form-control-file p-2"
+                    style="border: 0.2px solid #ced4da"
+                  />
                   <div class="w-100 justify-content-end d-flex mt-3">
-                    <button class="btn btn-light" style="border: .2px solid #858383;">
-                      <i class="fa fa-paper-plane mr-2"></i>Send
+                    <button
+                      class="btn btn-light"
+                      style="border: 0.2px solid #858383"
+                      [disabled]="formLoader"
+                    >
+                      <div *ngIf="!formLoader">
+                        <i class="fa fa-paper-plane mr-2"></i>Send
+                      </div>
+
+                      <div *ngIf="formLoader">
+                        <span class="spinner-border spinner-border-sm"></span>
+                      </div>
                     </button>
                   </div>
                 </form>
