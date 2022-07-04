@@ -82,7 +82,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getIPAddress()
+    // this.getIPAddress()
     this.browserName = this.detectBrowserName()
     this.fullBrowserData()
   }
@@ -127,11 +127,11 @@ export class LoginComponent implements OnInit {
     this.broData = window.navigator.userAgent.toLowerCase()
   }
 
-  getIPAddress() {
-    this.http.get('http://api.ipify.org/?format=json').subscribe((res: any) => {
-      this.ipAddress = res.ip
-    })
-  }
+  // getIPAddress() {
+  //   this.http.get('http://api.ipify.org/?format=json').subscribe((res: any) => {
+  //     this.ipAddress = res.ip
+  //   })
+  // }
 
   getLocation(): void {
     if (navigator.geolocation) {
