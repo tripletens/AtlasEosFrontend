@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router'
 import { AddAdminComponent } from './add-admin/add-admin.component'
 import { AddDealersComponent } from './add-dealers/add-dealers.component'
 import { AddProductComponent } from './add-product/add-product.component'
+import { AddPromotionalFlyerComponent } from './add-promotional-flyer/add-promotional-flyer.component'
 import { AddSeminarComponent } from './add-seminar/add-seminar.component'
 import { AddVendorUsersComponent } from './add-vendor-users/add-vendor-users.component'
 import { AddVendorsComponent } from './add-vendors/add-vendors.component'
@@ -11,6 +12,7 @@ import { AllAdminComponent } from './all-admin/all-admin.component'
 import { AllDealerUsersComponent } from './all-dealer-users/all-dealer-users.component'
 import { AllFaqComponent } from './all-faq/all-faq.component'
 import { AllProductsComponent } from './all-products/all-products.component'
+import { AllPromotionalFlyerComponent } from './all-promotional-flyer/all-promotional-flyer.component'
 import { AllSeminarsComponent } from './all-seminars/all-seminars.component'
 import { AllVendorUsersComponent } from './all-vendor-users/all-vendor-users.component'
 import { AllVendorsComponent } from './all-vendors/all-vendors.component'
@@ -152,6 +154,14 @@ const routes: Routes = [
       {
         path: 'set-countdown',
         component: SetCountdownComponent,
+      },
+      {
+        path: 'add-promtional-flyer',
+        component: AddPromotionalFlyerComponent,
+      },
+      {
+        path: 'all-promotional-flyer',
+        component: AllPromotionalFlyerComponent,
       },
     ],
   },
