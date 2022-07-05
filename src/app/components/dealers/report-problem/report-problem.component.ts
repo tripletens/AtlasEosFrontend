@@ -18,6 +18,7 @@ export class ReportProblemComponent implements OnInit {
   uploadedFile: any;
   formLoader = false;
   responseError: any;
+  responseSuccess: any;
   constructor(
     private token: TokenStorageService,
     private postData: HttpRequestsService,
@@ -28,10 +29,12 @@ export class ReportProblemComponent implements OnInit {
   fileUpload() {
     this.uploadedFile = this.photo.nativeElement?.files[0];
 
-    // console.log('file changefd', this.uploadedFile, "tojken",  this.token.getUser().account_id,);
+    console.log('file changefd', this.uploadedFile);
   }
   submitReport() {
     this.formLoader = false;
+    this.responseError = false;
+    this.responseSuccess = false;
     let sub = this.subject.nativeElement.value!;
     let desc = this.description.nativeElement.value!;
     let img = this.uploadedFile!;
@@ -45,21 +48,41 @@ export class ReportProblemComponent implements OnInit {
         role: 'dealer',
         dealer_id: this.token.getUser().account_id,
       };
-      console.log('formdata', sub, desc, img, formData);
-      // this.postData
-      //   .httpPostRequest('/create-report',formData)
-      //   .then((result: any) => {
-      //     this.formLoader = false;
-      //     if (result.status) {
-      //       console.log('result', result);
-      //     } else {
-      //       this.toastr.error('', `Something went wrong`);
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     this.toastr.error('Something went wrong', `Network Error`);
-      //     this.formLoader = false;
-      //   });
+      console.log('formdata', sub, desc, typeof img, formData);
+      this.postData
+        .httpPostRequest('/create-report', formData)
+        .then((result: any) => {
+          this.formLoader = false;
+          if (result.status) {
+            console.log('result', result);
+                this.responseSuccess = true;
+
+          } else {
+            let error = result.message.response;
+            {
+              error.photo &&
+                this.toastr.error(`${error.photo}`, `Something went wrong`);
+            }
+            {
+              error.subject &&
+                this.toastr.error(`${error.subject}`, `Something went wrong`);
+            }
+            {
+              error.description &&
+                this.toastr.error(
+                  `${error.description}`,
+                  `Something went wrong`
+                );
+            }
+            console.log('result else', result);
+          }
+        })
+        .catch((err) => {
+          console.log('erroror', err);
+
+          this.toastr.error('', `Something went wrong`);
+          this.formLoader = false;
+        });
     } else {
       this.formLoader = false;
       this.formError = true;

@@ -33,6 +33,8 @@
     text-transform: uppercase;
     font-weight: 500;
   }
+  .bg-whitish{ background-color: #dfdfdf8b !important;
+  color: #303030 !important;}
 
   td {
     background-color: #dfdfdf;
@@ -44,6 +46,9 @@
       width: 60px;
       height: 30px;
       border-radius: 4px;
+      ::placeholder{
+        color: #dfdfdfb8 !important;
+      }
       border: none;
     }
   }
