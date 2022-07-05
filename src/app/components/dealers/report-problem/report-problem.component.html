@@ -12,11 +12,13 @@
               </div>
               <div class="card-body">
                 <form>
+                  <p class="text-danger" *ngIf="formError">*input field empty</p>
                   <input
                     type="text"
                     #subject
                     class="form-control mb-2"
                     placeholder="Subject"
+                    required
                   />
                   <textarea
                     name="complaint"
@@ -25,7 +27,7 @@
                     placeholder="Please give a detailed description of the problem, and a member of our admin team would  be in touch with you as soon as possible"
                     id=""
                     cols="30"
-                    rows="10"
+                    rows="10" required 
                   ></textarea>
                   <div class="alert alert-warning mt-2">
                     <i class="fa fa-info-circle"></i>&nbsp;&nbsp; Max attachment
@@ -35,7 +37,9 @@
                   <input
                     name="file"
                     #photo
-                    type="file"
+                    type="image"
+                    (change)="fileUpload()"
+                    max-size="5000"
                     class="form-control-file p-2"
                     style="border: 0.2px solid #ced4da"
                   />
@@ -44,6 +48,7 @@
                       class="btn btn-light"
                       style="border: 0.2px solid #858383"
                       [disabled]="formLoader"
+                      (click)="submitReport()"
                     >
                       <div *ngIf="!formLoader">
                         <i class="fa fa-paper-plane mr-2"></i>Send
