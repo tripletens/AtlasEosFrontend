@@ -173,3 +173,13 @@ html {
 label {
   font-size: 13px;
 }
+
+.add-btn-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.pdf-btn-wrapper {
+  display: flex;
+  gap: 15px;
+}

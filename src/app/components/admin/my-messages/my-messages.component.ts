@@ -86,8 +86,8 @@ export class MyMessagesComponent implements OnInit {
     this.getAllVendors()
 
     setInterval(() => {
-      this.getVendorUnreadMsg()
-      this.getDealerUnreadMsg()
+      //this.getVendorUnreadMsg()
+      //this.getDealerUnreadMsg()
     }, 10000)
   }
 

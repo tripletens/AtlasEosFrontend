@@ -4,37 +4,6 @@
       <!-- <div class="col-md-1 col-12"></div> -->
 
       <div class="col-md-6 col-12">
-        <button
-          *ngIf="setCsvBtn"
-          (click)="callUploadInput()"
-          class="btn btn-block upload-btn mb-2"
-        >
-          <span class="fa fa-upload upload-icon"></span>
-          <span>Upload Vendor Users Csv</span>
-        </button>
-        <button
-          *ngIf="uploadCsvSendBtn"
-          (click)="uploadCsvServer()"
-          class="btn btn-danger btn-block mb-2 p-2"
-        >
-          <span *ngIf="csvBtnText">
-            <span class="fa fa-upload upload-icon"></span>
-            Upload
-          </span>
-          <div *ngIf="csvBtnLoader">
-            <span class="spinner-border spinner-border-sm"></span>
-          </div>
-        </button>
-        <input
-          required
-          type="file"
-          class="file-input-tag"
-          #fileCsv
-          id="csvFile"
-          (change)="fileCsvUpload(fileCsv.files)"
-          name="csvFile"
-        />
-
         <div class="card justify-content-center">
           <div class="card-body">
             <!-- multistep form -->
@@ -46,55 +15,24 @@
                 <div class="form-row">
                   <div class="col-md-12 mb-4">
                     <div class="form-group">
-                      <label for="">Name</label>
+                      <label for="">Promotional Name</label>
                       <input
                         type="text"
-                        name="fullName"
+                        name="name"
                         class="input-value shadow-sm"
-                        placeholder="Full Name"
+                        placeholder="Promotional Flyer Name"
                         required
-                        formControlName="fullName"
+                        formControlName="name"
                       />
                       <div
                         class="input-alert-box"
                         *ngIf="
-                          vendorUserFormControls.fullName.invalid &&
-                          manualChecker
+                          vendorUserFormControls.name.invalid && manualChecker
                         "
                       >
                         <div>
                           <span class="alert-input-msg">
-                            {{ getErrorMessage('fullName') }}
-                          </span>
-                          <span
-                            class="fa fa-exclamation-triangle alert-input-icon"
-                            style="float: right;"
-                          ></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-12 mb-4">
-                    <div class="form-group">
-                      <label for="">Description</label>
-
-                      <input
-                        type="text"
-                        name="email"
-                        class="input-value shadow-sm"
-                        placeholder="Email Address"
-                        required
-                        formControlName="email"
-                      />
-                      <div
-                        class="input-alert-box"
-                        *ngIf="
-                          vendorUserFormControls.email.invalid && manualChecker
-                        "
-                      >
-                        <div>
-                          <span class="alert-input-msg">
-                            {{ getErrorMessage('email') }}
+                            {{ getErrorMessage('name') }}
                           </span>
                           <span
                             class="fa fa-exclamation-triangle alert-input-icon"
@@ -147,61 +85,58 @@
                       </div>
                     </div>
                   </div>
-
-                  <div class="col-md-6 mb-4">
-                    <div class="form-group">
-                      <label for="">Image</label>
-
-                      <input
-                        type="text"
-                        class="input-value shadow-sm"
-                        name="password"
-                        placeholder="password"
-                        required
-                        formControlName="password"
-                      />
-
-                      <div
-                        class="input-alert-box"
-                        *ngIf="vendorUserFormControls.password && manualChecker"
-                      >
-                        <div>
-                          <span class="alert-input-msg">
-                            {{ getErrorMessage('password') }}
-                          </span>
-                          <span
-                            class="fa fa-exclamation-triangle alert-input-icon"
-                            style="float: right;"
-                          ></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
 
                 <div class="form-row">
-                  <div class="col-md-6 mb-4">
+                  <div class="col-md-12 mb-4">
                     <div class="form-group">
                       <label for="">PDF File</label>
+                      <div class="pdf-btn-wrapper">
+                        <div>
+                          <button
+                            *ngIf="setCsvBtn"
+                            (click)="callUploadInput()"
+                            class="btn btn-block upload-btn mb-2"
+                          >
+                            <span class="fa fa-upload upload-icon"></span>
+                            <span>Upload Vendor Users Csv</span>
+                          </button>
 
-                      <input
-                        type="text"
-                        class="input-value shadow-sm"
-                        name="privilegeVendors"
-                        placeholder="privilege vendors"
-                        formControlName="privilegeVendors"
-                      />
+                          <!-- <button
+                            *ngIf="uploadCsvSendBtn"
+                            (click)="uploadCsvServer()"
+                            class="btn btn-danger btn-block mb-2 p-2"
+                          >
+                            <span *ngIf="csvBtnText">
+                              <span class="fa fa-upload upload-icon"></span>
+                              Upload
+                            </span>
+                            <div *ngIf="csvBtnLoader">
+                              <span
+                                class="spinner-border spinner-border-sm"
+                              ></span>
+                            </div>
+                          </button> -->
 
-                      <div
-                        class="input-alert-box"
-                        *ngIf="
-                          vendorUserFormControls.privilegeVendors.invalid &&
-                          manualChecker
-                        "
-                      >
+                          <input
+                            required
+                            type="file"
+                            class="file-input-tag"
+                            #fileCsv
+                            id="csvFile"
+                            (change)="fileCsvUpload(fileCsv.files)"
+                            name="csvFile"
+                          />
+                        </div>
+                        <div>
+                          <h6>{{ selectedPdfName }}</h6>
+                        </div>
+                      </div>
+
+                      <div class="input-alert-box" *ngIf="pdfErrorMsg">
                         <div>
                           <span class="alert-input-msg">
-                            {{ getErrorMessage('privilegeVendors') }}
+                            {{ getErrorMessage('pdf') }}
                           </span>
                           <span
                             class="fa fa-exclamation-triangle alert-input-icon"
@@ -213,15 +148,16 @@
                   </div>
                 </div>
 
-                <button class="submit-btn" (click)="submit()">
-                  <span *ngIf="btnText">
-                    Add Promotional Flyer
-                    <span class="fa fa-user-plus dealer-icon"></span>
-                  </span>
-                  <div *ngIf="btnLoader">
-                    <span class="spinner-border spinner-border-sm"></span>
-                  </div>
-                </button>
+                <div class="add-btn-wrapper">
+                  <button class="submit-btn" (click)="uploadPromotionalFlyer()">
+                    <span *ngIf="btnText">
+                      Add Promotional Flyer
+                    </span>
+                    <div *ngIf="btnLoader">
+                      <span class="spinner-border spinner-border-sm"></span>
+                    </div>
+                  </button>
+                </div>
               </fieldset>
             </form>
           </div>
