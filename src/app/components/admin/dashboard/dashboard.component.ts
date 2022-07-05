@@ -165,10 +165,6 @@ export class DashboardComponent implements OnInit {
       })
   }
 
-  ngOnInit(): void {
-    this.getDashboardData()
-  }
-
   getDashboardData() {
     this.getData
       .httpGetRequest('/admin-dashboard')
