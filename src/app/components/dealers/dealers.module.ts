@@ -31,6 +31,7 @@ import { MessagesComponent } from './messages/messages.component'
 
 import { PromotionalFlyerComponent } from './promotional-flyer/promotional-flyer.component'
 import { SearchComponent } from './search/search.component'
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,7 @@ import { SearchComponent } from './search/search.component'
     FormsModule,
     NgApexchartsModule,
     MatTableModule,
-    MatPaginatorModule,
+    MatPaginatorModule,MatSortModule,
     PdfViewerModule,
   ],
 })

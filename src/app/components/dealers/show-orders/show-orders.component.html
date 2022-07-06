@@ -31,6 +31,8 @@
               class="order-form-table w-100 mat-elevation"
               mat-table
               [dataSource]="dataSrc"
+              matSort
+              (matSortChange)="announceSortChange($event)"
             >
               <ng-container matColumnDef="qty">
                 <th
@@ -40,27 +42,43 @@
                 >
                   Qty
                 </th>
-                <td mat-cell *matCellDef="let element" class="text-center">
+                <td
+                  mat-cell
+                  *matCellDef="let element; index as i"
+                  class="text-center"
+                >
                   <input
                     type="number"
                     class="mx-auto"
                     min="0"
+                    #qtyInput
+                    (input)="runCalc(element, qtyInput.value, i)"
                     placeholder="Qty"
                   />
                 </td>
               </ng-container>
               <ng-container matColumnDef="atlas_id">
-                <th mat-header-cell *matHeaderCellDef>
-                  Atlas #<button class="btn">
-                    <i class="fa fa-sort text-white"></i>
-                  </button>
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription="Sort by number"
+                >
+                  Atlas #
                 </th>
                 <td mat-cell *matCellDef="let element">
                   {{ element.atlas_id! }}
                 </td>
               </ng-container>
               <ng-container matColumnDef="vendor">
-                <th mat-header-cell *matHeaderCellDef>Vendor #</th>
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription="Sort by name"
+                >
+                  Vendor #
+                </th>
                 <td mat-cell *matCellDef="let element">
                   {{ element.vendor }}
                 </td>
@@ -71,17 +89,6 @@
                 <th></th>
                 <td mat-cell *matCellDef="let element" class="short-note-con">
                   <span class="desc-text">{{ element.description! }}</span>
-                  <span *ngFor="let spec of element.spec_data!; let l = index">
-                    <span
-                      [class.assorted-color]="spec.type == 'assorted'"
-                    ></span>
-                    <span
-                      [class.assorted-color]="spec.type == 'assorted'"
-                      [class.quantity-color]="spec.type == 'special'"
-                    >
-                      {{ spec.desc! }}
-                    </span>
-                  </span>
                 </td>
               </ng-container>
 
@@ -92,13 +99,13 @@
                   <span class="booking-text">
                     {{ element.regular | currency }}
                   </span>
-                  <span *ngFor="let spec of element.spec_data">
+                  <!-- <span *ngFor="let spec of element.spec_data">
                     <span
                       [class.assorted-color]="spec.type == 'assorted'"
                       [class.quantity-color]="spec.type == 'special'"
                       >{{ spec.special | currency }}</span
                     >
-                  </span>
+                  </span> -->
                 </td>
               </ng-container>
               <ng-container matColumnDef="special">
@@ -107,10 +114,10 @@
                 <td mat-cell *matCellDef="let element" class="text-center">
                   <input
                     type="number"
-                    class="mx-auto "
+                    class="mx-auto"
                     min="0"
                     disabled
-                   value="{{element.booking}}"
+                    value="{{ element.booking }}"
                   />
                 </td>
               </ng-container>
@@ -121,9 +128,9 @@
                   <input
                     type="number"
                     disabled
-                    class="mx-auto "
+                    class="mx-auto"
                     min="0"
-                   
+                    value="{{element.extended}}"
                   />
                 </td>
               </ng-container>
@@ -149,6 +156,40 @@
               <button class="btn text-bold text-white bg-blue">
                 Confirm Order
               </button>
+            </div>
+            <div class="d-flex flex-column indicator-wrapper">
+              <div class="d-flex">
+                <div>
+                  <div class="indicator-color"></div>
+                </div>
+                <div>
+                  <h6>Quantity Break Items</h6>
+                </div>
+              </div>
+              <div class="d-flex">
+                <div>
+                  <div class="indicator-color"></div>
+                </div>
+                <div>
+                  <h6>Assorted Items</h6>
+                </div>
+              </div>
+              <div class="d-flex">
+                <div>
+                  <div class="indicator-color"></div>
+                </div>
+                <div>
+                  <h6>Regular Show Priced Items</h6>
+                </div>
+              </div>
+              <div class="d-flex">
+                <div>
+                  <div class="indicator-color"></div>
+                </div>
+                <div>
+                  <h6>New Items</h6>
+                </div>
+              </div>
             </div>
           </div>
         </div>
