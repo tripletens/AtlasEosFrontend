@@ -258,7 +258,7 @@ export class ShowOrdersComponent implements OnInit {
       total = parseFloat(total.toFixed(2));
       usedVar.price = total;
     }
-    this.orderTable.push(usedVar);
+
     calcTotal();
     this.dataSrc.data[i].extended = total;
     this.dataSrc.sort = this.sort;
@@ -270,9 +270,8 @@ export class ShowOrdersComponent implements OnInit {
       qty,
       posssibleBreak,
       priceSummary,
-      specData,
-      'table',
-     
+      usedVar,
+      'table'
     );
   }
 }
