@@ -21,25 +21,34 @@
                   </div>
                   <div class="select-wrapper">
                     <select name="" id="">
-                      <option value="">ACUVA TECHNOLOGIES</option>
-                      <option value="">AP - BRAKE COMPONENTS</option>
-                      <option value="">AP - SURFACE SHEILDS</option>
-                      <option value="">B'LASTER HOLDINGS LLC</option>
+                      <option value="">Select vendor</option>
+
+                      <option
+                        (click)="selectedVendor(data)"
+                        *ngFor="let data of privilegedVendors"
+                      >
+                        {{ data.vendor_name }}
+                      </option>
                     </select>
                   </div>
                   <div class="btn-wrapper">
-                    <button class="">
+                    <button class="" (click)="getVendorProducts()">
                       <span class="fa fa-search"></span>
                       Search
                     </button>
                   </div>
                 </div>
 
-                <h6 class="selected-title-name">AP - SURFACE SHEILDS</h6>
+                <h6 class="selected-title-name">{{ selectedVendorName }}</h6>
 
                 <div class="d-flex justify-content-end search-wrapper w-100">
                   <div>
-                    <input type="text" placeholder="search.........." />
+                    <input
+                      type="text"
+                      placeholder="search.........."
+                      (keyup)="applyFilter($event)"
+                      #input
+                    />
                   </div>
                 </div>
 
@@ -120,27 +129,80 @@
                       </tr>
                     </tbody>
                   </table>
+                </div>
 
+                <div
+                  class="table-responsive table-data-section"
+                  *ngIf="tableView"
+                >
                   <table
-                    *ngIf="tableView"
-                    class="table table-striped text-nowrap table-wrapper2 align-items-center mb-0"
+                    mat-table
+                    [dataSource]="dataSource"
+                    class="mat-elevation w-100 table table-striped table-bordered"
+                    matSort
                   >
-                    <thead>
-                      <tr>
-                        <th class="thead-custom">Atlas #</th>
-                        <th class="thead-custom">Vendor #</th>
-                        <th class="thead-custom">Description Sales</th>
-                        <th class="thead-custom">Regular ($)</th>
-                        <th class="thead-custom">Special ($)</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td colspan="5" class="text-center">No order found</td>
-                      </tr>
-                    </tbody>
+                    <!--- Note that these columns can be defined in any order.
+                          The actual rendered columns are set as a property on the row definition" -->
+
+                    <!-- Position Column -->
+
+                    <ng-container matColumnDef="atlas_id">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Atlas
+                      </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.atlas_id }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="vendor">
+                      <th mat-header-cell *matHeaderCellDef>
+                        Vendor
+                      </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.vendor_code }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="description">
+                      <th mat-header-cell *matHeaderCellDef>Description</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.description }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="regular">
+                      <th mat-header-cell *matHeaderCellDef>Regular ($)</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.regular }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="show">
+                      <th mat-header-cell *matHeaderCellDef>Special ($)</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.booking }}
+                      </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr
+                      mat-row
+                      *matRowDef="let row; columns: displayedColumns"
+                    ></tr>
                   </table>
                 </div>
+
+                <mat-paginator
+                  #paginator
+                  [pageSizeOptions]="[20, 60, 80]"
+                  showFirstLastButtons
+                  pageSize="20"
+                ></mat-paginator>
+
+                <!-- 
 
                 <div class="d-flex flex-column indicator-wrapper">
                   <div class="d-flex">
@@ -176,6 +238,8 @@
                     </div>
                   </div>
                 </div>
+
+ -->
               </div>
             </div>
           </div>

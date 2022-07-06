@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ViewChild } from '@angular/core'
+import { TokenStorageService } from 'src/app/core/services/token-storage.service'
+import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
+import { MatPaginator } from '@angular/material/paginator'
+import { MatTableDataSource } from '@angular/material/table'
+import { MatSort, Sort } from '@angular/material/sort'
 
 @Component({
   selector: 'app-purchases-dealer',
@@ -8,7 +13,79 @@ import { Component, OnInit } from '@angular/core'
 export class PurchasesDealerComponent implements OnInit {
   tableView = true
   loader = false
-  constructor() {}
+  userData: any
+  privilegedVendors: any
+  selectedVendorName!: string
+  selectedVendorCode!: string
+  vendorProductData: any
+  incomingData: any
+  sn = 0
+  selectedState = false
+
+  noDataFound = false
+  TotalForVendorAmount: number = 0
+
+  constructor(
+    private tokenData: TokenStorageService,
+    private httpServer: HttpRequestsService,
+  ) {
+    this.userData = tokenData.getUser()
+    this.getPrivilegedVendors()
+  }
 
   ngOnInit(): void {}
+
+  getVendorPurchasers() {
+    if (this.selectedVendorCode) {
+      this.selectedState = true
+
+      this.tableView = false
+      this.loader = true
+      this.httpServer
+        .httpGetRequest(
+          '/vendor/get-purchases-dealers/' + this.selectedVendorCode,
+        )
+        .then((result: any) => {
+          this.tableView = true
+          this.loader = false
+          console.log(result)
+          if (result.status) {
+            this.tableView = true
+            this.incomingData = result.data
+            this.noDataFound = result.data.length > 0 ? false : true
+            if (result.data.length > 0) {
+              for (let index = 0; index < result.data.length; index++) {
+                const each = result.data[index]
+                this.TotalForVendorAmount += parseFloat(each.amount)
+              }
+            }
+          } else {
+          }
+        })
+        .catch((err) => {})
+    }
+  }
+
+  selectedVendor(data: any) {
+    this.selectedVendorName = data.vendor_name
+    this.selectedVendorCode = data.vendor_code
+  }
+
+  getPrivilegedVendors() {
+    this.httpServer
+      .httpGetRequest(
+        '/vendor/get-privileged-vendors/' +
+          this.userData.id +
+          '/' +
+          this.userData.vendor_code,
+      )
+      .then((result: any) => {
+        console.log(result)
+        if (result.status) {
+          this.privilegedVendors = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
 }

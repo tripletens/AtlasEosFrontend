@@ -12,7 +12,7 @@
               </div>
               <div>
                 <h6 class="overview-title">Total Order Received</h6>
-                <h5 class="overview-value">76</h5>
+                <h5 class="overview-value">{{ orderReceived }}</h5>
               </div>
             </div>
           </div>
@@ -29,7 +29,7 @@
               </div>
               <div>
                 <h6 class="overview-title">Total Sales</h6>
-                <h5 class="overview-value">76</h5>
+                <h5 class="overview-value">{{ totalSales }}</h5>
               </div>
             </div>
           </div>
@@ -136,7 +136,7 @@
 
                   <table
                     *ngIf="tableView"
-                    class="table table-stripe text-nowrap table-wrapper2 align-items-center mb-0"
+                    class="table table-striped text-nowrap table-wrapper2 align-items-center mb-0"
                   >
                     <thead>
                       <tr>
@@ -147,17 +147,25 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      <tr *ngFor="let data of mostPurchasers">
                         <td>
-                          <span class="tbody-text">0</span>
+                          <span class="tbody-text">{{ data.dealer }}</span>
                         </td>
                         <td>
                           <span class="tbody-text">
-                            0
+                            {{ data.dealer_name }}
                           </span>
                         </td>
                         <td>
-                          <span class="tbody-text">0</span>
+                          <span class="tbody-text sales-text">
+                            {{ data.sales }}
+                          </span>
+                        </td>
+                        <td>
+                          <span class="tbody-text trend-text">
+                            5.4%
+                          </span>
+                          <span class="fa fa-arrow-up trend-icon"></span>
                         </td>
                       </tr>
                     </tbody>

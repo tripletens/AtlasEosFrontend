@@ -1,3 +1,15 @@
+.loader-td {
+  padding: 0px !important;
+}
+
+.ph-item {
+  padding: 0px !important;
+}
+
+.ph-picture {
+  height: 50px !important;
+}
+
 .filter-wrapper {
   gap: 20px;
 
@@ -141,18 +153,6 @@
   padding-left: 10px;
 }
 
-.table-wrapper2 {
-  thead {
-    background-color: #1d7471;
-  }
-
-  thead th {
-    color: #ffffff !important;
-    padding: 10px;
-    border-radius: 5px;
-  }
-}
-
 .select-wrapper {
   width: 300px;
 
@@ -182,4 +182,26 @@
 
 .btn-section {
   gap: 10px;
+}
+
+.table-wrapper2 {
+  thead {
+    background-color: #1d7471;
+    font-weight: 800;
+  }
+
+  thead th {
+    color: #ffffff !important;
+    padding: 10px;
+  }
+}
+
+.total-col {
+  text-align: right;
+}
+
+.total-name {
+  font-weight: 800;
+  color: red;
+  font-size: 14px;
 }
