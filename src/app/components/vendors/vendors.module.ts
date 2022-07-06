@@ -14,6 +14,9 @@ import { VendorOrderComponent } from './vendor-order/vendor-order.component'
 import { ReportProblemComponent } from './report-problem/report-problem.component'
 import { MessagesComponent } from './messages/messages.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { MatPaginatorModule } from '@angular/material/paginator'
+import { MatTableModule } from '@angular/material/table'
+import { MatSortModule } from '@angular/material/sort'
 
 @NgModule({
   declarations: [
@@ -34,6 +37,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
     VendorsRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule,
   ],
 })
 export class VendorsModule {}

@@ -1,3 +1,15 @@
+.loader-td {
+  padding: 0px !important;
+}
+
+.ph-item {
+  padding: 0px !important;
+}
+
+.ph-picture {
+  height: 50px !important;
+}
+
 .filter-wrapper {
   gap: 10px;
   margin-bottom: 20px;
@@ -143,14 +155,41 @@
   padding: 45px;
 }
 
-.table-wrapper2 {
-  thead {
-    background-color: #1d7471;
-  }
+// .table-wrapper2 {
+//   thead {
+//     background-color: #1d7471;
+//   }
 
-  thead th {
-    color: #ffffff !important;
-    padding: 10px;
-    border-radius: 5px;
+//   thead th {
+//     color: #ffffff !important;
+//     padding: 10px;
+//     border-radius: 5px;
+//   }
+// }
+
+.table-data-section {
+  ::ng-deep {
+    table thead {
+      background-color: #1d7471;
+      height: 20px !important;
+
+      color: #ffffff;
+      * {
+        color: #ffffff;
+        text-align: center;
+        font-size: 14px !important;
+      }
+    }
+
+    table tbody {
+      * {
+        font-size: 14px !important;
+        padding: 5px !important;
+      }
+
+      td {
+        padding-left: 10px;
+      }
+    }
   }
 }
