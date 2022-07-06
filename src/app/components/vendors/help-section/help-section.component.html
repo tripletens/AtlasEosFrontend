@@ -5,7 +5,7 @@
         <div id="accordion6" class="mb-3">
           <div class="card">
             <div class="card-header">
-              <a class="card-link" data-toggle="collapse" href="#collapseSix">
+              <a class="top-title" data-toggle="collapse" href="#collapseSix">
                 User Help
               </a>
             </div>
@@ -19,6 +19,36 @@
                   <span class="fa fa-comments"></span>
                   <span>Frequently Asked Questions</span>
                 </h6>
+
+                <div *ngFor="let data of faqData; let i = index">
+                  <div id="accordion{{ data.id }}" class="mb-3">
+                    <div class="card">
+                      <div class="card-header inner-card-header">
+                        <a
+                          class="card-link"
+                          [ngClass]="i == 0 ? '' : 'collapsed'"
+                          data-toggle="collapse"
+                          href="#collapseSeven{{ data.id }}"
+                        >
+                          <span class="fa fa-minus"></span>
+                          {{ data.title }}
+                          <span class="caret"></span>
+                        </a>
+                      </div>
+                      <div
+                        id="collapseSeven{{ data.id }}"
+                        class="collapse"
+                        [ngClass]="i == 0 ? 'show' : ''"
+                      >
+                        <div class="card-body p-2">
+                          <h5>{{ data.subtitle }}</h5>
+
+                          <h6>{{ data.description }}</h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

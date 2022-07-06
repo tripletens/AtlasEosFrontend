@@ -11,74 +11,25 @@ export class HelpSectionComponent implements OnInit {
   tableView = true
   loader = false
   userData: any
-  privilegedVendors: any
-  selectedVendorName!: string
-  selectedVendorCode!: string
-  vendorProductData: any
-  incomingData: any
-  sn = 0
-  selectedState = false
-
-  noDataFound = false
-  totalAmount: number = 0
+  faqData: any
 
   constructor(
     private tokenData: TokenStorageService,
     private httpServer: HttpRequestsService,
   ) {
     this.userData = tokenData.getUser()
+    this.getVendorFaq()
   }
 
   ngOnInit(): void {}
 
-  getSalesSummary() {
-    if (this.selectedVendorCode) {
-      this.selectedState = true
-
-      this.tableView = false
-      this.loader = true
-      this.httpServer
-        .httpGetRequest(
-          '/vendor/get-sales-by-item-detailed/' + this.selectedVendorCode,
-        )
-        .then((result: any) => {
-          this.tableView = true
-          this.loader = false
-          console.log(result)
-          if (result.status) {
-            this.tableView = true
-            this.incomingData = result.data.res
-            this.noDataFound = result.data.res.length > 0 ? false : true
-            if (result.data.length > 0) {
-              for (let index = 0; index < result.data.res.length; index++) {
-                const each = result.data.res[index]
-                this.totalAmount += parseFloat(each.total)
-              }
-            }
-          } else {
-          }
-        })
-        .catch((err) => {})
-    }
-  }
-
-  selectedVendor(data: any) {
-    this.selectedVendorName = data.vendor_name
-    this.selectedVendorCode = data.vendor_code
-  }
-
-  getPrivilegedVendors() {
+  getVendorFaq() {
     this.httpServer
-      .httpGetRequest(
-        '/vendor/get-privileged-vendors/' +
-          this.userData.id +
-          '/' +
-          this.userData.vendor_code,
-      )
+      .httpGetRequest('/vendor/get-vendor-faq')
       .then((result: any) => {
         console.log(result)
         if (result.status) {
-          this.privilegedVendors = result.data
+          this.faqData = result.data
         } else {
         }
       })

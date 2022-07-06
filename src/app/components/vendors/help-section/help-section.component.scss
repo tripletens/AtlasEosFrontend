@@ -144,11 +144,29 @@
   margin-bottom: 20px;
 }
 
+.inner-card-header {
+  background-color: #06504d;
+  color: #ffffff;
+  padding: 0px !important;
+  border-radius: 5px;
+  border-left: 4px solid #06504d;
+  border-bottom: 0px !important;
+}
+
+.collapsed {
+  background-color: #ffffff !important;
+  color: #06504d !important;
+}
+
 .card-link {
-  font-size: 20px;
-  font-weight: 400;
-  color: black;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
   padding-left: 10px;
+  padding: 10px;
+  display: block;
+  width: 100%;
+  text-decoration: none;
 }
 
 .head-text-title {
@@ -159,4 +177,9 @@
     display: inline-block;
     margin-right: 10px;
   }
+}
+
+.top-title {
+  color: #4a0013;
+  font-size: 15px;
 }
