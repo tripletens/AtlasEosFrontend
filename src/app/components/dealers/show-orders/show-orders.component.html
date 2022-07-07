@@ -130,7 +130,7 @@
                     disabled
                     class="mx-auto"
                     min="0"
-                    value="{{element.extended}}"
+                    value="{{ element.extended }}"
                   />
                 </td>
               </ng-container>
@@ -153,8 +153,16 @@
               *ngIf="canOrder"
               style="border-top: 0.2px solid rgba(98, 98, 98, 0.484)"
             >
-              <button class="btn text-bold text-white bg-blue">
-                Confirm Order
+              <button
+                class="btn text-bold text-white bg-blue"
+                [disabled]="cartLoader"
+                (click)="submitOrder()"
+              >
+                <div *ngIf="!cartLoader">Confirm Order</div>
+                <div *ngIf="cartLoader">
+                  <span class="spinner-border spinner-border-sm text-dark">
+                  </span>
+                </div>
               </button>
             </div>
             <div class="d-flex flex-column indicator-wrapper">

@@ -14,6 +14,7 @@ import { HttpRequestsService } from 'src/app/core/services/http-requests.service
 import { MatSortModule } from '@angular/material/sort';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { TokenStorageService } from 'src/app/core/services/token-storage.service';
 
 export interface PeriodicElement {
   atlas_id: any;
@@ -45,6 +46,7 @@ export class ShowOrdersComponent implements OnInit {
   noData = false;
   tableLoader = false;
   tableStatus = false;
+  cartLoader = false;
   productData: any;
   @ViewChild('vendorId') vendor!: ElementRef;
   vendorId: any;
@@ -64,13 +66,14 @@ export class ShowOrdersComponent implements OnInit {
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   canOrder = false;
-  orderTable: any;
+  orderTable: object[] = [];
   constructor(
     private getData: HttpRequestsService,
     private toastr: ToastrService,
     private router: Router,
     private route: ActivatedRoute,
-    private _liveAnnouncer: LiveAnnouncer
+    private _liveAnnouncer: LiveAnnouncer,
+    private token: TokenStorageService
   ) {
     this.getAllVendors();
     this.route.params.subscribe((params) => {
@@ -118,10 +121,10 @@ export class ShowOrdersComponent implements OnInit {
       // console.log('item reduce', item.atlas_id !== this.searchatlasId, item);
       return item.atlas_id !== this.searchatlasId!;
     });
-    console.log(' filter res', prodigal, newArray);
+    // console.log(' filter res', prodigal, newArray);
 
     newArray.unshift(prodigal[0]);
-    console.log(' mutated res', newArray);
+    // console.log(' mutated res', newArray);
 
     return newArray;
   }
@@ -131,7 +134,7 @@ export class ShowOrdersComponent implements OnInit {
       .httpGetRequest('/get-vendor-products/' + id)
       .then((result: any) => {
         if (result.status) {
-          console.log('search vendor res', result.data);
+          // console.log('search vendor res', result.data);
           this.tableData = result.data;
           this.dataSrc = new MatTableDataSource<PeriodicElement>(
             this.filterTop(result.data)
@@ -205,7 +208,7 @@ export class ShowOrdersComponent implements OnInit {
       qty: qty,
       price: 0,
       unit_price: price,
-      id: product.id,
+      product_id: product.id,
       grouping: product.grouping,
     };
 
@@ -226,6 +229,17 @@ export class ShowOrdersComponent implements OnInit {
         }
       }
     }
+    function replaceOldVal(arr: any) {
+      if (arr.length > 0) {
+        for (var j = 0; j < arr.length; j++) {
+          let Obj: any = arr[j]!;
+          if (Obj?.atlas_id == product.atlas_id) {
+            arr.splice(j, 1);
+          }
+        }
+      }
+    }
+
     function calcTotal() {
       if (qty > 0) {
         if (posssibleBreak) {
@@ -236,23 +250,27 @@ export class ShowOrdersComponent implements OnInit {
               usedVar.unit_price = priceSummary.specPrice;
               console.log('step 3', total);
             } else {
+              console.log('second else', total);
               total = qty * price;
+              console.log('below second else', total);
             }
           }
           if (priceSummary.assortItem) {
-            console.log('step 3');
+            console.log('step 3 assort');
             if (qty >= priceSummary.specCond) {
               total = qty * priceSummary.specPrice;
               usedVar.unit_price = priceSummary.specPrice;
-              console.log('step 3', total);
+              console.log('step 3 assort', total);
             } else {
+              console.log('second else assort', total);
               total = qty * price;
+              console.log('below second else assort', total);
             }
-          } else {
-            total = qty * price;
           }
         } else {
+          console.log('first else', total);
           total = qty * price;
+          console.log('below first else', total);
         }
       }
       total = parseFloat(total.toFixed(2));
@@ -260,6 +278,8 @@ export class ShowOrdersComponent implements OnInit {
     }
 
     calcTotal();
+    replaceOldVal(this.orderTable);
+    this.orderTable.push(usedVar);
     this.dataSrc.data[i].extended = total;
     this.dataSrc.sort = this.sort;
     this.dataSrc.paginator = this.paginator;
@@ -269,9 +289,52 @@ export class ShowOrdersComponent implements OnInit {
       price,
       qty,
       posssibleBreak,
+      'price sum',
       priceSummary,
+      'var added',
       usedVar,
-      'table'
+      'table',
+      this.orderTable
     );
+  }
+  submitOrder() {
+    this.cartLoader = true;
+    let uid = this.token.getUser().id;
+    let accntId = this.token.getUser().account_id;
+    if (this.orderTable.length > 0) {
+      let formdata = {
+        uid: uid,
+        dealer: accntId,
+        vendor: this.dataSrc.data[0].vendor,
+        produc_array: this.orderTable,
+      };
+      this.getData
+        .httpPostRequest('/add-item-to-cart')
+        .then((result: any) => {
+          if (result.status) {
+            this.cartLoader = false;
+
+            this.orderTable = [];
+            if (this.searchatlasId) {
+              this.searchVendorId(this.vendorId!);
+            } else {
+              this.getProductByVendorId();
+            }
+          } else {
+            this.cartLoader = false;
+
+            this.toastr.info(`Something went wrong`, 'Error');
+          }
+        })
+        .catch((err) => {
+          this.cartLoader = false;
+
+          this.toastr.info(`Something went wrong`, 'Error');
+        });
+    } else {
+      this.cartLoader = false;
+
+      this.toastr.info(`No item quantity has been set`, 'Error');
+    }
   }
 }
