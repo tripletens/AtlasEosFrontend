@@ -7,6 +7,14 @@
 a {
   text-decoration: none !important;
 }
+.tbody-text-timer {
+  font-size: 14px;
+}
+.timer-table {
+  td {
+    padding: 15px 5px;
+  }
+}
 .card-icon {
   color: white;
   border-radius: 50%;
@@ -22,12 +30,12 @@ a {
 
   font-size: 32px;
 }
-.apexcharts-canvas{
-  tspan{
+.apexcharts-canvas {
+  tspan {
     font-size: 15px !important;
   }
 }
-.custom-select{
+.custom-select {
   font-size: 15px;
 }
 .countdown-header {
@@ -44,7 +52,7 @@ a {
   color: black;
   padding-left: 10px;
 }
-.table-wrapper{
+.table-wrapper {
   font-weight: 500;
   color: #fff;
   background-color: #0a5476;
