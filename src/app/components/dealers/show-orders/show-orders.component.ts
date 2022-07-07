@@ -309,7 +309,7 @@ export class ShowOrdersComponent implements OnInit {
         produc_array: this.orderTable,
       };
       this.getData
-        .httpPostRequest('/add-item-to-cart')
+        .httpPostRequest('/add-item-to-cart',formdata)
         .then((result: any) => {
           if (result.status) {
             this.cartLoader = false;

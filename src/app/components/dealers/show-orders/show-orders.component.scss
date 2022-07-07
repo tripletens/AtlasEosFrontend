@@ -121,8 +121,12 @@
 }
 
 .bg-blue {
-  background-color: #006ea0;
+  background-color: #006ea0 !important;
   color: #fff;
+  :hover{
+    
+ background-color: #006ea0 !important;
+  }
 }
 .highlight {
   td {
