@@ -43,6 +43,8 @@ export class AddVendorsComponent implements OnInit {
   imgStatus = false
   imgFileCount = false
 
+  browserName = ''
+
   constructor(
     private fb: FormBuilder,
     private postData: HttpRequestsService,
@@ -51,6 +53,27 @@ export class AddVendorsComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildDealerForm()
+    this.browserName = this.detectBrowserName()
+  }
+
+  detectBrowserName() {
+    const agent = window.navigator.userAgent.toLowerCase()
+    switch (true) {
+      case agent.indexOf('edge') > -1:
+        return 'edge'
+      case agent.indexOf('opr') > -1 && !!(<any>window).opr:
+        return 'opera'
+      case agent.indexOf('chrome') > -1 && !!(<any>window).chrome:
+        return 'chrome'
+      case agent.indexOf('trident') > -1:
+        return 'ie'
+      case agent.indexOf('firefox') > -1:
+        return 'firefox'
+      case agent.indexOf('safari') > -1:
+        return 'safari'
+      default:
+        return 'other'
+    }
   }
 
   SubmitDealer() {}
@@ -62,16 +85,40 @@ export class AddVendorsComponent implements OnInit {
   fileCsvUpload(files: any) {
     if (files.length === 0) return
     var mimeType = files[0].type
-    if (mimeType !== 'application/vnd.ms-excel') {
-      this.toastr.error(
-        'File type not supported, upload a CSV file',
-        `Upload Error`,
-      )
-      return
+    switch (this.browserName) {
+      case 'firefox':
+        if (mimeType !== 'application/vnd.ms-excel') {
+          this.toastr.error(
+            'File type not supported, upload a CSV file',
+            `Upload Error`,
+          )
+          return
+        }
+
+        break
+      case 'chrome':
+        if (mimeType !== 'text/csv') {
+          this.toastr.error(
+            'File type not supported, upload a CSV file',
+            `Upload Error`,
+          )
+          return
+        }
+
+        break
+
+      default:
+        if (mimeType !== 'application/vnd.ms-excel') {
+          this.toastr.error(
+            'File type not supported, upload a CSV file',
+            `Upload Error`,
+          )
+          return
+        }
+
+        break
     }
 
-    console.log('dhdhhd')
-    console.log(files)
     this.uploadCsvSendBtn = true
     this.setCsvBtn = false
     this.csvDataFile = files
