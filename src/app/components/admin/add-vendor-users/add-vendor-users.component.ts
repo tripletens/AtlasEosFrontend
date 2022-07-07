@@ -58,10 +58,6 @@ export class AddVendorUsersComponent implements OnInit {
     this.buildDealerForm()
     this.getVendors()
     this.browserName = this.detectBrowserName()
-
-    const userAgent = window.navigator.userAgent
-
-    console.log(userAgent)
   }
 
   detectBrowserName() {
@@ -158,8 +154,6 @@ export class AddVendorUsersComponent implements OnInit {
         break
     }
 
-    console.log('dhdhhd')
-    console.log(files)
     this.uploadCsvSendBtn = true
     this.setCsvBtn = false
     this.csvDataFile = files
