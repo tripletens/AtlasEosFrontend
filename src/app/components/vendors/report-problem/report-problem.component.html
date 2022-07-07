@@ -1,1 +1,145 @@
-<p>report-problem works!</p>
+<section>
+  <div class="container-fluid p-0">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <div id="accordion4" class="mb-3">
+          <div class="card">
+            <div class="card-header">
+              <div class="d-flex justify-content-between w-100">
+                <div>
+                  <a
+                    class="top-title"
+                    data-toggle="collapse"
+                    href="#collapsesection"
+                  >
+                    Report a Problem
+                  </a>
+                </div>
+                <div>
+                  <button>view ticket</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="accordion6" class="mb-3">
+          <div class="card">
+            <div class="card-header">
+              <a class="top-title" data-toggle="collapse" href="#collapseSix">
+                <span class="fa fa-comments"></span>
+                Please tell us more
+              </a>
+            </div>
+            <div
+              id="collapseSix"
+              class="collapse show"
+              data-parent="#accordion6"
+            >
+              <div class="card-body">
+                <form [formGroup]="faqForm">
+                  <div class="reply-text-wrapper">
+                    <div class="input-section mb-4">
+                      <input
+                        type="text"
+                        name="subject"
+                        placeholder="Subject"
+                        id=""
+                        formControlName="subject"
+                      />
+
+                      <div
+                        class="input-alert-box"
+                        *ngIf="faqFormControls.subject.invalid && manualChecker"
+                      >
+                        <div>
+                          <span class="alert-input-msg">
+                            {{ getErrorMessage('subject') }}
+                          </span>
+                          <span
+                            class="fa fa-exclamation-triangle alert-input-icon"
+                            style="float: right;"
+                          ></span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="input-section mb-4">
+                      <textarea
+                        class="reply-text"
+                        name="description"
+                        placeholder="Please give me a detail description of the problem, and a member of our team will be in touch with you as soon as possible"
+                        id=""
+                        formControlName="description"
+                      ></textarea>
+
+                      <div
+                        class="input-alert-box"
+                        *ngIf="
+                          faqFormControls.description.invalid && manualChecker
+                        "
+                      >
+                        <div>
+                          <span class="alert-input-msg">
+                            {{ getErrorMessage('description') }}
+                          </span>
+                          <span
+                            class="fa fa-exclamation-triangle alert-input-icon"
+                            style="float: right;"
+                          ></span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <h6 class="info-msg">
+                      <span class="fa fa-info-circle"></span>
+                      Max attachment is 5MB, File format supported (pdf, doc,
+                      docx, xls, jpeg, png, gif)
+                    </h6>
+
+                    <hr />
+
+                    <div class="btn-attachment-wrapper">
+                      <div class="attachment-wrapper">
+                        <input
+                          type="text"
+                          class="input-file-name-text"
+                          value="  {{ selectedfileName }}"
+                        />
+                        <button (click)="callUploadInput()">Attachment</button>
+
+                        <input
+                          required
+                          type="file"
+                          class="file-input-tag"
+                          #attachmentFile
+                          id="attachmentFile"
+                          (change)="fileCsvUpload(attachmentFile.files)"
+                          name="attachmentFile"
+                        />
+                      </div>
+                      <div class="send-btn-wrapper">
+                        <button class="submit-btn" (click)="submit()">
+                          <span *ngIf="btnText">
+                            <span class="fa fa-paper-plane"></span>
+                            Send
+                          </span>
+
+                          <div *ngIf="btnLoader">
+                            <span
+                              class="spinner-border spinner-border-sm"
+                            ></span>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
