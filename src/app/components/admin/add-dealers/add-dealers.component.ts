@@ -53,6 +53,8 @@ export class AddDealersComponent implements OnInit {
     this.buildDealerForm()
   }
 
+  exportTemplate() {}
+
   SubmitDealer() {}
 
   callUploadInput() {

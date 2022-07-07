@@ -171,3 +171,21 @@ html {
 .file-input-tag {
   display: none;
 }
+
+.top-btn-wrapper {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+
+  .download-template-btn {
+    background-color: orangered;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 4px;
+    border: 0px;
+  }
+}
+
+.table-template {
+  display: none;
+}

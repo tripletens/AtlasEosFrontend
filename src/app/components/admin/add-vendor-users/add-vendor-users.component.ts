@@ -45,6 +45,9 @@ export class AddVendorUsersComponent implements OnInit {
   allVendor: any
   stateVendorName!: string
 
+  browserName = ''
+  browserVersion = ''
+
   constructor(
     private fb: FormBuilder,
     private postData: HttpRequestsService,
@@ -54,6 +57,31 @@ export class AddVendorUsersComponent implements OnInit {
   ngOnInit(): void {
     this.buildDealerForm()
     this.getVendors()
+    this.browserName = this.detectBrowserName()
+
+    const userAgent = window.navigator.userAgent
+
+    console.log(userAgent)
+  }
+
+  detectBrowserName() {
+    const agent = window.navigator.userAgent.toLowerCase()
+    switch (true) {
+      case agent.indexOf('edge') > -1:
+        return 'edge'
+      case agent.indexOf('opr') > -1 && !!(<any>window).opr:
+        return 'opera'
+      case agent.indexOf('chrome') > -1 && !!(<any>window).chrome:
+        return 'chrome'
+      case agent.indexOf('trident') > -1:
+        return 'ie'
+      case agent.indexOf('firefox') > -1:
+        return 'firefox'
+      case agent.indexOf('safari') > -1:
+        return 'safari'
+      default:
+        return 'other'
+    }
   }
 
   getVendors() {
@@ -92,14 +120,42 @@ export class AddVendorUsersComponent implements OnInit {
   }
 
   fileCsvUpload(files: any) {
+    console.log(files)
     if (files.length === 0) return
     var mimeType = files[0].type
-    if (mimeType !== 'application/vnd.ms-excel') {
-      this.toastr.error(
-        'File type not supported, upload a CSV file',
-        `Upload Error`,
-      )
-      return
+
+    switch (this.browserName) {
+      case 'firefox':
+        if (mimeType !== 'application/vnd.ms-excel') {
+          this.toastr.error(
+            'File type not supported, upload a CSV file',
+            `Upload Error`,
+          )
+          return
+        }
+
+        break
+      case 'chrome':
+        if (mimeType !== 'text/csv') {
+          this.toastr.error(
+            'File type not supported, upload a CSV file',
+            `Upload Error`,
+          )
+          return
+        }
+
+        break
+
+      default:
+        if (mimeType !== 'application/vnd.ms-excel') {
+          this.toastr.error(
+            'File type not supported, upload a CSV file',
+            `Upload Error`,
+          )
+          return
+        }
+
+        break
     }
 
     console.log('dhdhhd')
