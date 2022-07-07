@@ -4,36 +4,89 @@
       <div class="col-md-1 col-12"></div>
 
       <div class="col-md-10 col-12">
-        <button
-          *ngIf="setCsvBtn"
-          (click)="callUploadInput()"
-          class="btn btn-block upload-btn mb-2"
-        >
-          <span class="fa fa-upload upload-icon"></span>
-          <span>Upload Vendor Users Csv</span>
-        </button>
-        <button
-          *ngIf="uploadCsvSendBtn"
-          (click)="uploadCsvServer()"
-          class="btn btn-danger btn-block mb-2 p-2"
-        >
-          <span *ngIf="csvBtnText">
-            <span class="fa fa-upload upload-icon"></span>
-            Upload
-          </span>
-          <div *ngIf="csvBtnLoader">
-            <span class="spinner-border spinner-border-sm"></span>
+        <div class="upload-btn-wrapper">
+          <div>
+            <button
+              *ngIf="setCsvBtn"
+              (click)="callUploadInput()"
+              class="btn btn-block upload-btn mb-2"
+            >
+              <span class="fa fa-upload upload-icon"></span>
+              <span>Upload Vendor Users Csv</span>
+            </button>
+            <button
+              *ngIf="uploadCsvSendBtn"
+              (click)="uploadCsvServer()"
+              class="btn btn-danger btn-block mb-2 p-2"
+            >
+              <span *ngIf="csvBtnText">
+                <span class="fa fa-upload upload-icon"></span>
+                Upload
+              </span>
+              <div *ngIf="csvBtnLoader">
+                <span class="spinner-border spinner-border-sm"></span>
+              </div>
+            </button>
+            <input
+              required
+              type="file"
+              class="file-input-tag"
+              #fileCsv
+              id="csvFile"
+              (change)="fileCsvUpload(fileCsv.files)"
+              name="csvFile"
+            />
           </div>
-        </button>
-        <input
-          required
-          type="file"
-          class="file-input-tag"
-          #fileCsv
-          id="csvFile"
-          (change)="fileCsvUpload(fileCsv.files)"
-          name="csvFile"
-        />
+          <div>
+            <button class="template-btn" (click)="downloadVendorTemplate()">
+              <span class="fa fa-download upload-icon"></span>
+              Download CSV Template
+            </button>
+          </div>
+        </div>
+
+        <table id="vendor-template">
+          <thead>
+            <tr>
+              <th>Vendor Name</th>
+              <th>Username</th>
+              <th>First Name</th>
+              <th>Password</th>
+              <th>Privileged Vendors</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Vendor Code</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                MARINCO PARK POWER
+              </td>
+              <td>
+                achawayne@gmail.com
+              </td>
+              <td>
+                Achawayne Sixtus
+              </td>
+              <td>
+                password123456789
+              </td>
+              <td>
+                U99, TY978, Y5678
+              </td>
+              <td>
+                achawayne@gmail.com
+              </td>
+              <td>
+                vendor
+              </td>
+              <td>
+                E677
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
         <div class="card justify-content-center">
           <div class="card-body">

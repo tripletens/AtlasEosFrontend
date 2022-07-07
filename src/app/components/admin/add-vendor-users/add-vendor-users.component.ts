@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 import { ToastrService } from 'ngx-toastr'
 
+declare var $: any
+
 @Component({
   selector: 'app-add-vendor-users',
   templateUrl: './add-vendor-users.component.html',
@@ -54,6 +56,15 @@ export class AddVendorUsersComponent implements OnInit {
   ngOnInit(): void {
     this.buildDealerForm()
     this.getVendors()
+  }
+
+  downloadVendorTemplate() {
+    $('#vendor-template').table2excel({
+      exclude: '.noExl',
+      name: 'vendor-template',
+      filename: 'vendor-template',
+      fileext: '.xlsx',
+    })
   }
 
   getVendors() {

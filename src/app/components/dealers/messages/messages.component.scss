@@ -105,6 +105,8 @@
     height: 38.5px;
     line-height: 1.7;
     padding: 6px 24px 6px 12px;
+    width: 100%;
+    margin-bottom: 20px;
   }
 }
 
@@ -294,4 +296,17 @@
 
 .audio-tag {
   visibility: hidden;
+}
+
+.unread-msg-text {
+  text-decoration: underline;
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.nav-pills .nav-link.active {
+  background-color: darkred;
 }

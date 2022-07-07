@@ -20,6 +20,28 @@ export class MyMessagesComponent implements OnInit {
   msg = ''
   uniqueUserId!: string
   userId!: string
+  loggedInUser: any
+
+  vendorCode!: string
+  coworkersData: any
+  userData: any
+  userSelected = false
+  coworkerLoader = true
+  chatHistoryLoader = false
+  userHasBeenSelected = false
+  allDealers: any
+  selectedDealerUser: any
+  showUnreadMsg = false
+  unreadMsgData: any
+  adminUserData: any
+  allVendors: any
+  selectedVendorUsers: any
+
+  vendorUnreadMsg: any
+  showVenorUnreadMsg = false
+
+  showDealerUnreadMsg = false
+  dealerUnreadMsg: any
 
   @ViewChild('chatWrapper') private chatWrapper!: ElementRef
 
@@ -30,23 +52,154 @@ export class MyMessagesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getUsers()
+    this.getAllDealers()
+    this.chatService.getMessages().subscribe((message: string) => {
+      if (message != '') {
+        setTimeout(() => {
+          this.scrollToElement()
+        }, 80)
+      }
 
+      if (this.userHasBeenSelected) {
+        this.getMsgAsync()
+      }
+
+      this.messages.push(message)
+    })
+
+    this.loggedInUser = this.tokeStore.getUser()
     let user = this.tokeStore.getUser()
+    this.userData = this.tokeStore.getUser()
+
     this.userId = user.id
-
-    console.log(user)
-
     let userId = user.id + user.first_name
     this.uniqueUserId = userId
-    this.chatService.openChatConnection(userId)
-    this.getUserChat()
+    this.vendorCode = user.vendor_code
 
-    this.chatService.getMessages().subscribe((message: string) => {
-      this.messages.push(message)
-      console.log(this.messages)
-    })
+    this.getVendorCoworkers()
+
+    this.chatService.openChatConnection(userId)
+    this.getVendorUnreadMsg()
+    this.getDealerUnreadMsg()
+
+    this.getAllDamin()
+    this.getAllVendors()
+
+    setInterval(() => {
+      this.getVendorUnreadMsg()
+      this.getDealerUnreadMsg()
+    }, 10000)
   }
+
+  getAllSelectedVendorUsers(data: any) {
+    this.coworkerLoader = true
+    this.selectedVendorUsers = []
+    this.postData
+      .httpGetRequest(
+        '/dealer/get-selected-company-vendor/' +
+          data.vendor_code +
+          '/' +
+          this.userId,
+      )
+      .then((result: any) => {
+        this.coworkerLoader = false
+        if (result.status) {
+          this.getVendorUnreadMsg()
+
+          this.selectedVendorUsers = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
+
+  getAllVendors() {
+    this.postData
+      .httpGetRequest('/dealer/get-vendors')
+      .then((result: any) => {
+        if (result.status) {
+          this.allVendors = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
+
+  getAllDamin() {
+    this.postData
+      .httpGetRequest('/get-all-admin-users/' + this.userId)
+      .then((result: any) => {
+        if (result.status) {
+          this.adminUserData = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
+
+  getDealerUnreadMsg() {
+    this.postData
+      .httpGetRequest('/admin/get-dealer-unread-msg/' + this.userId)
+      .then((result: any) => {
+        if (result.status) {
+          this.showDealerUnreadMsg = result.data.length > 0 ? true : false
+
+          this.dealerUnreadMsg = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
+
+  getVendorUnreadMsg() {
+    this.postData
+      .httpGetRequest('/admin/get-vendor-unread-msg/' + this.userId)
+      .then((result: any) => {
+        if (result.status) {
+          this.showVenorUnreadMsg = result.data.length > 0 ? true : false
+
+          this.vendorUnreadMsg = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
+
+  getAllSelectedDealerUsers(data: any) {
+    this.coworkerLoader = true
+    this.selectedDealerUser = []
+    this.postData
+      .httpGetRequest(
+        '/vendor/get-selected-company-dealers/' +
+          data.account_id +
+          '/' +
+          this.userId,
+      )
+      .then((result: any) => {
+        this.coworkerLoader = false
+        if (result.status) {
+          this.getVendorUnreadMsg()
+
+          this.selectedDealerUser = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
+
+  getAllDealers() {
+    this.postData
+      .httpGetRequest('/vendor/get-dealers')
+      .then((result: any) => {
+        if (result.status) {
+          this.allDealers = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
+
+  bellNotification() {}
 
   scrollToElement(): void {
     this.chatWrapper.nativeElement.scroll({
@@ -56,18 +209,39 @@ export class MyMessagesComponent implements OnInit {
     })
   }
 
+  sendMsg() {
+    if (this.msg != '') {
+      let data = {
+        user: this.selectedUserData.id + this.selectedUserData.first_name,
+        msg: this.msg,
+      }
+
+      this.storeChatDatabase()
+      this.messages.push(data)
+      this.chatService.sendMsgEvent(data)
+      setTimeout(() => {
+        this.scrollToElement()
+      }, 80)
+      this.msg = ''
+    }
+  }
+
   getUserChat() {
     this.postData
-      .httpGetRequest('/get-user-chat/' + this.userId)
+      .httpGetRequest(
+        '/get-user-chat/' + this.userId + '/' + this.selectedUserData.id,
+      )
       .then((result: any) => {
         console.log(result)
+        this.chatHistoryLoader = false
+        this.getVendorAsync()
+
         if (result.status) {
           if (result.data.length > 0) {
             this.messages = result.data
             setTimeout(() => {
               this.scrollToElement()
             }, 100)
-            // this.chatWrapper.nativeElement.scrollHeight
           }
         } else {
         }
@@ -78,9 +252,14 @@ export class MyMessagesComponent implements OnInit {
   storeChatDatabase() {
     let data = {
       chatFrom: this.userId,
-      chatTo: 712,
+      chatTo: this.selectedUserData.id,
       msg: this.msg,
-      chatUser: '712tesr',
+      chatUser: this.selectedUserData.id + this.selectedUserData.first_name,
+      uniqueId:
+        this.userData.id +
+        this.userData.first_name +
+        this.selectedUserData.id +
+        this.selectedUserData.first_name,
     }
 
     this.postData
@@ -96,30 +275,13 @@ export class MyMessagesComponent implements OnInit {
       .catch((err) => {})
   }
 
-  sendMsg() {
-    let data = {
-      user: '712tesr',
-      msg: this.msg,
-    }
-
-    this.messages.push(data)
-    this.storeChatDatabase()
-    this.chatService.sendMsgEvent(data)
-    setTimeout(() => {
-      this.scrollToElement()
-    }, 80)
-    this.msg = ''
-  }
-
   selectedUser(data: any) {
     this.selectedUserData = data
-    if (!data.chat_id) {
-      console.log('no chat id')
-    } else {
-      console.log('chat id')
-    }
-
-    console.log(data)
+    this.userSelected = true
+    this.chatHistoryLoader = true
+    this.userHasBeenSelected = true
+    this.messages = []
+    this.getUserChat()
   }
 
   generateSocketId() {
@@ -129,14 +291,44 @@ export class MyMessagesComponent implements OnInit {
     }
   }
 
-  getUsers() {
+  getVendorCoworkers() {
     this.postData
-      .httpGetRequest('/get-all-users')
+      .httpGetRequest(
+        '/vendor/get-vendor-coworkers/' + this.vendorCode + '/' + this.userId,
+      )
       .then((result: any) => {
         if (result.status) {
+          this.coworkerLoader = false
+          this.coworkersData = result.data
           //let sortedData = this.alphabeticalOrder(result.data)
 
-          this.allUsers = result.data
+          // this.allUsers = result.data
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
+
+  getMsgAsync() {
+    this.postData
+      .httpGetRequest(
+        '/get-user-chat/' + this.userId + '/' + this.selectedUserData.id,
+      )
+      .then((result: any) => {
+        this.chatHistoryLoader = false
+        this.getVendorAsync()
+      })
+      .catch((err) => {})
+  }
+
+  getVendorAsync() {
+    this.postData
+      .httpGetRequest(
+        '/vendor/get-vendor-coworkers/' + this.vendorCode + '/' + this.userId,
+      )
+      .then((result: any) => {
+        if (result.status) {
+          this.coworkersData = result.data
         } else {
         }
       })
