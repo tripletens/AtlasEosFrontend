@@ -74,21 +74,61 @@
                                     </li>
                                   </div>
                                 </ul>
+
+                                <h6
+                                  *ngIf="noCoworkerFound"
+                                  class="no-user-found-text"
+                                >
+                                  no coworker found
+                                </h6>
+
+                                <div class="" *ngIf="coworkerLoader">
+                                  <div class="ph-item ph-loader-item">
+                                    <div class="ph-col-12">
+                                      <div class="ph-row">
+                                        <div class="ph-col-12 loader-col"></div>
+                                        <div class="ph-col-12 loader-col"></div>
+                                        <div class="ph-col-12 loader-col"></div>
+                                        <div class="ph-col-12 loader-col"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                               <div class="tab-pane container fade" id="menu1">
                                 <div class="select-wrapper">
-                                  <select name="" id="">
-                                    <option value="">
-                                      Select Vendor Company
-                                    </option>
-                                    <option
-                                      value=""
-                                      (click)="getAllSelectedDealerUsers(data)"
-                                      *ngFor="let data of allVendors"
-                                    >
-                                      {{ data.vendor_name }}
-                                    </option>
-                                  </select>
+                                  <input
+                                    class="dummy-input"
+                                    type="text"
+                                    (click)="toggleVendors()"
+                                    value="Select vendor company"
+                                    readonly
+                                    #dummyInput
+                                  />
+
+                                  <div
+                                    *ngIf="showDropdown"
+                                    #dropdownSection
+                                    class="dropdown-section"
+                                  >
+                                    <input
+                                      type="text"
+                                      class="dropdown-filter"
+                                      (keyup)="applyFilter($event)"
+                                      #input
+                                    />
+
+                                    <ul>
+                                      <li
+                                        *ngFor="let data of allVendors"
+                                        (click)="
+                                          getAllSelectedDealerUsers(data)
+                                        "
+                                      >
+                                        {{ data.vendor_name }}
+                                      </li>
+                                    </ul>
+                                  </div>
                                 </div>
 
                                 <ul class="coworker-ul">
@@ -110,7 +150,14 @@
                                   </div>
                                 </ul>
 
-                                <div class="" *ngIf="coworkerLoader">
+                                <h6
+                                  *ngIf="noVendorUsersFound"
+                                  class="no-user-found-text"
+                                >
+                                  no vendor user found
+                                </h6>
+
+                                <div class="" *ngIf="vendorUserLoader">
                                   <div class="ph-item ph-loader-item">
                                     <div class="ph-col-12">
                                       <div class="ph-row">
@@ -128,9 +175,13 @@
                                     Unread Messages
                                   </h6>
 
-                                  <ul class="coworker-ul">
+                                  <ul class="unread-msg-ul">
                                     <div *ngFor="let data of unreadMsgData">
+                                      <li class="vendor-name">
+                                        {{ data.vendor_name }}
+                                      </li>
                                       <li
+                                        class="vendor-user-name"
                                         *ngIf="data.id != userId"
                                         (click)="selectedUser(data)"
                                       >
@@ -168,6 +219,19 @@
                                     </li>
                                   </div>
                                 </ul>
+
+                                <div class="" *ngIf="adminUserLoader">
+                                  <div class="ph-item ph-loader-item">
+                                    <div class="ph-col-12">
+                                      <div class="ph-row">
+                                        <div class="ph-col-12 loader-col"></div>
+                                        <div class="ph-col-12 loader-col"></div>
+                                        <div class="ph-col-12 loader-col"></div>
+                                        <div class="ph-col-12 loader-col"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>

@@ -119,7 +119,6 @@ export class AllDealerUsersComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value
     this.incomingData.vendor_name = filterValue.trim().toLowerCase()
-
     this.dataSource = this.filterArray('*' + filterValue)
 
     //console.log(res)
