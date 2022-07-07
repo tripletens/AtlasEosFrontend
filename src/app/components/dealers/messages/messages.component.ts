@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  Renderer2,
+} from '@angular/core'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 
 import { ChatService } from 'src/app/core/services/chat.service'
@@ -31,15 +37,26 @@ export class MessagesComponent implements OnInit {
   showUnreadMsg = false
   selectedVendorUser: any
   adminUserData: any
+  noVendorUsersFound = false
+  noCoworkerFound = false
+  vendorUserLoader = false
+  adminUserLoader = true
+  incomingVendorData: any
+
+  showDropdown = false
 
   @ViewChild('chatWrapper') private chatWrapper!: ElementRef
   @ViewChild('audioTag') private audioTag!: ElementRef
+  @ViewChild('dropdownSection') dropdownSection!: ElementRef
+
+  @ViewChild('dummyInput') dummyInput!: ElementRef
 
   constructor(
     private postData: HttpRequestsService,
     private chatService: ChatService,
     private tokeStore: TokenStorageService,
     private toaster: ToastrService,
+    private render: Renderer2,
   ) {}
   ngOnInit(): void {
     this.getAllVendors()
@@ -53,10 +70,7 @@ export class MessagesComponent implements OnInit {
     this.dealerCode = user.account_id
 
     this.getVendorCoworkers()
-
     this.chatService.openChatConnection(userId)
-    // this.getUserChat()
-
     this.chatService.getMessages().subscribe((message: string) => {
       if (message != '') {
         setTimeout(() => {
@@ -76,12 +90,68 @@ export class MessagesComponent implements OnInit {
     })
     this.getUnreadMsg()
     this.getAllDamin()
+
+    setInterval(() => {
+      this.getUnreadMsg()
+    }, 10000)
+  }
+
+  toggleVendors() {
+    if (this.showDropdown) {
+      this.showDropdown = false
+    } else {
+      this.showDropdown = true
+    }
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value
+    this.incomingVendorData.vendor_name = filterValue.trim().toLowerCase()
+    this.allVendors = this.filterArray('*' + filterValue)
+  }
+
+  filterArray(expression: string) {
+    var regex = this.convertWildcardStringToRegExp(expression)
+    return this.incomingVendorData.filter(function (item: any) {
+      return regex.test(item.vendor_name)
+    })
+  }
+
+  escapeRegExp(str: string) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  }
+
+  convertWildcardStringToRegExp(expression: string) {
+    var terms = expression.split('*')
+
+    var trailingWildcard = false
+
+    var expr = ''
+    for (var i = 0; i < terms.length; i++) {
+      if (terms[i]) {
+        if (i > 0 && terms[i - 1]) {
+          expr += '.*'
+        }
+        trailingWildcard = false
+        expr += this.escapeRegExp(terms[i])
+      } else {
+        trailingWildcard = true
+        expr += '.*'
+      }
+    }
+
+    if (!trailingWildcard) {
+      expr += '.*'
+    }
+
+    return new RegExp('^' + expr + '$', 'i')
   }
 
   getAllDamin() {
     this.postData
       .httpGetRequest('/get-all-admin-users/' + this.userId)
       .then((result: any) => {
+        this.adminUserLoader = false
         if (result.status) {
           this.adminUserData = result.data
         } else {
@@ -97,7 +167,6 @@ export class MessagesComponent implements OnInit {
       .then((result: any) => {
         if (result.status) {
           this.showUnreadMsg = result.data.length > 0 ? true : false
-
           this.unreadMsgData = result.data
         } else {
         }
@@ -111,6 +180,7 @@ export class MessagesComponent implements OnInit {
       .then((result: any) => {
         if (result.status) {
           this.allVendors = result.data
+          this.incomingVendorData = result.data
         } else {
         }
       })
@@ -118,7 +188,16 @@ export class MessagesComponent implements OnInit {
   }
 
   getAllSelectedDealerUsers(data: any) {
-    this.coworkerLoader = true
+    if (this.showDropdown) {
+      this.showDropdown = false
+    } else {
+      this.showDropdown = true
+    }
+
+    this.dummyInput.nativeElement.value = data.vendor_name
+
+    this.noVendorUsersFound = false
+    this.vendorUserLoader = true
     this.selectedVendorUser = []
     this.postData
       .httpGetRequest(
@@ -128,10 +207,9 @@ export class MessagesComponent implements OnInit {
           this.userId,
       )
       .then((result: any) => {
-        this.coworkerLoader = false
+        this.vendorUserLoader = false
         if (result.status) {
-          // this.getUnreadMsg()
-
+          this.noVendorUsersFound = result.data.length > 0 ? false : true
           this.selectedVendorUser = result.data
         } else {
         }
@@ -173,6 +251,7 @@ export class MessagesComponent implements OnInit {
         console.log(result)
         this.chatHistoryLoader = false
         this.getVendorAsync()
+        this.getUnreadMsg()
 
         if (result.status) {
           if (result.data.length > 0) {
@@ -238,7 +317,7 @@ export class MessagesComponent implements OnInit {
         if (result.status) {
           this.coworkerLoader = false
           this.coworkersData = result.data
-          //let sortedData = this.alphabeticalOrder(result.data)
+          this.noCoworkerFound = result.data.length > 0 ? false : true
 
           this.allUsers = result.data
         } else {

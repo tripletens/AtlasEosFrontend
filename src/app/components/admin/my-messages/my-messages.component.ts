@@ -21,7 +21,6 @@ export class MyMessagesComponent implements OnInit {
   uniqueUserId!: string
   userId!: string
   loggedInUser: any
-
   vendorCode!: string
   coworkersData: any
   userData: any
@@ -36,14 +35,26 @@ export class MyMessagesComponent implements OnInit {
   adminUserData: any
   allVendors: any
   selectedVendorUsers: any
-
   vendorUnreadMsg: any
   showVenorUnreadMsg = false
-
   showDealerUnreadMsg = false
   dealerUnreadMsg: any
-
+  showDropdown = false
+  incomingDealerData: any
+  noCoworkerFound = false
+  dealerLoader = false
+  showDealerDropdown = false
+  incomingVendorData: any
+  showVendorDropdown = false
+  noDealerUsersFound = false
+  noVendorUsersFound = false
   @ViewChild('chatWrapper') private chatWrapper!: ElementRef
+  @ViewChild('dummyDealerInput') private dummyDealerInput!: ElementRef
+  @ViewChild('dummyVendorInput') private dummyVendorInput!: ElementRef
+
+  @ViewChild('inputVendor') private inputVendor!: ElementRef
+
+  @ViewChild('inputDealer') private inputDealer!: ElementRef
 
   constructor(
     private postData: HttpRequestsService,
@@ -91,9 +102,81 @@ export class MyMessagesComponent implements OnInit {
     }, 10000)
   }
 
+  toggleVendorDropDown() {
+    if (this.showVendorDropdown) {
+      this.showVendorDropdown = false
+    } else {
+      this.showVendorDropdown = true
+    }
+  }
+
+  toggleDealerDropDown() {
+    if (this.showDealerDropdown) {
+      this.showDealerDropdown = false
+    } else {
+      this.showDealerDropdown = true
+    }
+  }
+
+  applyFilterVendor(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value
+    this.incomingVendorData.vendor_name = filterValue.trim().toLowerCase()
+    let filterExpression = '*' + filterValue
+    var regex = this.convertWildcardStringToRegExp(filterExpression)
+    this.allVendors = this.incomingVendorData.filter(function (item: any) {
+      return regex.test(item.vendor_name)
+    })
+  }
+
+  applyFilterDealer(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value
+    this.incomingDealerData.company_name = filterValue.trim().toLowerCase()
+    let filterExpression = '*' + filterValue
+
+    var regex = this.convertWildcardStringToRegExp(filterExpression)
+    this.allDealers = this.incomingDealerData.filter(function (item: any) {
+      return regex.test(item.company_name)
+    })
+  }
+
+  escapeRegExp(str: string) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  }
+
+  convertWildcardStringToRegExp(expression: string) {
+    var terms = expression.split('*')
+
+    var trailingWildcard = false
+
+    var expr = ''
+    for (var i = 0; i < terms.length; i++) {
+      if (terms[i]) {
+        if (i > 0 && terms[i - 1]) {
+          expr += '.*'
+        }
+        trailingWildcard = false
+        expr += this.escapeRegExp(terms[i])
+      } else {
+        trailingWildcard = true
+        expr += '.*'
+      }
+    }
+
+    if (!trailingWildcard) {
+      expr += '.*'
+    }
+
+    return new RegExp('^' + expr + '$', 'i')
+  }
+
   getAllSelectedVendorUsers(data: any) {
     this.coworkerLoader = true
     this.selectedVendorUsers = []
+    this.dummyVendorInput.nativeElement.value = data.vendor_name
+
+    this.inputVendor.nativeElement.value = data.vendor_name
+
+    this.toggleVendorDropDown()
     this.postData
       .httpGetRequest(
         '/dealer/get-selected-company-vendor/' +
@@ -105,6 +188,7 @@ export class MyMessagesComponent implements OnInit {
         this.coworkerLoader = false
         if (result.status) {
           this.getVendorUnreadMsg()
+          this.noVendorUsersFound = result.data.length > 0 ? false : true
 
           this.selectedVendorUsers = result.data
         } else {
@@ -119,6 +203,7 @@ export class MyMessagesComponent implements OnInit {
       .then((result: any) => {
         if (result.status) {
           this.allVendors = result.data
+          this.incomingVendorData = result.data
         } else {
         }
       })
@@ -130,6 +215,7 @@ export class MyMessagesComponent implements OnInit {
       .httpGetRequest('/get-all-admin-users/' + this.userId)
       .then((result: any) => {
         if (result.status) {
+          this.noCoworkerFound = result.data.length > 0 ? false : true
           this.adminUserData = result.data
         } else {
         }
@@ -166,8 +252,12 @@ export class MyMessagesComponent implements OnInit {
   }
 
   getAllSelectedDealerUsers(data: any) {
-    this.coworkerLoader = true
+    this.toggleDealerDropDown()
+    this.dealerLoader = true
     this.selectedDealerUser = []
+    this.dummyDealerInput.nativeElement.value = data.company_name
+    this.inputDealer.nativeElement.value = data.company_name
+
     this.postData
       .httpGetRequest(
         '/vendor/get-selected-company-dealers/' +
@@ -176,11 +266,12 @@ export class MyMessagesComponent implements OnInit {
           this.userId,
       )
       .then((result: any) => {
-        this.coworkerLoader = false
+        this.dealerLoader = false
         if (result.status) {
           this.getVendorUnreadMsg()
 
           this.selectedDealerUser = result.data
+          this.noDealerUsersFound = result.data.length > 0 ? false : true
         } else {
         }
       })
@@ -193,6 +284,7 @@ export class MyMessagesComponent implements OnInit {
       .then((result: any) => {
         if (result.status) {
           this.allDealers = result.data
+          this.incomingDealerData = result.data
         } else {
         }
       })
@@ -235,6 +327,8 @@ export class MyMessagesComponent implements OnInit {
         console.log(result)
         this.chatHistoryLoader = false
         this.getVendorAsync()
+        this.getDealerUnreadMsg()
+        this.getVendorUnreadMsg()
 
         if (result.status) {
           if (result.data.length > 0) {
