@@ -77,11 +77,21 @@ export class DashboardComponent implements OnInit {
     let initalSeconds = data.seconds
     this.timeDays = data.days
 
-    if (data.hours > 24) {
-      this.timeHours = 24
+    if (data.hours < 1) {
+      this.timeHours = 0
     } else {
-      this.timeHours = data.hours
+      if (data.hours > 24) {
+        this.timeHours = 24
+      } else {
+        this.timeHours = data.hours
+      }
     }
+
+    // if (data.hours > 24 && data.hours != 0) {
+    //   this.timeHours = 24
+    // } else {
+    //   this.timeHours = data.hours
+    // }
 
     if (data.minutes > 59) {
       this.timeMinutes = 59
@@ -99,25 +109,38 @@ export class DashboardComponent implements OnInit {
         this.timeSeconds--
       } else {
         this.timeSeconds = 59
-        this.timeMinutes--
 
-        if (this.timeMinutes == 0) {
+        if (this.timeMinutes < 1 && this.timeHours != 0) {
           this.timeMinutes = 59
-          if (this.timeHours != 0) {
-            this.timeHours--
-          } else {
-            this.timeHours = 0
-          }
+          this.timeHours--
         }
 
-        if (this.timeHours == 0) {
+        if (this.timeHours < 1 && this.timeDays != 0) {
+          this.timeDays--
           this.timeHours = 24
-          if (this.timeDays != 0) {
-            this.timeDays--
-          } else {
-            this.timeDays = 0
-          }
         }
+
+        if (this.timeMinutes > 0) {
+          this.timeMinutes--
+        }
+
+        // if (this.timeMinutes < 1) {
+        //   this.timeMinutes = 59
+        //   if (this.timeHours != 0) {
+        //     this.timeHours--
+        //   } else {
+        //     this.timeHours = 0
+        //   }
+        // }
+
+        // if (this.timeHours < 1) {
+        //   this.timeHours = 24
+        //   if (this.timeDays < 1) {
+        //     this.timeDays = 0
+        //   } else {
+        //     this.timeDays--
+        //   }
+        // }
       }
 
       if (
