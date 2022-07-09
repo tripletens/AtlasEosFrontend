@@ -42,18 +42,18 @@ export class DashboardComponent implements OnInit {
   pdfSrc =
     'https://atlasbookingprogram.com/assets/2022%20Booking%20Program%20Terms%20&%20Conditions.pdf';
 
+  timeSeconds = 59;
   timeDays = 0;
   timeHours: number = 24;
   timeMinutes: number = 59;
-  timeSeconds = 59;
   interval: any;
 
   countDownData: any;
 
-  initialDays: number = 0;
-  initialHours: number = 0;
-  initialMinutes: number = 0;
-  initialSeconds: number = 0;
+  initalDays: number = 0;
+  initalHours: number = 0;
+  initalMinutes: number = 0;
+  initalSeconds: number = 0;
 
   showSecondsExtrazero = false;
   constructor(private getData: HttpRequestsService) {
@@ -92,17 +92,15 @@ export class DashboardComponent implements OnInit {
         ],
       },
     };
-    this.getProgramCountDown()
+    this.getProgramCountDown();
   }
   ngOnInit(): void {}
-  pauseTimer() {
-    clearInterval(this.interval);
-  }
-  startTimer(data: any) {
-    let initialDays = data.days;
-    let initialHours = data.hours;
-    let initialMinutes = data.minutes;
-    let initialSeconds = data.seconds;
+
+  arrangeTimer(data: any) {
+    let initalDays = data.days;
+    let initalHours = data.hours;
+    let initalMinutes = data.minutes;
+    let initalSeconds = data.seconds;
     this.timeDays = data.days;
 
     if (data.hours > 24) {
@@ -122,30 +120,80 @@ export class DashboardComponent implements OnInit {
     } else {
       this.timeSeconds = data.seconds;
     }
+  }
+
+  startTimer(data: any) {
+    let initalDays = data.days;
+    let initalHours = data.hours;
+    let initalMinutes = data.minutes;
+    let initalSeconds = data.seconds;
+    this.timeDays = data.days;
+
+    if (data.hours < 1) {
+      this.timeHours = 0;
+    } else {
+      if (data.hours > 24) {
+        this.timeHours = 24;
+      } else {
+        this.timeHours = data.hours;
+      }
+    }
+
+    if (data.minutes > 59) {
+      this.timeMinutes = 59;
+    } else {
+      this.timeMinutes = data.minutes;
+    }
+
+    if (data.seconds != 0) {
+      if (data.seconds > 59) {
+        this.timeSeconds = 59;
+      } else {
+        this.timeSeconds = data.seconds;
+      }
+    } else {
+      this.timeSeconds = data.seconds;
+    }
+
     this.interval = setInterval(() => {
       if (this.timeSeconds > 0) {
         this.timeSeconds--;
       } else {
-        this.timeSeconds = 59;
-        this.timeMinutes--;
+        if (data.seconds != 0) {
+          this.timeSeconds = 59;
+        }
 
-        if (this.timeMinutes == 0) {
+        if (this.timeMinutes < 1 && this.timeHours != 0) {
           this.timeMinutes = 59;
-          if (this.timeHours != 0) {
-            this.timeHours--;
-          } else {
-            this.timeHours = 0;
-          }
+          this.timeHours--;
         }
 
-        if (this.timeHours == 0) {
+        if (this.timeHours < 1 && this.timeDays != 0) {
+          this.timeDays--;
           this.timeHours = 24;
-          if (this.timeDays != 0) {
-            this.timeDays--;
-          } else {
-            this.timeDays = 0;
-          }
         }
+
+        if (this.timeMinutes > 0) {
+          this.timeMinutes--;
+        }
+
+        // if (this.timeMinutes < 1) {
+        //   this.timeMinutes = 59
+        //   if (this.timeHours != 0) {
+        //     this.timeHours--
+        //   } else {
+        //     this.timeHours = 0
+        //   }
+        // }
+
+        // if (this.timeHours < 1) {
+        //   this.timeHours = 24
+        //   if (this.timeDays < 1) {
+        //     this.timeDays = 0
+        //   } else {
+        //     this.timeDays--
+        //   }
+        // }
       }
 
       if (
@@ -167,6 +215,11 @@ export class DashboardComponent implements OnInit {
       }
     }, 1000);
   }
+
+  pauseTimer() {
+    clearInterval(this.interval);
+  }
+
   getProgramCountDown() {
     this.getData
       .httpGetRequest('/get-countdown')
@@ -176,47 +229,16 @@ export class DashboardComponent implements OnInit {
           this.countDownData = result.data;
           this.startTimer(result.data);
 
-          this.initialDays = result.data.days;
-          this.initialHours = result.data.hours;
-          this.initialMinutes = result.data.minutes;
-          this.initialSeconds = result.data.seconds;
+          this.initalDays = result.data.days;
+          this.initalHours = result.data.hours;
+          this.initalMinutes = result.data.minutes;
+          this.initalSeconds = result.data.seconds;
         } else {
         }
       })
       .catch((err) => {
         ///this.loader = false
       });
-  }
-  countDownTimer() {
-    // Get today's date and time
-    var now = new Date().getTime();
-
-    // Find the distance between now and the count down date
-    let distance = this.countDownDate - now;
-
-    // Time calculations for days, hours, minutes and seconds
-    let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    let hours = Math.floor(
-      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
-    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    // Output the result in an element with id="demo"
-    // document.getElementById('countdown').innerText = this.count;
-    let date = days + 'd ' + hours + 'h ' + minutes + 'm ';
-    console.log('countdown', date);
-    this.count = date;
-    setInterval(this.countDownTimer(), 1000);
-
-    return (this.count = days + 'd ' + hours + 'h ');
-    // + minutes + 'm ' + seconds + 's '
-
-    // If the count down is over, write some text
-    // if (distance < 0) {
-    //   clearInterval(x);
-    //   document.getElementById('demo').innerHTML = 'EXPIRED';
-    // }
   }
   getAllVendors() {
     this.getData
