@@ -135,8 +135,9 @@ export class ShowOrdersComponent implements OnInit {
     return newArray;
   }
   getCart() {
+    let id = this.token.getUser().account_id;
     this.getData
-      .httpGetRequest('/cart/all')
+      .httpGetRequest('/cart/dealer/' + id)
       .then((result: any) => {
         if (result.status) {
           // console.log('search vendor res', result.data);
