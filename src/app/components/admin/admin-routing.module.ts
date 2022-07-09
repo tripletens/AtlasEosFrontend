@@ -21,6 +21,7 @@ import { DealerSummaryComponent } from './dealer-summary/dealer-summary.componen
 import { EditDealerUsersComponent } from './edit-dealer-users/edit-dealer-users.component'
 import { EditFaqComponent } from './edit-faq/edit-faq.component'
 import { EditProductComponent } from './edit-product/edit-product.component'
+import { EditSeminarComponent } from './edit-seminar/edit-seminar.component'
 import { EditVendorUserComponent } from './edit-vendor-user/edit-vendor-user.component'
 import { FaqComponent } from './faq/faq.component'
 import { MyMessagesComponent } from './my-messages/my-messages.component'
@@ -162,6 +163,10 @@ const routes: Routes = [
       {
         path: 'all-promotional-flyer',
         component: AllPromotionalFlyerComponent,
+      },
+      {
+        path: 'edit-seminar/:id',
+        component: EditSeminarComponent,
       },
     ],
   },
