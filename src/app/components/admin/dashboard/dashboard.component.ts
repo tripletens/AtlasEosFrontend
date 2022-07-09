@@ -87,28 +87,29 @@ export class DashboardComponent implements OnInit {
       }
     }
 
-    // if (data.hours > 24 && data.hours != 0) {
-    //   this.timeHours = 24
-    // } else {
-    //   this.timeHours = data.hours
-    // }
-
     if (data.minutes > 59) {
       this.timeMinutes = 59
     } else {
       this.timeMinutes = data.minutes
     }
 
-    if (data.seconds > 59) {
-      this.timeSeconds = 59
+    if (data.seconds != 0) {
+      if (data.seconds > 59) {
+        this.timeSeconds = 59
+      } else {
+        this.timeSeconds = data.seconds
+      }
     } else {
       this.timeSeconds = data.seconds
     }
+
     this.interval = setInterval(() => {
       if (this.timeSeconds > 0) {
         this.timeSeconds--
       } else {
-        this.timeSeconds = 59
+        if (data.seconds != 0) {
+          this.timeSeconds = 59
+        }
 
         if (this.timeMinutes < 1 && this.timeHours != 0) {
           this.timeMinutes = 59

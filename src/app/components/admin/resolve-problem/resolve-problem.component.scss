@@ -232,8 +232,12 @@
     color: #777;
     line-height: 24px;
     font-weight: 600;
-    font-size: 15px;
+    font-size: 13px;
     margin-bottom: 0px;
+  }
+
+  .report-desc {
+    font-size: 12px;
   }
 
   .reporter-name {
@@ -260,6 +264,15 @@
     display: flex;
     gap: 15px;
 
+    a {
+      border: 0px;
+      border-radius: 4px;
+      color: #ffffff;
+      background-color: black;
+      font-size: 10px;
+      padding: 5px;
+    }
+
     button {
       border: 0px;
       border-radius: 4px;
@@ -279,4 +292,21 @@
     padding: 4px 7px;
     font-size: 13px;
   }
+}
+
+.view-download-btn {
+}
+
+.ph-item {
+  padding: 0px !important;
+  border: 0px !important;
+}
+
+.ph-picture {
+  height: 100px !important;
+  width: 150px !important;
+}
+
+.ph-col-12 {
+  margin-bottom: 10px;
 }
