@@ -21,21 +21,28 @@
                   </div>
                   <div class="select-wrapper">
                     <select name="" id="">
-                      <option value="">ACUVA TECHNOLOGIES</option>
-                      <option value="">AP - BRAKE COMPONENTS</option>
-                      <option value="">AP - SURFACE SHEILDS</option>
-                      <option value="">B'LASTER HOLDINGS LLC</option>
+                      <option value="">Select Vendor</option>
+
+                      <option
+                        (click)="selectedVendor(data)"
+                        *ngFor="let data of privilegedVendors"
+                      >
+                        {{ data.vendor_name }}
+                      </option>
                     </select>
                   </div>
                   <div class="btn-wrapper">
-                    <button class="">
+                    <button class="" (click)="getSalesSummary()">
                       <span class="fa fa-search"></span>
                       Search
                     </button>
                   </div>
                 </div>
 
-                <h6 class="selected-title-name">Total: $</h6>
+                <h6 class="selected-title-name">
+                  <span class="selected-name">{{ selectedVendorName }}</span>
+                  Total: $ {{ totalAmount }}
+                </h6>
 
                 <div class="table-responsive mb-3">
                   <table class="table" *ngIf="loader">
@@ -117,26 +124,77 @@
 
                   <table
                     *ngIf="tableView"
-                    class="table table-striped text-nowrap table-wrapper2 align-items-center mb-0"
+                    class="table table-striped table-bordered text-nowrap table-wrapper2 align-items-center mb-0"
                   >
                     <thead>
                       <tr>
                         <th class="thead-custom">Qty</th>
                         <th class="thead-custom">Atlas #</th>
                         <th class="thead-custom">Vendor #</th>
-                        <th class="thead-custom">Description Sales</th>
+                        <th class="thead-custom">Description</th>
                         <th class="thead-custom">Regular ($)</th>
                         <th class="thead-custom">Show ($)</th>
                         <th class="thead-custom">Total ($)</th>
                       </tr>
                     </thead>
+
                     <tbody>
+                      <tr *ngFor="let data of incomingData; let i = index">
+                        <td>
+                          {{ data.qty }}
+                        </td>
+                        <td>
+                          {{ data.atlas_id }}
+                        </td>
+                        <td>
+                          {{ data.vendor }}
+                        </td>
+                        <td>
+                          {{ data.description }}
+                        </td>
+                        <td>
+                          {{ data.regular }}
+                        </td>
+                        <td>
+                          {{ data.booking }}
+                        </td>
+                        <td class="total-col">
+                          {{ data.total }}
+                        </td>
+                      </tr>
+
                       <tr>
+                        <td colspan="6" class="total-section">Total ($)</td>
+                        <td class="total-section">{{ totalAmount }}</td>
+                      </tr>
+
+                      <tr *ngIf="noDataFound">
                         <td colspan="7" class="text-center">No order found</td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
+
+                <hr />
+
+                <div class="d-flex justify-content-end btn-section">
+                  <div>
+                    <button class="download-btn">
+                      <span class="fa fa-print"></span>
+
+                      Print/Review
+                    </button>
+                  </div>
+                  <div>
+                    <button class="download-btn">
+                      <span class="fa fa-download"></span>
+
+                      Download as Excel
+                    </button>
+                  </div>
+                </div>
+
+                <!--                 
 
                 <div class="d-flex flex-column indicator-wrapper">
                   <div class="d-flex">
@@ -172,6 +230,7 @@
                     </div>
                   </div>
                 </div>
+ -->
               </div>
             </div>
           </div>

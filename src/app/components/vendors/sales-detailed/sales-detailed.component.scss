@@ -1,3 +1,15 @@
+.loader-td {
+  padding: 0px !important;
+}
+
+.ph-item {
+  padding: 0px !important;
+}
+
+.ph-picture {
+  height: 50px !important;
+}
+
 .filter-wrapper {
   gap: 10px;
   margin-bottom: 20px;
@@ -149,4 +161,50 @@
     padding: 10px;
     border-radius: 5px;
   }
+}
+
+.enter-total {
+  width: 10%;
+  text-align: end;
+}
+
+.enter-by {
+  width: 30%;
+}
+
+.test-qty {
+  width: 5%;
+}
+
+.deal {
+  width: 15%;
+}
+
+.dealership {
+  width: 40%;
+}
+
+.inner-wrapper {
+  display: flex;
+
+  .qty-wrapper {
+    width: 15%;
+    border-right: 1px solid #1d7471;
+  }
+}
+
+.total-text {
+  text-align: end;
+  font-weight: 600;
+  color: red;
+}
+
+.total-qty-text {
+  padding-right: 30px;
+  font-weight: 600;
+}
+
+.total-color {
+  color: red;
+  font-weight: 700;
 }

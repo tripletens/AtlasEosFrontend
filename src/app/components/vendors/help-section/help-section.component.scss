@@ -144,52 +144,42 @@
   margin-bottom: 20px;
 }
 
+.inner-card-header {
+  background-color: #06504d;
+  color: #ffffff;
+  padding: 0px !important;
+  border-radius: 5px;
+  border-left: 4px solid #06504d;
+  border-bottom: 0px !important;
+}
+
+.collapsed {
+  background-color: #ffffff !important;
+  color: #06504d !important;
+}
+
 .card-link {
-  font-size: 20px;
-  font-weight: 400;
-  color: black;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
   padding-left: 10px;
+  padding: 10px;
+  display: block;
+  width: 100%;
+  text-decoration: none;
 }
 
-.card-body {
-  padding: 45px;
-}
-
-// .table-wrapper2 {
-//   thead {
-//     background-color: #1d7471;
-//   }
-
-//   thead th {
-//     color: #ffffff !important;
-//     padding: 10px;
-//     border-radius: 5px;
-//   }
-// }
-
-.table-data-section {
-  ::ng-deep {
-    table thead {
-      background-color: #1d7471;
-      height: 20px !important;
-
-      color: #ffffff;
-      * {
-        color: #ffffff;
-        text-align: center;
-        font-size: 14px !important;
-      }
-    }
-
-    table tbody {
-      * {
-        font-size: 14px !important;
-        padding: 5px !important;
-      }
-
-      td {
-        padding-left: 10px;
-      }
-    }
+.head-text-title {
+  background-color: #f6f6f6;
+  padding: 18px;
+  border-bottom: 1px solid #dadada;
+  span {
+    display: inline-block;
+    margin-right: 10px;
   }
+}
+
+.top-title {
+  color: #4a0013;
+  font-size: 15px;
 }

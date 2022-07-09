@@ -39,7 +39,9 @@ import { EditFaqComponent } from './edit-faq/edit-faq.component'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatNativeDateModule } from '@angular/material/core'
 import { MatTimepickerModule } from 'mat-timepicker';
-import { SetCountdownComponent } from './set-countdown/set-countdown.component'
+import { SetCountdownComponent } from './set-countdown/set-countdown.component';
+import { AddPromotionalFlyerComponent } from './add-promotional-flyer/add-promotional-flyer.component';
+import { AllPromotionalFlyerComponent } from './all-promotional-flyer/all-promotional-flyer.component'
 
 @NgModule({
   declarations: [
@@ -74,6 +76,8 @@ import { SetCountdownComponent } from './set-countdown/set-countdown.component'
     AllFaqComponent,
     EditFaqComponent,
     SetCountdownComponent,
+    AddPromotionalFlyerComponent,
+    AllPromotionalFlyerComponent,
   ],
   imports: [
     CommonModule,

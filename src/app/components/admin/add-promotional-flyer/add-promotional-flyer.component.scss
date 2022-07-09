@@ -59,9 +59,10 @@ html {
 .input-value {
   font-size: 15px;
   padding: 15px;
-  border: 1px solid gray !important;
+  border: 0px !important;
   width: 100%;
-  border-radius: 5px;
+  border: 1px solid gray !important;
+  border-radius: 4px;
 }
 
 /*inputs*/
@@ -75,10 +76,9 @@ html {
   cursor: pointer;
   padding: 10px 5px;
   margin: 10px 5px;
-  background-color: darkred;
+  background-color: lightskyblue;
   border-radius: 5px;
   transition: 0.4s linear;
-  color: #ffffff;
 }
 
 .previous-btn {
@@ -89,19 +89,17 @@ html {
   cursor: pointer;
   padding: 10px 5px;
   margin: 10px 5px;
-  background-color: darkred;
+  background-color: #ff00ff;
   border-radius: 5px;
   transition: 0.4s linear;
-  color: #ffffff;
 }
 
 .submit-btn {
-  width: 150px;
   font-weight: bold;
   border: 0 none;
   border-radius: 1px;
   cursor: pointer;
-  padding: 10px 5px;
+  padding: 10px 10px;
   margin: 10px 5px;
   background-color: darkred;
   border-radius: 5px;
@@ -172,20 +170,16 @@ html {
   display: none;
 }
 
-.top-btn-wrapper {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-
-  .download-template-btn {
-    background-color: orangered;
-    color: #ffffff;
-    padding: 10px;
-    border-radius: 4px;
-    border: 0px;
-  }
+label {
+  font-size: 13px;
 }
 
-.table-template {
-  display: none;
+.add-btn-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.pdf-btn-wrapper {
+  display: flex;
+  gap: 15px;
 }

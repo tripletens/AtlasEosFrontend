@@ -61,11 +61,14 @@ export class ShowOrdersComponent implements OnInit {
     'special',
     'extended',
   ];
+  orderLen = 0;
+  orderSuccess = false;
   sortTable: any;
   dataSrc = new MatTableDataSource<PeriodicElement>();
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   canOrder = false;
+  isMod = false;
   orderTable: object[] = [];
   constructor(
     private getData: HttpRequestsService,
@@ -84,6 +87,7 @@ export class ShowOrdersComponent implements OnInit {
         this.searchVendorId(this.vendorId!);
       }
     });
+    
   }
   @ViewChild(MatSort)
   sort!: MatSort;
@@ -99,8 +103,10 @@ export class ShowOrdersComponent implements OnInit {
   }
 
   getAllVendors() {
+    this.orderSuccess = false;
+
     this.getData
-      .httpGetRequest('/get-all-vendors')
+      .httpGetRequest('/dealer/get-vendors')
       .then((result: any) => {
         console.log(result);
         if (result.status) {
@@ -128,12 +134,32 @@ export class ShowOrdersComponent implements OnInit {
 
     return newArray;
   }
+  getCart() {
+    this.getData
+      .httpGetRequest('/cart/all')
+      .then((result: any) => {
+        if (result.status) {
+          // console.log('search vendor res', result.data);
+          this.orderTable = result.data;
+
+          $('table-ctn').addClass('highlight');
+        } else {
+          this.toastr.info(`Something went wrong`, 'Error');
+        }
+      })
+      .catch((err) => {
+        this.toastr.info(`Something went wrong`, 'Error');
+      });
+  }
   searchVendorId(id: any) {
     this.canOrder = false;
+
     this.getData
       .httpGetRequest('/get-vendor-products/' + id)
       .then((result: any) => {
         if (result.status) {
+          this.isMod = true;
+
           // console.log('search vendor res', result.data);
           this.tableData = result.data;
           this.dataSrc = new MatTableDataSource<PeriodicElement>(
@@ -163,8 +189,9 @@ export class ShowOrdersComponent implements OnInit {
     return arr;
   }
   getProductByVendorId() {
-    this.canOrder = false;
 
+    this.canOrder = false;
+    this.isMod = false;
     let id = this.vendor.nativeElement.value;
     this.getData
       .httpGetRequest('/get-vendor-products/' + id)
@@ -177,7 +204,7 @@ export class ShowOrdersComponent implements OnInit {
           if (result.data.length !== 0) {
             this.canOrder = true;
           }
-
+          $('tbody tr:first').css('background', '#');
           this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
           this.dataSrc.sort = this.sort;
           this.dataSrc.paginator = this.paginator;
@@ -200,22 +227,29 @@ export class ShowOrdersComponent implements OnInit {
       assortItem: false,
       specCond: 0,
       specPrice: 0,
-      assortPrice: 0,
     };
+    let grp;
+    if (product.grouping == null || undefined) {
+      grp = '';
+      console.log('grping', grp);
+    } else {
+      grp = product.grouping;
+      console.log('grping else', grp);
+    }
     let usedVar = {
-      vendor: product.vendor,
+      vendor_id: product.vendor,
       atlas_id: product.atlas_id,
       qty: qty,
-      price: 0,
-      unit_price: price,
-      product_id: product.id,
-      grouping: product.grouping,
+      price: '0',
+      unit_price: price.toString(),
+      product_id: product.id.toString(),
+      groupings: grp,
     };
 
     if (product.spec_data) {
       specData = JSON.parse(product.spec_data);
       posssibleBreak = true;
-      for (var x = 0; x < specData.length; x++) {
+      for (var x = 0; x < specData?.length; x++) {
         let lev = specData[x];
         if (lev.type == 'special') {
           priceSummary.specItem = true;
@@ -229,9 +263,10 @@ export class ShowOrdersComponent implements OnInit {
         }
       }
     }
+
     function replaceOldVal(arr: any) {
-      if (arr.length > 0) {
-        for (var j = 0; j < arr.length; j++) {
+      if (arr?.length > 0) {
+        for (var j = 0; j < arr?.length; j++) {
           let Obj: any = arr[j]!;
           if (Obj?.atlas_id == product.atlas_id) {
             arr.splice(j, 1);
@@ -247,7 +282,8 @@ export class ShowOrdersComponent implements OnInit {
             console.log('step 3');
             if (qty >= priceSummary.specCond) {
               total = qty * priceSummary.specPrice;
-              usedVar.unit_price = priceSummary.specPrice;
+              usedVar.unit_price = priceSummary.specPrice.toString();
+
               console.log('step 3', total);
             } else {
               console.log('second else', total);
@@ -259,7 +295,7 @@ export class ShowOrdersComponent implements OnInit {
             console.log('step 3 assort');
             if (qty >= priceSummary.specCond) {
               total = qty * priceSummary.specPrice;
-              usedVar.unit_price = priceSummary.specPrice;
+              usedVar.unit_price = priceSummary.specPrice.toString();
               console.log('step 3 assort', total);
             } else {
               console.log('second else assort', total);
@@ -274,13 +310,26 @@ export class ShowOrdersComponent implements OnInit {
         }
       }
       total = parseFloat(total.toFixed(2));
-      usedVar.price = total;
+      usedVar.price = total.toString();
     }
 
     calcTotal();
+
     replaceOldVal(this.orderTable);
+       console.log(
+        "userobj",
+         usedVar,
+         'table',
+         this.orderTable
+       );
     this.orderTable.push(usedVar);
     this.dataSrc.data[i].extended = total;
+    // if (posssibleBreak && qty > priceSummary.specCond) {
+    //   this.dataSrc.data[i].booking = priceSummary.specPrice;
+    // } else {
+    //    this.dataSrc.data[i].booking = priceSummary.specPrice;
+    // }
+
     this.dataSrc.sort = this.sort;
     this.dataSrc.paginator = this.paginator;
     console.log(
@@ -299,21 +348,27 @@ export class ShowOrdersComponent implements OnInit {
   }
   submitOrder() {
     this.cartLoader = true;
-    let uid = this.token.getUser().id;
+    this.orderSuccess = false;
+
+    let uid = this.token.getUser().id.toString();
     let accntId = this.token.getUser().account_id;
+    this.orderLen = this.orderTable.length;
     if (this.orderTable.length > 0) {
       let formdata = {
         uid: uid,
         dealer: accntId,
-        vendor: this.dataSrc.data[0].vendor,
-        produc_array: this.orderTable,
+        product_array: JSON.stringify(this.orderTable),
       };
       this.getData
-        .httpPostRequest('/add-item-to-cart',formdata)
+        .httpPostRequest('/add-item-to-cart', formdata)
         .then((result: any) => {
           if (result.status) {
             this.cartLoader = false;
-
+            this.orderSuccess = true;
+            this.toastr.success(
+              `${this.orderLen}  item(s) have been added to cart`,
+              'Success'
+            );
             this.orderTable = [];
             if (this.searchatlasId) {
               this.searchVendorId(this.vendorId!);

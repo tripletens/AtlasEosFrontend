@@ -31,9 +31,14 @@ export class MessagesComponent implements OnInit {
   showUnreadMsg = false
   unreadMsgData: any
   adminUserData: any
+  noCoworkerFound = false
+  incomingDealerData: any
+  showDropdown = false
+  noDealerUsersFound = false
 
   @ViewChild('chatWrapper') private chatWrapper!: ElementRef
   @ViewChild('audioTag') private audioTag!: ElementRef
+  @ViewChild('dummyInput') dummyInput!: ElementRef
 
   constructor(
     private postData: HttpRequestsService,
@@ -71,6 +76,61 @@ export class MessagesComponent implements OnInit {
     this.chatService.openChatConnection(userId)
     this.getUnreadMsg()
     this.getAllDamin()
+
+    setInterval(() => {
+      this.getUnreadMsg()
+    }, 10000)
+  }
+
+  toggleVendors() {
+    if (this.showDropdown) {
+      this.showDropdown = false
+    } else {
+      this.showDropdown = true
+    }
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value
+    this.incomingDealerData.company_name = filterValue.trim().toLowerCase()
+    this.allDealers = this.filterArray('*' + filterValue)
+  }
+
+  filterArray(expression: string) {
+    var regex = this.convertWildcardStringToRegExp(expression)
+    return this.incomingDealerData.filter(function (item: any) {
+      return regex.test(item.company_name)
+    })
+  }
+
+  escapeRegExp(str: string) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  }
+
+  convertWildcardStringToRegExp(expression: string) {
+    var terms = expression.split('*')
+
+    var trailingWildcard = false
+
+    var expr = ''
+    for (var i = 0; i < terms.length; i++) {
+      if (terms[i]) {
+        if (i > 0 && terms[i - 1]) {
+          expr += '.*'
+        }
+        trailingWildcard = false
+        expr += this.escapeRegExp(terms[i])
+      } else {
+        trailingWildcard = true
+        expr += '.*'
+      }
+    }
+
+    if (!trailingWildcard) {
+      expr += '.*'
+    }
+
+    return new RegExp('^' + expr + '$', 'i')
   }
 
   getAllDamin() {
@@ -101,6 +161,13 @@ export class MessagesComponent implements OnInit {
   }
 
   getAllSelectedDealerUsers(data: any) {
+    if (this.showDropdown) {
+      this.showDropdown = false
+    } else {
+      this.showDropdown = true
+    }
+    this.dummyInput.nativeElement.value = data.company_name
+
     this.coworkerLoader = true
     this.selectedDealerUser = []
     this.postData
@@ -128,6 +195,8 @@ export class MessagesComponent implements OnInit {
       .then((result: any) => {
         if (result.status) {
           this.allDealers = result.data
+          this.incomingDealerData = result.data
+          this.noDealerUsersFound = result.data.length > 0 ? false : true
         } else {
         }
       })
@@ -235,9 +304,7 @@ export class MessagesComponent implements OnInit {
         if (result.status) {
           this.coworkerLoader = false
           this.coworkersData = result.data
-          //let sortedData = this.alphabeticalOrder(result.data)
-
-          // this.allUsers = result.data
+          this.noCoworkerFound = result.data.length > 0 ? false : true
         } else {
         }
       })

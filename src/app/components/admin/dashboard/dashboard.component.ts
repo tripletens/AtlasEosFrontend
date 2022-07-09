@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
+import { Component, OnInit } from '@angular/core'
+import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +7,8 @@ import { HttpRequestsService } from 'src/app/core/services/http-requests.service
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  loader = true;
-  tableView = false;
-
+  loader = true
+  tableView = false
 
   totalOrder = 0
   totalDealer = 0
@@ -78,11 +77,21 @@ export class DashboardComponent implements OnInit {
     let initalSeconds = data.seconds
     this.timeDays = data.days
 
-    if (data.hours > 24) {
-      this.timeHours = 24
+    if (data.hours < 1) {
+      this.timeHours = 0
     } else {
-      this.timeHours = data.hours
+      if (data.hours > 24) {
+        this.timeHours = 24
+      } else {
+        this.timeHours = data.hours
+      }
     }
+
+    // if (data.hours > 24 && data.hours != 0) {
+    //   this.timeHours = 24
+    // } else {
+    //   this.timeHours = data.hours
+    // }
 
     if (data.minutes > 59) {
       this.timeMinutes = 59
@@ -100,25 +109,38 @@ export class DashboardComponent implements OnInit {
         this.timeSeconds--
       } else {
         this.timeSeconds = 59
-        this.timeMinutes--
 
-        if (this.timeMinutes == 0) {
+        if (this.timeMinutes < 1 && this.timeHours != 0) {
           this.timeMinutes = 59
-          if (this.timeHours != 0) {
-            this.timeHours--
-          } else {
-            this.timeHours = 0
-          }
+          this.timeHours--
         }
 
-        if (this.timeHours == 0) {
+        if (this.timeHours < 1 && this.timeDays != 0) {
+          this.timeDays--
           this.timeHours = 24
-          if (this.timeDays != 0) {
-            this.timeDays--
-          } else {
-            this.timeDays = 0
-          }
         }
+
+        if (this.timeMinutes > 0) {
+          this.timeMinutes--
+        }
+
+        // if (this.timeMinutes < 1) {
+        //   this.timeMinutes = 59
+        //   if (this.timeHours != 0) {
+        //     this.timeHours--
+        //   } else {
+        //     this.timeHours = 0
+        //   }
+        // }
+
+        // if (this.timeHours < 1) {
+        //   this.timeHours = 24
+        //   if (this.timeDays < 1) {
+        //     this.timeDays = 0
+        //   } else {
+        //     this.timeDays--
+        //   }
+        // }
       }
 
       if (
@@ -164,42 +186,37 @@ export class DashboardComponent implements OnInit {
       .catch((err) => {
         ///this.loader = false
       })
-
   }
 
-  ngOnInit(): void {
-    this.getDashboardData();
-  }
-  
   getDashboardData() {
     this.getData
       .httpGetRequest('/admin-dashboard')
       .then((result: any) => {
-        this.tableView = true;
+        this.tableView = true
 
-        this.loader = false;
-        console.log(result);
+        this.loader = false
+        console.log(result)
         if (result.status) {
-          this.totalCardedProduct = result.data.total_carded_products;
-          this.totalServicePart = result.data.total_service_parts;
-          this.totalProducts = result.data.total_products;
-          this.totalDealer = result.data.total_dealers;
-          this.totalCatalogue = result.data.total_catalogue_orders;
-          this.totalVendor = result.data.total_vendors;
+          this.totalCardedProduct = result.data.total_carded_products
+          this.totalServicePart = result.data.total_service_parts
+          this.totalProducts = result.data.total_products
+          this.totalDealer = result.data.total_dealers
+          this.totalCatalogue = result.data.total_catalogue_orders
+          this.totalVendor = result.data.total_vendors
 
-          this.totalLoggedVendor = result.data.total_logged_vendors;
-          this.totalLoggedDealer = result.data.total_logged_dealers;
-          this.totalLoggedAdmin = result.data.total_logged_admin;
+          this.totalLoggedVendor = result.data.total_logged_vendors
+          this.totalLoggedDealer = result.data.total_logged_dealers
+          this.totalLoggedAdmin = result.data.total_logged_admin
 
           //  this.totalAmount = result.data.total_amount
-          this.totalOrder = result.data.total_order;
-          this.recentOrders = result.data.recent_orders;
+          this.totalOrder = result.data.total_order
+          this.recentOrders = result.data.recent_orders
           //this.allCategoryData = result.data;
         } else {
         }
       })
       .catch((err) => {
-        this.loader = false;
-      });
+        this.loader = false
+      })
   }
 }

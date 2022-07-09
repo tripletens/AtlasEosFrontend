@@ -73,21 +73,61 @@
                                     </li>
                                   </div>
                                 </ul>
+
+                                <h6
+                                  *ngIf="noCoworkerFound"
+                                  class="no-user-found-text"
+                                >
+                                  no coworker found
+                                </h6>
+
+                                <div class="" *ngIf="coworkerLoader">
+                                  <div class="ph-item ph-loader-item">
+                                    <div class="ph-col-12">
+                                      <div class="ph-row">
+                                        <div class="ph-col-12 loader-col"></div>
+                                        <div class="ph-col-12 loader-col"></div>
+                                        <div class="ph-col-12 loader-col"></div>
+                                        <div class="ph-col-12 loader-col"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                               <div class="tab-pane container fade" id="menu1">
                                 <div class="select-wrapper">
-                                  <select name="" id="">
-                                    <option value="">
-                                      Select Dealer Company
-                                    </option>
-                                    <option
-                                      value=""
-                                      (click)="getAllSelectedDealerUsers(data)"
-                                      *ngFor="let data of allDealers"
-                                    >
-                                      {{ data.company_name }}
-                                    </option>
-                                  </select>
+                                  <input
+                                    class="dummy-input"
+                                    type="text"
+                                    (click)="toggleVendors()"
+                                    value="Select dealer company"
+                                    readonly
+                                    #dummyInput
+                                  />
+
+                                  <div
+                                    *ngIf="showDropdown"
+                                    #dropdownSection
+                                    class="dropdown-section"
+                                  >
+                                    <input
+                                      type="text"
+                                      class="dropdown-filter"
+                                      (keyup)="applyFilter($event)"
+                                      #input
+                                    />
+
+                                    <ul>
+                                      <li
+                                        *ngFor="let data of allDealers"
+                                        (click)="
+                                          getAllSelectedDealerUsers(data)
+                                        "
+                                      >
+                                        {{ data.company_name }}
+                                      </li>
+                                    </ul>
+                                  </div>
                                 </div>
 
                                 <ul class="coworker-ul">
@@ -108,6 +148,13 @@
                                     </li>
                                   </div>
                                 </ul>
+
+                                <h6
+                                  *ngIf="noDealerUsersFound"
+                                  class="no-user-found-text"
+                                >
+                                  no dealer user found
+                                </h6>
 
                                 <div class="" *ngIf="coworkerLoader">
                                   <div class="ph-item ph-loader-item">
