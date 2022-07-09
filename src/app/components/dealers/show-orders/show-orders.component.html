@@ -52,6 +52,7 @@
                     class="mx-auto"
                     min="0"
                     #qtyInput
+
                     (input)="runCalc(element, qtyInput.value, i)"
                     placeholder="Qty"
                   />
@@ -136,7 +137,7 @@
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns; index as i" [class.highlighted]="i==0 && isMod"></tr>
             </table>
             <tr>
               <td colspan="10" class="p-4"></td>
@@ -148,6 +149,19 @@
               aria-label="Select page seminar pages"
             >
             </mat-paginator>
+
+             <div *ngIf="orderSuccess"
+              class="alert alert-success mt-2 mb-2 d-flex align-items-center" 
+            >
+              <i class="fa fa-check-circle" style="font-size: 30px" ></i
+              >&nbsp;&nbsp;
+              <div class="ml-2">
+                <h6 class="mb-1" style=" font-size:16px">Success</h6>
+                <p style=" font-size:15px">
+                  {{orderLen}} item(s) have been added to cart
+                </p>
+              </div>
+            </div>
             <div
               class="w-100 justify-content-end d-flex py-3"
               *ngIf="canOrder"
@@ -159,8 +173,8 @@
                 (click)="submitOrder()"
               >
                 <div *ngIf="!cartLoader">Confirm Order</div>
-                <div *ngIf="cartLoader">
-                  <span class="spinner-border spinner-border-sm text-dark">
+                <div *ngIf="cartLoader">Confirm Order
+                  <span class="spinner-border spinner-border-sm text-dark ps-1">
                   </span>
                 </div>
               </button>

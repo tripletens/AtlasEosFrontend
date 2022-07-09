@@ -61,11 +61,14 @@ export class ShowOrdersComponent implements OnInit {
     'special',
     'extended',
   ];
+  orderLen = 0;
+  orderSuccess = false;
   sortTable: any;
   dataSrc = new MatTableDataSource<PeriodicElement>();
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   canOrder = false;
+  isMod = false;
   orderTable: object[] = [];
   constructor(
     private getData: HttpRequestsService,
@@ -84,6 +87,7 @@ export class ShowOrdersComponent implements OnInit {
         this.searchVendorId(this.vendorId!);
       }
     });
+    
   }
   @ViewChild(MatSort)
   sort!: MatSort;
@@ -99,6 +103,8 @@ export class ShowOrdersComponent implements OnInit {
   }
 
   getAllVendors() {
+    this.orderSuccess = false;
+
     this.getData
       .httpGetRequest('/dealer/get-vendors')
       .then((result: any) => {
@@ -128,12 +134,32 @@ export class ShowOrdersComponent implements OnInit {
 
     return newArray;
   }
+  getCart() {
+    this.getData
+      .httpGetRequest('/cart/all')
+      .then((result: any) => {
+        if (result.status) {
+          // console.log('search vendor res', result.data);
+          this.orderTable = result.data;
+
+          $('table-ctn').addClass('highlight');
+        } else {
+          this.toastr.info(`Something went wrong`, 'Error');
+        }
+      })
+      .catch((err) => {
+        this.toastr.info(`Something went wrong`, 'Error');
+      });
+  }
   searchVendorId(id: any) {
     this.canOrder = false;
+
     this.getData
       .httpGetRequest('/get-vendor-products/' + id)
       .then((result: any) => {
         if (result.status) {
+          this.isMod = true;
+
           // console.log('search vendor res', result.data);
           this.tableData = result.data;
           this.dataSrc = new MatTableDataSource<PeriodicElement>(
@@ -163,8 +189,9 @@ export class ShowOrdersComponent implements OnInit {
     return arr;
   }
   getProductByVendorId() {
-    this.canOrder = false;
 
+    this.canOrder = false;
+    this.isMod = false;
     let id = this.vendor.nativeElement.value;
     this.getData
       .httpGetRequest('/get-vendor-products/' + id)
@@ -210,19 +237,19 @@ export class ShowOrdersComponent implements OnInit {
       console.log('grping else', grp);
     }
     let usedVar = {
-      "vendor_id": product.vendor,
-      "atlas_id": product.atlas_id,
-      "qty": qty,
-      "price": '0',
-      "unit_price": price.toString(),
-      "product_id": product.id.toString(),
-      "groupings": grp,
+      vendor_id: product.vendor,
+      atlas_id: product.atlas_id,
+      qty: qty,
+      price: '0',
+      unit_price: price.toString(),
+      product_id: product.id.toString(),
+      groupings: grp,
     };
 
     if (product.spec_data) {
       specData = JSON.parse(product.spec_data);
       posssibleBreak = true;
-      for (var x = 0; x < specData.length; x++) {
+      for (var x = 0; x < specData?.length; x++) {
         let lev = specData[x];
         if (lev.type == 'special') {
           priceSummary.specItem = true;
@@ -236,9 +263,10 @@ export class ShowOrdersComponent implements OnInit {
         }
       }
     }
+
     function replaceOldVal(arr: any) {
-      if (arr.length > 0) {
-        for (var j = 0; j < arr.length; j++) {
+      if (arr?.length > 0) {
+        for (var j = 0; j < arr?.length; j++) {
           let Obj: any = arr[j]!;
           if (Obj?.atlas_id == product.atlas_id) {
             arr.splice(j, 1);
@@ -288,6 +316,12 @@ export class ShowOrdersComponent implements OnInit {
     calcTotal();
 
     replaceOldVal(this.orderTable);
+       console.log(
+        "userobj",
+         usedVar,
+         'table',
+         this.orderTable
+       );
     this.orderTable.push(usedVar);
     this.dataSrc.data[i].extended = total;
     // if (posssibleBreak && qty > priceSummary.specCond) {
@@ -314,8 +348,11 @@ export class ShowOrdersComponent implements OnInit {
   }
   submitOrder() {
     this.cartLoader = true;
+    this.orderSuccess = false;
+
     let uid = this.token.getUser().id.toString();
     let accntId = this.token.getUser().account_id;
+    this.orderLen = this.orderTable.length;
     if (this.orderTable.length > 0) {
       let formdata = {
         uid: uid,
@@ -327,7 +364,11 @@ export class ShowOrdersComponent implements OnInit {
         .then((result: any) => {
           if (result.status) {
             this.cartLoader = false;
-
+            this.orderSuccess = true;
+            this.toastr.success(
+              `${this.orderLen}  item(s) have been added to cart`,
+              'Success'
+            );
             this.orderTable = [];
             if (this.searchatlasId) {
               this.searchVendorId(this.vendorId!);
