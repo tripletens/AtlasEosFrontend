@@ -72,7 +72,7 @@ const routes: Routes = [
         component: ResolveProblemComponent,
       },
       {
-        path: 'view-report',
+        path: 'view-report/:ticket',
         component: VeiwReportComponent,
       },
       {
