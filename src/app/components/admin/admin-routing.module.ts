@@ -76,7 +76,7 @@ const routes: Routes = [
         component: VeiwReportComponent,
       },
       {
-        path: 'respond-report',
+        path: 'respond-report/:ticket',
         component: RespondReportComponent,
       },
       {

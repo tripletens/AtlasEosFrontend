@@ -29,61 +29,96 @@
                 <h6 class="reported-text">Ticket replied by Admin</h6>
 
                 <div class="reported-issues-wrapper">
-                  <div class="report-item">
-                    <h5 class="reporter-name">Created By: Achawayne</h5>
-                    <h5 class="report-title">
-                      Creating the resolve Problem page
-                    </h5>
-                    <p>
-                      we are working hard to ensure that this project is a
-                      success
-                    </p>
+                  <div *ngFor="let data of currentTicketData">
+                    <div class="report-item" *ngIf="data.role != userRole">
+                      <h5 class="reporter-name">
+                        Created By: {{ data.first_name }} {{ data.last_name }}
+                      </h5>
+                      <h5 class="report-title">
+                        {{ data.subject }}
+                      </h5>
+                      <p>
+                        {{ data.description }}
+                      </p>
 
-                    <div class="d-flex justify-content-between">
-                      <div class="timer-section">
-                        <span class="fa fas fa-user icon"></span>
-                        <span>Don tunechi</span>
+                      <div class="d-flex justify-content-between">
+                        <div class="timer-section">
+                          <span class="fa fas fa-user icon"></span>
+                          <span>{{ data.first_name }}</span>
 
-                        <span class="fa fa-clock icon"></span>
-                        <span>Created: March 8, 2022, 4:54 pm</span>
+                          <span class="fa fa-clock icon"></span>
+                          <span>
+                            Created: {{ data.created_at | date: 'medium' }}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="report-item">
-                    <p>
-                      we are working hard to ensure that this project is a
-                      success
-                    </p>
+                    <div class="report-item" *ngIf="data.role == userRole">
+                      <p>
+                        {{ data.description }}
+                      </p>
 
-                    <div class="d-flex justify-content-between">
-                      <div class="timer-section">
-                        <span class="fa fas fa-user icon"></span>
-                        <span>Atlas</span>
+                      <div class="d-flex justify-content-between">
+                        <div class="timer-section">
+                          <span class="fa fas fa-user icon"></span>
+                          <span>Atlas</span>
 
-                        <span class="fa fas fa-clock icon"></span>
-                        <span>Created: March 8, 2022, 4:54 pm</span>
+                          <span class="fa fas fa-clock icon"></span>
+                          <span>
+                            Created: {{ data.created_at | date: 'medium' }}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 <div class="reply-text-wrapper">
-                  <textarea
-                    class="reply-text"
-                    name=""
-                    placeholder="Enter reply text"
-                    id=""
-                  ></textarea>
+                  <form [formGroup]="ReplyReportForm">
+                    <textarea
+                      class="reply-text"
+                      name=""
+                      placeholder="Enter reply text"
+                      id=""
+                      formControlName="description"
+                    ></textarea>
 
-                  <div class="d-flex justify-content-end reply-btn-wrapper">
-                    <div>
-                      <button>
-                        <span class="fa fas fa-paper-plane"></span>
-                        Send
-                      </button>
+                    <div
+                      class="input-alert-box"
+                      *ngIf="
+                        replyProblemFormControls.description.invalid &&
+                        manualChecker
+                      "
+                    >
+                      <div>
+                        <span class="alert-input-msg">
+                          {{ getErrorMessage('description') }}
+                        </span>
+                        <span
+                          class="fa fa-exclamation-triangle alert-input-icon"
+                          style="float: right;"
+                        ></span>
+                      </div>
                     </div>
-                  </div>
+
+                    <div class="d-flex justify-content-end reply-btn-wrapper">
+                      <div>
+                        <button (click)="submit()">
+                          <span *ngIf="btnText">
+                            <span class="fa fas fa-paper-plane"></span>
+                            Send
+                          </span>
+
+                          <div *ngIf="btnLoader">
+                            <span
+                              class="spinner-border spinner-border-sm"
+                            ></span>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>

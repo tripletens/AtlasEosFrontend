@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
+import { TokenStorageService } from 'src/app/core/services/token-storage.service'
 
 @Component({
   selector: 'app-resolve-problem',
@@ -11,11 +12,18 @@ export class ResolveProblemComponent implements OnInit {
   loader = false
   reportProblemsData: any
   reportLoader = true
+  userRole = ''
+  userData: any
 
-  constructor(private postData: HttpRequestsService) {}
+  constructor(
+    private postData: HttpRequestsService,
+    private tokeStore: TokenStorageService,
+  ) {}
 
   ngOnInit(): void {
     this.getAllReport()
+    this.userData = this.tokeStore.getUser()
+    this.userRole = this.userData.role
   }
 
   getAllReport() {

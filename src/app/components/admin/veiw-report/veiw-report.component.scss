@@ -189,7 +189,7 @@
 }
 
 .reported-issues-wrapper {
-  height: 300px;
+  // height: 300px;
   overflow: auto;
   padding-top: 20px;
   padding-bottom: 20px;
@@ -281,12 +281,13 @@
     width: 100%;
     border-radius: 4px;
     border: 1px solid #ced4da;
-    margin-bottom: 20px;
     padding: 10px;
   }
 }
 
 .reply-btn-wrapper {
+  margin-top: 20px;
+
   button {
     border: 0px;
     border-radius: 5px;
@@ -304,4 +305,21 @@
     padding: 4px 7px;
     font-size: 13px;
   }
+}
+
+.alert-input-msg {
+  font-size: 13px;
+  color: red;
+  margin-top: 1px;
+  display: block;
+}
+
+.alert-input-icon {
+  font-size: 13px;
+  color: red;
+  margin-top: -18px;
+}
+
+.input-alert-box {
+  padding-right: 10px;
 }

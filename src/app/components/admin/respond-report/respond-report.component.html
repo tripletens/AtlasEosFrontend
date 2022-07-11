@@ -27,25 +27,52 @@
               data-parent="#accordion6"
             >
               <div class="card-body">
-                <!-- <h6 class="reported-text">Ticket replied by Admin</h6> -->
+                <form [formGroup]="ReplyReportForm">
+                  <div class="reply-text-wrapper">
+                    <textarea
+                      class="reply-text"
+                      name=""
+                      placeholder="Enter reply text"
+                      id=""
+                      formControlName="description"
+                    ></textarea>
 
-                <div class="reply-text-wrapper">
-                  <textarea
-                    class="reply-text"
-                    name=""
-                    placeholder="Enter reply text"
-                    id=""
-                  ></textarea>
+                    <div
+                      class="input-alert-box"
+                      *ngIf="
+                        replyProblemFormControls.description.invalid &&
+                        manualChecker
+                      "
+                    >
+                      <div>
+                        <span class="alert-input-msg">
+                          {{ getErrorMessage('description') }}
+                        </span>
+                        <span
+                          class="fa fa-exclamation-triangle alert-input-icon"
+                          style="float: right;"
+                        ></span>
+                      </div>
+                    </div>
 
-                  <div class="d-flex justify-content-end reply-btn-wrapper">
-                    <div>
-                      <button>
-                        <span class="fa fas fa-paper-plane"></span>
-                        Send
-                      </button>
+                    <div class="d-flex justify-content-end reply-btn-wrapper">
+                      <div>
+                        <button (click)="submit()">
+                          <span *ngIf="btnText">
+                            <span class="fa fas fa-paper-plane"></span>
+                            Send
+                          </span>
+
+                          <div *ngIf="btnLoader">
+                            <span
+                              class="spinner-border spinner-border-sm"
+                            ></span>
+                          </div>
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </form>
               </div>
             </div>
           </div>

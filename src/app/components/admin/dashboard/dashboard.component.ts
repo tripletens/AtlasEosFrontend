@@ -81,7 +81,7 @@ export class DashboardComponent implements OnInit {
       this.timeHours = 0
     } else {
       if (data.hours > 24) {
-        this.timeHours = 24
+        this.timeHours = 23
       } else {
         this.timeHours = data.hours
       }
@@ -118,30 +118,12 @@ export class DashboardComponent implements OnInit {
 
         if (this.timeHours < 1 && this.timeDays != 0) {
           this.timeDays--
-          this.timeHours = 24
+          this.timeHours = 23
         }
 
         if (this.timeMinutes > 0) {
           this.timeMinutes--
         }
-
-        // if (this.timeMinutes < 1) {
-        //   this.timeMinutes = 59
-        //   if (this.timeHours != 0) {
-        //     this.timeHours--
-        //   } else {
-        //     this.timeHours = 0
-        //   }
-        // }
-
-        // if (this.timeHours < 1) {
-        //   this.timeHours = 24
-        //   if (this.timeDays < 1) {
-        //     this.timeDays = 0
-        //   } else {
-        //     this.timeDays--
-        //   }
-        // }
       }
 
       if (

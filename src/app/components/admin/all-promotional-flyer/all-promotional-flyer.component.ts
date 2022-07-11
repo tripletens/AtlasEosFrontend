@@ -149,7 +149,7 @@ export class AllPromotionalFlyerComponent implements OnInit {
 
   getAllFlyers() {
     this.postData
-      .httpGetRequest('/show-all-promotional-fliers')
+      .httpGetRequest('/admin/all-promotional-flyer')
       .then((result: any) => {
         console.log(result)
 
