@@ -70,6 +70,7 @@ export class ShowOrdersComponent implements OnInit {
   canOrder = false;
   isMod = false;
   orderTable: object[] = [];
+  cartHistory: object[] = [];
   constructor(
     private getData: HttpRequestsService,
     private toastr: ToastrService,
@@ -87,7 +88,7 @@ export class ShowOrdersComponent implements OnInit {
         this.searchVendorId(this.vendorId!);
       }
     });
-    
+    this.getCart();
   }
   @ViewChild(MatSort)
   sort!: MatSort;
@@ -135,14 +136,13 @@ export class ShowOrdersComponent implements OnInit {
     return newArray;
   }
   getCart() {
+    let id = this.token.getUser().account_id;
     this.getData
-      .httpGetRequest('/cart/all')
+      .httpGetRequest('/cart/dealer/' + id)
       .then((result: any) => {
         if (result.status) {
-          // console.log('search vendor res', result.data);
-          this.orderTable = result.data;
-
-          $('table-ctn').addClass('highlight');
+          console.log('dealer id', result?.data);
+          this.cartHistory = result?.data;
         } else {
           this.toastr.info(`Something went wrong`, 'Error');
         }
@@ -189,7 +189,6 @@ export class ShowOrdersComponent implements OnInit {
     return arr;
   }
   getProductByVendorId() {
-
     this.canOrder = false;
     this.isMod = false;
     let id = this.vendor.nativeElement.value;
@@ -204,7 +203,6 @@ export class ShowOrdersComponent implements OnInit {
           if (result.data.length !== 0) {
             this.canOrder = true;
           }
-          $('tbody tr:first').css('background', '#');
           this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
           this.dataSrc.sort = this.sort;
           this.dataSrc.paginator = this.paginator;
@@ -221,130 +219,159 @@ export class ShowOrdersComponent implements OnInit {
     let posssibleBreak = false;
     let specData;
     let total = 0.0;
-
+    let arrHist: any = this.cartHistory;
+    let cart = this.orderTable;
+    let inCart = false;
     let priceSummary = {
       specItem: false,
       assortItem: false,
       specCond: 0,
       specPrice: 0,
     };
-    let grp;
-    if (product.grouping == null || undefined) {
-      grp = '';
-      console.log('grping', grp);
+    let grp: any;
+    // for (var y = 0; y < arrHist.length; y++) {
+    //   console.log(
+    //     'Product id check',
+    //     arrHist[y]?.id,
+    //     product.id,
+    //     arrHist[y]?.id == product.id
+    //   );
+    //   if (arrHist[y]?.id == product.id) {
+    //     inCart = true;
+    //   } else {
+    //     inCart = false;
+    //   }
+    // }console.log(
+    //   'what is the val of incart',
+    //   inCart,
+    //   arrHist,
+    //   product.id
+    // );
+    if (inCart) {
+      console.log('grping', grp, );
+      if (product.grouping == null || undefined) {
+        grp = '';
+        console.log('grping', grp);
+      } else {
+        grp = product.grouping;
+        console.log('grping else', grp);
+      }
+      let usedVar = {
+        vendor_id: product.vendor,
+        atlas_id: product.atlas_id,
+        qty: qty,
+        price: '0',
+        unit_price: price.toString(),
+        product_id: product.id.toString(),
+        groupings: grp,
+      };
+
+      if (product.spec_data) {
+        specData = JSON.parse(product.spec_data);
+        posssibleBreak = true;
+        for (var x = 0; x < specData?.length; x++) {
+          let lev = specData[x];
+          if (lev.type == 'special') {
+            priceSummary.specItem = true;
+            priceSummary.specCond = lev.cond;
+            priceSummary.specPrice = lev.special;
+          }
+          if (lev.type == 'assorted') {
+            priceSummary.assortItem = true;
+            priceSummary.specCond = lev.cond;
+            priceSummary.specPrice = lev.special;
+          }
+        }
+      }
+      function checkGrouping(arr: any) {}
+      function replaceOldVal(arr: any) {
+        if (arr?.length > 0) {
+          for (var j = 0; j < arr?.length; j++) {
+            let Obj: any = arr[j]!;
+            if (Obj?.atlas_id == product.atlas_id) {
+              arr.splice(j, 1);
+            }
+          }
+        }
+      }
+
+      function calcTotal() {
+        if (qty > 0) {
+          if (posssibleBreak) {
+            if (priceSummary.specItem) {
+              console.log('step 3');
+              if (qty >= priceSummary.specCond) {
+                total = qty * priceSummary.specPrice;
+                usedVar.unit_price = priceSummary.specPrice.toString();
+
+                console.log('step 3', total);
+              } else {
+                console.log('second else', total);
+                total = qty * price;
+                console.log('below second else', total);
+              }
+            }
+            if (priceSummary.assortItem) {
+              console.log('step 3 assort');
+              let mutArr = arrHist.concat(cart);
+              for (var j = 0; j < mutArr?.length; j++) {
+                let Obj: any = mutArr[j]!;
+                if (product?.grouping) {
+                  if (Obj.grouping == grp) {
+                    qty = qty + Obj.qty;
+                  }
+                }
+              }
+              if (qty >= priceSummary.specCond) {
+                total = qty * priceSummary.specPrice;
+                usedVar.unit_price = priceSummary.specPrice.toString();
+                console.log('step 3 assort', total);
+              } else {
+                console.log('second else assort', total);
+                total = qty * price;
+                console.log('below second else assort', total);
+              }
+            }
+          } else {
+            console.log('first else', total);
+            total = qty * price;
+            console.log('below first else', total);
+          }
+        }
+        total = parseFloat(total.toFixed(2));
+        usedVar.price = total.toString();
+      }
+
+      calcTotal();
+
+      replaceOldVal(this.orderTable);
+      console.log('userobj', usedVar, 'table', this.orderTable);
+      this.orderTable.push(usedVar);
+      this.dataSrc.data[i].extended = total;
+      // if (posssibleBreak && qty > priceSummary.specCond) {
+      //   this.dataSrc.data[i].booking = priceSummary.specPrice;
+      // } else {
+      //    this.dataSrc.data[i].booking = priceSummary.specPrice;
+      // }
+
+      this.dataSrc.sort = this.sort;
+      this.dataSrc.paginator = this.paginator;
+      console.log(
+        'total val',
+        total,
+        price,
+        qty,
+        posssibleBreak,
+        'price sum',
+        priceSummary,
+        'var added',
+        usedVar,
+        'table',
+        this.orderTable
+      );
     } else {
-      grp = product.grouping;
-      console.log('grping else', grp);
+      this.toastr.info(``, 'This item has been added to cart');
     }
-    let usedVar = {
-      vendor_id: product.vendor,
-      atlas_id: product.atlas_id,
-      qty: qty,
-      price: '0',
-      unit_price: price.toString(),
-      product_id: product.id.toString(),
-      groupings: grp,
-    };
-
-    if (product.spec_data) {
-      specData = JSON.parse(product.spec_data);
-      posssibleBreak = true;
-      for (var x = 0; x < specData?.length; x++) {
-        let lev = specData[x];
-        if (lev.type == 'special') {
-          priceSummary.specItem = true;
-          priceSummary.specCond = lev.cond;
-          priceSummary.specPrice = lev.special;
-        }
-        if (lev.type == 'assorted') {
-          priceSummary.assortItem = true;
-          priceSummary.specCond = lev.cond;
-          priceSummary.specPrice = lev.special;
-        }
-      }
-    }
-
-    function replaceOldVal(arr: any) {
-      if (arr?.length > 0) {
-        for (var j = 0; j < arr?.length; j++) {
-          let Obj: any = arr[j]!;
-          if (Obj?.atlas_id == product.atlas_id) {
-            arr.splice(j, 1);
-          }
-        }
-      }
-    }
-
-    function calcTotal() {
-      if (qty > 0) {
-        if (posssibleBreak) {
-          if (priceSummary.specItem) {
-            console.log('step 3');
-            if (qty >= priceSummary.specCond) {
-              total = qty * priceSummary.specPrice;
-              usedVar.unit_price = priceSummary.specPrice.toString();
-
-              console.log('step 3', total);
-            } else {
-              console.log('second else', total);
-              total = qty * price;
-              console.log('below second else', total);
-            }
-          }
-          if (priceSummary.assortItem) {
-            console.log('step 3 assort');
-            if (qty >= priceSummary.specCond) {
-              total = qty * priceSummary.specPrice;
-              usedVar.unit_price = priceSummary.specPrice.toString();
-              console.log('step 3 assort', total);
-            } else {
-              console.log('second else assort', total);
-              total = qty * price;
-              console.log('below second else assort', total);
-            }
-          }
-        } else {
-          console.log('first else', total);
-          total = qty * price;
-          console.log('below first else', total);
-        }
-      }
-      total = parseFloat(total.toFixed(2));
-      usedVar.price = total.toString();
-    }
-
-    calcTotal();
-
-    replaceOldVal(this.orderTable);
-       console.log(
-        "userobj",
-         usedVar,
-         'table',
-         this.orderTable
-       );
-    this.orderTable.push(usedVar);
-    this.dataSrc.data[i].extended = total;
-    // if (posssibleBreak && qty > priceSummary.specCond) {
-    //   this.dataSrc.data[i].booking = priceSummary.specPrice;
-    // } else {
-    //    this.dataSrc.data[i].booking = priceSummary.specPrice;
-    // }
-
-    this.dataSrc.sort = this.sort;
-    this.dataSrc.paginator = this.paginator;
-    console.log(
-      'total val',
-      total,
-      price,
-      qty,
-      posssibleBreak,
-      'price sum',
-      priceSummary,
-      'var added',
-      usedVar,
-      'table',
-      this.orderTable
-    );
   }
   submitOrder() {
     this.cartLoader = true;

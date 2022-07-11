@@ -41,7 +41,8 @@ import { MatNativeDateModule } from '@angular/material/core'
 import { MatTimepickerModule } from 'mat-timepicker';
 import { SetCountdownComponent } from './set-countdown/set-countdown.component';
 import { AddPromotionalFlyerComponent } from './add-promotional-flyer/add-promotional-flyer.component';
-import { AllPromotionalFlyerComponent } from './all-promotional-flyer/all-promotional-flyer.component'
+import { AllPromotionalFlyerComponent } from './all-promotional-flyer/all-promotional-flyer.component';
+import { EditSeminarComponent } from './edit-seminar/edit-seminar.component'
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { AllPromotionalFlyerComponent } from './all-promotional-flyer/all-promot
     SetCountdownComponent,
     AddPromotionalFlyerComponent,
     AllPromotionalFlyerComponent,
+    EditSeminarComponent,
   ],
   imports: [
     CommonModule,

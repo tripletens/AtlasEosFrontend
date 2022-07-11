@@ -23,6 +23,9 @@ export class EditVendorUserComponent implements OnInit {
   vendorUserData: any
   profileLoader = true
   profileDataStatus = false
+  selectedVendorName = ''
+  selectedVendorCode = ''
+  vendorSelected = false
 
   constructor(
     private fb: FormBuilder,
@@ -44,10 +47,13 @@ export class EditVendorUserComponent implements OnInit {
   }
 
   assignVendor(data: any) {
+    this.vendorSelected = true
     console.log(data.value)
     for (let index = 0; index < this.allVendor.length; index++) {
       const vendor = this.allVendor[index]
       if (vendor.vendor_name == data.value) {
+        this.selectedVendorCode = vendor.vendor_code
+        this.selectedVendorName = vendor.vendor_name
         this.vendorUserForm.value.vendorCode = vendor.vendor_code
         this.vendorUserForm.value.vendorName = vendor.vendor_name
       }
@@ -135,8 +141,12 @@ export class EditVendorUserComponent implements OnInit {
         console.log(result)
         this.btnText = true
         this.btnLoader = false
+        if (this.vendorSelected) {
+          this.vendorUserForm.value.vendor_code = this.selectedVendorCode
+        }
 
         if (result.status == true) {
+          this.vendorSelected = false
           this.toastr.success('Successful', result.message)
           this.getVendorUserData(this.userId)
         } else {

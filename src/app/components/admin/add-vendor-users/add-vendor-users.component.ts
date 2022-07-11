@@ -49,6 +49,7 @@ export class AddVendorUsersComponent implements OnInit {
 
   browserName = ''
   browserVersion = ''
+  selectedVendorCode = ''
 
   constructor(
     private fb: FormBuilder,
@@ -115,6 +116,7 @@ export class AddVendorUsersComponent implements OnInit {
     for (let index = 0; index < this.allVendor.length; index++) {
       const vendor = this.allVendor[index]
       if (vendor.vendor_name == data.value) {
+        this.selectedVendorCode = vendor.vendor_code
         this.vendorUserForm.value.vendor = vendor.vendor_code
         this.stateVendorName = vendor.vendor_name
         this.vendorUserForm.value.vendorName = vendor.vendor_name
@@ -220,6 +222,7 @@ export class AddVendorUsersComponent implements OnInit {
     console.log(this.vendorUserForm.status)
     if (this.vendorUserForm.status == 'VALID') {
       this.vendorUserForm.value.vendorName = this.stateVendorName
+      this.vendorUserForm.value.vendor = this.selectedVendorCode
       this.btnText = false
       this.btnLoader = true
       this.postData
