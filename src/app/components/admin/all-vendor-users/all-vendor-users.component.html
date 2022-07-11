@@ -122,21 +122,39 @@
                     <!-- Position Column -->
 
                     <ng-container matColumnDef="full_name">
-                      <th mat-header-cell *matHeaderCellDef>Full Name</th>
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="full-name-section"
+                      >
+                        Full Name
+                      </th>
                       <td mat-cell *matCellDef="let element">
                         {{ element.full_name }}
                       </td>
                     </ng-container>
 
                     <ng-container matColumnDef="email">
-                      <th mat-header-cell *matHeaderCellDef>Email</th>
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="email-section"
+                      >
+                        Email
+                      </th>
                       <td mat-cell *matCellDef="let element">
                         {{ element.email }}
                       </td>
                     </ng-container>
 
                     <ng-container matColumnDef="password">
-                      <th mat-header-cell *matHeaderCellDef>Password</th>
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="password-section"
+                      >
+                        Password
+                      </th>
                       <td mat-cell *matCellDef="let element">
                         {{ element.password_show }}
                       </td>
@@ -144,7 +162,13 @@
 
                     <!-- Name Column -->
                     <ng-container matColumnDef="company_name">
-                      <th mat-header-cell *matHeaderCellDef>Company Name #</th>
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="company-section"
+                      >
+                        Company Name #
+                      </th>
                       <td mat-cell *matCellDef="let element">
                         {{ element.company_name }}
                       </td>
@@ -152,7 +176,13 @@
 
                     <!-- Weight Column -->
                     <ng-container matColumnDef="status">
-                      <th mat-header-cell *matHeaderCellDef>Status</th>
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="status-section"
+                      >
+                        Status
+                      </th>
                       <td mat-cell *matCellDef="let element">
                         <span *ngIf="element.status == 1">Active</span>
                         <span *ngIf="element.status == 0">Inactive</span>
@@ -161,14 +191,26 @@
 
                     <!-- Symbol Column -->
                     <ng-container matColumnDef="created_date">
-                      <th mat-header-cell *matHeaderCellDef>Created Date</th>
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="created-section"
+                      >
+                        Created Date
+                      </th>
                       <td mat-cell *matCellDef="let element">
                         {{ element.created_at | date: 'medium' }}
                       </td>
                     </ng-container>
 
                     <ng-container matColumnDef="action">
-                      <th mat-header-cell *matHeaderCellDef>Action</th>
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="action-section"
+                      >
+                        Action
+                      </th>
                       <td mat-cell *matCellDef="let element">
                         <button
                           class="edit-btn"
