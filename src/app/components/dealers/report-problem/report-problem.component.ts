@@ -45,6 +45,7 @@ export class ReportProblemComponent implements OnInit {
         subject: sub,
         description: desc,
         photo: img,
+        user_id: this.token.getUser().id,
         role: 'dealer',
         dealer_id: this.token.getUser().account_id,
       };
@@ -55,8 +56,7 @@ export class ReportProblemComponent implements OnInit {
           this.formLoader = false;
           if (result.status) {
             console.log('result', result);
-                this.responseSuccess = true;
-
+            this.responseSuccess = true;
           } else {
             let error = result.message.response;
             {
@@ -78,8 +78,16 @@ export class ReportProblemComponent implements OnInit {
           }
         })
         .catch((err) => {
+          let error = err.message.response;
           console.log('erroror', err);
-
+          {
+            error.photo &&
+              this.toastr.error(`${error.photo}`, `Something went wrong`);
+          }
+          {
+            error.subject &&
+              this.toastr.error(`${error.subject}`, `Something went wrong`);
+          }
           this.toastr.error('', `Something went wrong`);
           this.formLoader = false;
         });
