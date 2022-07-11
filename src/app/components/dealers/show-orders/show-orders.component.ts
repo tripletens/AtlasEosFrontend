@@ -221,7 +221,7 @@ export class ShowOrdersComponent implements OnInit {
     let total = 0.0;
     let arrHist: any = this.cartHistory;
     let cart = this.orderTable;
-    let inCart = false;
+    let inCart = true;
     let priceSummary = {
       specItem: false,
       assortItem: false,
