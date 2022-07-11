@@ -259,7 +259,7 @@
                                   no vendor user found
                                 </h6>
 
-                                <div class="" *ngIf="coworkerLoader">
+                                <div class="" *ngIf="vendorLoader">
                                   <div class="ph-item ph-loader-item">
                                     <div class="ph-col-12">
                                       <div class="ph-row">
@@ -308,14 +308,51 @@
                     <div id="accordion6" class="mb-3">
                       <div class="card">
                         <div class="card-header">
-                          <div class="select-wrapper">
+                          <!-- <div class="select-wrapper">
                             <h6>
                               Chat With {{ selectedUserData?.first_name }}
                               {{ selectedUserData?.last_name }}
                             </h6>
+                          </div> -->
+                          <div class="d-flex justify-content-between w-100">
+                            <div>
+                              <h6>
+                                Chat With {{ selectedUserData?.first_name }}
+                                {{ selectedUserData?.last_name }}
+                              </h6>
+                            </div>
+                            <div>
+                              <button
+                                class="export-chat-btn"
+                                *ngIf="showSelectedBtn"
+                                (click)="exportChatHistory()"
+                              >
+                                <span class="fa fa-export"></span>
+                                export chat
+                              </button>
+                            </div>
                           </div>
                         </div>
                         <div>
+                          <table id="chat-export">
+                            <thead>
+                              <tr>
+                                <th>Chat From</th>
+                                <th>Chat To</th>
+                                <th>Msg</th>
+                                <th>Date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let data of messages">
+                                <td>{{ data.from_username }}</td>
+                                <td>{{ data.to_username }}</td>
+                                <td>{{ data.msg }}</td>
+                                <td>{{ data.created_at | date: 'medium' }}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+
                           <div class="card-body chat-wrapper" #chatWrapper>
                             <ul class="chat-ul-wrapper">
                               <div *ngFor="let data of messages">
