@@ -64,6 +64,38 @@
 
 .table-data-section {
   ::ng-deep {
+    .account-section {
+      width: 15%;
+    }
+
+    .dealername-section {
+      width: 15%;
+    }
+
+    .fullname-section {
+      width: 15%;
+    }
+
+    .email-section {
+      width: 15%;
+    }
+
+    .password-section {
+      width: 15%;
+    }
+
+    .orderstatus-section {
+      width: 15%;
+    }
+
+    .created-section {
+      width: 15%;
+    }
+
+    .action-section {
+      width: 30%;
+    }
+
     table thead {
       background-color: #4a0013;
 

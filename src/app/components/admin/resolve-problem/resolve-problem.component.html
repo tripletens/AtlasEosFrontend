@@ -29,56 +29,57 @@
                 <h6 class="reported-text">Reported Issues</h6>
 
                 <div class="reported-issues-wrapper">
-                  <div
-                    class="report-item"
-                    *ngFor="let data of reportProblemsData"
-                  >
-                    <h5 class="reporter-name">
-                      {{ data.first_name }} {{ data.last_name }}
-                    </h5>
-                    <h5 class="report-title">
-                      {{ data.subject }}
-                    </h5>
-                    <p class="report-desc">
-                      {{ data.description }}
-                    </p>
+                  <div *ngFor="let data of reportProblemsData">
+                    <div class="report-item" *ngIf="userRole != data.role">
+                      <h5 class="reporter-name">
+                        {{ data.first_name }} {{ data.last_name }}
+                      </h5>
+                      <h5 class="report-title">
+                        {{ data.subject }}
+                      </h5>
+                      <p class="report-desc">
+                        {{ data.description }}
+                      </p>
 
-                    <div class="d-flex justify-content-between">
-                      <div class="timer-section">
-                        <span class="fa fas fa-bolt icon"></span>
-                        <span>1</span>
-                        <span class="fa fas fa-tag icon"></span>
-                        <span>Waiting</span>
-                        <span class="fa fas fa-clock icon"></span>
-                        <span>
-                          Created: {{ data.created_at | date: 'medium' }}
-                        </span>
-                      </div>
-                      <div class="btn-wrapper">
-                        <a
-                          *ngIf="data.file_url != null"
-                          href="{{ data.file_url }}"
-                          target="_blank"
-                          class="view-download-btn"
-                        >
-                          <span class="fa fa-download"></span>
-                          view
-                        </a>
+                      <div class="d-flex justify-content-between">
+                        <div class="timer-section">
+                          <span class="fa fas fa-bolt icon"></span>
+                          <span>1</span>
+                          <span class="fa fas fa-tag icon"></span>
+                          <span>Waiting</span>
+                          <span class="fa fas fa-clock icon"></span>
+                          <span>
+                            Created: {{ data.created_at | date: 'medium' }}
+                          </span>
+                        </div>
+                        <div class="btn-wrapper">
+                          <a
+                            *ngIf="data.file_url != null"
+                            href="{{ data.file_url }}"
+                            target="_blank"
+                            class="view-download-btn"
+                          >
+                            <span class="fa fa-download"></span>
+                            view
+                          </a>
 
-                        <button
-                          class="view-btn"
-                          routerLink="/admin/view-report"
-                        >
-                          <span class="fa fas fa-list"></span>
-                          View reply
-                        </button>
-                        <button
-                          class="view-btn"
-                          routerLink="/admin/respond-report"
-                        >
-                          <span class="fa fas fa-check-square"></span>
-                          Close ticket
-                        </button>
+                          <button
+                            class="view-btn"
+                            routerLink="/admin/view-report/{{ data.ticket_id }}"
+                          >
+                            <span class="fa fas fa-list"></span>
+                            View reply
+                          </button>
+                          <button
+                            class="view-btn"
+                            routerLink="/admin/respond-report/{{
+                              data.ticket_id
+                            }}"
+                          >
+                            <span class="fa fas fa-check-square"></span>
+                            Close ticket
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>

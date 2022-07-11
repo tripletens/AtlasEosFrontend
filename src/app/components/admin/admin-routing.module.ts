@@ -73,11 +73,11 @@ const routes: Routes = [
         component: ResolveProblemComponent,
       },
       {
-        path: 'view-report',
+        path: 'view-report/:ticket',
         component: VeiwReportComponent,
       },
       {
-        path: 'respond-report',
+        path: 'respond-report/:ticket',
         component: RespondReportComponent,
       },
       {
