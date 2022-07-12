@@ -367,6 +367,16 @@
                                   "
                                 >
                                   {{ data.msg }}
+                                  <span
+                                    class="time-keeper-text"
+                                    [ngClass]="
+                                      data.user == uniqueUserId
+                                        ? 'time-shift-left'
+                                        : 'time-shift-right'
+                                    "
+                                  >
+                                    {{ data.time_ago }}
+                                  </span>
                                 </li>
                                 <!-- </div> -->
                               </div>

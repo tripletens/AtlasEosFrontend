@@ -47,6 +47,7 @@ export class ChatService {
       user: data.user,
       msg: data.msg,
       sender: data.sender,
+      time_ago: data.time_ago,
     })
   }
 

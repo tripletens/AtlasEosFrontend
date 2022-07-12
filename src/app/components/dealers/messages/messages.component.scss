@@ -385,3 +385,22 @@
     border-radius: 4px;
   }
 }
+
+.typing-text {
+  color: #555;
+  font-style: italic;
+}
+
+.time-keeper-text {
+  color: #dadada;
+  font-size: 10px;
+  display: block;
+}
+
+.time-shift-right {
+  text-align: end;
+}
+
+.time-shift-left {
+  text-align: left;
+}
