@@ -117,6 +117,15 @@ export class MessagesComponent implements OnInit {
       .catch((err) => {})
   }
 
+  trackKeyPress(event: any) {
+    let data = {
+      user: this.selectedUserData.id + this.selectedUserData.first_name,
+      msg: this.msg,
+    }
+
+    this.chatService.sendTypingNotify(data)
+  }
+
   toggleVendors() {
     if (this.showDropdown) {
       this.showDropdown = false

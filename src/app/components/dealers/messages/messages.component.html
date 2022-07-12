@@ -320,6 +320,7 @@
                                 cols="30"
                                 rows="10"
                                 [(ngModel)]="msg"
+                                (keypress)="trackKeyPress($event)"
                               ></textarea>
                             </div>
                             <div>

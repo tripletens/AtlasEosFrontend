@@ -140,6 +140,15 @@ export class MessagesComponent implements OnInit {
     }
   }
 
+  trackKeyPress(event: any) {
+    let data = {
+      user: this.selectedUserData.id + this.selectedUserData.first_name,
+      msg: this.msg,
+    }
+
+    this.chatService.sendTypingNotify(data)
+  }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value
     this.incomingVendorData.vendor_name = filterValue.trim().toLowerCase()
