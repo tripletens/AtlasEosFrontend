@@ -8,11 +8,12 @@
             <form action="" class="d-flex align-items-center">
               <span class="mr-3">Vendor Name </span>
               <select name="" class="form-control search-input" #vendorId>
-                <option selected value="0">Select Vendor</option>
+                <option [selected]="selectVendor == 0" value="0">Select Vendor</option>
                 <option
                   class="category-text"
                   value="{{ category.vendor_code }}"
                   *ngFor="let category of allCategoryData"
+                  [selected]="selectVendor == category.vendor_code"
                 >
                   {{ category.vendor_name }}
                 </option>
