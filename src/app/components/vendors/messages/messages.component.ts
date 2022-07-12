@@ -79,6 +79,7 @@ export class MessagesComponent implements OnInit {
 
     setInterval(() => {
       this.getUnreadMsg()
+      this.getAllDamin()
     }, 10000)
   }
 

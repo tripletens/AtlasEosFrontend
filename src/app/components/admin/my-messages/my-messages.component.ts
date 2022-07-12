@@ -52,6 +52,8 @@ export class MyMessagesComponent implements OnInit {
   noDealerUsersFound = false
   noVendorUsersFound = false
   showSelectedBtn = false
+  selectedUserUniqueId = ''
+  showTyping = false
   @ViewChild('chatWrapper') private chatWrapper!: ElementRef
   @ViewChild('dummyDealerInput') private dummyDealerInput!: ElementRef
   @ViewChild('dummyVendorInput') private dummyVendorInput!: ElementRef
@@ -82,6 +84,16 @@ export class MyMessagesComponent implements OnInit {
       this.messages.push(message)
     })
 
+    this.chatService.getTyping().subscribe((message: string) => {
+      if (message != '') {
+        this.showTyping = true
+
+        setTimeout(() => {
+          this.showTyping = false
+        }, 3380)
+      }
+    })
+
     this.loggedInUser = this.tokeStore.getUser()
     let user = this.tokeStore.getUser()
     this.userData = this.tokeStore.getUser()
@@ -101,9 +113,18 @@ export class MyMessagesComponent implements OnInit {
     this.getAllVendors()
 
     setInterval(() => {
-      // this.getVendorUnreadMsg()
-      //  this.getDealerUnreadMsg()
+      this.getVendorUnreadMsg()
+      this.getDealerUnreadMsg()
     }, 10000)
+  }
+
+  trackKeyPress(event: any) {
+    let data = {
+      user: this.selectedUserData.id + this.selectedUserData.first_name,
+      msg: this.msg,
+    }
+
+    this.chatService.sendTypingNotify(data)
   }
 
   exportChatHistory() {
@@ -321,6 +342,7 @@ export class MyMessagesComponent implements OnInit {
       let data = {
         user: this.selectedUserData.id + this.selectedUserData.first_name,
         msg: this.msg,
+        sender: this.userData.id + this.userData.first_name,
       }
 
       this.storeChatDatabase()
@@ -390,6 +412,7 @@ export class MyMessagesComponent implements OnInit {
     this.userSelected = true
     this.chatHistoryLoader = true
     this.userHasBeenSelected = true
+    this.selectedUserUniqueId = data.id + data.first_name
 
     this.messages = []
     this.getUserChat()
