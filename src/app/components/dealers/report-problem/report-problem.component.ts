@@ -9,6 +9,8 @@ declare var $: any;
   templateUrl: './report-problem.component.html',
   styleUrls: ['./report-problem.component.scss'],
 })
+  
+  
 export class ReportProblemComponent implements OnInit {
   @ViewChild('subject') subject!: ElementRef;
   @ViewChild('photo') photo!: ElementRef;
