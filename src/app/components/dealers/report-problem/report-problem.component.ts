@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
 import { TokenStorageService } from 'src/app/core/services/token-storage.service';
+declare var $: any;
 
 @Component({
   selector: 'app-report-problem',
@@ -12,6 +13,7 @@ export class ReportProblemComponent implements OnInit {
   @ViewChild('subject') subject!: ElementRef;
   @ViewChild('photo') photo!: ElementRef;
   @ViewChild('description') description!: ElementRef;
+  @ViewChild('resetForm') resetForm!: ElementRef;
   imgData: any;
   imgURL2: any;
   formError = false;
@@ -55,8 +57,16 @@ export class ReportProblemComponent implements OnInit {
         .then((result: any) => {
           this.formLoader = false;
           if (result.status) {
-            console.log('result', result);
+            console.log('result', result, this.responseSuccess);
             this.responseSuccess = true;
+            this.subject.nativeElement.value = '';
+            this.description.nativeElement.value = '';
+            this.photo.nativeElement.value = '';
+
+            $('html, body').animate(
+              { scrollTop: $('.app-content').offset().top },
+              '500'
+            );
           } else {
             let error = result.message.response;
             {

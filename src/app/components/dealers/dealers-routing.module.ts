@@ -71,6 +71,10 @@ const routes: Routes = [
         component: ShowOrdersComponent,
       },
       {
+        path: 'show-orders/:vendorId',
+        component: ShowOrdersComponent,
+      },
+      {
         path: 'show-orders',
         component: ShowOrdersComponent,
       },
