@@ -22,6 +22,8 @@ import { ShowOrdersComponent } from './show-orders/show-orders.component'
 import { SpecialOrderComponent } from './special-order/special-order.component'
 import { MessagesComponent } from './messages/messages.component'
 import { QuickOrderComponent } from './quick-order/quick-order.component'
+import { SupportTicketsComponent } from './support-tickets/support-tickets.component'
+import { ViewSupportTicketComponent } from './view-support-ticket/view-support-ticket.component'
 
 const routes: Routes = [
   {
@@ -70,10 +72,7 @@ const routes: Routes = [
         path: 'show-orders/:vendorId/:atlasId',
         component: ShowOrdersComponent,
       },
-      {
-        path: 'show-orders/:vendorId',
-        component: ShowOrdersComponent,
-      },
+
       {
         path: 'show-orders',
         component: ShowOrdersComponent,
@@ -92,8 +91,16 @@ const routes: Routes = [
         component: EditOrderComponent,
       },
       {
-        path: 'report-problem',
+        path: 'support',
         component: ReportProblemComponent,
+      },
+      {
+        path: 'tickets',
+        component: SupportTicketsComponent,
+      },
+      {
+        path: 'view-tickets/:ticketId',
+        component: ViewSupportTicketComponent,
       },
       {
         path: 'all-seminars',
