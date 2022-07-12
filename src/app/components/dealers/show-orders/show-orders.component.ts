@@ -48,6 +48,7 @@ export class ShowOrdersComponent implements OnInit {
   tableStatus = false;
   cartLoader = false;
   productData: any;
+  selectVendor = 0;
   @ViewChild('vendorId') vendor!: ElementRef;
   vendorId: any;
   searchatlasId: any;
@@ -83,9 +84,14 @@ export class ShowOrdersComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.vendorId = params['vendorId'];
       this.searchatlasId = params['atlasId'];
-      if (this.searchatlasId) {
+      if (this.searchatlasId == 'vendor') {
+        this.searchatlasId = undefined;
+      }
+      console.log('testing waters', this.vendorId, this.searchatlasId);
+      if (this.vendorId) {
         console.log('got in', this.vendorId, this.searchatlasId);
         this.searchVendorId(this.vendorId!);
+        this.selectVendor = this.vendorId;
       }
     });
     this.getCart();
@@ -109,9 +115,10 @@ export class ShowOrdersComponent implements OnInit {
     this.getData
       .httpGetRequest('/dealer/get-vendors')
       .then((result: any) => {
-        console.log(result);
+        // console.log(result);
         if (result.status) {
           this.allCategoryData = result.data;
+          this.selectVendor = this.vendorId;
         } else {
           this.toastr.info(`Something went wrong`, 'Error');
         }
@@ -153,18 +160,23 @@ export class ShowOrdersComponent implements OnInit {
   }
   searchVendorId(id: any) {
     this.canOrder = false;
-
+    console.log('ready to search', id);
     this.getData
       .httpGetRequest('/get-vendor-products/' + id)
       .then((result: any) => {
         if (result.status) {
+          console.log('result came', result.data);
           this.isMod = true;
 
-          // console.log('search vendor res', result.data);
           this.tableData = result.data;
-          this.dataSrc = new MatTableDataSource<PeriodicElement>(
-            this.filterTop(result.data)
-          );
+
+          if (this.searchatlasId) {
+            this.dataSrc = new MatTableDataSource<PeriodicElement>(
+              this.filterTop(result.data)
+            );
+          } else {
+            this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
+          }
           this.canOrder = true;
           this.dataSrc.sort = this.sort;
           this.dataSrc.paginator = this.paginator;
@@ -248,7 +260,7 @@ export class ShowOrdersComponent implements OnInit {
     //   product.id
     // );
     if (inCart) {
-      console.log('grping', grp, );
+      console.log('grping', grp);
       if (product.grouping == null || undefined) {
         grp = '';
         console.log('grping', grp);
@@ -410,13 +422,22 @@ export class ShowOrdersComponent implements OnInit {
         })
         .catch((err) => {
           this.cartLoader = false;
-
-          this.toastr.info(`Something went wrong`, 'Error');
+          if (err.message.response.dealer || err.message.response.dealer) {
+            this.toastr.info(
+              `Please logout and login again`,
+              'Session Expired'
+            );
+          } else {
+            this.toastr.info(`Something went wrong`, 'Error');
+          }
         });
     } else {
       this.cartLoader = false;
 
       this.toastr.info(`No item quantity has been set`, 'Error');
     }
+  }
+  parser(data: any) {
+    return JSON.parse(data);
   }
 }

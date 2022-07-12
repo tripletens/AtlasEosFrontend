@@ -233,111 +233,143 @@
                       </tr>
                     </tbody>
                   </table>
-                  <table
-                    matSort
-                    *ngIf="tableView"
-                    class="table text-nowrap mb-0 align-items-center mb-0"
-                  >
-                    <thead class="bg-blue text-white">
-                      <tr>
-                        <!-- <th class="text-white table-head">Qty</th> -->
-                        <th class="text-white table-head">Atlas #</th>
-                        <th class="text-white table-head">Vendor</th>
-                        <th class="text-white table-head">Vendor Name</th>
+                  <div class="mt-4">
+                    <h5 class="text-center " *ngIf="tableView">
+                      Products
+                    </h5>
 
-                        <th class="text-white table-head">Description</th>
-                        <th class="text-white table-head">Regular ($)</th>
-                        <th class="text-white table-head">Special ($)</th>
+                    <table
+                      *ngIf="tableView"
+                      class="table text-nowrap mb-0 align-items-center mb-0"
+                    >
+                      <thead class="bg-blue text-white">
+                        <tr>
+                          <!-- <th class="text-white table-head">Qty</th> -->
+                          <th class="text-white table-head">Atlas #</th>
+                          <th class="text-white table-head">Vendor</th>
+                          <th class="text-white table-head">Vendor Name</th>
 
-                      </tr>
-                    </thead>
-                    <tbody class="table-bordered">
-                      <tr>
-                        <!-- *ngFor="let data of productData; let i = index" -->
-                        <td>
-                          <span class="atlas-text-id">{{
-                            productData.atlas_id!
-                          }}</span>
-                        </td>
-                        <td>
-                          {{ productData.vendor! }}
-                        </td>
-                        <td>
-                          <a
-                            routerLink="/dealers/show-orders/{{ productData.vendor!}}/{{ productData.atlas_id! }}"
-                            class="link"
-                          >
-                            {{ productData.vendor_name }}</a
-                          >
-                        </td>
-                        <td>
-                          <span class="desc-text">{{
-                            productData.description!
-                          }}</span>
-                          <span
-                            *ngFor="
-                              let spec of productData.spec_productData;
-                              let l = index
-                            "
-                          >
-                            <span
-                              [class.assorted-color]="spec.type == 'assorted'"
-                            ></span>
-                            <span
-                              [class.assorted-color]="spec.type == 'assorted'"
-                              [class.quantity-color]="spec.type == 'special'"
+                          <th class="text-white table-head">Description</th>
+                          <th class="text-white table-head">Regular ($)</th>
+                          <th class="text-white table-head">Special ($)</th>
+                        </tr>
+                      </thead>
+                      <tbody class="table-bordered" *ngIf="productStatus">
+                        <tr *ngFor="let data of productData; let i = index">
+                          <td>
+                            <span class="atlas-text-id">{{
+                              data?.atlas_id
+                            }}</span>
+                          </td>
+                          <td>
+                            {{ data.vendor! }}
+                          </td>
+                          <td>
+                            <a
+                              routerLink="/dealers/show-orders/{{
+                                data.vendor!
+                              }}/{{ data.atlas_id! }}"
+                              class="link"
                             >
-                              {{ spec.desc }}
-                            </span>
-                          </span>
-                        </td>
-
-                        <td>
-                          <span class="booking-text"
-                            >{{ productData.booking | currency }}
-                            <!-- <span
-                              class="ticker fa fa-check normal-booking-{{ i }}"
-                              id=""
-                            ></span> -->
-                          </span>
-                          <span
-                            *ngFor="
-                              let spec of productData.spec_data;
-                              let j = index
-                            "
-                          >
+                              {{ data.vendor_name }}</a
+                            >
+                          </td>
+                          <td>
+                            <span class="desc-text">{{
+                              data.description!
+                            }}</span>
                             <span
-                              [class.assorted-color]="spec.type == 'assorted'"
-                              [class.quantity-color]="spec.type == 'special'"
-                              >{{ spec.special | currency }}
-
-                              <!-- <span
-                                class="ticker fa fa-check special-booking-{{
-                                  i
-                                }}-{{ j }}"
-                                id=""
-                              ></span> -->
+                              *ngFor="
+                                let spec of parser(data.spec_data);
+                                let l = index
+                              "
+                            >
+                              <span
+                                [class.assorted-color]="spec.type == 'assorted'"
+                              ></span>
+                              <span
+                                [class.assorted-color]="spec.type == 'assorted'"
+                                [class.quantity-color]="spec.type == 'special'"
+                              >
+                                {{ spec.desc }}
+                              </span>
                             </span>
-                          </span>
-                        </td>
-                        
-                        <td>
-                          <span class="booking-text"
-                            >{{ productData.special | currency }}
-                            <!-- <span
+                          </td>
+
+                          <td>
+                            <span class="booking-text"
+                              >{{ data.regular | currency }}
+                              <!-- <span
                               class="ticker fa fa-check normal-booking-{{ i }}"
                               id=""
                             ></span> -->
-                          </span>
-                        </td>
-                      </tr>
-                    </tbody>
-                    <tbody>
-                      <tr *ngIf="noData">
-                        <td class="text-center" colspan="8">no data found</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                            </span>
+                            <span
+                              *ngFor="let spec of parser(data.spec_data); let j = index"
+                            >
+                              <span
+                                [class.assorted-color]="spec.type == 'assorted'"
+                                [class.quantity-color]="spec.type == 'special'"
+                                >{{ spec.special | currency }}
+                              </span>
+                            </span>
+                          </td>
+
+                          <td>
+                            <span class="booking-text"
+                              >{{ data.booking | currency }}
+                              <!-- <span
+                              class="ticker fa fa-check normal-booking-{{ i }}"
+                              id=""
+                            ></span> -->
+                            </span>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody>
+                        <tr *ngIf="productNoData">
+                          <td class="text-center" colspan="8">no data found</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="mt-4 mb-3">
+                    <h5 class="text-center" *ngIf="tableView">Vendors</h5>
+                    <table
+                      class="table text-nowrap mb-0 align-items-center mb-0"
+                      *ngIf="tableView"
+                    >
+                      <thead class="bg-blue text-white">
+                        <tr>
+                          <th class="text-white table-head">Vendor Id</th>
+                          <th class="text-white table-head">Vendor Name</th>
+                        </tr>
+                      </thead>
+                      <tbody class="table-bordered" *ngIf="vendorStatus">
+                        <tr *ngFor="let data of vendorData">
+                          <td>
+                            {{ data.vendor_code }}
+                          </td>
+                          <td>
+                            <a
+                              routerLink="/dealers/show-orders/{{
+                                data.vendor_code!
+                              }}/{{  nuller}}"
+                              class="link"
+                            >
+                              {{ data.vendor_name }}</a
+                            >
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody>
+                        <tr *ngIf="vendorNoData">
+                          <td class="text-center" colspan="8">no data found</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>

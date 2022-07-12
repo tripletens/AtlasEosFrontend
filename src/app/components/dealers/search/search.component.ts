@@ -43,13 +43,13 @@ export interface Products {
   styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit {
-  noData = false;
   dataStatus = false;
   loader = true;
   dummyAmt = 0;
   tableView = false;
   viewSet = false;
   pageTitle: any = '';
+  nuller = 'vendor';
 
   productData: any;
   urlData!: any;
@@ -94,7 +94,12 @@ export class SearchComponent implements OnInit {
   repeatItems: any;
   cartCountAlert = false;
   cartCount = 0;
+  vendorData: any;
   currentCategoryOrder = 0;
+  vendorStatus = false;
+  productStatus = false;
+  productNoData = false;
+  vendorNoData = false;
   proCategory = '';
   constructor(
     private getData: HttpRequestsService,
@@ -113,24 +118,66 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {}
 
   getSearchData(search: any) {
+    this.productStatus = false;
+    this.productNoData = false;
+    this.vendorStatus = false;
+    this.vendorNoData = false;
     this.getData
       .httpGetRequest('/universal-search/' + search)
       .then((result: any) => {
         this.loader = false;
         this.tableView = true;
         if (result.status) {
-          this.productData = result.data;
-          console.log('result', this.productData);
-          this.dataStatus = result.data.length > 0 ? true : false;
-          this.noData = result.data.length <= 0 ? true : false;
+          let data = result.data;
+          if (data.products) {
+            this.productData = data.products;
+            this.productStatus = true;
+            this.productNoData = false;
+            console.log(
+              'entered pro true',
+              this.productStatus,
+              this.productNoData
+            );
+          }
+          if (data.vendor) {
+            this.vendorData = data.vendor;
+            this.vendorStatus = true;
+            this.vendorNoData = false;
+              console.log(
+                'entered vend true',
+                this.vendorStatus,
+                this.vendorNoData
+              );
+          }
+          if (data.products == null) {
+            this.productStatus = false;
+            this.productNoData = true;  console.log(
+              'entered pro null',
+              this.productStatus,
+              this.productNoData
+            );
+          }
+          if (data.vendor == null) {
+            this.vendorNoData = true;
+            this.vendorStatus = false;  console.log(
+              'entered pro null',
+              this.vendorStatus,
+              this.vendorNoData
+            );
+          }
+          console.log('result', result);
         } else {
           this.toastr.error('', `Product not Found `);
         }
       })
       .catch((err) => {
-        this.toastr.error('Something went wrong', `Network Error`);
+        console.log('there is an err', err);
+        this.toastr.error('Something went wrong', ` Error`);
         this.loader = false;
       });
+  }
+  parser(data: any) {
+    return JSON.parse(data);
   }
   sortData(sort: Sort) {
     const data = this.productData.slice();
