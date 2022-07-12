@@ -32,8 +32,9 @@ import { MessagesComponent } from './messages/messages.component'
 import { PromotionalFlyerComponent } from './promotional-flyer/promotional-flyer.component'
 import { SearchComponent } from './search/search.component'
 import { MatSortModule } from '@angular/material/sort';
-import { SupportTicketsComponent } from './support-tickets/support-tickets.component';
+
 import { ViewSupportTicketComponent } from './view-support-ticket/view-support-ticket.component';
+import { SupportTicketsComponent } from './support-tickets/support-tickets.component'
 
 @NgModule({
   declarations: [
