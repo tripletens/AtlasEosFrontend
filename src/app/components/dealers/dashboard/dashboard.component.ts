@@ -44,7 +44,7 @@ export class DashboardComponent implements OnInit {
 
   timeSeconds = 59;
   timeDays = 0;
-  timeHours: number = 24;
+  timeHours: number = 23;
   timeMinutes: number = 59;
   interval: any;
 
