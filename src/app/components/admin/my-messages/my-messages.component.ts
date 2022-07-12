@@ -52,6 +52,8 @@ export class MyMessagesComponent implements OnInit {
   noDealerUsersFound = false
   noVendorUsersFound = false
   showSelectedBtn = false
+  selectedUserUniqueId = ''
+  showTyping = false
   @ViewChild('chatWrapper') private chatWrapper!: ElementRef
   @ViewChild('dummyDealerInput') private dummyDealerInput!: ElementRef
   @ViewChild('dummyVendorInput') private dummyVendorInput!: ElementRef
@@ -70,6 +72,8 @@ export class MyMessagesComponent implements OnInit {
     this.getAllDealers()
     this.chatService.getMessages().subscribe((message: string) => {
       if (message != '') {
+        this.startCounter()
+
         setTimeout(() => {
           this.scrollToElement()
         }, 80)
@@ -80,6 +84,16 @@ export class MyMessagesComponent implements OnInit {
       }
 
       this.messages.push(message)
+    })
+
+    this.chatService.getTyping().subscribe((message: string) => {
+      if (message != '') {
+        this.showTyping = true
+
+        setTimeout(() => {
+          this.showTyping = false
+        }, 3380)
+      }
     })
 
     this.loggedInUser = this.tokeStore.getUser()
@@ -101,9 +115,31 @@ export class MyMessagesComponent implements OnInit {
     this.getAllVendors()
 
     setInterval(() => {
-      // this.getVendorUnreadMsg()
-      //  this.getDealerUnreadMsg()
+      this.getVendorUnreadMsg()
+      this.getDealerUnreadMsg()
     }, 10000)
+  }
+
+  startCounter() {
+    setInterval(() => {
+      this.getUserChatAsync()
+    }, 10000)
+  }
+
+  seeDate() {
+    /// console.log(new Date())
+
+    let d = new Date()
+    let timer = d.getTime()
+  }
+
+  trackKeyPress(event: any) {
+    let data = {
+      user: this.selectedUserData.id + this.selectedUserData.first_name,
+      msg: this.msg,
+    }
+
+    this.chatService.sendTypingNotify(data)
   }
 
   exportChatHistory() {
@@ -318,9 +354,12 @@ export class MyMessagesComponent implements OnInit {
 
   sendMsg() {
     if (this.msg != '') {
+      this.startCounter()
       let data = {
         user: this.selectedUserData.id + this.selectedUserData.first_name,
         msg: this.msg,
+        sender: this.userData.id + this.userData.first_name,
+        time_ago: 'just now',
       }
 
       this.storeChatDatabase()
@@ -331,6 +370,22 @@ export class MyMessagesComponent implements OnInit {
       }, 80)
       this.msg = ''
     }
+  }
+
+  getUserChatAsync() {
+    this.postData
+      .httpGetRequest(
+        '/get-user-chat/' + this.userId + '/' + this.selectedUserData.id,
+      )
+      .then((result: any) => {
+        if (result.status) {
+          if (result.data.length > 0) {
+            this.messages = result.data
+          }
+        } else {
+        }
+      })
+      .catch((err) => {})
   }
 
   getUserChat() {
@@ -390,6 +445,7 @@ export class MyMessagesComponent implements OnInit {
     this.userSelected = true
     this.chatHistoryLoader = true
     this.userHasBeenSelected = true
+    this.selectedUserUniqueId = data.id + data.first_name
 
     this.messages = []
     this.getUserChat()
