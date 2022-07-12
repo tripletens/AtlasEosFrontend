@@ -1,133 +1,19 @@
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { HttpClient } from '@angular/common/http';
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
 export interface PeriodicElement {
-  no: number;
-  seminar_topic: string;
-  date: string;
+  id: number;
+  topic: string;
+  seminar_date: string;
   vendor_name: string;
-  meeting_time: string;
+  start_time: string;
   link: string;
 }
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    no: 1,
-
-    seminar_topic: 'Hydrogen',
-    vendor_name: 'achawayne sixtus',
-    meeting_time: 'first seminar',
-    link: 'link',
-    date: 'wednesday, 10 November 2021',
-  },
-  {
-    no: 2,
-    seminar_topic: 'Hydrogen',
-    vendor_name: 'achawayne sixtus',
-    meeting_time: 'first seminar',
-    link: 'link',
-    date: 'wednesday, 10 November 2021',
-  },
-  {
-    no: 3,
-    seminar_topic: 'Hydrogen',
-    vendor_name: 'achawayne sixtus',
-    meeting_time: 'first seminar',
-    link: 'link',
-    date: 'wednesday, 10 November 2021',
-  },
-  {
-    no: 4,
-    seminar_topic: 'Hydrogen',
-    vendor_name: 'achawayne sixtus',
-    meeting_time: 'first seminar',
-    link: 'link',
-    date: 'wednesday, 10 November 2021',
-  },
-  {
-    no: 5,
-    seminar_topic: 'Hydrogen',
-    vendor_name: 'achawayne sixtus',
-    meeting_time: 'first seminar',
-    link: 'link',
-    date: 'wednesday, 10 November 2021',
-  },
-  {
-    no: 6,
-    seminar_topic: 'Hydrogen',
-    vendor_name: 'achawayne sixtus',
-    meeting_time: 'first seminar',
-    link: 'link',
-    date: 'wednesday, 10 November 2021',
-  },
-  {
-    no: 7,
-    seminar_topic: 'Hydrogen',
-    vendor_name: 'achawayne sixtus',
-    meeting_time: 'first seminar',
-    link: 'link',
-    date: 'wednesday, 10 November 2021',
-  },
-  {
-    no: 8,
-    seminar_topic: 'Hydrogen',
-    vendor_name: 'achawayne sixtus',
-    meeting_time: 'first seminar',
-    link: 'link',
-    date: 'wednesday, 10 November 2021',
-  },
-  {
-    no: 9,
-    seminar_topic: 'Hydrogen',
-    vendor_name: 'achawayne sixtus',
-    meeting_time: 'first seminar',
-    link: 'link',
-    date: 'wednesday, 10 November 2021',
-  },
-  {
-    no: 10,
-    seminar_topic: 'Hydrogen',
-    vendor_name: 'achawayne sixtus',
-    meeting_time: 'first seminar',
-    link: 'link',
-    date: 'wednesday, 10 November 2021',
-  },
-  {
-    no: 11,
-    seminar_topic: 'Hydrogen',
-    vendor_name: 'achawayne sixtus',
-    meeting_time: 'first seminar',
-    link: 'link',
-    date: 'wednesday, 10 November 2021',
-  },
-  {
-    no: 12,
-    seminar_topic: 'Hydrogen',
-    vendor_name: 'achawayne sixtus',
-    meeting_time: 'first seminar',
-    link: 'link',
-    date: 'wednesday, 10 November 2021',
-  },
-  {
-    no: 13,
-    seminar_topic: 'Hydrogen',
-    vendor_name: 'achawayne sixtus',
-    meeting_time: 'first seminar',
-    link: 'link',
-    date: 'wednesday, 10 November 2021',
-  },
-  {
-    no: 14,
-    seminar_topic: 'Hydrogen',
-    vendor_name: 'achawayne sixtus',
-    meeting_time: 'first seminar',
-    link: 'link',
-    date: 'wednesday, 10 November 2021',
-  },
-];
 
 @Component({
   selector: 'app-all-seminars',
@@ -139,16 +25,16 @@ export class AllSeminarsComponent implements AfterViewInit {
   tableView = false;
   tableData: PeriodicElement[] = [];
   displayedColumns: string[] = [
-    'no',
-    'date',
-    'meeting_time',
+    'id',
+    'seminar_date',
+    'start_time',
     'vendor_name',
-    'seminar_topic',
+    'topic',
 
     'link',
   ];
   noData = false;
-  dataSrc = new MatTableDataSource<PeriodicElement>(this.tableData);
+  dataSrc = new MatTableDataSource<PeriodicElement>();
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
 
@@ -158,8 +44,18 @@ export class AllSeminarsComponent implements AfterViewInit {
   constructor(
     private request: HttpRequestsService,
     private http: HttpClient,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private _liveAnnouncer: LiveAnnouncer
   ) {}
+  @ViewChild(MatSort)
+  sort!: MatSort;
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
   FetchAllSeminars() {
     this.tableView = false;
     this.loader = true;
@@ -177,7 +73,9 @@ export class AllSeminarsComponent implements AfterViewInit {
           if (result.data.length == 0) {
             this.noData = true;
           }
+          this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
           this.dataSrc.paginator = this.paginator;
+          this.dataSrc.sort = this.sort;
         } else {
           this.toastr.error('Something went wrong', `${result.message}`);
           this.noData = true;

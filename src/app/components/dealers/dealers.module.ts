@@ -33,6 +33,7 @@ import { PromotionalFlyerComponent } from './promotional-flyer/promotional-flyer
 import { SearchComponent } from './search/search.component'
 import { MatSortModule } from '@angular/material/sort';
 import { SupportTicketsComponent } from './support-tickets/support-tickets.component';
+import { ViewSupportTicketComponent } from './view-support-ticket/view-support-ticket.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { SupportTicketsComponent } from './support-tickets/support-tickets.compo
     SearchComponent,
     MessagesComponent,
     SupportTicketsComponent,
+    ViewSupportTicketComponent,
   ],
   imports: [
     CommonModule,
