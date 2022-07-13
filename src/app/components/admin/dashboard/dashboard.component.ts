@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 
+declare var $: any
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -36,6 +38,9 @@ export class DashboardComponent implements OnInit {
   initalSeconds: number = 0
 
   showSecondsExtrazero = false
+
+  testStartTimer: any
+  testStopTimer: any
 
   constructor(private getData: HttpRequestsService) {}
 
@@ -159,6 +164,23 @@ export class DashboardComponent implements OnInit {
           this.countDownData = result.data
           this.startTimer(result.data)
 
+          // this.testStartTimer = result.data.start_timer
+          // this.testStopTimer = result.data.end_timer
+
+          this.testStartTimer = new Date(
+            result.data.start_date + 'T' + result.data.start_time,
+          )
+
+          this.testStopTimer = new Date(
+            result.data.end_date + 'T' + result.data.end_time,
+          )
+
+          this.makeTimer()
+
+          // setInterval(() => {
+          //   this.makeTimer()
+          // }, 1000)
+
           this.initalDays = result.data.days
           this.initalHours = result.data.hours
           this.initalMinutes = result.data.minutes
@@ -202,4 +224,46 @@ export class DashboardComponent implements OnInit {
         this.loader = false
       })
   }
+
+  keepcounting() {}
+
+  makeTimer() {
+    //		var endTime = new Date("29 April 2018 9:56:00 GMT+01:00");
+    let endTime: any = new Date(this.testStopTimer)
+    endTime = Date.parse(endTime) / 1000
+
+    let now: any = new Date(this.testStartTimer)
+    now = Date.parse(now) / 1000
+
+    var timeLeft = endTime - now
+
+    console.log(this.testStopTimer, 'end')
+    console.log(this.testStartTimer, 'start')
+
+    var days: any = Math.floor(timeLeft / 86400)
+    var hours: any = Math.floor((timeLeft - days * 86400) / 3600)
+    var minutes: any = Math.floor((timeLeft - days * 86400 - hours * 3600) / 60)
+    var seconds: any = Math.floor(
+      timeLeft - days * 86400 - hours * 3600 - minutes * 60,
+    )
+
+    if (hours < 10) {
+      hours = '0' + hours
+    }
+    if (minutes < 10) {
+      minutes = '0' + minutes
+    }
+    if (seconds < 10) {
+      seconds = '0' + seconds
+    }
+
+    $('#days').html(days + '<span>Days</span>')
+    $('#hours').html(hours + '<span>Hours</span>')
+    $('#minutes').html(minutes + '<span>Minutes</span>')
+    $('#seconds').html(seconds + '<span>Seconds</span>')
+
+    /// this.keepcounting()
+  }
+
+  // setInterval(function() { makeTimer(); }, 1000);
 }
