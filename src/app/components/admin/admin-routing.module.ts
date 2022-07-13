@@ -21,6 +21,7 @@ import { DealerSummaryComponent } from './dealer-summary/dealer-summary.componen
 import { EditDealerUsersComponent } from './edit-dealer-users/edit-dealer-users.component'
 import { EditFaqComponent } from './edit-faq/edit-faq.component'
 import { EditProductComponent } from './edit-product/edit-product.component'
+import { EditPromotionalFlierComponent } from './edit-promotional-flier/edit-promotional-flier.component'
 import { EditSeminarComponent } from './edit-seminar/edit-seminar.component'
 import { EditVendorUserComponent } from './edit-vendor-user/edit-vendor-user.component'
 import { FaqComponent } from './faq/faq.component'
@@ -167,6 +168,10 @@ const routes: Routes = [
       {
         path: 'edit-seminar/:id',
         component: EditSeminarComponent,
+      },
+      {
+        path: 'edit-promotional-flier/:id',
+        component: EditPromotionalFlierComponent,
       },
     ],
   },
