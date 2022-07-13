@@ -62,7 +62,7 @@ export class AllPromotionalFlyerComponent implements OnInit {
       $('#remove-loader-' + index).css('display', 'inline-block')
 
       this.postData
-        .httpGetRequest('/deactivate-dealer-user/' + index)
+        .httpGetRequest('/delete-promotional-flier/' + index)
         .then((result: any) => {
           $('#remove-icon-' + index).css('display', 'inline-block')
           $('#remove-loader-' + index).css('display', 'none')
@@ -83,7 +83,7 @@ export class AllPromotionalFlyerComponent implements OnInit {
 
   async confirmBox() {
     return await Swal.fire({
-      title: 'You Are About To Remove This Vendor User',
+      title: 'You Are About To Remove This Promotional flier',
       text: '',
       icon: 'warning',
       showCancelButton: true,
