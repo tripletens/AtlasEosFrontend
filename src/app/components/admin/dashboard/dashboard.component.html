@@ -523,12 +523,6 @@
               data-parent="#accordion3"
             >
               <div class="card-body mx-2">
-                <div id="timer">
-                  <div id="days"></div>
-                  <div id="hours"></div>
-                  <div id="minutes"></div>
-                  <div id="seconds"></div>
-                </div>
                 <table
                   *ngIf="tableView"
                   class="table text-nowrap table-wrapper align-items-center mb-0"
@@ -536,27 +530,16 @@
                   <tbody>
                     <tr>
                       <td>
-                        <span class="tbody-text-timer">
-                          {{ timeDays }} Days
-                        </span>
+                        <span class="tbody-text-timer" id="days"></span>
                       </td>
                       <td>
-                        <span class="tbody-text-timer">
-                          {{ timeHours }} Hours
-                        </span>
+                        <span class="tbody-text-timer" id="hours"></span>
                       </td>
                       <td>
-                        <span class="tbody-text-timer">
-                          {{ timeMinutes }} Mintues
-                        </span>
+                        <span class="tbody-text-timer" id="minutes"></span>
                       </td>
                       <td>
-                        <span class="tbody-text-timer">
-                          <span *ngIf="showSecondsExtrazero" class="extra-zero">
-                            0
-                          </span>
-                          {{ timeSeconds }} Seconds
-                        </span>
+                        <span class="tbody-text-timer" id="seconds"></span>
                       </td>
                     </tr>
                   </tbody>
