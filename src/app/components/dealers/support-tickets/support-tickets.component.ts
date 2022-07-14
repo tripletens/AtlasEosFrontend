@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
-import { TokenStorageService } from 'src/app/core/services/token-storage.service';
+import { Component, OnInit } from '@angular/core'
+import { ToastrService } from 'ngx-toastr'
+import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
+import { TokenStorageService } from 'src/app/core/services/token-storage.service'
 
 @Component({
   selector: 'app-support-tickets',
@@ -9,38 +9,42 @@ import { TokenStorageService } from 'src/app/core/services/token-storage.service
   styleUrls: ['./support-tickets.component.scss'],
 })
 export class SupportTicketsComponent implements OnInit {
-  reportData: any;
-  reportStatus = false;
+  reportData: any
+  reportStatus = false
+  reportLoader = true
   constructor(
     private getData: HttpRequestsService,
     private toastr: ToastrService,
-    private token: TokenStorageService
+    private token: TokenStorageService,
   ) {
-    this.getAllReports();
+    this.getAllReports()
   }
 
   ngOnInit(): void {}
   getAllReports() {
-    let id = this.token.getUser().id;
-    this.reportStatus = false;
+    let id = this.token.getUser().id
+    this.reportStatus = false
 
     this.getData
       .httpGetRequest('/get-all-reports/' + id)
       .then((result: any) => {
         // console.log(result);
-        if (result.status) {
-          this.reportData = result.data;
-          this.reportStatus = true;
-        } else {
-          this.reportStatus = false;
+        this.reportLoader = false
 
-          this.toastr.info(`Something went wrong`, 'Error');
+        if (result.status) {
+          this.reportData = result.data
+          this.reportStatus = true
+        } else {
+          this.reportStatus = false
+
+          this.toastr.info(`Something went wrong`, 'Error')
         }
       })
       .catch((err) => {
-        this.reportStatus = false;
+        this.reportStatus = false
+        this.reportLoader = false
 
-        this.toastr.info(`Something went wrong`, 'Error');
-      });
+        this.toastr.info(`Something went wrong`, 'Error')
+      })
   }
 }
