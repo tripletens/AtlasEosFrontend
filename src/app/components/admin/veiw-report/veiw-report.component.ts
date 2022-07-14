@@ -21,6 +21,12 @@ export class VeiwReportComponent implements OnInit {
   manualChecker = false
   btnText = true
   btnLoader = false
+  currentReportData: any
+  reportReplyData: any
+
+  currentReply = false
+  currentStatus = false
+  reportLoader = true
 
   constructor(
     private route: ActivatedRoute,
@@ -37,6 +43,8 @@ export class VeiwReportComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.ticket = params['ticket']
       this.getReport()
+      this.getCurrenTicket()
+      this.getReportReply()
     })
   }
 
@@ -45,21 +53,26 @@ export class VeiwReportComponent implements OnInit {
       this.manualChecker = false
 
       this.ReplyReportForm.value.role = this.userData.role
-      this.ReplyReportForm.value.user = this.userData.id
+      this.ReplyReportForm.value.userId = this.userData.id
       this.ReplyReportForm.value.ticket = this.ticket
+      this.ReplyReportForm.value.replier =
+        this.userData.first_name + ' ' + this.userData.last_name
 
       this.btnText = false
       this.btnLoader = true
 
       this.postData
-        .httpPostRequest('/admin/reply-report', this.ReplyReportForm.value)
+        .httpPostRequest(
+          '/admin/save-admin-report-reply',
+          this.ReplyReportForm.value,
+        )
         .then((result: any) => {
           this.btnText = true
           this.btnLoader = false
 
           if (result.status) {
             this.ReplyReportForm.reset()
-            this.asyncGetReport()
+            this.getReportReply()
             this.toastr.success('Successful', result.message)
           } else {
             this.toastr.error(result.message, 'Try again')
@@ -79,7 +92,7 @@ export class VeiwReportComponent implements OnInit {
 
   buildFaqForm(): void {
     this.ReplyReportForm = this.fb.group({
-      description: ['', [Validators.required]],
+      replyMsg: ['', [Validators.required]],
     })
   }
 
@@ -87,10 +100,53 @@ export class VeiwReportComponent implements OnInit {
     return this.ReplyReportForm.controls
   }
 
+  getReportReply() {
+    this.postData
+      .httpGetRequest('/admin/get-report-reply/' + this.ticket)
+      .then((result: any) => {
+        console.log(result)
+
+        this.currentReply = true
+
+        if (result.status) {
+          this.reportReplyData = result.data
+        } else {
+          this.toastr.error(result.message, 'Try again')
+        }
+      })
+      .catch((err) => {
+        //   this.btnText = true
+        ///   this.btnLoader = false
+        this.toastr.error('Try again', 'Something went wrong')
+      })
+  }
+
+  getCurrenTicket() {
+    this.postData
+      .httpGetRequest('/admin/get-current-ticket/' + this.ticket)
+      .then((result: any) => {
+        console.log(result)
+
+        this.currentStatus = true
+        this.reportLoader = false
+
+        if (result.status) {
+          this.currentReportData = result.data
+        } else {
+          this.toastr.error(result.message, 'Try again')
+        }
+      })
+      .catch((err) => {
+        //   this.btnText = true
+        ///   this.btnLoader = false
+        this.toastr.error('Try again', 'Something went wrong')
+      })
+  }
+
   getErrorMessage(instance: string) {
     if (
-      instance === 'description' &&
-      this.replyProblemFormControls.description.hasError('required')
+      instance === 'replyMsg' &&
+      this.replyProblemFormControls.replyMsg.hasError('required')
     ) {
       return 'enter the message'
     } else {

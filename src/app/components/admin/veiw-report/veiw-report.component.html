@@ -28,48 +28,72 @@
               <div class="card-body">
                 <h6 class="reported-text">Ticket replied by Admin</h6>
 
-                <div class="reported-issues-wrapper">
-                  <div *ngFor="let data of currentTicketData">
-                    <div class="report-item" *ngIf="data.role != userRole">
-                      <h5 class="reporter-name">
-                        Created By: {{ data.first_name }} {{ data.last_name }}
-                      </h5>
-                      <h5 class="report-title">
-                        {{ data.subject }}
-                      </h5>
-                      <p>
-                        {{ data.description }}
-                      </p>
+                <div class="report-item" *ngIf="reportLoader">
+                  <div class="ph-item">
+                    <div class="ph-col-12">
+                      <div class="ph-row">
+                        <div class="ph-col-4 mb-3"></div>
+                        <div class="ph-col-8 empty"></div>
+                        <div class="ph-col-8"></div>
+                        <div class="ph-col-4 empty"></div>
 
-                      <div class="d-flex justify-content-between">
-                        <div class="timer-section">
-                          <span class="fa fas fa-user icon"></span>
-                          <span>{{ data.first_name }}</span>
+                        <div class="ph-col-4"></div>
+                        <div class="ph-col-8 empty"></div>
 
-                          <span class="fa fa fa-clock-o icon"></span>
-                          <span>
-                            Created: {{ data.created_at | date: 'medium' }}
-                          </span>
-                        </div>
+                        <div class="ph-col-4"></div>
                       </div>
                     </div>
+                  </div>
+                </div>
 
-                    <div class="report-item" *ngIf="data.role == userRole">
-                      <p>
-                        {{ data.description }}
-                      </p>
+                <div class="reported-issues-wrapper" *ngIf="currentStatus">
+                  <div class="report-item">
+                    <h5 class="reporter-name">
+                      Created By: {{ currentReportData.first_name }}
+                      {{ currentReportData.last_name }}
+                    </h5>
+                    <h5 class="report-title">
+                      {{ currentReportData.subject }}
+                    </h5>
+                    <p>
+                      {{ currentReportData.description }}
+                    </p>
 
-                      <div class="d-flex justify-content-between">
-                        <div class="timer-section">
-                          <span class="fa fas fa-user icon"></span>
-                          <span>Atlas</span>
+                    <div class="d-flex justify-content-between">
+                      <div class="timer-section">
+                        <span class="fa fas fa-user icon"></span>
+                        <span>{{ currentReportData.first_name }}</span>
 
-                          <span class="fa fa fa-clock-o icon"></span>
+                        <span class="fa fa fa-clock-o icon"></span>
+                        <span>
+                          Created:
+                          {{ currentReportData.created_at | date: 'medium' }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-                          <span>
-                            Created: {{ data.created_at | date: 'medium' }}
-                          </span>
-                        </div>
+                <div class="reported-issues-wrapper" *ngIf="currentReply">
+                  <div class="report-item" *ngFor="let data of reportReplyData">
+                    <p>
+                      {{ data.msg }}
+                    </p>
+
+                    <div class="d-flex justify-content-between">
+                      <div class="timer-section">
+                        <span class="fa fas fa-user icon"></span>
+
+                        <span *ngIf="data.role == 1">Atlas</span>
+                        <span *ngIf="data.role != 1">
+                          {{ data.first_name }}
+                        </span>
+
+                        <span class="fa fa fa-clock-o icon"></span>
+
+                        <span>
+                          Created: {{ data.created_at | date: 'medium' }}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -82,13 +106,13 @@
                       name=""
                       placeholder="Enter reply text"
                       id=""
-                      formControlName="description"
+                      formControlName="replyMsg"
                     ></textarea>
 
                     <div
                       class="input-alert-box"
                       *ngIf="
-                        replyProblemFormControls.description.invalid &&
+                        replyProblemFormControls.replyMsg.invalid &&
                         manualChecker
                       "
                     >
