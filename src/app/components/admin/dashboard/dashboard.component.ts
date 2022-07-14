@@ -49,6 +49,8 @@ export class DashboardComponent implements OnInit {
   starterTimerTimestamp!: number
   endTimer = ''
   endTimerStamp!: number
+  initalEndTime: any
+  initalStartTime: any
 
   constructor(private getData: HttpRequestsService) {}
 
@@ -171,7 +173,10 @@ export class DashboardComponent implements OnInit {
     this.checkerInterval = setInterval(() => {
       let dd = new Date()
       let currentTime = dd.getTime()
-      if (currentTime > this.starterTimerTimestamp) {
+      let dateInstance = new Date(this.initalStartTime)
+      let intialStartTimer = dateInstance.getTime()
+
+      if (currentTime >= intialStartTimer) {
         this.stopCounterChecker()
         this.startCountDownTimer()
       } else {
@@ -187,10 +192,10 @@ export class DashboardComponent implements OnInit {
     this.countDownTimer = setInterval(() => {
       let dd: any = new Date()
       let curTimer = dd.getTime()
+      let createDate = new Date(this.initalEndTime)
+      let endIntilaTime = createDate.getTime()
+
       // console.log(curTimer)
-      // if (this.endTimerStamp < curTimer) {
-      //   this.stopCountdownTimer()
-      // }
 
       let endTime = Date.parse(this.endTimer) / 1000
       let now: any = new Date()
@@ -217,10 +222,18 @@ export class DashboardComponent implements OnInit {
         seconds = '0' + seconds
       }
 
-      $('#days').html(days + '<span> Days</span>')
-      $('#hours').html(hours + '<span> Hours</span>')
-      $('#minutes').html(minutes + '<span> Minutes</span>')
-      $('#seconds').html(seconds + '<span> Seconds</span>')
+      if (endIntilaTime < curTimer) {
+        this.stopCountdownTimer()
+        $('#days').html('0' + '<span> Days</span>')
+        $('#hours').html('00' + '<span> Hours</span>')
+        $('#minutes').html('00' + '<span> Minutes</span>')
+        $('#seconds').html('00' + '<span> Seconds</span>')
+      } else {
+        $('#days').html(days + '<span> Days</span>')
+        $('#hours').html(hours + '<span> Hours</span>')
+        $('#minutes').html(minutes + '<span> Minutes</span>')
+        $('#seconds').html(seconds + '<span> Seconds</span>')
+      }
     }, 1000)
   }
 
@@ -230,17 +243,21 @@ export class DashboardComponent implements OnInit {
       .then((result: any) => {
         if (result.status) {
           this.countDownData = result.data
-          ///  this.startTimer(result.data)
-          this.endTimer = result.data.end_timer
+          this.endTimer = result.data.inital_end_timer
+          this.initalEndTime = result.data.inital_end_timer
+          this.initalStartTime = result.data.real_start_timer
+          console.log(this.initalStartTime)
+          // let dd = new Date(this.endTimer)
+          // let fp = dd.getTime()
+          // console.log(fp, 'seconse')
+          // console.log(dd, 'fulll data nd time')
+          // console.log(new Date().getTime())
+          ////this.startTimeMe = result.
 
           this.endTimerStamp = result.data.end_timer_timestamp
           this.starterTimerTimestamp = result.data.start_timer_timestamp
-          this.startCheckerFund()
 
-          this.initalDays = result.data.days
-          this.initalHours = result.data.hours
-          this.initalMinutes = result.data.minutes
-          this.initalSeconds = result.data.seconds
+          this.startCheckerFund()
         } else {
         }
       })
