@@ -73,16 +73,28 @@
   color: #5a5858;
 }
 .report-link {
-    text-decoration: none !important;
+  text-decoration: none !important;
   color: #777777 !important;
   .small-data {
     font-size: 12px;
   }
-  border: .2px solid #77777787 !important;
+  border: 0.2px solid #77777787 !important;
   border-radius: 5px;
   display: block;
   position: relative;
 }
-a{
-    text-decoration: none;
+a {
+  text-decoration: none;
+}
+
+.created-user-text {
+  font-weight: 800;
+  color: #5a5858;
+  font-size: 15px;
+}
+
+.ticket-title-text {
+  font-size: 13px;
+  font-weight: 700;
+  color: #5a5858;
 }
