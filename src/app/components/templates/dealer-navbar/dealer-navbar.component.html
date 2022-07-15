@@ -33,7 +33,7 @@
         routerLinkActive="active-item"
       >
         <span class="fa fa-home navbar-icons"></span>
-        <span class="side-menu__label" *ngIf="toggle">Dashboard</span>
+        <span class="side-menu__label" >Dashboard</span>
       </a>
     </li>
     <li class="slide" (click)="closeOverLay()">
@@ -43,7 +43,7 @@
         routerLinkActive="active-item"
       >
         <span class="fa fa-wpforms navbar-icons"></span>
-        <span class="side-menu__label" *ngIf="toggle">Show Order Forms</span>
+        <span class="side-menu__label" >Show Order Forms</span>
       </a>
     </li>
     <li class="slide" (click)="closeOverLay()">
@@ -53,7 +53,7 @@
         routerLinkActive="active-item"
       >
         <span class="fa fa-shopping-cart navbar-icons"></span>
-        <span class="side-menu__label" *ngIf="toggle">Quick Order</span>
+        <span class="side-menu__label" >Quick Order</span>
       </a>
     </li>
     <li class="slide" (click)="closeOverLay()">
@@ -63,7 +63,7 @@
         routerLinkActive="active-item"
       >
         <span class="fa fa-shopping-cart navbar-icons"></span>
-        <span class="side-menu__label" *ngIf="toggle">Special Order</span>
+        <span class="side-menu__label" >Special Order</span>
       </a>
     </li>
     <li class="slide" (click)="closeOverLay()">
@@ -73,7 +73,7 @@
         routerLinkActive="active-item"
       >
         <span class="fa fa-shopping-cart navbar-icons"></span>
-        <span class="side-menu__label" *ngIf="toggle">New Product</span>
+        <span class="side-menu__label" >New Product</span>
       </a>
     </li>
 
@@ -86,7 +86,7 @@
             routerLinkActive="active-item"
           >
             <span class="fa fa-shopping-cart navbar-icons"></span>
-            <span class="side-menu__label" *ngIf="toggle">
+            <span class="side-menu__label" >
               Orders Remaining
             </span>
           </a>
@@ -100,7 +100,7 @@
             routerLinkActive="active-item"
           >
             <span class="fa fa-pencil-square-o navbar-icons"></span>
-            <span class="side-menu__label" *ngIf="toggle">Edit Orders</span>
+            <span class="side-menu__label" >Edit Orders</span>
           </a>
         </li>
       </ng-container>
@@ -112,7 +112,7 @@
             routerLinkActive="active-item"
           >
             <span class="fa fa-list navbar-icons"></span>
-            <span class="side-menu__label" *ngIf="toggle">
+            <span class="side-menu__label" >
               Dealer Order Summary
             </span>
           </a>
@@ -125,7 +125,7 @@
             routerLink="/dealers/purchase-summary"
           >
             <span class="fa fa-list navbar-icons"></span>
-            <span class="side-menu__label" *ngIf="toggle">
+            <span class="side-menu__label" >
               Purchaser Summary Display
             </span>
           </a>
@@ -135,7 +135,7 @@
         <li class="slide" (click)="closeOverLay()">
           <a class="side-menu__item nohover" routerLink="/dealers/edit-order">
             <span class="fa fa-pencil-square-o navbar-icons"></span>
-            <span class="side-menu__label" *ngIf="toggle">Edit My Order</span>
+            <span class="side-menu__label" >Edit My Order</span>
           </a>
         </li>
       </ng-template>
@@ -149,7 +149,7 @@
             routerLink="/dealers/order-summary"
           >
             <span class="fa fa-columns navbar-icons"></span>
-            <span class="side-menu__label" *ngIf="toggle">
+            <span class="side-menu__label" >
               Dealer Order Summary
             </span>
           </a>
@@ -164,7 +164,7 @@
             routerLinkActive="active-item"
           >
             <span class="fa fa-columns navbar-icons"></span>
-            <span class="side-menu__label" *ngIf="toggle">
+            <span class="side-menu__label" >
               Purchaser Summary Display
             </span>
           </a>
@@ -178,7 +178,7 @@
         routerLinkActive="active-item"
       >
         <span class="fa fa-columns navbar-icons"></span>
-        <span class="side-menu__label" *ngIf="toggle">Promotional Flyers</span>
+        <span class="side-menu__label" >Promotional Flyers</span>
       </a>
     </li>
     <li class="slide" (click)="closeOverLay()">
@@ -192,7 +192,7 @@
         aria-controls="collapseExample"
       >
         <span class="fa fa-play-circle navbar-icons"></span>
-        <span class="side-menu__label" *ngIf="toggle">Seminars</span>
+        <span class="side-menu__label" >Seminars</span>
         <span class="fa fa-angle-down"></span>
       </a>
       <div class="collapse ml-4" id="collapseExample">
@@ -201,21 +201,21 @@
           routerLinkActive="active-item"
           routerLink="/dealers/all-seminars"
         >
-          <span class="side-menu__label" *ngIf="toggle">All Seminars</span>
+          <span class="side-menu__label" >All Seminars</span>
         </a>
         <a
           class="side-menu__item"
           routerLinkActive="active-item"
           routerLink="/dealers/ongoing-seminars"
         >
-          <span class="side-menu__label" *ngIf="toggle">Ongoing Seminars</span>
+          <span class="side-menu__label" >Ongoing Seminars</span>
         </a>
         <a
           class="side-menu__item"
           routerLinkActive="active-item"
           routerLink="/dealers/sheduled-seminars"
         >
-          <span class="side-menu__label" *ngIf="toggle">Sheduled Seminars</span>
+          <span class="side-menu__label" >Sheduled Seminars</span>
         </a>
       </div>
     </li>
@@ -227,7 +227,7 @@
         routerLinkActive="active-item"
       >
         <span class="fa fa-newspaper-o navbar-icons"></span>
-        <span class="side-menu__label" *ngIf="toggle">My Messages</span>
+        <span class="side-menu__label">My Messages</span>
         <span class="badge badge-primary">{{ unreadMsgCount }}</span>
       </a>
     </li>
@@ -239,7 +239,7 @@
         routerLinkActive="active-item"
       >
         <span class="fa fa-headphones navbar-icons"></span>
-        <span class="side-menu__label" *ngIf="toggle">Help</span>
+        <span class="side-menu__label" >Help</span>
       </a>
     </li>
 
@@ -250,14 +250,14 @@
         routerLinkActive="active-item"
       >
         <span class="fa fa-bell navbar-icons"></span>
-        <span class="side-menu__label" *ngIf="toggle">Report a Problem</span>
+        <span class="side-menu__label" >Report a Problem</span>
       </a>
     </li>
 
     <li class="slide" (click)="closeOverLay()">
       <a class="side-menu__item" (click)="logout()">
         <span class="fa fa-mail-forward navbar-icons"></span>
-        <span class="side-menu__label" *ngIf="toggle">Logout</span>
+        <span class="side-menu__label" >Logout</span>
       </a>
     </li>
   </ul>

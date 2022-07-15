@@ -24,7 +24,8 @@
                 <input
                   type="text"
                   disabled
-                  [value]="searchResultData.vendor_name"
+                  #vendorInput
+                  [value]="searchResultData?.vendor_name!"
                   class="search-input form-control"
                   style="width: 200px !important"
                 />
@@ -35,9 +36,25 @@
                 <input
                   type="number"
                   class="search-input form-control"
+                  [disabled]="disabled"
+                  min="0"
                   style="max-width: 70px !important"
+                  #qtyInput
                 />
-                <button class="btn btn-primary ml-3">ADD</button>
+                <button
+                  class="btn btn-primary ml-3"
+                  [disabled]="disabledBtn"
+                  (click)="qtyInputCheck(qtyInput.value)"
+                >
+                  <div *ngIf="!addLoader">ADD</div>
+                  <div *ngIf="addLoader">
+                    ADD
+                    <span
+                      class="spinner-border spinner-border-sm text-dark ps-1"
+                    >
+                    </span>
+                  </div>
+                </button>
               </div>
             </div>
           </div>
@@ -49,69 +66,226 @@
                     {{ searchResultData.description }}
                   </h5>
                 </td>
-                <td class="value ">
+                <td class="value">
                   {{ searchResultData.booking | currency }}
                 </td>
               </tr>
               <tr>
-                <td class="value red">SPECIAL</td>
+                <td class="value red">
+                  <span
+                    *ngFor="
+                      let spec of parser(searchResultData.spec_data!);
+                      let l = index
+                    "
+                  >
+                    <span
+                      [class.assorted-color]="spec.type == 'assorted'"
+                    ></span>
+                    <span
+                      [class.assorted-color]="spec.type == 'assorted'"
+                      [class.quantity-color]="spec.type == 'special'"
+                    >
+                      {{ spec.desc }}
+                    </span>
+                  </span>
+                </td>
                 <td class="value blue">
-                  {{ searchResultData.special | currency }}
+                  <span
+                    *ngFor="
+                      let spec of parser(searchResultData.spec_data!);
+                      let j = index
+                    "
+                  >
+                    <span
+                      [class.assorted-color]="spec.type == 'assorted'"
+                      [class.quantity-color]="spec.type == 'special'"
+                      >{{ spec.special }}
+                    </span>
+                  </span>
                 </td>
               </tr>
             </table>
           </div>
-          <div class="table-ctn mt-3">
-            <table class="order-form-table w-100">
-              <thead>
-                <th>Qty</th>
-                <th>
-                  Atlas #
-                  <button class="btn">
-                    <i class="fa fa-sort text-white"></i>
-                  </button>
-                </th>
-                <th>
-                  Vendor #
-                  <button class="btn">
-                    <i class="fa fa-sort text-white"></i>
-                  </button>
-                </th>
-                <th>Vendor Name</th>
-                <th>Description</th>
-
-                <th>Regular($)</th>
-                <th>Special($)</th>
-                <th>Extended</th>
-              </thead>
-              <tbody>
-                <tr><td colspan="7"></td></tr>
-                <!-- <tr>
-                  <td class="text-center">
-                    <input type="number" class="mx-auto" />
-                  </td>
-                  <td>1095-2</td>
-                  <td>ACM135</td>
-                  <td>Ethan Hayes</td>
-                  <td><p class="">15K BTU ADVENT A/C-WHITE</p></td>
-                  <td>$ 849.00</td>
-                  <td>$ 799.00</td>
-                  <td></td>
-                </tr> -->
-              </tbody>
+          <div class="w-100 search-data-ctn mb-3" *ngIf="noData">
+            <table>
+              <tr>
+                <td class="text-center value red" colspan="8">
+                  This Part no.
+                  <span class="font-weight-bold">#{{ searchId }}</span> is not
+                  on the show
+                </td>
+              </tr>
             </table>
           </div>
-          <nav aria-label="Page navigation example paginate">
-            <ul class="pagination mt-4 d-flex justify-content-end text-end">
-              <li class="page-item">
-                <a class="page-link" href="#">Previous</a>
-              </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
-          </nav>
+          <div class="table-ctn mt-3 p-3" style="background-color: white">
+            <table
+              class="order-form-table w-100 mat-elevation"
+              mat-table
+              [dataSource]="dataSrc"
+              matSort
+              (matSortChange)="announceSortChange($event)"
+            >
+              <ng-container matColumnDef="qty">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  style="white-space: nowrap"
+                >
+                  Qty
+                </th>
+                <td
+                  mat-cell
+                  *matCellDef="let element; index as i"
+                  class="text-center"
+                >
+                  <input
+                    type="number"
+                    class="mx-auto"
+                    min="0"
+                    #tableQtyInput
+                    (input)="runCalc(element, tableQtyInput.value, true)"
+                    placeholder="Qty"
+                  />
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="atlas_id">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription="Sort by number"
+                >
+                  Atlas #
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.atlas_id! }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="vendor">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription="Sort by name"
+                >
+                  Vendor #
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.vendor }}
+                </td>
+              </ng-container>
+              <!-- Name Column -->
+              <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef>Description</th>
+                <th></th>
+                <td mat-cell *matCellDef="let element" class="short-note-con">
+                  <span class="desc-text">{{ element.description! }}</span>
+                  <span
+                    *ngFor="
+                      let spec of parser(element.spec_data!);
+                      let l = index
+                    "
+                  >
+                    <span
+                      [class.assorted-color]="spec.type == 'assorted'"
+                    ></span>
+                    <span
+                      [class.assorted-color]="spec.type == 'assorted'"
+                      [class.quantity-color]="spec.type == 'special'"
+                    >
+                      {{ spec.desc }}
+                    </span>
+                  </span>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="booking">
+                <th mat-header-cell *matHeaderCellDef>Regular ($)</th>
+
+                <td mat-cell *matCellDef="let element" class="text-center">
+                  <span class="booking-text text-center">
+                    {{ element.regular }}
+                  </span>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="special">
+                <th mat-header-cell *matHeaderCellDef>Special ($)</th>
+
+                <td mat-cell *matCellDef="let element" class="text-center">
+                  <span>{{ element.booking }}</span
+                  ><br />
+                  <span
+                    *ngFor="
+                      let spec of parser(element.spec_data);
+                      let j = index
+                    "
+                  >
+                    <span
+                      [class.assorted-color]="spec.type == 'assorted'"
+                      [class.quantity-color]="spec.type == 'special'"
+                      >{{ spec.special }}
+                    </span>
+                  </span>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="extended">
+                <th mat-header-cell *matHeaderCellDef>Extended ($)</th>
+
+                <td mat-cell *matCellDef="let element" class="text-center">
+                  <span class="desc-text">{{ element.extended }}</span>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: displayedColumns; index as i"
+                [class.highlighted]="i == 0 && isMod"
+              ></tr>
+            </table>
+            <tr>
+              <td colspan="10" class="p-4"></td>
+            </tr>
+
+            <mat-paginator
+              [pageSizeOptions]="[10, 20, 50, 100]"
+              showFirstLastButtons
+              aria-label="Select page seminar pages"
+            >
+            </mat-paginator>
+
+            <div
+              *ngIf="orderSuccess"
+              class="alert alert-success mt-2 mb-2 d-flex align-items-center"
+            >
+              <i class="fa fa-check-circle" style="font-size: 30px"></i
+              >&nbsp;&nbsp;
+              <div class="ml-2">
+                <h6 class="mb-1" style="font-size: 16px">Success</h6>
+                <p style="font-size: 15px">
+                  {{ orderLen }} item(s) have been added to cart
+                </p>
+              </div>
+            </div>
+            <div
+              class="w-100 justify-content-end d-flex py-3"
+              *ngIf="canOrder"
+              style="border-top: 0.2px solid rgba(98, 98, 98, 0.484)"
+            >
+              <button
+                class="btn text-bold text-white bg-blue"
+                [disabled]="cartLoader"
+                (click)="submitOrder()"
+              >
+                <div *ngIf="!cartLoader">Confirm Order</div>
+                <div *ngIf="cartLoader">
+                  Confirm Order
+                  <span class="spinner-border spinner-border-sm text-dark ps-1">
+                  </span>
+                </div>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
