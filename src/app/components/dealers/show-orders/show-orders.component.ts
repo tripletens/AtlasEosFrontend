@@ -72,6 +72,7 @@ export class ShowOrdersComponent implements OnInit {
   isMod = false;
   orderTable: object[] = [];
   cartHistory: object[] = [];
+  orderTotal = 0;
   constructor(
     private getData: HttpRequestsService,
     private toastr: ToastrService,
@@ -108,7 +109,18 @@ export class ShowOrdersComponent implements OnInit {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
-
+  getTotal() {
+    let total = 0;
+    if (this.orderTable.length > 0) {
+      for (var i = 0; i < this.orderTable.length; i++) {
+        let Obj: any = this.orderTable[i]!;
+        total = total + parseFloat(Obj.price!);
+      }
+      return (this.orderTotal = total);
+    } else {
+      return (this.orderTotal = 0);
+    }
+  }
   getAllVendors() {
     this.orderSuccess = false;
 
@@ -215,6 +227,9 @@ export class ShowOrdersComponent implements OnInit {
           if (result.data.length !== 0) {
             this.canOrder = true;
           }
+          this.orderTable = [];
+          this.getTotal();
+
           this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
           this.dataSrc.sort = this.sort;
           this.dataSrc.paginator = this.paginator;
@@ -359,6 +374,7 @@ export class ShowOrdersComponent implements OnInit {
       replaceOldVal(this.orderTable);
       console.log('userobj', usedVar, 'table', this.orderTable);
       this.orderTable.push(usedVar);
+      this.getTotal();
       this.dataSrc.data[i].extended = total;
       // if (posssibleBreak && qty > priceSummary.specCond) {
       //   this.dataSrc.data[i].booking = priceSummary.specPrice;
@@ -409,6 +425,8 @@ export class ShowOrdersComponent implements OnInit {
               'Success'
             );
             this.orderTable = [];
+            this.getTotal();
+
             if (this.searchatlasId) {
               this.searchVendorId(this.vendorId!);
             } else {
