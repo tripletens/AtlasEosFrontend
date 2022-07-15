@@ -16,7 +16,9 @@ import { MessagesComponent } from './messages/messages.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatPaginatorModule } from '@angular/material/paginator'
 import { MatTableModule } from '@angular/material/table'
-import { MatSortModule } from '@angular/material/sort'
+import { MatSortModule } from '@angular/material/sort';
+import { AllReportTicketsComponent } from './all-report-tickets/all-report-tickets.component';
+import { ViewReportTicketComponent } from './view-report-ticket/view-report-ticket.component'
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { MatSortModule } from '@angular/material/sort'
     VendorOrderComponent,
     ReportProblemComponent,
     MessagesComponent,
+    AllReportTicketsComponent,
+    ViewReportTicketComponent,
   ],
   imports: [
     CommonModule,

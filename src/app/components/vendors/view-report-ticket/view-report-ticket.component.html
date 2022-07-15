@@ -1,0 +1,186 @@
+<section class="overview-section">
+  <div class="container-fluid p-0">
+    <div class="row my-5 ml-4">
+      <div class="col-12">
+        <div class="form-table-ctn px-2pt-4">
+          <div class="card bg-transparent border-0">
+            <div
+              class="card-header mb-4 d-flex justify-content-between align-items-center"
+              style="background-color: #f6f6f6;"
+            >
+              <span>Support</span>
+              <span>
+                <a
+                  routerLink="/dealers/support"
+                  class="btn btn-light mr-2"
+                  style="
+                    font-size: 12px;
+                    background: #fff !important;
+                    border: 0.3px solid #85838392 !important;
+                  "
+                >
+                  <i class="fa fa-plus mr-2"></i>
+                  Report a Problem
+                </a>
+                <a
+                  routerlink="/dealers/tickets"
+                  class="btn btn-light mr-2"
+                  style="
+                    font-size: 12px;
+                    background: #fff !important;
+                    border: 0.3px solid #85838392 !important;
+                  "
+                >
+                  <i class="fa fa-list mr-2"></i>
+                  Tickets
+                </a>
+
+                <a
+                  routerLink="/dealers/tickets"
+                  style="
+                    font-size: 12px;
+                    background: #fff !important;
+                    border: 0.3px solid #85838392 !important;
+                  "
+                  class="btn mr-3"
+                >
+                  <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+                </a>
+              </span>
+            </div>
+
+            <div class="card-body p-0 mt-3 bg-white">
+              <div class="card-header">Ticket replied by Admin</div>
+              <div class="card-body">
+                <div class="report-item" *ngIf="reportLoader">
+                  <div class="ph-item">
+                    <div class="ph-col-12">
+                      <div class="ph-row">
+                        <div class="ph-col-4 mb-3"></div>
+                        <div class="ph-col-8 empty"></div>
+                        <div class="ph-col-8"></div>
+                        <div class="ph-col-4 empty"></div>
+
+                        <div class="ph-col-4"></div>
+                        <div class="ph-col-8 empty"></div>
+
+                        <div class="ph-col-4"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="report-link mb-3 p-3 w-100"
+                  *ngIf="reportTitleStatus"
+                >
+                  <h5 class="created-user-text">
+                    Created by: {{ reportTitleData.first_name }}
+                    {{ reportTitleData.last_name }}
+                  </h5>
+                  <div class="report-ctn pt-3">
+                    <h6 class="ticket-title-text">
+                      {{ reportTitleData.subject }}
+                    </h6>
+                    <p class="mb-3">{{ reportTitleData.description }}</p>
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <p class="small-data">
+                        <span class="mr-2">
+                          <i class="fa fa-bolt mr-1"></i>
+                          0
+                        </span>
+                        <span class="mr-2">
+                          <i class="fa fa-tag mr-1"></i>
+                          Waiting
+                        </span>
+                        <span class="mr-2" *ngIf="reportTitleData.status == 1">
+                          <i class="fa fa-lock mr-1"></i>
+                          Status: close
+                        </span>
+
+                        <span class="mr-2" *ngIf="reportTitleData.status == 2">
+                          <i class="fa fa-unlock mr-1"></i>
+                          Status: open
+                        </span>
+
+                        <span class="mr-2">
+                          <i class="fa fa-clock-o mr-1"></i>
+                          {{ reportTitleData.created_at | date: 'medium' }}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="reportDataStatus">
+                  <div
+                    class="report-link mb-3 p-3 w-100"
+                    *ngFor="let data of reportReply"
+                  >
+                    <div class="report-ctn pt-3">
+                      <p class="mb-3">{{ data.msg }}</p>
+                      <div
+                        class="d-flex justify-content-between align-items-center"
+                      >
+                        <p class="small-data">
+                          <span class="mr-2">
+                            <i class="fa fa-bolt mr-1"></i>
+                            0
+                          </span>
+                          <span class="mr-2">
+                            <i class="fa fa-tag mr-1"></i>
+                            Waiting
+                          </span>
+                          <span class="mr-2">
+                            <i class="fa fa-unlock mr-1"></i>
+                            Status: open
+                          </span>
+                          <span class="mr-2">
+                            <i class="fa fa-clock-o mr-1"></i>
+                            {{ data.created_at | date: 'medium' }}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <textarea
+                  name="complaint"
+                  class="form-control mt-2"
+                  #reply
+                  placeholder="reply support here"
+                  id=""
+                  cols="30"
+                  rows="10"
+                  required
+                  [(ngModel)]="replyMsg"
+                ></textarea>
+                <div class="w-100 justify-content-end d-flex mt-3">
+                  <button
+                    class="btn btn-light"
+                    style="border: 0.2px solid #858383;"
+                    (click)="sendReply()"
+                  >
+                    <div *ngIf="btnText">
+                      <i class="fa fa-paper-plane mr-2"></i>
+                      Send
+                    </div>
+
+                    <div *ngIf="formLoader">
+                      <span
+                        class="spinner-border spinner-border-sm text-dark"
+                      ></span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
