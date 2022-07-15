@@ -5,11 +5,11 @@ import { TokenStorageService } from 'src/app/core/services/token-storage.service
 import { ToastrService } from 'ngx-toastr'
 
 @Component({
-  selector: 'app-view-support-ticket',
-  templateUrl: './view-support-ticket.component.html',
-  styleUrls: ['./view-support-ticket.component.scss'],
+  selector: 'app-view-report-ticket',
+  templateUrl: './view-report-ticket.component.html',
+  styleUrls: ['./view-report-ticket.component.scss'],
 })
-export class ViewSupportTicketComponent implements OnInit {
+export class ViewReportTicketComponent implements OnInit {
   ticket = ''
   reportTitleData: any
   reportReply: any
@@ -59,12 +59,9 @@ export class ViewSupportTicketComponent implements OnInit {
           if (result.status) {
             this.toastr.success('succesfull', 'Saved')
 
-            /// this.reportReply = result.data
             this.replyMsg = ''
             this.getReportReplies()
-            //this.reportStatus = true
           } else {
-            //this.reportStatus = false
             this.toastr.info(`Something went wrong`, 'Error')
           }
         })
