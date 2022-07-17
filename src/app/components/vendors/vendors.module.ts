@@ -16,9 +16,10 @@ import { MessagesComponent } from './messages/messages.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatPaginatorModule } from '@angular/material/paginator'
 import { MatTableModule } from '@angular/material/table'
-import { MatSortModule } from '@angular/material/sort';
-import { AllReportTicketsComponent } from './all-report-tickets/all-report-tickets.component';
+import { MatSortModule } from '@angular/material/sort'
+import { AllReportTicketsComponent } from './all-report-tickets/all-report-tickets.component'
 import { ViewReportTicketComponent } from './view-report-ticket/view-report-ticket.component'
+import { SwitchDealerComponent } from './switch-dealer/switch-dealer.component'
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ViewReportTicketComponent } from './view-report-ticket/view-report-tick
     MessagesComponent,
     AllReportTicketsComponent,
     ViewReportTicketComponent,
+    SwitchDealerComponent,
   ],
   imports: [
     CommonModule,
