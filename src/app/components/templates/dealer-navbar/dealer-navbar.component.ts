@@ -36,7 +36,20 @@ export class DealerNavbarComponent implements OnInit {
     private router: Router,
     private tokenStorage: TokenStorageService,
     private getHttpData: HttpRequestsService,
-  ) {}
+  ) {
+    if (this.tokenStorage.checkSwitch()) {
+      if (this.tokenStorage.getSwitchType() == 'vendor-to-dealer') {
+        this.dealerToVendorSwitch = true
+      } else {
+        this.dealerToVendorSwitch = false
+      }
+    }
+  }
+
+  switchToVendor() {
+    this.tokenStorage.switchFromDealerToVendor()
+    this.router.navigate(['/vendors/dealer-switch'])
+  }
 
   getUnreadMsg() {
     this.getHttpData

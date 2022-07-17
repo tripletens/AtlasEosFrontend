@@ -232,13 +232,13 @@
       </a>
     </li>
 
-    <li class="slide" (click)="closeOverLay()">
+    <li class="slide" (click)="switchToVendor()" *ngIf="dealerToVendorSwitch">
       <a
         class="side-menu__item"
         routerLink="/vendor/dashboard"
         routerLinkActive="active-item"
       >
-        <span class="fa fa-headphones navbar-icons"></span>
+        <span class="fa fa-exchange navbar-icons"></span>
         <span class="side-menu__label">Switch to Vendor</span>
       </a>
     </li>
