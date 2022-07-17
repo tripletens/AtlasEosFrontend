@@ -24,6 +24,7 @@ import { MessagesComponent } from './messages/messages.component'
 import { QuickOrderComponent } from './quick-order/quick-order.component'
 import { SupportTicketsComponent } from './support-tickets/support-tickets.component'
 import { ViewSupportTicketComponent } from './view-support-ticket/view-support-ticket.component'
+import { EditOrderVendorPageComponent } from './edit-order-vendor-page/edit-order-vendor-page.component'
 
 const routes: Routes = [
   {
@@ -71,6 +72,10 @@ const routes: Routes = [
       {
         path: 'show-orders/:vendorId/:atlasId',
         component: ShowOrdersComponent,
+      },
+      {
+        path: 'edit-vendor-orders/:vendorId',
+        component: EditOrderVendorPageComponent,
       },
 
       {

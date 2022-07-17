@@ -34,7 +34,8 @@ import { SearchComponent } from './search/search.component'
 import { MatSortModule } from '@angular/material/sort';
 
 import { ViewSupportTicketComponent } from './view-support-ticket/view-support-ticket.component';
-import { SupportTicketsComponent } from './support-tickets/support-tickets.component'
+import { SupportTicketsComponent } from './support-tickets/support-tickets.component';
+import { EditOrderVendorPageComponent } from './edit-order-vendor-page/edit-order-vendor-page.component'
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { SupportTicketsComponent } from './support-tickets/support-tickets.compo
     MessagesComponent,
     SupportTicketsComponent,
     ViewSupportTicketComponent,
+    EditOrderVendorPageComponent,
   ],
   imports: [
     CommonModule,
