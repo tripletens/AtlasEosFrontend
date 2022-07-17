@@ -18,6 +18,8 @@ export class DealerNavbarComponent implements OnInit {
 
   location!: string
 
+  dealerToVendorSwitch = false
+
   ngOnInit(): void {
     this.getData()
     this.dealerData = this.tokenStorage.getUser()
