@@ -152,9 +152,11 @@ export class SwitchDealerComponent implements OnInit {
         this.tableView = true
 
         if (result.status) {
-          this.incomingData = result.data
-          this.dataSource = new MatTableDataSource(result.data)
-          this.dataSource.paginator = this.paginator
+          if (result.data.length > 0) {
+            this.incomingData = result.data
+            this.dataSource = new MatTableDataSource(result.data)
+            this.dataSource.paginator = this.paginator
+          }
         } else {
           this.toastr.error(result.message, 'Try again')
         }
