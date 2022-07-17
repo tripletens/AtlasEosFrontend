@@ -8,6 +8,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TokenStorageService } from 'src/app/core/services/token-storage.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
+import Swal from 'sweetalert2';
 
 export interface PeriodicElement {
   vendor_code: any;
@@ -61,6 +62,43 @@ export class EditOrderComponent implements OnInit {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
+  async deleteVendorOrderConfirmBox() {
+    return await Swal.fire({
+      title: 'Are You Sure You Want To Delete  Order(s) from this Vendor ?',
+      text: '',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.value) {
+        return true;
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        return false;
+      } else {
+        return false;
+      }
+    });
+  }
+
+  async deleteVendorOrder(id: any) {
+    let confirmAlert = await this.deleteVendorOrderConfirmBox();
+    let dealerId = this.token.getUser().id;
+    if (confirmAlert) {
+      this.getData
+        .httpGetRequest('/delete-item-cart/' + dealerId+ '/' + id)
+        .then((res: any) => {
+          if (res.status) {
+            this.toastr.success(res.message);
+          } else {
+            this.toastr.error('Something went wrong ', `Try again`);
+          }
+        })
+        .catch((error) => {
+          this.toastr.error(error);
+        });
     }
   }
 }

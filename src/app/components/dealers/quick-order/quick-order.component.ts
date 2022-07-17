@@ -135,10 +135,10 @@ export class QuickOrderComponent implements OnInit {
     } else {
     }
   }
-  qtyInputCheck(qty: any) {
+  qtyInputCheck(qty: any,runcalc:boolean) {
     if (qty > 0) {
       this.disabledBtn = false;
-      this.runCalc(this.searchResultData, qty, true);
+    {runcalc &&  this.runCalc(this.searchResultData, qty, true)};
     } else {
       this.disabledBtn = true;
     }
