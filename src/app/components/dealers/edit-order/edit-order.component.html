@@ -46,7 +46,7 @@
                   *matCellDef="let element; index as i"
                   class="text-center"
                 >
-                <button class="btn btn-warning mr-2">EDIT ORDER</button> <button class="btn btn-danger mr-2">DELETE ORDER</button> 
+                <a class="btn btn-warning mr-2" routerLink="/dealers/edit-vendor-orders/{{element.vendor_code}}">EDIT ORDER</a> <button class="btn btn-danger mr-2" (click)="deleteVendorOrder(element.vendor_code)">DELETE ORDER</button> 
                 </td>
               </ng-container>
              
