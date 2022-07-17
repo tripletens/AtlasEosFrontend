@@ -8,6 +8,7 @@ import { ReportProblemComponent } from './report-problem/report-problem.componen
 import { SalesDetailedComponent } from './sales-detailed/sales-detailed.component'
 import { SalesSummaryComponent } from './sales-summary/sales-summary.component'
 import { SpecialOrdersComponent } from './special-orders/special-orders.component'
+import { SwitchDealerComponent } from './switch-dealer/switch-dealer.component'
 import { VendorOrderComponent } from './vendor-order/vendor-order.component'
 import { VendorsComponent } from './vendors.component'
 
@@ -57,6 +58,10 @@ const routes: Routes = [
       {
         path: 'messages',
         component: MessagesComponent,
+      },
+      {
+        path: 'dealer-switch',
+        component: SwitchDealerComponent,
       },
     ],
   },
