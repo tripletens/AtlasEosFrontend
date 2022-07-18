@@ -17,6 +17,7 @@ import { AllPromotionalFlyerComponent } from './all-promotional-flyer/all-promot
 import { AllSeminarsComponent } from './all-seminars/all-seminars.component'
 import { AllVendorUsersComponent } from './all-vendor-users/all-vendor-users.component'
 import { AllVendorsComponent } from './all-vendors/all-vendors.component'
+import { AtlasNotesComponent } from './atlas-notes/atlas-notes.component'
 import { DashboardComponent } from './dashboard/dashboard.component'
 import { DealerSummaryComponent } from './dealer-summary/dealer-summary.component'
 import { EditDealerUsersComponent } from './edit-dealer-users/edit-dealer-users.component'
@@ -32,6 +33,7 @@ import { ResolveProblemComponent } from './resolve-problem/resolve-problem.compo
 import { RespondReportComponent } from './respond-report/respond-report.component'
 import { SetCountdownComponent } from './set-countdown/set-countdown.component'
 import { VeiwReportComponent } from './veiw-report/veiw-report.component'
+import { VendorNotesComponent } from './vendor-notes/vendor-notes.component'
 import { VendorOrderFormComponent } from './vendor-order-form/vendor-order-form.component'
 
 const routes: Routes = [
@@ -173,6 +175,14 @@ const routes: Routes = [
       {
         path: 'edit-promotional-flier/:id',
         component: EditPromotionalFlierComponent,
+      },
+      {
+        path: 'atlas-note',
+        component: AtlasNotesComponent,
+      },
+      {
+        path: 'vendor-note',
+        component: VendorNotesComponent,
       },
     ],
     canActivate: [AuthGuardGuard],
