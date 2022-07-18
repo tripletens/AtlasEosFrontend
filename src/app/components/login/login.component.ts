@@ -82,7 +82,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getIPAddress()
     this.browserName = this.detectBrowserName()
     this.fullBrowserData()
   }

@@ -85,10 +85,10 @@ export class EditOrderComponent implements OnInit {
 
   async deleteVendorOrder(id: any) {
     let confirmAlert = await this.deleteVendorOrderConfirmBox();
-    let dealerId = this.token.getUser().id;
+    let dealerId = this.token.getUser().account_id;
     if (confirmAlert) {
       this.getData
-        .httpGetRequest('/delete-item-cart/' + dealerId+ '/' + id)
+        .httpGetRequest('/dealer/delete-item-cart/' + dealerId+ '/' + id)
         .then((res: any) => {
           if (res.status) {
             this.toastr.success(res.message);

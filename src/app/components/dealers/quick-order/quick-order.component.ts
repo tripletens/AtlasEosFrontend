@@ -9,7 +9,6 @@ import { TokenStorageService } from 'src/app/core/services/token-storage.service
 
 export interface PeriodicElement {
   qty: any;
-
   atlas_id: any;
   vendor: string;
   description: string;
@@ -34,6 +33,7 @@ export class QuickOrderComponent implements OnInit {
   disabledBtn = true;
   addLoader = false;
   addSuccess = false;
+  orderTotal: any;
   @ViewChild('vendorInput') vendorInput!: ElementRef;
   @ViewChild('qtyInput') qtyInput!: ElementRef;
   @ViewChild('searchid') atlasInput!: ElementRef;
@@ -50,6 +50,7 @@ export class QuickOrderComponent implements OnInit {
     'booking',
     'special',
     'extended',
+    'actions',
   ];
   sortTable: any;
   dataSrc = new MatTableDataSource<PeriodicElement>();
@@ -84,18 +85,7 @@ export class QuickOrderComponent implements OnInit {
   parser(data: any) {
     return JSON.parse(data);
   }
-  getAllVendors() {
-    this.getData
-      .httpGetRequest('/get-all-vendors')
-      .then((result: any) => {
-        console.log(result);
-        if (result.status) {
-          this.allCategoryData = result.data;
-        } else {
-        }
-      })
-      .catch((err) => {});
-  }
+
   fetchProductById() {
     let atlasId = this.searchId;
     this.noData = false;
@@ -135,14 +125,17 @@ export class QuickOrderComponent implements OnInit {
     } else {
     }
   }
-  qtyInputCheck(qty: any,runcalc:boolean) {
+  qtyInputCheck(qty: any, runcalc: boolean) {
     if (qty > 0) {
       this.disabledBtn = false;
-    {runcalc &&  this.runCalc(this.searchResultData, qty, true)};
+      {
+        runcalc && this.runCalc(this.searchResultData, qty, true);
+      }
     } else {
       this.disabledBtn = true;
     }
   }
+
   runCalc(product: any, qty: any, bool: boolean) {
     let price = parseFloat(product?.booking!);
     let posssibleBreak = false;
@@ -150,7 +143,9 @@ export class QuickOrderComponent implements OnInit {
     let total = 0.0;
     let arrHist: any = this.cartHistory;
     let cart = this.orderTable;
-    let inCart = true;
+    let inCart = false;
+    let mutArr = arrHist.concat(cart);
+
     let priceSummary = {
       specItem: false,
       assortItem: false,
@@ -158,26 +153,27 @@ export class QuickOrderComponent implements OnInit {
       specPrice: 0,
     };
     let grp: any;
-    // for (var y = 0; y < arrHist.length; y++) {
-    //   console.log(
-    //     'Product id check',
-    //     arrHist[y]?.id,
-    //     product.id,
-    //     arrHist[y]?.id == product.id
-    //   );
-    //   if (arrHist[y]?.id == product.id) {
-    //     inCart = true;
-    //   } else {
-    //     inCart = false;
-    //   }
-    // }console.log(
-    //   'what is the val of incart',
-    //   inCart,
-    //   arrHist,
-    //   product.id
-    // );
-    if (inCart) {
+    //check if in cart
+    function checkInCartStatus(id: any) {
+      console.log('entered check status', mutArr, mutArr.length > 0);
+
+      if (mutArr.length > 0) {
+        for (let y = 0; y < mutArr.length; y++) {
+          console.log('check cart mut', id, mutArr[y].atlas_id);
+
+          if (mutArr[y]?.atlas_id == id) {
+            inCart = true;
+          }
+        }
+      }
+    }
+    checkInCartStatus(product.atlas_id);
+
+    console.log('incart check', inCart);
+
+    if (!inCart) {
       console.log('grping', grp);
+      //set grouping
       if (product.grouping == null || undefined) {
         grp = '';
         console.log('grping', grp);
@@ -185,6 +181,7 @@ export class QuickOrderComponent implements OnInit {
         grp = product.grouping;
         console.log('grping else', grp);
       }
+      // set product data for order table
       let usedVar = {
         vendor_id: product.vendor,
         atlas_id: product.atlas_id,
@@ -194,7 +191,7 @@ export class QuickOrderComponent implements OnInit {
         product_id: product.id.toString(),
         groupings: grp,
       };
-
+      //set specdata
       if (product.spec_data) {
         specData = JSON.parse(product.spec_data);
         posssibleBreak = true;
@@ -212,7 +209,7 @@ export class QuickOrderComponent implements OnInit {
           }
         }
       }
-      function checkGrouping(arr: any) {}
+
       function replaceOldVal(arr: any) {
         if (arr?.length > 0) {
           for (var j = 0; j < arr?.length; j++) {
@@ -226,46 +223,61 @@ export class QuickOrderComponent implements OnInit {
 
       function calcTotal() {
         if (qty > 0) {
+          // has spec condition
           if (posssibleBreak) {
+            //has special condition
             if (priceSummary.specItem) {
               console.log('step 3');
+              //hit special qty condition
+
               if (qty >= priceSummary.specCond) {
                 total = qty * priceSummary.specPrice;
                 usedVar.unit_price = priceSummary.specPrice.toString();
 
                 console.log('step 3', total);
               } else {
+                // doesnt hit special qty condition
+
                 console.log('second else', total);
                 total = qty * price;
                 console.log('below second else', total);
               }
             }
-            if (priceSummary.assortItem) {
-              console.log('step 3 assort');
-              let mutArr = arrHist.concat(cart);
+            //has assorted condition
+            else if (priceSummary.assortItem) {
+              console.log('mutArrray assort', mutArr);
+              //check if items in cart are in thesame group
+              let groupQty = qty;
               for (var j = 0; j < mutArr?.length; j++) {
-                let Obj: any = mutArr[j]!;
+                let Obj = mutArr[j]!;
                 if (product?.grouping) {
                   if (Obj.grouping == grp) {
-                    qty = qty + Obj.qty;
+                    groupQty = qty + Obj.qty;
                   }
                 }
               }
-              if (qty >= priceSummary.specCond) {
+              //hit assorted qty condition
+              if (groupQty >= priceSummary.specCond) {
                 total = qty * priceSummary.specPrice;
                 usedVar.unit_price = priceSummary.specPrice.toString();
-                console.log('step 3 assort', total);
+                console.log('entered ', total);
               } else {
+                //doesnt hit assorted qty condition
+
                 console.log('second else assort', total);
                 total = qty * price;
                 console.log('below second else assort', total);
               }
             }
           } else {
+            // doesnt have spec condition
+
             console.log('first else', total);
             total = qty * price;
             console.log('below first else', total);
           }
+        } else {
+          replaceOldVal(cart);
         }
         total = parseFloat(total.toFixed(2));
         usedVar.price = total.toString();
@@ -293,9 +305,22 @@ export class QuickOrderComponent implements OnInit {
         this.orderTable
       );
     } else {
-      this.toastr.info(``, 'This item has been added to cart already');
+      this.toastr.info(``, 'This item has been added to cart');
     }
   }
+  getTotal() {
+    let total = 0;
+    if (this.dataSrc.data.length > 0) {
+      for (var i = 0; i < this.dataSrc.data.length; i++) {
+        let Obj: any = this.dataSrc.data[i]!;
+        total = total + parseFloat(Obj.price!);
+      }
+      return (this.orderTotal = total);
+    } else {
+      return (this.orderTotal = 0);
+    }
+  }
+  deleteQuickOrderItem() {}
   fetchQuickOrderCart() {
     this.canOrder = false;
     this.isMod = false;
@@ -336,7 +361,7 @@ export class QuickOrderComponent implements OnInit {
         product_array: JSON.stringify(this.orderTable),
       };
       this.getData
-        .httpPostRequest('/add-item-to-cart', formdata)
+        .httpPostRequest('/quick_order', formdata)
         .then((result: any) => {
           if (result.status) {
             this.addLoader = false;
@@ -390,5 +415,90 @@ export class QuickOrderComponent implements OnInit {
         this.toastr.info(`Something went wrong`, 'Error');
       });
   }
-  submitOrder() {}
+  submitOrder() {
+    this.cartLoader = true;
+    this.orderSuccess = false;
+
+    let uid = this.token.getUser().id.toString();
+    let accntId = this.token.getUser().account_id;
+    this.orderLen = this.orderTable.length;
+    if (this.dataSrc.data.length > 0) {
+      let formdata = {
+        uid: uid,
+        dealer: accntId,
+      };
+      this.getData
+        .httpPostRequest('/move-quick-order', formdata)
+        .then((result: any) => {
+          if (result.status) {
+            this.cartLoader = false;
+            this.orderSuccess = true;
+            this.toastr.success(
+              `${this.orderLen}  item(s) have been added to cart`,
+              'Success'
+            );
+            this.orderTable = [];
+            this.getCart();
+            this.fetchQuickOrderCart();
+          } else {
+            this.cartLoader = false;
+
+            this.toastr.info(`Something went wrong`, 'Error');
+          }
+        })
+        .catch((err) => {
+          this.cartLoader = false;
+          if (err.message.response.dealer || err.message.response.dealer) {
+            this.toastr.info(
+              `Please logout and login again`,
+              'Session Expired'
+            );
+          } else {
+            this.toastr.info(`Something went wrong`, 'Error');
+          }
+        });
+    } else {
+      this.cartLoader = false;
+
+      this.toastr.info(`No item quantity has been set`, 'Error');
+    }
+  }
+  clearCart() {
+    let uid = this.token.getUser().id.toString();
+    if (this.dataSrc.data.length > 0) {
+      this.getData
+        .httpGetRequest('/delete-quick-order-items-user-id/' + uid)
+        .then((result: any) => {
+          if (result.status) {
+            this.toastr.success(
+              `${this.orderLen}  item(s) have been Deleted from cart`,
+              'Success'
+            );
+            this.orderTable = [];
+            this.getCart();
+            this.fetchQuickOrderCart();
+            this.canOrder = false;
+          } else {
+            this.cartLoader = false;
+
+            this.toastr.info(`Something went wrong`, 'Error');
+          }
+        })
+        .catch((err) => {
+          this.cartLoader = false;
+          if (err.message.response.dealer || err.message.response.dealer) {
+            this.toastr.info(
+              `Please logout and login again`,
+              'Session Expired'
+            );
+          } else {
+            this.toastr.info(`Something went wrong`, 'Error');
+          }
+        });
+    } else {
+      this.cartLoader = false;
+
+      this.toastr.info(`No item has been added to quick order cart`, 'Error');
+    }
+  }
 }

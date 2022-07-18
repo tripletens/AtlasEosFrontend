@@ -15,6 +15,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TokenStorageService } from 'src/app/core/services/token-storage.service';
+import { DataSource } from '@angular/cdk/collections';
 
 export interface PeriodicElement {
   atlas_id: any;
@@ -241,6 +242,7 @@ export class ShowOrdersComponent implements OnInit {
         this.toastr.info(`Something went wrong`, 'Error');
       });
   }
+
   runCalc(product: any, qty: any, i: any) {
     let price = parseFloat(product?.booking!);
     let posssibleBreak = false;
@@ -248,7 +250,9 @@ export class ShowOrdersComponent implements OnInit {
     let total = 0.0;
     let arrHist: any = this.cartHistory;
     let cart = this.orderTable;
-    let inCart = true;
+    let inCart = false;
+    let mutArr = arrHist.concat(cart);
+
     let priceSummary = {
       specItem: false,
       assortItem: false,
@@ -256,26 +260,29 @@ export class ShowOrdersComponent implements OnInit {
       specPrice: 0,
     };
     let grp: any;
-    // for (var y = 0; y < arrHist.length; y++) {
-    //   console.log(
-    //     'Product id check',
-    //     arrHist[y]?.id,
-    //     product.id,
-    //     arrHist[y]?.id == product.id
-    //   );
-    //   if (arrHist[y]?.id == product.id) {
-    //     inCart = true;
-    //   } else {
-    //     inCart = false;
-    //   }
-    // }console.log(
-    //   'what is the val of incart',
-    //   inCart,
-    //   arrHist,
-    //   product.id
-    // );
-    if (inCart) {
+    let groupProd: any = [];
+    let grpProdAval = false;
+    //check if in cart
+    function checkInCartStatus(id: any) {
+      console.log('entered check status', arrHist, arrHist.length > 0);
+
+      if (arrHist.length > 0) {
+        for (let y = 0; y < arrHist.length; y++) {
+          console.log('check cart mut', id, arrHist[y].atlas_id);
+
+          if (arrHist[y]?.atlas_id == id) {
+            inCart = true;
+          }
+        }
+      }
+    }
+    checkInCartStatus(product.atlas_id);
+
+    console.log('incart check', inCart);
+
+    if (!inCart) {
       console.log('grping', grp);
+      //set grouping
       if (product.grouping == null || undefined) {
         grp = '';
         console.log('grping', grp);
@@ -283,16 +290,19 @@ export class ShowOrdersComponent implements OnInit {
         grp = product.grouping;
         console.log('grping else', grp);
       }
+      // set product data for order table
+
       let usedVar = {
         vendor_id: product.vendor,
         atlas_id: product.atlas_id,
+        loc: i,
         qty: qty,
         price: '0',
         unit_price: price.toString(),
         product_id: product.id.toString(),
         groupings: grp,
       };
-
+      //set specdata
       if (product.spec_data) {
         specData = JSON.parse(product.spec_data);
         posssibleBreak = true;
@@ -310,59 +320,122 @@ export class ShowOrdersComponent implements OnInit {
           }
         }
       }
-      function checkGrouping(arr: any) {}
+
       function replaceOldVal(arr: any) {
         if (arr?.length > 0) {
           for (var j = 0; j < arr?.length; j++) {
             let Obj: any = arr[j]!;
             if (Obj?.atlas_id == product.atlas_id) {
-              arr.splice(j, 1);
+              console.log('new array', arr);
+              arr = arr.splice(j, 1);
             }
           }
         }
+        return arr;
       }
 
       function calcTotal() {
         if (qty > 0) {
+          // has spec condition
           if (posssibleBreak) {
+            //has special condition
             if (priceSummary.specItem) {
               console.log('step 3');
+              //hit special qty condition
+
               if (qty >= priceSummary.specCond) {
                 total = qty * priceSummary.specPrice;
                 usedVar.unit_price = priceSummary.specPrice.toString();
 
                 console.log('step 3', total);
               } else {
+                // doesnt hit special qty condition
+
                 console.log('second else', total);
                 total = qty * price;
                 console.log('below second else', total);
               }
             }
-            if (priceSummary.assortItem) {
-              console.log('step 3 assort');
-              let mutArr = arrHist.concat(cart);
-              for (var j = 0; j < mutArr?.length; j++) {
-                let Obj: any = mutArr[j]!;
+            //has assorted condition
+            else if (priceSummary.assortItem) {
+              let mutArray: any = cart;
+              console.log('mutArrray assort', mutArray, arrHist, cart);
+              //check if items in cart are in thesame group
+              let groupQty = qty;
+              for (var j = 0; j < mutArray?.length; j++) {
+                let Obj = mutArray[j]!;
                 if (product?.grouping) {
-                  if (Obj.grouping == grp) {
-                    qty = qty + Obj.qty;
+                  console.log(
+                    'hit grouping',
+                    product?.grouping,
+                    Obj?.groupings,
+                    Obj
+                  );
+                  if (Obj?.groupings == grp) {
+                    groupQty = qty + Obj.qty;
+                    console.log('finding group', groupQty + Obj.qty, Obj.qty);
+                    groupProd.push(Obj.atlas_id);
                   }
                 }
               }
-              if (qty >= priceSummary.specCond) {
+              console.log(
+                'compaer group with spec',
+                groupQty,
+                qty,
+                priceSummary.specCond
+              );
+
+              //hit assorted qty condition
+              if (groupQty >= priceSummary.specCond) {
+                grpProdAval = true;
                 total = qty * priceSummary.specPrice;
                 usedVar.unit_price = priceSummary.specPrice.toString();
-                console.log('step 3 assort', total);
+                console.log('entered ', total);
+                //resolve for others
               } else {
+                //doesnt hit assorted qty condition
+
                 console.log('second else assort', total);
                 total = qty * price;
                 console.log('below second else assort', total);
               }
             }
           } else {
+            // doesnt have spec condition
+
             console.log('first else', total);
             total = qty * price;
             console.log('below first else', total);
+          }
+        } else if (qty == 0) {
+          if (cart?.length > 0) {
+            for (var j = 0; j < cart?.length; j++) {
+              let Obj: any = cart[j]!;
+              if (Obj?.atlas_id == product.atlas_id) {
+                console.log('new cartay', cart);
+                cart = cart.splice(j, 1);
+              }
+            }
+          }
+        } else if (qty == '') {
+          if (cart?.length > 0) {
+            for (var j = 0; j < cart?.length; j++) {
+              let Obj: any = cart[j]!;
+              if (Obj?.atlas_id == product.atlas_id) {
+                console.log('new cartay', cart);
+                cart = cart.splice(j, 1);
+              }
+            }
+          }
+        } else if (qty == '0') {
+          if (cart?.length > 0) {
+            for (var j = 0; j < cart?.length; j++) {
+              let Obj: any = cart[j]!;
+              if (Obj?.atlas_id == product.atlas_id) {
+                console.log('new cartay', cart);
+                cart = cart.splice(j, 1);
+              }
+            }
           }
         }
         total = parseFloat(total.toFixed(2));
@@ -370,8 +443,19 @@ export class ShowOrdersComponent implements OnInit {
       }
 
       calcTotal();
-
-      replaceOldVal(this.orderTable);
+      if (grpProdAval) {
+        console.log('group', groupProd[0], groupProd);
+        let val = groupProd[0];
+        for (let i = 0; i < this.orderTable.length; i++) {
+          let obj: any = this.orderTable[i];
+          if (obj.atlas_id == val) {
+            obj.price = priceSummary.specPrice * obj.qty;
+            this.dataSrc.data[obj.loc].extended =
+              priceSummary.specPrice * obj.qty;
+          }
+        }
+      }
+      this.orderTable = replaceOldVal(this.orderTable);
       console.log('userobj', usedVar, 'table', this.orderTable);
       this.orderTable.push(usedVar);
       this.getTotal();
@@ -409,6 +493,10 @@ export class ShowOrdersComponent implements OnInit {
     let accntId = this.token.getUser().account_id;
     this.orderLen = this.orderTable.length;
     if (this.orderTable.length > 0) {
+      for (let i = 0; i < this.orderTable.length; i++){
+        let pbj: any = this.orderTable[i];
+        delete pbj?.loc;
+      }
       let formdata = {
         uid: uid,
         dealer: accntId,
@@ -426,7 +514,7 @@ export class ShowOrdersComponent implements OnInit {
             );
             this.orderTable = [];
             this.getTotal();
-
+            this.getCart();
             if (this.searchatlasId) {
               this.searchVendorId(this.vendorId!);
             } else {
