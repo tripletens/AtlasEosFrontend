@@ -109,18 +109,22 @@
                   <tbody>
                     <tr>
                       <td>
-                        <span class="tbody-text-timer">{{timeDays}}  Day(s)</span>
+                        <span class="tbody-text-timer" id="days">0 days</span>
                       </td>
                       <td>
-                        <span class="tbody-text-timer">
-                         {{timeHours}} Hours
+                        <span class="tbody-text-timer" id="hours">
+                          00 hours
                         </span>
                       </td>
                       <td>
-                        <span class="tbody-text-timer">{{timeMinutes}} Minute(s)</span>
+                        <span class="tbody-text-timer" id="minutes">
+                          00 minutes
+                        </span>
                       </td>
                       <td>
-                        <span class="tbody-text-timer">{{timeSeconds}} Second(s)</span>
+                        <span class="tbody-text-timer" id="seconds">
+                          00 seconds
+                        </span>
                       </td>
                     </tr>
                   </tbody>
@@ -141,15 +145,15 @@
             <option selected value="1">Select Vendor</option>
             <option
               class="category-text"
-              value="{{ category.id }}"
-              *ngFor="let category of allCategoryData"
+              value="{{ category?.id! }}"
+              *ngFor="let category of allCategoryData!"
             >
               {{ category.vendor_name }}
             </option>
           </select>
             <iframe 
-              title="{{promotionalAds.description!}}"
-              [src]="promotionalAds.pdf_url | safe: 'resourceUrl'"
+              title="{{promotionalAds?.description!}}"
+              [src]="promotionalAds?.pdf_url! | safe: 'resourceUrl'"
               width="100%"
               height="500px"
               style="background-color: #525659; border: none"
