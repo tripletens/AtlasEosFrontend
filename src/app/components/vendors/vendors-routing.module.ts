@@ -12,6 +12,7 @@ import { SpecialOrdersComponent } from './special-orders/special-orders.componen
 import { SwitchDealerComponent } from './switch-dealer/switch-dealer.component'
 import { VendorOrderComponent } from './vendor-order/vendor-order.component'
 import { VendorsComponent } from './vendors.component'
+import { ViewDealerSummaryComponent } from './view-dealer-summary/view-dealer-summary.component'
 import { ViewReportTicketComponent } from './view-report-ticket/view-report-ticket.component'
 
 const routes: Routes = [
@@ -72,6 +73,10 @@ const routes: Routes = [
       {
         path: 'dealer-switch',
         component: SwitchDealerComponent,
+      },
+      {
+        path: 'view-dealer-summary/:user/:dealer/:vendor',
+        component: ViewDealerSummaryComponent,
       },
     ],
   },

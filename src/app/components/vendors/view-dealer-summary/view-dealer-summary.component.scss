@@ -153,6 +153,18 @@
   padding-left: 10px;
 }
 
+.table-wrapper2 {
+  thead {
+    background-color: #1d7471;
+  }
+
+  thead th {
+    color: #ffffff !important;
+    padding: 10px;
+    border-radius: 5px;
+  }
+}
+
 .select-wrapper {
   width: 300px;
 
@@ -184,32 +196,19 @@
   gap: 10px;
 }
 
-.table-wrapper2 {
+.summary-table {
   thead {
-    background-color: #1d7471;
-    font-weight: 800;
-  }
+    .top-table {
+      td {
+        font-weight: 600;
+        color: #ffffff;
+        padding: 0px !important;
+      }
+    }
 
-  thead th {
-    color: #ffffff !important;
-    padding: 10px;
-  }
-}
-
-.total-col {
-  text-align: right;
-}
-
-.total-name {
-  font-weight: 800;
-  color: red;
-  font-size: 14px;
-}
-
-.purchaser-table {
-  thead {
     tr {
       background-color: #06504d;
+
       th {
         font-weight: 600;
         text-align: center;
@@ -218,6 +217,14 @@
   }
 
   tbody {
+    .last-col {
+      td {
+        font-size: 15px;
+        color: red;
+        font-weight: 600;
+      }
+    }
+
     tr {
       .shift-center {
         text-align: center;
@@ -228,4 +235,55 @@
       }
     }
   }
+}
+
+.grand-section {
+  display: flex;
+  width: 100%;
+  border: 1px solid #dee2e6;
+  background-color: rgba(0, 0, 0, 0.05);
+  margin-top: 20px;
+  div {
+    h6 {
+      font-weight: 600;
+      font-size: 15px;
+      padding: 10px;
+    }
+  }
+  div:nth-child(1) {
+    width: 80%;
+    text-align: right;
+    padding-right: 20px;
+    border-right: 1px solid #dee2e6;
+  }
+
+  div:nth-child(2) {
+    width: 20%;
+    text-align: right;
+    padding-right: 20px;
+  }
+}
+
+.vendor-note-text {
+  width: 100%;
+  height: 250px;
+  resize: none;
+  font-size: 14px;
+}
+
+.btn-section {
+  text-align: center;
+  margin-top: 20px;
+  button {
+    border: 0px;
+    border-radius: 4px;
+    padding: 4px 15px;
+    color: #ffffff;
+    background-color: #06504d;
+    font-size: 13px;
+  }
+}
+
+#exampleModalLabel {
+  font-size: 15px;
 }
