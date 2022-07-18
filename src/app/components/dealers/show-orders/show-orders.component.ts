@@ -469,16 +469,18 @@ export class ShowOrdersComponent implements OnInit {
             }
           }
         }
-        console.log('group else', groupProd[0], groupProd);
-        let val = groupProd[1];
-        for (let i = 0; i < this.orderTable.length; i++) {
-          let obj: any = this.orderTable[i];
-          if (obj.atlas_id == val) {
-            obj.price = obj.booking * obj.qty;
-            this.dataSrc.data[obj.loc].extended =
-               obj.booking * obj.qty;
+        console.log('group else', groupProd[1], groupProd);
+        let val;
+        if (groupProd[1] == '998-2') {
+          val ='998-3'
+        }else if (groupProd[1] == '998-3'){ val = '998-2';}
+          for (let i = 0; i < this.orderTable.length; i++) {
+            let obj: any = this.orderTable[i];
+            if (obj.atlas_id == val) {
+              obj.price = obj.booking * obj.qty;
+              this.dataSrc.data[obj.loc].extended = obj.booking * obj.qty;
+            }
           }
-        }
       }
       this.orderTable = replaceOldVal(this.orderTable);
       console.log('userobj', usedVar, 'table', this.orderTable);
