@@ -320,7 +320,41 @@ export class QuickOrderComponent implements OnInit {
       return (this.orderTotal = 0);
     }
   }
-  deleteQuickOrderItem() {}
+  deleteQuickOrderItem(id:any) {let uid = this.token.getUser().id.toString();
+
+  if (this.dataSrc.data.length > 0) {
+    this.orderLen = this.dataSrc.data.length;
+    this.getData
+      .httpGetRequest('delete-quick-order-items-atlas-id/' + uid + '/'+ id)
+      .then((result: any) => {
+        if (result.status) {
+          this.toastr.success(
+            `  Quick order items have been moved to cart`,
+            'Success'
+          );
+          this.orderTable = [];
+          this.getCart();
+          this.fetchQuickOrderCart();
+          this.canOrder = false;
+        } else {
+          this.cartLoader = false;
+
+          this.toastr.info(`Something went wrong`, 'Error');
+        }
+      })
+      .catch((err) => {
+        this.cartLoader = false;
+        if (err.message.response.dealer || err.message.response.dealer) {
+          this.toastr.info(`Please logout and login again`, 'Session Expired');
+        } else {
+          this.toastr.info(`Something went wrong`, 'Error');
+        }
+      });
+  } else {
+    this.cartLoader = false;
+
+    this.toastr.info(`No item has been added to quick order cart`, 'Error');
+  }}
   fetchQuickOrderCart() {
     this.canOrder = false;
     this.isMod = false;
@@ -465,7 +499,9 @@ export class QuickOrderComponent implements OnInit {
   }
   clearCart() {
     let uid = this.token.getUser().id.toString();
+
     if (this.dataSrc.data.length > 0) {
+      this.orderLen = this.dataSrc.data.length; 
       this.getData
         .httpGetRequest('/delete-quick-order-items-user-id/' + uid)
         .then((result: any) => {

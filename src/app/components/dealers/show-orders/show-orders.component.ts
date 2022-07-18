@@ -298,6 +298,7 @@ export class ShowOrdersComponent implements OnInit {
         loc: i,
         qty: qty,
         price: '0',
+        reg: product.booking,
         unit_price: price.toString(),
         product_id: product.id.toString(),
         groupings: grp,
@@ -443,6 +444,7 @@ export class ShowOrdersComponent implements OnInit {
       }
 
       calcTotal();
+      //issue dey here
       if (grpProdAval) {
         console.log('group', groupProd[0], groupProd);
         let val = groupProd[0];
@@ -452,6 +454,29 @@ export class ShowOrdersComponent implements OnInit {
             obj.price = priceSummary.specPrice * obj.qty;
             this.dataSrc.data[obj.loc].extended =
               priceSummary.specPrice * obj.qty;
+          }
+        }
+      }
+      else {
+        for (var j = 0; j < cart?.length; j++) {
+          let Obj:any = cart[j]!;
+          if (product?.grouping) {
+            console.log('hit grouping', product?.grouping, Obj?.groupings, Obj);
+            if (Obj?.groupings == grp) {
+            
+              console.log('finding group', Obj.qty);
+              groupProd.push(Obj.atlas_id);
+            }
+          }
+        }
+        console.log('group else', groupProd[0], groupProd);
+        let val = groupProd[1];
+        for (let i = 0; i < this.orderTable.length; i++) {
+          let obj: any = this.orderTable[i];
+          if (obj.atlas_id == val) {
+            obj.price = obj.booking * obj.qty;
+            this.dataSrc.data[obj.loc].extended =
+               obj.booking * obj.qty;
           }
         }
       }
