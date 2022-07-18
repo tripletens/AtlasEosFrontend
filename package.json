@@ -5,13 +5,14 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod && mv dist/atlas-eos _static",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "~13.3.0",
-    "@angular/cdk": "^13.3.9",
+    "@angular/cdk": "^11.2.12",
     "@angular/common": "~13.3.0",
     "@angular/compiler": "~13.3.0",
     "@angular/core": "~13.3.0",
