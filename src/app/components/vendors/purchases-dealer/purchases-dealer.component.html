@@ -137,7 +137,7 @@
 
                   <table
                     *ngIf="tableView"
-                    class="table table-striped table-bordered text-nowrap table-wrapper2 align-items-center mb-0"
+                    class="table table-striped table-bordered text-nowrap table-wrapper2 mb-0 purchaser-table"
                   >
                     <thead>
                       <tr>
@@ -154,14 +154,20 @@
                         <td colspan="5">{{ selectedVendorName }}</td>
                       </tr>
                       <tr *ngFor="let data of incomingData; let i = index">
-                        <td>{{ i + 1 }}</td>
-                        <td>
+                        <td class="shift-center">{{ i + 1 }}</td>
+                        <td class="shift-center">
                           {{ data.account_id }}
                         </td>
-                        <td>
-                          {{ data.dealer_name }}
+                        <td class="shift-center">
+                          <a
+                            routerLink="/vendors/view-dealer-summary/{{
+                              data.user
+                            }}/{{ data.account_id }}/{{ data.vendor_code }}"
+                          >
+                            {{ data.dealer_name }}
+                          </a>
                         </td>
-                        <td>
+                        <td class="">
                           {{ data.purchaser_name }}
                         </td>
                         <td class="total-col">
