@@ -149,7 +149,7 @@
                 <th mat-header-cell *matHeaderCellDef>Extended ($)</th>
 
                 <td mat-cell *matCellDef="let element" class="text-center">
-                <span class="desc-text">{{ element.extended }}</span>
+                <span class="desc-text">{{ element.extended | currency}}</span>
                 </td>
               </ng-container>
 
@@ -158,11 +158,11 @@
                 mat-row
                 *matRowDef="let row; columns: displayedColumns; index as i"
                 [class.highlighted]="i == 0 && isMod"
-              ></tr>
-            </table>
-            <tr>
-              <td colspan="10" class="p-4" style=" background: rgb(223, 222, 222) !important;"></td>
+              ></tr><tr>
+              <td colspan="10" class="p-4" style="padding:5px; background: rgb(223, 222, 222) !important;"></td>
             </tr>
+            </table>
+            
             <div class="d-flex justify-content-end">
               
                 <span class="desc-text">Total: {{orderTotal | currency}}</span>
