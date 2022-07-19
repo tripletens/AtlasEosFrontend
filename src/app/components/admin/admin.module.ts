@@ -45,7 +45,8 @@ import { AllPromotionalFlyerComponent } from './all-promotional-flyer/all-promot
 import { EditSeminarComponent } from './edit-seminar/edit-seminar.component';
 import { EditPromotionalFlierComponent } from './edit-promotional-flier/edit-promotional-flier.component';
 import { AtlasNotesComponent } from './atlas-notes/atlas-notes.component';
-import { VendorNotesComponent } from './vendor-notes/vendor-notes.component'
+import { VendorNotesComponent } from './vendor-notes/vendor-notes.component';
+import { PriceOverrideReportComponent } from './price-override-report/price-override-report.component'
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { VendorNotesComponent } from './vendor-notes/vendor-notes.component'
     EditPromotionalFlierComponent,
     AtlasNotesComponent,
     VendorNotesComponent,
+    PriceOverrideReportComponent,
   ],
   imports: [
     CommonModule,

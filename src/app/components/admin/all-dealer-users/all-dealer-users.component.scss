@@ -65,11 +65,15 @@
 .table-data-section {
   ::ng-deep {
     .account-section {
-      width: 15%;
+      width: 8%;
     }
 
     .dealername-section {
       width: 15%;
+    }
+
+    .account-number-td {
+      text-align: center;
     }
 
     .fullname-section {
@@ -85,7 +89,7 @@
     }
 
     .orderstatus-section {
-      width: 15%;
+      width: 10%;
     }
 
     .created-section {
@@ -94,6 +98,14 @@
 
     .action-section {
       width: 30%;
+    }
+
+    .lastlogin-section {
+      width: 10%;
+    }
+
+    .btn-section-td {
+      text-align: center;
     }
 
     table thead {

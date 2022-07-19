@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
+import { ToastrService } from 'ngx-toastr'
+import { TokenStorageService } from 'src/app/core/services/token-storage.service'
 
 @Component({
   selector: 'app-price-override',
@@ -16,10 +18,44 @@ export class PriceOverrideComponent implements OnInit {
   newPrice = ''
   noOrderFound = false
   dataInbound = false
+  btnLoader = false
+  userData: any
 
-  constructor(private httpService: HttpRequestsService) {}
+  constructor(
+    private httpService: HttpRequestsService,
+    private toastr: ToastrService,
+    private tokenStore: TokenStorageService,
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.userData = this.tokenStore.getUser()
+  }
+
+  savePriceOverride() {
+    let data = {
+      dealerCode: this.dealerCode,
+      atlasCode: this.atlasCode,
+      newQty: this.newQty,
+      newPrice: this.newPrice,
+      authorizer: this.userData.id,
+    }
+
+    this.btnLoader = true
+    this.httpService
+      .httpPostRequest('/admin/save-price-override', data)
+      .then((result: any) => {
+        this.btnLoader = false
+
+        if (result.status) {
+          this.toastr.success(result.message, 'Success')
+        } else {
+          this.toastr.error(result.message, 'Try again')
+        }
+      })
+      .catch((err) => {
+        this.toastr.error('Try again', 'Something went wrong')
+      })
+  }
 
   getDealerCart() {
     if (this.atlasCode != '' && this.dealerCode != '') {
