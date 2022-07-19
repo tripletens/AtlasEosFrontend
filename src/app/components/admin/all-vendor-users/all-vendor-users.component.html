@@ -204,7 +204,11 @@
                       >
                         Action
                       </th>
-                      <td mat-cell *matCellDef="let element">
+                      <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="btn-section-td"
+                      >
                         <button
                           class="edit-btn"
                           routerLink="/admin/edit-vendor-user/{{ element.id }}"

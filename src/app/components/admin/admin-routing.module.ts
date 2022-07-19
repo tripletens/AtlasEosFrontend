@@ -28,6 +28,7 @@ import { EditSeminarComponent } from './edit-seminar/edit-seminar.component'
 import { EditVendorUserComponent } from './edit-vendor-user/edit-vendor-user.component'
 import { FaqComponent } from './faq/faq.component'
 import { MyMessagesComponent } from './my-messages/my-messages.component'
+import { PriceOverrideReportComponent } from './price-override-report/price-override-report.component'
 import { PriceOverrideComponent } from './price-override/price-override.component'
 import { ResolveProblemComponent } from './resolve-problem/resolve-problem.component'
 import { RespondReportComponent } from './respond-report/respond-report.component'
@@ -183,6 +184,10 @@ const routes: Routes = [
       {
         path: 'vendor-note',
         component: VendorNotesComponent,
+      },
+      {
+        path: 'price-overide-report',
+        component: PriceOverrideReportComponent,
       },
     ],
     canActivate: [AuthGuardGuard],

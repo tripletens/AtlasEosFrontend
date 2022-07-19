@@ -64,32 +64,44 @@
 
 .table-data-section {
   ::ng-deep {
-    .full-name-section {
-      width: 15%;
-    }
-
-    .email-section {
-      width: 15%;
-    }
-
-    .password-section {
-      width: 15%;
-    }
-
-    .company-section {
-      width: 15%;
-    }
-
-    .status-section {
+    .customer-section {
       width: 5%;
     }
 
-    .created-section {
-      width: 20%;
+    .vendor-name-section {
+      width: 15%;
     }
 
-    .action-section {
-      width: 20%;
+    .atlas-section {
+      width: 10%;
+    }
+
+    .vendor-pro-section {
+      width: 10%;
+    }
+
+    .qty-section {
+      width: 10%;
+    }
+
+    .new-qty-section {
+      width: 10%;
+    }
+
+    .regular-section {
+      width: 10%;
+    }
+
+    .show-section {
+      width: 10%;
+    }
+
+    .overide-section {
+      width: 10%;
+    }
+
+    .authorized-section {
+      width: 15%;
     }
 
     .btn-section-td {
