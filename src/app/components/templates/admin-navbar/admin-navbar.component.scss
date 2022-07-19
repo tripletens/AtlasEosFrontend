@@ -186,7 +186,7 @@
 }
 
 #nav-collapse {
-  position: absolute;
+  position: fixed;
   background-color: #ffffff;
   width: 100%;
   padding-top: 5px;
@@ -194,7 +194,9 @@
   padding-left: 10px;
   padding-right: 10px;
   border-top: 1px solid cyan;
-  transition: 0.3s linear;
+
+  transition: 0.1s linear;
+  z-index: 999;
 
   p {
     margin-bottom: 0px;

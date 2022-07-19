@@ -29,7 +29,7 @@ export class AllVendorsComponent implements OnInit {
     'vendor_id',
     'vendor_name',
     'status',
-    'created_at',
+    // 'created_at',
     'action',
   ]
 
@@ -184,18 +184,15 @@ export class AllVendorsComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value
-    this.incomingData.vendor_name = filterValue.trim().toLowerCase()
-
+    this.incomingData.vendor_code = filterValue.trim().toLowerCase()
     this.dataSource = this.filterArray('*' + filterValue)
-
-    //console.log(res)
   }
 
   filterArray(expression: string) {
     var regex = this.convertWildcardStringToRegExp(expression)
     //console.log('RegExp: ' + regex);
     return this.incomingData.filter(function (item: any) {
-      return regex.test(item.vendor_name)
+      return regex.test(item.vendor_code)
     })
   }
 

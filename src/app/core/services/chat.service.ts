@@ -8,16 +8,18 @@ import { ToastrService } from 'ngx-toastr'
   providedIn: 'root',
 })
 export class ChatService {
-  // private url = 'http://localhost:3000'
+  ///private url = 'http://localhost:3000'
   private url = 'https://atlas-chat-server.glitch.me'
   /// private url = 'https://gainful-ten-utahraptor.glitch.me'
   private socket: any
+  userData: any
 
   constructor(
     private tokenStorage: TokenStorageService,
     private toaster: ToastrService,
   ) {
     this.connectToSocketIo()
+    this.userData = this.tokenStorage.getUser()
   }
 
   connectToSocketIo() {
@@ -33,10 +35,18 @@ export class ChatService {
     this.socket.emit('connected', user)
   }
 
+  sendTypingNotify(data: any) {
+    this.socket.emit('typing-msg', {
+      user: data.user,
+    })
+  }
+
   sendMsgEvent(data: any) {
     this.socket.emit('send-msg', {
       user: data.user,
       msg: data.msg,
+      sender: data.sender,
+      time_ago: data.time_ago,
     })
   }
 
@@ -68,10 +78,17 @@ export class ChatService {
     })
   }
 
+  getTyping = () => {
+    return Observable.create((observer: any) => {
+      this.socket.on('typing', (message: any) => {
+        observer.next(message)
+      })
+    })
+  }
+
   getMessages = () => {
     return Observable.create((observer: any) => {
       this.socket.on('msgRec', (message: any) => {
-        console.log(message)
         observer.next(message)
       })
     })

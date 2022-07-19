@@ -38,7 +38,7 @@ export class AllDealerUsersComponent implements OnInit {
     'full_name',
     'email',
     'password',
-    'status',
+    // 'status',
     'last_login',
     'order_status',
     // 'created_date',

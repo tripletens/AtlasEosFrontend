@@ -64,8 +64,6 @@ export class EditFaqComponent implements OnInit {
 
       this.faqForm.value.id = this.faqId
 
-      console.log(this.faqForm.value)
-
       this.btnText = false
       this.btnLoader = true
       this.postData

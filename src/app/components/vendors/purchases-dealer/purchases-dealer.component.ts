@@ -15,8 +15,8 @@ export class PurchasesDealerComponent implements OnInit {
   loader = false
   userData: any
   privilegedVendors: any
-  selectedVendorName!: string
-  selectedVendorCode!: string
+  selectedVendorName = ''
+  selectedVendorCode = ''
   vendorProductData: any
   incomingData: any
   sn = 0
@@ -36,7 +36,7 @@ export class PurchasesDealerComponent implements OnInit {
   ngOnInit(): void {}
 
   getVendorPurchasers() {
-    if (this.selectedVendorCode) {
+    if (this.selectedVendorCode != '') {
       this.selectedState = true
 
       this.tableView = false
@@ -63,6 +63,8 @@ export class PurchasesDealerComponent implements OnInit {
           }
         })
         .catch((err) => {})
+    } else {
+      console.log('tesrtss')
     }
   }
 
@@ -83,6 +85,7 @@ export class PurchasesDealerComponent implements OnInit {
         console.log(result)
         if (result.status) {
           this.privilegedVendors = result.data
+          console.log(result.data)
         } else {
         }
       })

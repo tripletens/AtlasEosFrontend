@@ -1,6 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { TokenStorageService } from 'src/app/core/services/token-storage.service';
+import { TokenStorageService } from 'src/app/core/services/token-storage.service'
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
+import { Router } from '@angular/router'
+import { HttpRequestsService } from 'src/app/core/services/http-requests.service'
 
 @Component({
   selector: 'app-dealer-navbar',
@@ -8,47 +9,84 @@ import { TokenStorageService } from 'src/app/core/services/token-storage.service
   styleUrls: ['./dealer-navbar.component.scss'],
 })
 export class DealerNavbarComponent implements OnInit {
-  @ViewChild('overlay') overlay!: ElementRef;
-  toggle = true;
-  search = '';
-  firstName!: string;
-  lastName!: string;
-  acct!: string;
+  @ViewChild('overlay') overlay!: ElementRef
+  toggle = true
+  search = ''
+  firstName!: string
+  lastName!: string
+  acct!: string
 
-  location!: string;
-  constructor(
-    private router: Router,
-    private tokenStorage: TokenStorageService
-  ) {}
+  location!: string
+
+  dealerToVendorSwitch = false
 
   ngOnInit(): void {
-    this.getData();
+    this.getData()
+    this.dealerData = this.tokenStorage.getUser()
+    this.getUnreadMsg()
+
+    setInterval(() => {
+      this.getUnreadMsg()
+    }, 10000)
+  }
+
+  unreadMsgCount = 0
+  dealerData: any
+  constructor(
+    private router: Router,
+    private tokenStorage: TokenStorageService,
+    private getHttpData: HttpRequestsService,
+  ) {
+    if (this.tokenStorage.checkSwitch()) {
+      if (this.tokenStorage.getSwitchType() == 'vendor-to-dealer') {
+        this.dealerToVendorSwitch = true
+      } else {
+        this.dealerToVendorSwitch = false
+      }
+    }
+  }
+
+  switchToVendor() {
+    this.tokenStorage.switchFromDealerToVendor()
+    this.router.navigate(['/vendors/dealer-switch'])
+  }
+
+  getUnreadMsg() {
+    this.getHttpData
+      .httpGetRequest('/chat/count-unread-msg/' + this.dealerData.id)
+      .then((result: any) => {
+        if (result.status) {
+          this.unreadMsgCount = result.data
+        }
+      })
+      .catch((err) => {})
   }
   closeOverLay() {
-    const query = window.matchMedia('(max-width: 700px)');
+    const query = window.matchMedia('(max-width: 700px)')
     if (query.matches) {
-      this.overlay.nativeElement.click();
+      this.overlay.nativeElement.click()
     }
   }
   toggleSideNav() {
-    this.toggle = !this.toggle;
+    this.toggle = !this.toggle
   }
   logout() {
     // this.tokenStorage.signOut();
-    return this.router.navigate(['/']);
+    return this.router.navigate(['/'])
   }
+
   getData() {
-    let data = this.tokenStorage.getUser();
+    let data = this.tokenStorage.getUser()
     // console.log(data);
-    this.firstName = data.first_name;
-    this.lastName = data.last_name;
-    this.acct = data.id;
-    this.location = data.location;
+    this.firstName = data.first_name
+    this.lastName = data.last_name
+    this.acct = data.id
+    this.location = data.location
   }
   searchData() {
-    console.log('hehheh');
+    console.log('hehheh')
     if (this.search != '') {
-      this.router.navigate(['dealers/search/' + this.search]);
+      this.router.navigate(['dealers/search/' + this.search])
     }
   }
 }

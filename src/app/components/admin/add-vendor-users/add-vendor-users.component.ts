@@ -84,11 +84,8 @@ export class AddVendorUsersComponent implements OnInit {
   }
 
   downloadVendorTemplate() {
-    $('#vendor-template').table2excel({
-      exclude: '.noExl',
-      name: 'vendor-template',
+    $('#vendor-template').table2csv({
       filename: 'vendor-template',
-      fileext: '.xlsx',
     })
   }
 

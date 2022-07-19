@@ -205,3 +205,27 @@
   color: red;
   font-size: 14px;
 }
+
+.purchaser-table {
+  thead {
+    tr {
+      background-color: #06504d;
+      th {
+        font-weight: 600;
+        text-align: center;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      .shift-center {
+        text-align: center;
+      }
+
+      a {
+        color: #4a0013;
+      }
+    }
+  }
+}

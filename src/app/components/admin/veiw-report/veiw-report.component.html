@@ -28,62 +28,122 @@
               <div class="card-body">
                 <h6 class="reported-text">Ticket replied by Admin</h6>
 
-                <div class="reported-issues-wrapper">
-                  <div class="report-item">
-                    <h5 class="reporter-name">Created By: Achawayne</h5>
-                    <h5 class="report-title">
-                      Creating the resolve Problem page
-                    </h5>
-                    <p>
-                      we are working hard to ensure that this project is a
-                      success
-                    </p>
+                <div class="report-item" *ngIf="reportLoader">
+                  <div class="ph-item">
+                    <div class="ph-col-12">
+                      <div class="ph-row">
+                        <div class="ph-col-4 mb-3"></div>
+                        <div class="ph-col-8 empty"></div>
+                        <div class="ph-col-8"></div>
+                        <div class="ph-col-4 empty"></div>
 
-                    <div class="d-flex justify-content-between">
-                      <div class="timer-section">
-                        <span class="fa fas fa-user icon"></span>
-                        <span>Don tunechi</span>
+                        <div class="ph-col-4"></div>
+                        <div class="ph-col-8 empty"></div>
 
-                        <span class="fa fas fa-clock icon"></span>
-                        <span>Created: March 8, 2022, 4:54 pm</span>
+                        <div class="ph-col-4"></div>
                       </div>
                     </div>
                   </div>
+                </div>
 
+                <div class="reported-issues-wrapper" *ngIf="currentStatus">
                   <div class="report-item">
+                    <h5 class="reporter-name">
+                      Created By: {{ currentReportData.first_name }}
+                      {{ currentReportData.last_name }}
+                    </h5>
+                    <h5 class="report-title">
+                      {{ currentReportData.subject }}
+                    </h5>
                     <p>
-                      we are working hard to ensure that this project is a
-                      success
+                      {{ currentReportData.description }}
                     </p>
 
                     <div class="d-flex justify-content-between">
                       <div class="timer-section">
                         <span class="fa fas fa-user icon"></span>
-                        <span>Atlas</span>
+                        <span>{{ currentReportData.first_name }}</span>
 
-                        <span class="fa fas fa-clock icon"></span>
-                        <span>Created: March 8, 2022, 4:54 pm</span>
+                        <span class="fa fa fa-clock-o icon"></span>
+                        <span>
+                          Created:
+                          {{ currentReportData.created_at | date: 'medium' }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="reported-issues-wrapper" *ngIf="currentReply">
+                  <div class="report-item" *ngFor="let data of reportReplyData">
+                    <p>
+                      {{ data.msg }}
+                    </p>
+
+                    <div class="d-flex justify-content-between">
+                      <div class="timer-section">
+                        <span class="fa fas fa-user icon"></span>
+
+                        <span *ngIf="data.role == 1">Atlas</span>
+                        <span *ngIf="data.role != 1">
+                          {{ data.first_name }}
+                        </span>
+
+                        <span class="fa fa fa-clock-o icon"></span>
+
+                        <span>
+                          Created: {{ data.created_at | date: 'medium' }}
+                        </span>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 <div class="reply-text-wrapper">
-                  <textarea
-                    class="reply-text"
-                    name=""
-                    placeholder="Enter reply text"
-                    id=""
-                  ></textarea>
+                  <form [formGroup]="ReplyReportForm">
+                    <textarea
+                      class="reply-text"
+                      name=""
+                      placeholder="Enter reply text"
+                      id=""
+                      formControlName="replyMsg"
+                    ></textarea>
 
-                  <div class="d-flex justify-content-end reply-btn-wrapper">
-                    <div>
-                      <button>
-                        <span class="fa fas fa-paper-plane"></span>
-                        Send
-                      </button>
+                    <div
+                      class="input-alert-box"
+                      *ngIf="
+                        replyProblemFormControls.replyMsg.invalid &&
+                        manualChecker
+                      "
+                    >
+                      <div>
+                        <span class="alert-input-msg">
+                          {{ getErrorMessage('description') }}
+                        </span>
+                        <span
+                          class="fa fa-exclamation-triangle alert-input-icon"
+                          style="float: right;"
+                        ></span>
+                      </div>
                     </div>
-                  </div>
+
+                    <div class="d-flex justify-content-end reply-btn-wrapper">
+                      <div>
+                        <button (click)="submit()">
+                          <span *ngIf="btnText">
+                            <span class="fa fas fa-paper-plane"></span>
+                            Send
+                          </span>
+
+                          <div *ngIf="btnLoader">
+                            <span
+                              class="spinner-border spinner-border-sm"
+                            ></span>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>

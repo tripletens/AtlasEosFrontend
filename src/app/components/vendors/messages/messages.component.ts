@@ -35,6 +35,7 @@ export class MessagesComponent implements OnInit {
   incomingDealerData: any
   showDropdown = false
   noDealerUsersFound = false
+  showTyping = false
 
   @ViewChild('chatWrapper') private chatWrapper!: ElementRef
   @ViewChild('audioTag') private audioTag!: ElementRef
@@ -50,6 +51,7 @@ export class MessagesComponent implements OnInit {
     this.getAllDealers()
     this.chatService.getMessages().subscribe((message: string) => {
       if (message != '') {
+        this.startCounter()
         setTimeout(() => {
           this.scrollToElement()
         }, 80)
@@ -60,6 +62,16 @@ export class MessagesComponent implements OnInit {
       }
 
       this.messages.push(message)
+    })
+
+    this.chatService.getTyping().subscribe((message: string) => {
+      if (message != '') {
+        this.showTyping = true
+
+        setTimeout(() => {
+          this.showTyping = false
+        }, 3380)
+      }
     })
 
     this.loggedInUser = this.tokeStore.getUser()
@@ -79,7 +91,39 @@ export class MessagesComponent implements OnInit {
 
     setInterval(() => {
       this.getUnreadMsg()
+      this.getAllDamin()
     }, 10000)
+  }
+
+  startCounter() {
+    setInterval(() => {
+      this.getUserChatAsync()
+    }, 10000)
+  }
+
+  getUserChatAsync() {
+    this.postData
+      .httpGetRequest(
+        '/get-user-chat/' + this.userId + '/' + this.selectedUserData.id,
+      )
+      .then((result: any) => {
+        if (result.status) {
+          if (result.data.length > 0) {
+            this.messages = result.data
+          }
+        } else {
+        }
+      })
+      .catch((err) => {})
+  }
+
+  trackKeyPress(event: any) {
+    let data = {
+      user: this.selectedUserData.id + this.selectedUserData.first_name,
+      msg: this.msg,
+    }
+
+    this.chatService.sendTypingNotify(data)
   }
 
   toggleVendors() {
@@ -215,9 +259,12 @@ export class MessagesComponent implements OnInit {
 
   sendMsg() {
     if (this.msg != '') {
+      this.startCounter()
       let data = {
         user: this.selectedUserData.id + this.selectedUserData.first_name,
         msg: this.msg,
+        sender: this.userData.id + this.userData.first_name,
+        time_ago: 'just now',
       }
 
       this.storeChatDatabase()
