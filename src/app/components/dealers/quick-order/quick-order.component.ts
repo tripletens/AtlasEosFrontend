@@ -279,7 +279,7 @@ export class QuickOrderComponent implements OnInit {
         } else {
           replaceOldVal(cart);
         }
-        total = parseFloat(total.toFixed(2));
+        total = total;
         usedVar.price = total.toString();
       }
 
