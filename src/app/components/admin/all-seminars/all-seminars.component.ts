@@ -105,8 +105,6 @@ export class AllSeminarsComponent implements OnInit {
     this.incomingData.vendor_name = filterValue.trim().toLowerCase()
 
     this.dataSource = this.filterArray('*' + filterValue)
-
-    //console.log(res)
   }
 
   filterArray(expression: string) {

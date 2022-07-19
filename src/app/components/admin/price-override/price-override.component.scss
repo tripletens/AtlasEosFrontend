@@ -1,3 +1,15 @@
+.loader-td {
+  padding: 0px !important;
+}
+
+.ph-item {
+  padding: 0px !important;
+}
+
+.ph-picture {
+  height: 50px !important;
+}
+
 .filter-wrapper {
   gap: 20px;
   margin-bottom: 20px;
@@ -156,4 +168,11 @@
     padding: 10px;
     border-radius: 5px;
   }
+}
+
+.edit-input {
+  border: 1px solid gray;
+  width: 60%;
+  padding: 10px;
+  font-size: 13px;
 }
