@@ -13,6 +13,26 @@ export class TokenStorageService {
     window.localStorage.setItem('socketid', socketId)
   }
 
+  switchFromVendorToDealer(data: any) {
+    window.localStorage.setItem('dealerData', JSON.stringify(data))
+    window.localStorage.setItem('switchType', 'vendor-to-dealer')
+  }
+
+  switchFromDealerToVendor() {
+    window.localStorage.setItem('switchType', 'dealer-to-vendor')
+    window.localStorage.removeItem('dealerData')
+  }
+
+  checkSwitch() {
+    const switchType = localStorage.getItem('switchType')
+    return switchType !== null ? true : false
+  }
+
+  getSwitchType() {
+    const switchType = localStorage.getItem('switchType')
+    return switchType
+  }
+
   public getSocketId() {
     const socketId = window.localStorage.getItem('socketid')
     if (socketId) {

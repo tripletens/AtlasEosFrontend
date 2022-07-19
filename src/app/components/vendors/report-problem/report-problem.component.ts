@@ -67,6 +67,9 @@ export class ReportProblemComponent implements OnInit {
       let fd = new FormData()
       fd.append('subject', this.faqForm.value.subject)
       fd.append('description', this.faqForm.value.description)
+      fd.append('user_id', this.userData.id)
+      fd.append('role', this.userData.role)
+      fd.append('vendor_id', this.userData.vendor_code)
 
       if (this.fileSelected) {
         fd.append('csv', this.attachmentDataFile[0])
@@ -78,18 +81,19 @@ export class ReportProblemComponent implements OnInit {
           this.btnText = true
           this.btnLoader = false
           if (result.status) {
-            this.toastr.success('Csv File Uploaded successfully', `Success`)
-          } else {
-            this.toastr.error(
-              'Somethin went wrong, Try again',
-              `Uploading Error`,
+            this.faqForm.reset()
+            this.toastr.success(
+              'Report has been submitted successfully',
+              `Success`,
             )
+          } else {
+            this.toastr.error('Somethin went wrong, Try again', `Try again`)
           }
         })
         .catch((err) => {
           this.btnText = true
           this.btnLoader = false
-          this.toastr.error('Somethin went wrong, Try again', `Uploading Error`)
+          this.toastr.error('Somethin went wrong, Try again', `Try again`)
         })
     } else {
       this.manualChecker = true

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
+import { AllReportTicketsComponent } from './all-report-tickets/all-report-tickets.component'
 import { DashboardComponent } from './dashboard/dashboard.component'
 import { HelpSectionComponent } from './help-section/help-section.component'
 import { MessagesComponent } from './messages/messages.component'
@@ -8,8 +9,11 @@ import { ReportProblemComponent } from './report-problem/report-problem.componen
 import { SalesDetailedComponent } from './sales-detailed/sales-detailed.component'
 import { SalesSummaryComponent } from './sales-summary/sales-summary.component'
 import { SpecialOrdersComponent } from './special-orders/special-orders.component'
+import { SwitchDealerComponent } from './switch-dealer/switch-dealer.component'
 import { VendorOrderComponent } from './vendor-order/vendor-order.component'
 import { VendorsComponent } from './vendors.component'
+import { ViewDealerSummaryComponent } from './view-dealer-summary/view-dealer-summary.component'
+import { ViewReportTicketComponent } from './view-report-ticket/view-report-ticket.component'
 
 const routes: Routes = [
   {
@@ -57,6 +61,22 @@ const routes: Routes = [
       {
         path: 'messages',
         component: MessagesComponent,
+      },
+      {
+        path: 'all-report-tickets',
+        component: AllReportTicketsComponent,
+      },
+      {
+        path: 'view-ticket/:ticket',
+        component: ViewReportTicketComponent,
+      },
+      {
+        path: 'dealer-switch',
+        component: SwitchDealerComponent,
+      },
+      {
+        path: 'view-dealer-summary/:user/:dealer/:vendor',
+        component: ViewDealerSummaryComponent,
       },
     ],
   },

@@ -55,6 +55,15 @@
   }
 }
 
+.export-chat-btn {
+  border: 0px;
+  border-radius: 4px;
+  padding: 4px 10px;
+  background-color: darkred;
+  color: #ffffff;
+  font-size: 13px;
+}
+
 .select-wrapper {
   width: 300px;
   margin-bottom: 20px;
@@ -349,4 +358,27 @@
     font-size: 12px;
     border-radius: 4px;
   }
+}
+
+#chat-export {
+  display: none;
+}
+
+.typing-text {
+  color: #555;
+  font-style: italic;
+}
+
+.time-keeper-text {
+  color: #dadada;
+  font-size: 10px;
+  display: block;
+}
+
+.time-shift-right {
+  text-align: end;
+}
+
+.time-shift-left {
+  text-align: left;
 }

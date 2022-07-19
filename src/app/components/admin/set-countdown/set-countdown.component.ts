@@ -17,6 +17,11 @@ export class SetCountdownComponent implements OnInit {
   btnText = true
   selectedTime: any
 
+  seletedStartTime = ''
+  selectedEndTime = ''
+
+  @ViewChild('endTime') endTime!: ElementRef
+
   constructor(
     private fb: FormBuilder,
     private postData: HttpRequestsService,
@@ -29,8 +34,15 @@ export class SetCountdownComponent implements OnInit {
 
   timeChangeHandler(data: any) {
     this.selectedTime = data._formattedValueString
-
     console.log(data._formattedValueString)
+    if (data._id == 'startTimePicker') {
+      this.seletedStartTime = data._formattedValueString
+    }
+
+    if (data._id == 'endtimePicker') {
+      this.selectedEndTime = data._formattedValueString
+    }
+
     console.log(data)
   }
 
@@ -41,8 +53,10 @@ export class SetCountdownComponent implements OnInit {
       this.saveBtnStatus = false
       this.btnText = false
       this.btnLoader = true
+      this.TimerForm.value.countdownStartTime = this.seletedStartTime
+      this.TimerForm.value.countdownEndTime = this.selectedEndTime
 
-      this.TimerForm.value.countdownTime = this.selectedTime
+      console.log(this.TimerForm)
 
       this.postData
         .httpPostRequest('/save-countdown', this.TimerForm.value)
@@ -77,15 +91,25 @@ export class SetCountdownComponent implements OnInit {
 
   getErrorMessage(instance: string) {
     if (
-      instance === 'countdownDate' &&
-      this.timerFormControls.countdownDate.hasError('required')
+      instance === 'countdownStartDate' &&
+      this.timerFormControls.countdownStartDate.hasError('required')
     ) {
-      return 'Select the date'
+      return 'Select the start date'
     } else if (
-      instance === 'countdownTime' &&
-      this.timerFormControls.countdownTime.hasError('required')
+      instance === 'countdownStartTime' &&
+      this.timerFormControls.countdownStartTime.hasError('required')
     ) {
-      return 'Select the time'
+      return 'Select the start time'
+    } else if (
+      instance === 'countdownEndDate' &&
+      this.timerFormControls.countdownEndDate.hasError('required')
+    ) {
+      return 'select the end date'
+    } else if (
+      instance === 'countdownEndTime' &&
+      this.timerFormControls.countdownEndTime.hasError('required')
+    ) {
+      return 'select the end time'
     } else {
       return
     }
@@ -93,8 +117,10 @@ export class SetCountdownComponent implements OnInit {
 
   buildProductForm(): void {
     this.TimerForm = this.fb.group({
-      countdownDate: ['', [Validators.required]],
-      countdownTime: ['', [Validators.required]],
+      countdownStartDate: ['', [Validators.required]],
+      countdownStartTime: ['', [Validators.required]],
+      countdownEndDate: ['', [Validators.required]],
+      countdownEndTime: ['', [Validators.required]],
     })
   }
 }

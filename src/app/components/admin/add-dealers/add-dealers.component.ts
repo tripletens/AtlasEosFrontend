@@ -78,11 +78,8 @@ export class AddDealersComponent implements OnInit {
   }
 
   exportTemplate() {
-    $('#vendor-template').table2excel({
-      exclude: '.noExl',
-      name: 'dealer-user-template',
-      filename: 'dealer-user-template',
-      fileext: '.xlsx',
+    $('#vendor-template').table2csv({
+      filename: 'dealer-user-template.csv',
     })
   }
 

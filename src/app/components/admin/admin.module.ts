@@ -42,7 +42,10 @@ import { MatTimepickerModule } from 'mat-timepicker';
 import { SetCountdownComponent } from './set-countdown/set-countdown.component';
 import { AddPromotionalFlyerComponent } from './add-promotional-flyer/add-promotional-flyer.component';
 import { AllPromotionalFlyerComponent } from './all-promotional-flyer/all-promotional-flyer.component';
-import { EditSeminarComponent } from './edit-seminar/edit-seminar.component'
+import { EditSeminarComponent } from './edit-seminar/edit-seminar.component';
+import { EditPromotionalFlierComponent } from './edit-promotional-flier/edit-promotional-flier.component';
+import { AtlasNotesComponent } from './atlas-notes/atlas-notes.component';
+import { VendorNotesComponent } from './vendor-notes/vendor-notes.component'
 
 @NgModule({
   declarations: [
@@ -80,6 +83,9 @@ import { EditSeminarComponent } from './edit-seminar/edit-seminar.component'
     AddPromotionalFlyerComponent,
     AllPromotionalFlyerComponent,
     EditSeminarComponent,
+    EditPromotionalFlierComponent,
+    AtlasNotesComponent,
+    VendorNotesComponent,
   ],
   imports: [
     CommonModule,

@@ -18,6 +18,8 @@ export class AddSeminarComponent implements OnInit {
   allVendor: any
 
   saveVendorCode!: string
+  selectedStartTime = ''
+  selectedEndTime = ''
 
   constructor(
     private fb: FormBuilder,
@@ -38,6 +40,20 @@ export class AddSeminarComponent implements OnInit {
   ngOnInit(): void {
     this.buildProductForm()
     this.getVendors()
+  }
+
+  timeChangeHandler(data: any) {
+    // this.selectedStartTime = data._formattedValueString
+    console.log(data._formattedValueString)
+    if (data._id == 'startTimePicker') {
+      this.selectedStartTime = data._formattedValueString
+    }
+
+    if (data._id == 'endtimePicker') {
+      this.selectedEndTime = data._formattedValueString
+    }
+
+    console.log(data)
   }
 
   assignVendor(data: any) {
@@ -76,8 +92,8 @@ export class AddSeminarComponent implements OnInit {
       this.saveBtnStatus = false
 
       this.seminarForm.value.vendorCode = this.saveVendorCode
-
-      // console.log(this.seminarForm.value)
+      this.seminarForm.value.startTime = this.selectedStartTime
+      this.seminarForm.value.stopTime = this.selectedEndTime
 
       this.postData
         .httpPostRequest('/create-seminar', this.seminarForm.value)

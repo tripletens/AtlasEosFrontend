@@ -111,7 +111,7 @@ export class QuickOrderComponent implements OnInit {
             this.noData = true;
             this.disabled = true;
 
-            // this.toastr.info(`Cannot find product/vendor`, 'Search error');
+             this.toastr.info(`Cannot find product`, 'Search error');
           }
         })
         .catch((err: any) => {
@@ -279,7 +279,7 @@ export class QuickOrderComponent implements OnInit {
         } else {
           replaceOldVal(cart);
         }
-        total = parseFloat(total.toFixed(2));
+        total = total;
         usedVar.price = total.toString();
       }
 

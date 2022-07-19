@@ -104,7 +104,7 @@ const routes: Routes = [
         component: SupportTicketsComponent,
       },
       {
-        path: 'view-tickets/:ticketId',
+        path: 'view-tickets/:ticket',
         component: ViewSupportTicketComponent,
       },
       {
@@ -138,7 +138,7 @@ const routes: Routes = [
     ],
     canActivate: [AuthGuardGuard],
   },
-];
+]
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
