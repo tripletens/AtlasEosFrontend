@@ -5,6 +5,8 @@ import {
   ViewChild,
   OnInit,
 } from '@angular/core';
+import Swal from 'sweetalert2';
+
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -244,6 +246,7 @@ export class ShowOrdersComponent implements OnInit {
   }
 
   runCalc(product: any, qty: any, i: any) {
+    
     let price = parseFloat(product?.booking!);
     let posssibleBreak = false;
     let specData;
@@ -456,14 +459,12 @@ export class ShowOrdersComponent implements OnInit {
               priceSummary.specPrice * obj.qty;
           }
         }
-      }
-      else {
+      } else {
         for (var j = 0; j < cart?.length; j++) {
-          let Obj:any = cart[j]!;
+          let Obj: any = cart[j]!;
           if (product?.grouping) {
             console.log('hit grouping', product?.grouping, Obj?.groupings, Obj);
             if (Obj?.groupings == grp) {
-            
               console.log('finding group', Obj.qty);
               groupProd.push(Obj.atlas_id);
             }
@@ -472,15 +473,17 @@ export class ShowOrdersComponent implements OnInit {
         console.log('group else', groupProd[1], groupProd);
         let val;
         if (groupProd[1] == '998-2') {
-          val ='998-3'
-        }else if (groupProd[1] == '998-3'){ val = '998-2';}
-          for (let i = 0; i < this.orderTable.length; i++) {
-            let obj: any = this.orderTable[i];
-            if (obj.atlas_id == val) {
-              obj.price = obj.booking * obj.qty;
-              this.dataSrc.data[obj.loc].extended = obj.booking * obj.qty;
-            }
+          val = '998-3';
+        } else if (groupProd[1] == '998-3') {
+          val = '998-2';
+        }
+        for (let i = 0; i < this.orderTable.length; i++) {
+          let obj: any = this.orderTable[i];
+          if (obj.atlas_id == val) {
+            obj.price = obj.booking * obj.qty;
+            this.dataSrc.data[obj.loc].extended = obj.booking * obj.qty;
           }
+        }
       }
       this.orderTable = replaceOldVal(this.orderTable);
       console.log('userobj', usedVar, 'table', this.orderTable);
@@ -509,7 +512,7 @@ export class ShowOrdersComponent implements OnInit {
         this.orderTable
       );
     } else {
-      this.toastr.info(``, 'This item has been added to cart');
+      this.toastr.info(``, 'This item is already in order');
     }
   }
   submitOrder() {
@@ -520,7 +523,7 @@ export class ShowOrdersComponent implements OnInit {
     let accntId = this.token.getUser().account_id;
     this.orderLen = this.orderTable.length;
     if (this.orderTable.length > 0) {
-      for (let i = 0; i < this.orderTable.length; i++){
+      for (let i = 0; i < this.orderTable.length; i++) {
         let pbj: any = this.orderTable[i];
         delete pbj?.loc;
       }
@@ -572,5 +575,42 @@ export class ShowOrdersComponent implements OnInit {
   }
   parser(data: any) {
     return JSON.parse(data);
+  }
+  async confirmBox() {
+    return await Swal.fire({
+      title: 'You Are About To Remove This Item From Cart',
+      text: '',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Ok',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.value) {
+        return true;
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        return false;
+      } else {
+        return false;
+      }
+    });
+  }
+
+  async emptyCartConfirmBox() {
+    return await Swal.fire({
+      title: 'Are You Sure You Want To Empty Your Cart ?',
+      text: '',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.value) {
+        return true;
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        return false;
+      } else {
+        return false;
+      }
+    });
   }
 }
