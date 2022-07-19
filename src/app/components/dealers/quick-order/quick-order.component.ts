@@ -111,7 +111,7 @@ export class QuickOrderComponent implements OnInit {
             this.noData = true;
             this.disabled = true;
 
-            // this.toastr.info(`Cannot find product/vendor`, 'Search error');
+             this.toastr.info(`Cannot find product`, 'Search error');
           }
         })
         .catch((err: any) => {
@@ -325,7 +325,7 @@ export class QuickOrderComponent implements OnInit {
   if (this.dataSrc.data.length > 0) {
     this.orderLen = this.dataSrc.data.length;
     this.getData
-      .httpGetRequest('delete-quick-order-items-atlas-id/' + uid + '/'+ id)
+      .httpGetRequest('/delete-quick-order-items-atlas-id/' + uid + '/'+ id)
       .then((result: any) => {
         if (result.status) {
           this.toastr.success(

@@ -509,7 +509,7 @@ export class ShowOrdersComponent implements OnInit {
         this.orderTable
       );
     } else {
-      this.toastr.info(``, 'This item has been added to cart');
+      this.toastr.info(``, 'This item is already in order');
     }
   }
   submitOrder() {
