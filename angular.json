@@ -73,19 +73,15 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "atlas-eos:build:production",
-              "host": "0.0.0.0",
-              "port":8080,
-              "disableHostCheck": true
+              "browserTarget": "atlas-eos:build:production"
+             
             },
             "development": {
-              "browserTarget": "atlas-eos:build:development",
-              "host": "0.0.0.0",
-              "port": 4200,
-              "disableHostCheck": false
+              "browserTarget": "atlas-eos:build:development"
+              
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
