@@ -10,6 +10,20 @@
 .profile-1 a h6 {
   text-transform: capitalize;
 }
+.title-dash {
+  color: #fff;
+  font-weight: 600;
+  font-size: 19px;
+  @media (min-width:768px) {
+    margin-left: 300px;
+    
+  }
+}
+.greet {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+}
 ul.sidemenu a {
   background-color: #14abef !important;
 }
