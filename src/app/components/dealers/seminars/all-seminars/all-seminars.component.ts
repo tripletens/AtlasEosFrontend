@@ -6,6 +6,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
+import { TokenStorageService } from 'src/app/core/services/token-storage.service';
 export interface PeriodicElement {
   id: number;
   topic: string;
@@ -44,6 +45,7 @@ export class AllSeminarsComponent implements AfterViewInit {
   constructor(
     private request: HttpRequestsService,
     private http: HttpClient,
+    private token: TokenStorageService,
     private toastr: ToastrService,
     private _liveAnnouncer: LiveAnnouncer
   ) {}
@@ -85,5 +87,25 @@ export class AllSeminarsComponent implements AfterViewInit {
         this.toastr.error('Try again', 'Something went wrong');
         this.noData = true;
       });
+  }
+  bookmarkSeminar(id: any) {
+    let dealer= this.token.getUser().account_id
+     this.request
+       .httpPostRequest('/bookmarkSeminar/'+dealer+'/'+id)
+       .then((result: any) => {
+         console.log(result);
+       
+         if (result.status) {
+           console.log('data result', this.tableData, result.data.length);
+           this.toastr.success('Seminar has been bookmarked', `Success`);
+           
+           
+         } else {
+           this.toastr.error('Something went wrong', `${result.message}`);
+         }
+       })
+       .catch((err) => {
+         this.toastr.error('Try again', 'Something went wrong');
+       });
   }
 }

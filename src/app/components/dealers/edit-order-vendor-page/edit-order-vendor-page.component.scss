@@ -84,6 +84,7 @@
 .order-form-table {
   td,
   th {
+    text-align: center;
     border: 0.1px solid rgb(221, 220, 220);
   }
   th {
@@ -116,6 +117,7 @@
       background-color: #fff;
       width: 60px;
       height: 30px;
+      text-align: center;
       border-radius: 4px;
       ::placeholder {
         color: #dfdfdf83 !important;

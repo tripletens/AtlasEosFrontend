@@ -54,7 +54,7 @@ export class EditOrderVendorPageComponent implements OnInit {
   cartHistory: object[] = [];
   orderTotal = 0;
   allCategoryData: any;
-    cartLoader = false;
+  cartLoader = false;
 
   vendorId: any;
   constructor(
@@ -104,8 +104,12 @@ export class EditOrderVendorPageComponent implements OnInit {
   getCartByVendorId(id: any) {
     this.canOrder = false;
     this.isMod = false;
+    let dealer = this.token.getUser().account_id;
+
     this.getData
-      .httpGetRequest('/get-ordered-vendor/' + id)
+      .httpGetRequest(
+        '/fetch-order-items-atlas-id-vendor-id/' + dealer + '/' + id
+      )
       .then((result: any) => {
         console.log(result, 'promotion');
 

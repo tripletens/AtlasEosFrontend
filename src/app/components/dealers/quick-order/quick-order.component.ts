@@ -110,8 +110,6 @@ export class QuickOrderComponent implements OnInit {
             this.searchLoader = false;
             this.noData = true;
             this.disabled = true;
-
-             this.toastr.info(`Cannot find product`, 'Search error');
           }
         })
         .catch((err: any) => {
@@ -320,41 +318,46 @@ export class QuickOrderComponent implements OnInit {
       return (this.orderTotal = 0);
     }
   }
-  deleteQuickOrderItem(id:any) {let uid = this.token.getUser().id.toString();
+  deleteQuickOrderItem(id: any) {
+    let uid = this.token.getUser().id.toString();
 
-  if (this.dataSrc.data.length > 0) {
-    this.orderLen = this.dataSrc.data.length;
-    this.getData
-      .httpGetRequest('/delete-quick-order-items-atlas-id/' + uid + '/'+ id)
-      .then((result: any) => {
-        if (result.status) {
-          this.toastr.success(
-            `  Quick order items have been moved to cart`,
-            'Success'
-          );
-          this.orderTable = [];
-          this.getCart();
-          this.fetchQuickOrderCart();
-          this.canOrder = false;
-        } else {
+    if (this.dataSrc.data.length > 0) {
+      this.orderLen = this.dataSrc.data.length;
+      this.getData
+        .httpGetRequest('/delete-quick-order-items-atlas-id/' + uid + '/' + id)
+        .then((result: any) => {
+          if (result.status) {
+            this.toastr.success(
+              `  Quick order items have been removed `,
+              'Success'
+            );
+            this.orderTable = [];
+            this.getCart();
+            this.fetchQuickOrderCart();
+            this.canOrder = false;
+          } else {
+            this.cartLoader = false;
+
+            this.toastr.info(`Something went wrong`, 'Error');
+          }
+        })
+        .catch((err) => {
           this.cartLoader = false;
+          if (err.message.response.dealer || err.message.response.dealer) {
+            this.toastr.info(
+              `Please logout and login again`,
+              'Session Expired'
+            );
+          } else {
+            this.toastr.info(`Something went wrong`, 'Error');
+          }
+        });
+    } else {
+      this.cartLoader = false;
 
-          this.toastr.info(`Something went wrong`, 'Error');
-        }
-      })
-      .catch((err) => {
-        this.cartLoader = false;
-        if (err.message.response.dealer || err.message.response.dealer) {
-          this.toastr.info(`Please logout and login again`, 'Session Expired');
-        } else {
-          this.toastr.info(`Something went wrong`, 'Error');
-        }
-      });
-  } else {
-    this.cartLoader = false;
-
-    this.toastr.info(`No item has been added to quick order cart`, 'Error');
-  }}
+      this.toastr.info(`No item has been added to quick order cart`, 'Error');
+    }
+  }
   fetchQuickOrderCart() {
     this.canOrder = false;
     this.isMod = false;
@@ -401,7 +404,7 @@ export class QuickOrderComponent implements OnInit {
             this.addLoader = false;
             this.addSuccess = true;
             this.toastr.success(
-              `${this.orderLen}  item(s) have been added to cart`,
+              `${this.orderLen}  item have been added to order`,
               'Success'
             );
             this.orderTable = [];
@@ -461,6 +464,7 @@ export class QuickOrderComponent implements OnInit {
         uid: uid,
         dealer: accntId,
       };
+      console.log('adding to quick cart', formdata);
       this.getData
         .httpPostRequest('/move-quick-order', formdata)
         .then((result: any) => {
@@ -501,7 +505,7 @@ export class QuickOrderComponent implements OnInit {
     let uid = this.token.getUser().id.toString();
 
     if (this.dataSrc.data.length > 0) {
-      this.orderLen = this.dataSrc.data.length; 
+      this.orderLen = this.dataSrc.data.length;
       this.getData
         .httpGetRequest('/delete-quick-order-items-user-id/' + uid)
         .then((result: any) => {
