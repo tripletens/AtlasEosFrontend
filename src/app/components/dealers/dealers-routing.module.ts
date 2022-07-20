@@ -81,7 +81,7 @@ const routes: Routes = [
 
       {
         path: 'show-orders',
-        component: ShowOrdersComponent,
+        component: TestShowOrderComponent,
       },
 
       {
