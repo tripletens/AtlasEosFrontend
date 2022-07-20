@@ -176,26 +176,16 @@ export class TestShowOrderComponent implements OnInit {
         let cartData = {
           uid: this.userData.id,
           dealer: this.userData.account_id,
-          vendor: data.vendor,
+          vendor_id: data.vendor,
           atlas_id: data.atlas_id,
           product_id: data.id,
           qty: curQty,
           price: realPrice,
           unit_price: unit,
-          groupings: data.groupings,
+          groupings: data.grouping,
         }
 
         postItem.push(cartData)
-
-        // this.getData
-        //   .httpPostRequest('/daler/save-item-to-cart', cartData)
-        //   .then((res: any) => {
-        //     console.log(res)
-        //     ////this.cartService.checkCart.next(true);
-        //   })
-        //   .catch((err) => {
-        //     console.log(err)
-        //   })
       }
     }
 
@@ -210,11 +200,8 @@ export class TestShowOrderComponent implements OnInit {
       .then((res: any) => {
         if (res.status) {
           this.cartLoader = false
-          this.orderSuccess = true
-          this.toastr.success(
-            `${this.orderLen}  item(s) have been added to cart`,
-            'Success',
-          )
+          ///  this.orderSuccess = true
+          this.toastr.success(` item(s) has been submitted`, 'Success')
           /// this.orderTable = []
           /// this.getTotal()
           /// this.getCart()
