@@ -25,6 +25,7 @@ import { QuickOrderComponent } from './quick-order/quick-order.component'
 import { SupportTicketsComponent } from './support-tickets/support-tickets.component'
 import { ViewSupportTicketComponent } from './view-support-ticket/view-support-ticket.component'
 import { EditOrderVendorPageComponent } from './edit-order-vendor-page/edit-order-vendor-page.component'
+import { TestShowOrderComponent } from './test-show-order/test-show-order.component'
 
 const routes: Routes = [
   {
@@ -80,7 +81,7 @@ const routes: Routes = [
 
       {
         path: 'show-orders',
-        component: ShowOrdersComponent,
+        component: TestShowOrderComponent,
       },
 
       {
@@ -134,6 +135,10 @@ const routes: Routes = [
       {
         path: 'messages',
         component: MessagesComponent,
+      },
+      {
+        path: 'test-show-order',
+        component: TestShowOrderComponent,
       },
     ],
     canActivate: [AuthGuardGuard],
