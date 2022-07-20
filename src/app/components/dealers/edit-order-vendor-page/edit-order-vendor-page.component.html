@@ -94,7 +94,7 @@
 
                 <td mat-cell *matCellDef="let element" class="text-center">
                   <span class="booking-text text-center">
-                    {{ element.unit_price }}
+                    {{ element.product_regular }}
                   </span>
                 </td>
               </ng-container>
@@ -174,7 +174,7 @@
               style="border-top: 0.2px solid rgba(98, 98, 98, 0.484)"
             >
               <button
-                class="btn text-bold text-white bg-blue"
+                class="btn text-bold text-white bg-blue mr-2"
                 [disabled]="cartLoader"
               >
                 <div *ngIf="!cartLoader">Save</div>

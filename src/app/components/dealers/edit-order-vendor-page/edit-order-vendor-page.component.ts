@@ -55,7 +55,6 @@ export class EditOrderVendorPageComponent implements OnInit {
   orderTotal = 0;
   allCategoryData: any;
   cartLoader = false;
-
   vendorId: any;
   constructor(
     private getData: HttpRequestsService,
@@ -91,9 +90,9 @@ export class EditOrderVendorPageComponent implements OnInit {
   }
   getTotal() {
     let total = 0;
-    if (this.orderTable.length > 0) {
-      for (var i = 0; i < this.orderTable.length; i++) {
-        let Obj: any = this.orderTable[i]!;
+    if (this.tableData.length > 0) {
+      for (var i = 0; i < this.tableData.length; i++) {
+        let Obj: any = this.tableData[i]!;
         total = total + parseFloat(Obj.price!);
       }
       return (this.orderTotal = total);
