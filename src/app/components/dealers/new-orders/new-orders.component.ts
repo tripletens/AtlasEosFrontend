@@ -49,7 +49,7 @@ export class NewOrdersComponent implements OnInit {
     private getData: HttpRequestsService,
     private toastr: ToastrService
   ) {
-    this.getAllVendors();
+    // this.getAllVendors();
     this.getAllNewProducts();
   }
 

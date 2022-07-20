@@ -233,10 +233,8 @@
                       </tr>
                     </tbody>
                   </table>
-                  <div class="mt-4">
-                    <h5 class="text-center " *ngIf="tableView">
-                      Products
-                    </h5>
+                  <div class="mt-4" *ngIf="productNoData ==false && vendorNoData==false">
+                    <h5 class="text-center" *ngIf="tableView">Products</h5>
 
                     <table
                       *ngIf="tableView"
@@ -305,7 +303,10 @@
                             ></span> -->
                             </span>
                             <span
-                              *ngFor="let spec of parser(data.spec_data); let j = index"
+                              *ngFor="
+                                let spec of parser(data.spec_data);
+                                let j = index
+                              "
                             >
                               <span
                                 [class.assorted-color]="spec.type == 'assorted'"
@@ -328,7 +329,11 @@
                       </tbody>
                       <tbody>
                         <tr *ngIf="productNoData">
-                          <td class="text-center" colspan="8">This <span class="font-weight-bold">#{{search}}</span> is not on the show</td>
+                          <td class="text-center" colspan="8">
+                            This
+                            <span class="font-weight-bold">#{{ search }}</span>
+                            is not on the show
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -355,7 +360,7 @@
                             <a
                               routerLink="/dealers/show-orders/{{
                                 data.vendor_code!
-                              }}/{{  nuller}}"
+                              }}/{{ nuller }}"
                               class="link"
                             >
                               {{ data.vendor_name }}</a
@@ -365,7 +370,11 @@
                       </tbody>
                       <tbody>
                         <tr *ngIf="vendorNoData">
-                          <td class="text-center" colspan="8"> Vendor Id <span class="font-weight-bold">#{{search}}</span> is not on the show</td>
+                          <td class="text-center" colspan="8">
+                            Vendor Id
+                            <span class="font-weight-bold">#{{ search }}</span>
+                            is not on the show
+                          </td>
                         </tr>
                       </tbody>
                     </table>
