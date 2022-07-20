@@ -9,7 +9,11 @@
 .ph-picture {
   height: 50px !important;
 }
-
+.bookmark {
+  position: absolute;
+  top: 0px;
+  right: 10px;
+}
 .thead-custom {
   font-weight: bold;
 }
@@ -26,8 +30,8 @@
   font-size: 13px;
   font-weight: 600;
 }
-.card-header{
-font-size: 20px;
+.card-header {
+  font-size: 20px;
 }
 
 .card-title {
@@ -95,14 +99,14 @@ font-size: 20px;
   th {
     border: 0.1px solid #fff;
   }
-   th {
-      background-color: #054e6e;
-      color: #fff;
-      font-size: 17px;
-      padding: 10px;
-      text-transform: uppercase;
-      font-weight: 500;
-    }
+  th {
+    background-color: #054e6e;
+    color: #fff;
+    font-size: 17px;
+    padding: 10px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
 
   td {
     background-color: #dfdfdf;

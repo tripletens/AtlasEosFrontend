@@ -27,6 +27,20 @@ export interface PeriodicElement {
   special: number
   extended: number
 }
+export interface T {
+  qty: any;
+  atlasId: any;
+  loc: any;
+  booking: any;
+  unit_price: any;
+  break: any;
+}
+export interface AssortList {
+  group: any;
+  productList: Array<T>;
+  grpQty: any;
+  break: any;
+}
 
 const ELEMENT_DATA: PeriodicElement[] = [
   {
@@ -70,12 +84,14 @@ export class ShowOrdersComponent implements OnInit {
   sortTable: any
   dataSrc = new MatTableDataSource<PeriodicElement>()
   @ViewChild(MatPaginator)
+
   paginator!: MatPaginator
   canOrder = false
   isMod = false
   orderTable: object[] = []
   cartHistory: object[] = []
   orderTotal = 0
+
   constructor(
     private getData: HttpRequestsService,
     private toastr: ToastrService,
@@ -246,6 +262,7 @@ export class ShowOrdersComponent implements OnInit {
   }
 
   runCalc(product: any, qty: any, i: any) {
+
     let price = parseFloat(product?.booking!)
     let posssibleBreak = false
     let specData
@@ -255,15 +272,18 @@ export class ShowOrdersComponent implements OnInit {
     let inCart = false
     let mutArr = arrHist.concat(cart)
 
+
     let priceSummary = {
       specItem: false,
       assortItem: false,
       specCond: 0,
       specPrice: 0,
+
     }
     let grp: any
     let groupProd: any = []
     let grpProdAval = false
+
     //check if in cart
     function checkInCartStatus(id: any) {
       console.log('entered check status', arrHist, arrHist.length > 0)
@@ -317,9 +337,11 @@ export class ShowOrdersComponent implements OnInit {
             priceSummary.specPrice = lev.special
           }
           if (lev.type == 'assorted') {
+
             priceSummary.assortItem = true
             priceSummary.specCond = lev.cond
             priceSummary.specPrice = lev.special
+
           }
         }
       }
@@ -580,7 +602,7 @@ export class ShowOrdersComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: 'Ok',
       cancelButtonText: 'Cancel',
-    }).then((result) => {
+    }).then((result:any) => {
       if (result.value) {
         return true
       } else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -599,7 +621,7 @@ export class ShowOrdersComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: 'Yes',
       cancelButtonText: 'No',
-    }).then((result) => {
+    }).then((result:any) => {
       if (result.value) {
         return true
       } else if (result.dismiss === Swal.DismissReason.cancel) {
