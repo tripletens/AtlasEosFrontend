@@ -155,13 +155,11 @@ export class TestShowOrderComponent implements OnInit {
   ///////// Old code ///////////
 
   oneAddBtn() {
-    ///this.dirtyDisable = true;
-    ///this.isDirty = false;
     let allProCount = this.productData.length
     let addedState = false
     let inCart = false
-
     let postItem = []
+    this.cartLoader = true
 
     for (let h = 0; h < allProCount; h++) {
       let curQty = $('#cur-' + h).val()
@@ -179,11 +177,12 @@ export class TestShowOrderComponent implements OnInit {
           uid: this.userData.id,
           dealer: this.userData.account_id,
           vendor: data.vendor,
-          atlasId: data.atlas_id,
-          proId: data.id,
+          atlas_id: data.atlas_id,
+          product_id: data.id,
           qty: curQty,
           price: realPrice,
-          uPrice: unit,
+          unit_price: unit,
+          groupings: data.groupings,
         }
 
         postItem.push(cartData)
@@ -199,6 +198,44 @@ export class TestShowOrderComponent implements OnInit {
         //   })
       }
     }
+
+    let postData = {
+      uid: this.userData.id,
+      dealer: this.userData.account_id,
+      product_array: JSON.stringify(postItem),
+    }
+
+    this.getData
+      .httpPostRequest('/add-item-to-cart', postData)
+      .then((res: any) => {
+        if (res.status) {
+          this.cartLoader = false
+          this.orderSuccess = true
+          this.toastr.success(
+            `${this.orderLen}  item(s) have been added to cart`,
+            'Success',
+          )
+          /// this.orderTable = []
+          /// this.getTotal()
+          /// this.getCart()
+          // if (this.searchatlasId) {
+          //   this.searchVendorId(this.vendorId!)
+          // } else {
+          //   this.getProductByVendorId()
+          // }
+        } else {
+          this.cartLoader = false
+          this.toastr.info(`Something went wrong`, 'Error')
+        }
+      })
+      .catch((err) => {
+        this.cartLoader = false
+        if (err.message.response.dealer || err.message.response.dealer) {
+          this.toastr.info(`Please logout and login again`, 'Session Expired')
+        } else {
+          this.toastr.info(`Something went wrong`, 'Error')
+        }
+      })
 
     console.log(postItem)
   }
@@ -1264,6 +1301,7 @@ export class TestShowOrderComponent implements OnInit {
       this.toastr.info(``, 'This item is already in order')
     }
   }
+
   submitOrder() {
     this.cartLoader = true
     this.orderSuccess = false
@@ -1301,7 +1339,6 @@ export class TestShowOrderComponent implements OnInit {
             }
           } else {
             this.cartLoader = false
-
             this.toastr.info(`Something went wrong`, 'Error')
           }
         })
@@ -1315,13 +1352,13 @@ export class TestShowOrderComponent implements OnInit {
         })
     } else {
       this.cartLoader = false
-
       this.toastr.info(`No item quantity has been set`, 'Error')
     }
   }
   parser(data: any) {
     return JSON.parse(data)
   }
+
   async confirmBox() {
     return await Swal.fire({
       title: 'You Are About To Remove This Item From Cart',
