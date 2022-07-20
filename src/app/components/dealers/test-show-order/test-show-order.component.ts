@@ -161,9 +161,13 @@ export class TestShowOrderComponent implements OnInit {
     let addedState = false
     let inCart = false
 
+    let postItem = []
+
     for (let h = 0; h < allProCount; h++) {
       let curQty = $('#cur-' + h).val()
-      if (curQty !== '') {
+      if (curQty != '' && curQty != undefined) {
+        // console.log(curQty, h)
+
         let data = this.productData[h]
         let rawUnit = document.getElementById('u-price-' + h)?.innerText
         let unit = rawUnit?.replace(',', '.')
@@ -182,17 +186,21 @@ export class TestShowOrderComponent implements OnInit {
           uPrice: unit,
         }
 
-        this.getData
-          .httpPostRequest('/daler/save-item-to-cart', cartData)
-          .then((res: any) => {
-            console.log(res)
-            ////this.cartService.checkCart.next(true);
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+        postItem.push(cartData)
+
+        // this.getData
+        //   .httpPostRequest('/daler/save-item-to-cart', cartData)
+        //   .then((res: any) => {
+        //     console.log(res)
+        //     ////this.cartService.checkCart.next(true);
+        //   })
+        //   .catch((err) => {
+        //     console.log(err)
+        //   })
       }
     }
+
+    console.log(postItem)
   }
 
   checkAvaDiscount(index: number, qty: any) {
