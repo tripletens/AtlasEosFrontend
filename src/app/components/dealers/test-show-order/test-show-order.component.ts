@@ -97,10 +97,13 @@ export class TestShowOrderComponent implements OnInit {
 
   normalPrice = 0
   currentProductAmt = 0
+  overTotal: any = 0
 
   anotherLinePhase: any | [] = []
   anotherLinePhaseFilter: any | [] = []
   groupsArray: any | [] = []
+
+  allAddedItemAtlasID: any | [] = []
 
   @ViewChildren('extend')
   extendField!: QueryList<ElementRef>
@@ -247,11 +250,39 @@ export class TestShowOrderComponent implements OnInit {
     }
   }
 
+  runTotalCalculation() {
+    let allProCount = this.productData.length
+    let ty = 0
+    for (let h = 0; h < allProCount; h++) {
+      let curQty = $('#cur-' + h).val()
+      if (curQty !== '') {
+        ty++
+        let data = this.productData[h]
+        let rawUnit = document.getElementById('u-price-' + h)?.innerHTML
+        let unit = rawUnit?.replace(',', '.')
+
+        let rawPrice = document.getElementById('amt-hidd-' + h)?.innerHTML
+        let realPrice = rawPrice?.replace(',', '.')
+
+        if (realPrice != undefined) {
+          console.log(realPrice)
+          this.overTotal += parseFloat(realPrice)
+          console.log(ty)
+        }
+      }
+    }
+  }
+
   runCalculation(index: number, qty: any, event: any) {
     if (event.key != 'Tab') {
       if (qty !== '') {
         let curr = this.productData[index]
+        let atlasId = curr.atlas_id
         let spec = curr.spec_data
+
+        if (!this.allAddedItemAtlasID.includes(atlasId)) {
+          this.allAddedItemAtlasID.push(atlasId)
+        }
 
         if (spec.length > 0) {
           for (let j = 0; j < spec.length; j++) {
@@ -788,6 +819,8 @@ export class TestShowOrderComponent implements OnInit {
         let formattedAmt = this.currencyPipe.transform(0, '$')
         $('#amt-' + index).html(formattedAmt)
       }
+
+      this.runTotalCalculation()
     }
   }
 

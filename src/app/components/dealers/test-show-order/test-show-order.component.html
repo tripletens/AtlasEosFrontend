@@ -35,7 +35,7 @@
             style="background-color: white;"
           >
             <div class="d-flex justify-content-end" *ngIf="tableView">
-              <span class="desc-text">Total: {{ orderTotal | currency }}</span>
+              <span class="desc-text">Total: {{ overTotal | currency }}</span>
             </div>
 
             <table class="table" *ngIf="loader">
@@ -133,15 +133,14 @@
                   class="text-center"
                 >
                   <input
+                    id="cur-{{ i }}"
                     type="number"
                     class="mx-auto"
                     style="text-align: center;"
                     min="0"
                     #inputAmt
                     placeholder="Qty"
-                    (blur)="checkAvaDiscount(i, inputAmt.value)"
-                    (keyup)="runCalculation(i, inputAmt.value, $event)"
-                    (change)="valCheck(inputAmt.value)"
+                    (input)="runCalculation(i, inputAmt.value, $event)"
                   />
                 </td>
               </ng-container>
