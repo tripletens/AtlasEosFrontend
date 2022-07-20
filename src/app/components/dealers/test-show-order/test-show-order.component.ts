@@ -85,7 +85,7 @@ export class TestShowOrderComponent implements OnInit {
   cartHistory: object[] = []
   orderTotal = 0
 
-  /////////// Old Accent Code ////
+  /////////// Old Code ////
 
   assortedItems: [] | any = []
   currentState: [] | any = []
@@ -110,7 +110,7 @@ export class TestShowOrderComponent implements OnInit {
 
   dummyAmt = 0
 
-  //// End of old accent code ///////
+  //// End of old  code ///////
 
   constructor(
     private getData: HttpRequestsService,
@@ -150,7 +150,7 @@ export class TestShowOrderComponent implements OnInit {
     }
   }
 
-  ///////// Accent code ///////////
+  ///////// Old code ///////////
 
   oneAddBtn() {
     ///this.dirtyDisable = true;
@@ -824,7 +824,7 @@ export class TestShowOrderComponent implements OnInit {
     }
   }
 
-  ///////////////// End of old accent code /////////////
+  ///////////////// End of old code /////////////
 
   getTotal() {
     let total = 0
