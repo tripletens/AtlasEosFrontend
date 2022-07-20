@@ -47,6 +47,8 @@ export class SalesSummaryComponent implements OnInit {
           this.loader = false
           console.log(result)
           if (result.status) {
+            this.totalAmount = 0
+
             this.tableView = true
             this.incomingData = result.data
             this.noDataFound = result.data.length > 0 ? false : true
@@ -64,8 +66,13 @@ export class SalesSummaryComponent implements OnInit {
   }
 
   selectedVendor(data: any) {
-    this.selectedVendorName = data.vendor_name
-    this.selectedVendorCode = data.vendor_code
+    this.selectedVendorCode = data
+    for (let i = 0; i < this.privilegedVendors.length; i++) {
+      const element = this.privilegedVendors[i]
+      if (element.vendor_code == data) {
+        this.selectedVendorName = element.vendor_name
+      }
+    }
   }
 
   getPrivilegedVendors() {
