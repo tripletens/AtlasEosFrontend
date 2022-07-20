@@ -133,9 +133,7 @@ export class SearchComponent implements OnInit {
             this.productData = data.products;
             this.productStatus = true;
             this.productNoData = false;
-            if (this.productNoData == false && this.vendorNoData == false) {
-              this.toastr.error('Something went wrong', ` Error`);
-            }
+            
             console.log(
               'entered pro true',
               this.productStatus,
@@ -170,16 +168,12 @@ export class SearchComponent implements OnInit {
           }
           console.log('result', result);
         } else {
-           if (this.productNoData == false && this.vendorNoData == false) {
-             this.toastr.error('Something went wrong', ` Error`);
-           }
+          
           this.toastr.error('', `Product not Found `);
         }
       })
       .catch((err) => {
-         if (this.productNoData == false && this.vendorNoData == false) {
-           this.toastr.error('Something went wrong', ` Error`);
-         }
+       
         console.log('there is an err', err);
         this.toastr.error('Something went wrong', ` Error`);
         this.loader = false;
