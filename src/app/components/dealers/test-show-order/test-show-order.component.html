@@ -319,7 +319,7 @@
               <button
                 class="btn text-bold text-white bg-blue"
                 [disabled]="cartLoader"
-                (click)="submitOrder()"
+                (click)="oneAddBtn()"
               >
                 <div *ngIf="!cartLoader">Confirm Order</div>
                 <div *ngIf="cartLoader">
