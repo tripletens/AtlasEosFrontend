@@ -309,6 +309,45 @@
       </div>
     </li>
 
+    <li class="slide panel panel-default" id="dropdown">
+      <a class="side-menu__item" data-toggle="collapse" href="#dropdown-lvl7">
+        <span class="fa fas fa-database navbar-icons"></span>
+        <span class="side-menu__label support-sec">Reports</span>
+        <span class="fa fa-angle-down"></span>
+      </a>
+      <!-- Dropdown level 1 -->
+      <div id="dropdown-lvl7" class="panel-collapse collapse">
+        <div class="panel-body support-body">
+          <ul class="support-ul">
+            <li>
+              <a
+                routerLink="/admin/price-overide-report"
+                routerLinkActive="active-link"
+              >
+                Price Override Report
+              </a>
+            </li>
+
+            <!-- <li>
+              <a routerLink="/admin/faq" routerLinkActive="active-link">FAQs</a>
+            </li> -->
+
+            <li>
+              <a routerLink="/admin/atlas-note" routerLinkActive="active-link">
+                Atlas Notes
+              </a>
+            </li>
+
+            <li>
+              <a routerLink="/admin/vendor-note" routerLinkActive="active-link">
+                Vendor Notes
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </li>
+
     <li class="slide" (click)="logout()" style="cursor: pointer;">
       <span class="side-menu__item" data-toggle="slide">
         <span class="fa fa-sign-out navbar-icons"></span>

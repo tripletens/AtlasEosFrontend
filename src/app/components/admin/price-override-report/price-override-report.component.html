@@ -8,7 +8,7 @@
               <a class="card-link" data-toggle="collapse" href="#collapseSeven">
                 <span class="fa fas fa-list-ul pr-2"></span>
 
-                All Dealer Users
+                Price Overide Report
               </a>
             </div>
             <div
@@ -121,168 +121,172 @@
 
                     <!-- Position Column -->
 
-                    <ng-container matColumnDef="account_id">
+                    <ng-container matColumnDef="customer">
                       <th
                         mat-header-cell
                         *matHeaderCellDef
-                        class="account-section"
+                        class="customer-section"
                       >
-                        Account Number
+                        Customer
                       </th>
                       <td
                         mat-cell
                         *matCellDef="let element"
-                        class="account-number-td"
+                        class="text-center"
                       >
-                        {{ element.account_id }}
+                        {{ element.dealer_code }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="vendor_name">
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="vendor-name-section"
+                      >
+                        Vendor Name
+                      </th>
+                      <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="text-center"
+                      >
+                        {{ element.vendor_name }}
                       </td>
                     </ng-container>
 
                     <!-- Name Column -->
-                    <ng-container matColumnDef="company_name">
+                    <ng-container matColumnDef="atlas_id">
                       <th
                         mat-header-cell
                         *matHeaderCellDef
-                        class="dealername-section"
+                        class="atlas-section"
                       >
-                        Dealer Name
-                      </th>
-                      <td mat-cell *matCellDef="let element" class="">
-                        {{ element.company_name }}
-                      </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="full_name">
-                      <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        class="fullname-section"
-                      >
-                        Full Name
-                      </th>
-                      <td mat-cell *matCellDef="let element">
-                        {{ element.first_name }} {{ element.last_name }}
-                      </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="email">
-                      <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        class="email-section"
-                      >
-                        Email
-                      </th>
-                      <td mat-cell *matCellDef="let element">
-                        {{ element.email }}
-                      </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="password">
-                      <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        class="password-section"
-                      >
-                        Password
-                      </th>
-                      <td mat-cell *matCellDef="let element">
-                        {{ element.password_show }}
-                      </td>
-                    </ng-container>
-
-                    <!-- Weight Column -->
-                    <!-- <ng-container matColumnDef="status">
-                      <th mat-header-cell *matHeaderCellDef>Status</th>
-                      <td mat-cell *matCellDef="let element">
-                        <span *ngIf="element.status == 1">Active</span>
-                        <span *ngIf="element.status == 0">Inactive</span>
-                      </td>
-                    </ng-container> -->
-
-                    <ng-container matColumnDef="last_login">
-                      <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        class="lastlogin-section"
-                      >
-                        Last Login Date
-                      </th>
-                      <td mat-cell *matCellDef="let element">
-                        <span *ngIf="element.last_login_date == null">
-                          not Logged In
-                        </span>
-                        <span *ngIf="element.last_login_date != null">
-                          {{ element.last_login_date | date: 'medium' }}
-                        </span>
-                        <!-- {{ element.created_at | date: 'medium' }} -->
-                      </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="order_status">
-                      <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        class="orderstatus-section"
-                      >
-                        Order Status
-                      </th>
-                      <td mat-cell *matCellDef="let element">
-                        <span *ngIf="element.order_status == 0">
-                          no order yet
-                        </span>
-                        <span *ngIf="element.order_status == 1">
-                          order place
-                        </span>
-                      </td>
-                    </ng-container>
-
-                    <!-- Symbol Column -->
-                    <!-- <ng-container matColumnDef="created_date">
-                      <th mat-header-cell *matHeaderCellDef>Created Date</th>
-                      <td mat-cell *matCellDef="let element">
-                        {{ element.created_at | date: 'medium' }}
-                      </td>
-                    </ng-container> -->
-
-                    <ng-container matColumnDef="action">
-                      <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        class="action-section"
-                      >
-                        Action
+                        Atlas #
                       </th>
                       <td
                         mat-cell
                         *matCellDef="let element"
-                        class="btn-section-td"
+                        class="text-center"
                       >
-                        <button
-                          class="edit-btn"
-                          routerLink="/admin/edit-dealer-user/{{ element.id }}"
-                          title="edit button"
-                        >
-                          <span class="fa fa-edit"></span>
-                        </button>
-                        <button
-                          class="delete-btn"
-                          (click)="removeVendor(element)"
-                          title="delete button"
-                        >
-                          <span
-                            class="fa fa-trash"
-                            id="remove-icon-{{ element.id }}"
-                          ></span>
-                          <div
-                            class="remove-loader"
-                            id="remove-loader-{{ element.id }}"
-                          >
-                            <span
-                              class="spinner-border spinner-border-sm"
-                            ></span>
-                          </div>
-                        </button>
+                        {{ element.atlas_id }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="vendor_product_code">
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="vendor-pro-section"
+                      >
+                        Vendor
+                      </th>
+                      <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="text-center"
+                      >
+                        {{ element.vendor_product_code }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="qty">
+                      <th mat-header-cell *matHeaderCellDef class="qty-section">
+                        Qty
+                      </th>
+                      <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="text-center"
+                      >
+                        {{ element.qty }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="new_qty">
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="new-qty-section"
+                      >
+                        New Qty
+                      </th>
+                      <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="text-center"
+                      >
+                        {{ element.new_qty }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="regular">
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="regular-section"
+                      >
+                        Regular ($)
+                      </th>
+                      <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="text-center"
+                      >
+                        {{ element.regular }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="show">
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="show-section"
+                      >
+                        Show($)
+                      </th>
+                      <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="text-center"
+                      >
+                        {{ element.show }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="overide_price">
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="overide-section"
+                      >
+                        Overide
+                      </th>
+                      <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="text-center"
+                      >
+                        {{ element.overide_price }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="authorized_by">
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="authorized-section"
+                      >
+                        Authorized By
+                      </th>
+                      <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="text-center"
+                      >
+                        {{ element.authorized_by }}
                       </td>
                     </ng-container>
 

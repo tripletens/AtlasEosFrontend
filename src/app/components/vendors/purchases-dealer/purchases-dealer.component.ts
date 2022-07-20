@@ -69,8 +69,14 @@ export class PurchasesDealerComponent implements OnInit {
   }
 
   selectedVendor(data: any) {
-    this.selectedVendorName = data.vendor_name
-    this.selectedVendorCode = data.vendor_code
+    // this.selectedVendorName = data
+    this.selectedVendorCode = data
+    for (let i = 0; i < this.privilegedVendors.length; i++) {
+      const element = this.privilegedVendors[i]
+      if (element.vendor_code == data) {
+        this.selectedVendorName = element.vendor_name
+      }
+    }
   }
 
   getPrivilegedVendors() {

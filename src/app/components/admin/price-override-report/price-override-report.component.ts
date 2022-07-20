@@ -8,19 +8,20 @@ import Swal from 'sweetalert2'
 declare var $: any
 
 export interface PeriodicElement {
-  seminarDate: string
-  scheduledTime: string
-  vendorName: string
-  topic: string
-  link: string
+  full_name: string
+  email: string
+  password: string
+  company_name: string
+  status: string
+  created_date: string
 }
 
 @Component({
-  selector: 'app-all-seminars',
-  templateUrl: './all-seminars.component.html',
-  styleUrls: ['./all-seminars.component.scss'],
+  selector: 'app-price-override-report',
+  templateUrl: './price-override-report.component.html',
+  styleUrls: ['./price-override-report.component.scss'],
 })
-export class AllSeminarsComponent implements OnInit {
+export class PriceOverrideReportComponent implements OnInit {
   tableView = false
   loader = true
   allVendor: any
@@ -28,13 +29,20 @@ export class AllSeminarsComponent implements OnInit {
   incomingData: any
 
   displayedColumns: string[] = [
-    'seminar_date',
-    'scheduled_time',
+    'customer',
     'vendor_name',
-    'topic',
-    'link',
-    'action',
+    'atlas_id',
+    'vendor_product_code',
+    'qty',
+    'new_qty',
+    'regular',
+    'show',
+    'overide_price',
+    'authorized_by',
   ]
+
+  // dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA)
+  // @ViewChild(MatPaginator) paginator!: MatPaginator
 
   dataSource = new MatTableDataSource<PeriodicElement>()
   @ViewChild(MatPaginator) paginator!: MatPaginator
@@ -44,7 +52,7 @@ export class AllSeminarsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllSeminars()
+    this.getPriceOverideReport()
   }
 
   pageSizes = [3, 5, 7]
@@ -54,56 +62,9 @@ export class AllSeminarsComponent implements OnInit {
     private toastr: ToastrService,
   ) {}
 
-  async removeVendor(index: any) {
-    let confirmStatus = await this.confirmBox()
-
-    if (confirmStatus) {
-      $('#remove-icon-' + index).css('display', 'none')
-      $('#remove-loader-' + index).css('display', 'inline-block')
-
-      this.postData
-        .httpGetRequest('/deactivate-dealer-user/' + index)
-        .then((result: any) => {
-          $('#remove-icon-' + index).css('display', 'inline-block')
-          $('#remove-loader-' + index).css('display', 'none')
-
-          if (result.status) {
-            this.toastr.success('Successful', result.message)
-            this.getAllSeminars()
-          } else {
-            this.toastr.error('Something went wrong', 'Try again')
-          }
-        })
-        .catch((err) => {
-          this.toastr.error('Something went wrong', 'Try again')
-        })
-    } else {
-    }
-  }
-
-  async confirmBox() {
-    return await Swal.fire({
-      title: 'You Are About To Remove This Vendor User',
-      text: '',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'Cancel',
-    }).then((result) => {
-      if (result.value) {
-        return true
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        return false
-      } else {
-        return false
-      }
-    })
-  }
-
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value
-    this.incomingData.vendor_name = filterValue.trim().toLowerCase()
-
+    this.incomingData.dealer_code = filterValue.trim().toLowerCase()
     this.dataSource = this.filterArray('*' + filterValue)
   }
 
@@ -111,7 +72,7 @@ export class AllSeminarsComponent implements OnInit {
     var regex = this.convertWildcardStringToRegExp(expression)
     //console.log('RegExp: ' + regex);
     return this.incomingData.filter(function (item: any) {
-      return regex.test(item.full_name)
+      return regex.test(item.dealer_code)
     })
   }
 
@@ -145,9 +106,9 @@ export class AllSeminarsComponent implements OnInit {
     return new RegExp('^' + expr + '$', 'i')
   }
 
-  getAllSeminars() {
+  getPriceOverideReport() {
     this.postData
-      .httpGetRequest('/get-all-seminar')
+      .httpGetRequest('/admin/get-price-override-report')
       .then((result: any) => {
         console.log(result)
 

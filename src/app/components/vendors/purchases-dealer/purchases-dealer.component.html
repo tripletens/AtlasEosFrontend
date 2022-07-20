@@ -19,10 +19,15 @@
                   <div class="input-wrapper">
                     <div class="form-group">
                       <div class="select-wrapper">
-                        <select name="" id="">
+                        <select
+                          name="vendor"
+                          id=""
+                          #vendor
+                          (change)="selectedVendor(vendor.value)"
+                        >
                           <option value="">Select Vendor</option>
                           <option
-                            (click)="selectedVendor(data)"
+                            value="{{ data.vendor_code }}"
                             *ngFor="let data of privilegedVendors"
                           >
                             {{ data.vendor_name }}

@@ -54,8 +54,7 @@ export class EditOrderVendorPageComponent implements OnInit {
   cartHistory: object[] = [];
   orderTotal = 0;
   allCategoryData: any;
-    cartLoader = false;
-
+  cartLoader = false;
   vendorId: any;
   constructor(
     private getData: HttpRequestsService,
@@ -91,9 +90,9 @@ export class EditOrderVendorPageComponent implements OnInit {
   }
   getTotal() {
     let total = 0;
-    if (this.orderTable.length > 0) {
-      for (var i = 0; i < this.orderTable.length; i++) {
-        let Obj: any = this.orderTable[i]!;
+    if (this.tableData.length > 0) {
+      for (var i = 0; i < this.tableData.length; i++) {
+        let Obj: any = this.tableData[i]!;
         total = total + parseFloat(Obj.price!);
       }
       return (this.orderTotal = total);
@@ -104,8 +103,12 @@ export class EditOrderVendorPageComponent implements OnInit {
   getCartByVendorId(id: any) {
     this.canOrder = false;
     this.isMod = false;
+    let dealer = this.token.getUser().account_id;
+
     this.getData
-      .httpGetRequest('/get-ordered-vendor/' + id)
+      .httpGetRequest(
+        '/fetch-order-items-atlas-id-vendor-id/' + dealer + '/' + id
+      )
       .then((result: any) => {
         console.log(result, 'promotion');
 

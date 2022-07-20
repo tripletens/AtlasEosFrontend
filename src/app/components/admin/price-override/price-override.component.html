@@ -20,10 +20,11 @@
                     <div class="form-group">
                       <label for="email">Dealer Account #</label>
                       <input
-                        type="email"
+                        type="text"
                         class="form-control"
                         placeholder="Dealer Account #"
                         id="email"
+                        [(ngModel)]="dealerCode"
                       />
                     </div>
                   </div>
@@ -31,15 +32,16 @@
                     <div class="form-group">
                       <label for="email">Enter Atlas #</label>
                       <input
-                        type="email"
+                        type="text"
                         class="form-control"
                         placeholder="Enter Atlas #"
                         id="email"
+                        [(ngModel)]="atlasCode"
                       />
                     </div>
                   </div>
                   <div class="btn-wrapper">
-                    <button class="">
+                    <button class="" (click)="getDealerCart()">
                       Enter
                     </button>
                   </div>
@@ -150,7 +152,6 @@
                       <tr>
                         <th class="thead-custom">Qty</th>
                         <th class="thead-custom">New Qty</th>
-
                         <th class="thead-custom">Atlas #</th>
                         <th class="thead-custom">Vendor #</th>
                         <th class="thead-custom">Description</th>
@@ -159,7 +160,38 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      <tr *ngIf="dataInbound">
+                        <td>{{ cartData.qty }}</td>
+                        <td>
+                          <input
+                            type="text"
+                            class="edit-input"
+                            [(ngModel)]="newQty"
+                            placeholder="New Qty"
+                          />
+                        </td>
+                        <td>
+                          {{ cartData.atlas_id }}
+                        </td>
+                        <td>
+                          {{ cartData.vendor }}
+                        </td>
+                        <td>
+                          {{ cartData.description }}
+                        </td>
+                        <td>
+                          {{ cartData.price }}
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            class="edit-input"
+                            [(ngModel)]="newPrice"
+                            placeholder="New Price"
+                          />
+                        </td>
+                      </tr>
+                      <tr *ngIf="noOrderFound">
                         <td colspan="7" class="text-center">No order listed</td>
                       </tr>
                     </tbody>
@@ -167,8 +199,14 @@
                 </div>
 
                 <hr />
-                <div class="btn-wrapper2">
-                  <button>Save</button>
+                <div *ngIf="dataInbound" class="btn-wrapper2">
+                  <button (click)="savePriceOverride()">
+                    <span *ngIf="!btnLoader">Save</span>
+
+                    <div *ngIf="btnLoader">
+                      <span class="spinner-border spinner-border-sm"></span>
+                    </div>
+                  </button>
                 </div>
               </div>
             </div>
