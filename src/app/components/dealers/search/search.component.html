@@ -233,7 +233,7 @@
                       </tr>
                     </tbody>
                   </table>
-                  <div class="mt-4" >
+                  <div class="mt-4" *ngIf="!productNoData" >
                     <h5 class="text-center" *ngIf="tableView">Products</h5>
 
                     <table
@@ -339,7 +339,7 @@
                     </table>
                   </div>
 
-                  <div class="mt-4 mb-3">
+                  <div class="mt-4 mb-3" *ngIf="!vendorNoData">
                     <h5 class="text-center" *ngIf="tableView">Vendors</h5>
                     <table
                       class="table text-nowrap mb-0 align-items-center mb-0"
