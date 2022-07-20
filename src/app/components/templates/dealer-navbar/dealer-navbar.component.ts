@@ -17,7 +17,7 @@ export class DealerNavbarComponent implements OnInit {
   acct!: string;
   company!: string;
   location!: string;
-
+  greetingStatus = true;
   dealerToVendorSwitch = false;
 
   ngOnInit(): void {
@@ -35,8 +35,11 @@ export class DealerNavbarComponent implements OnInit {
   constructor(
     private router: Router,
     private tokenStorage: TokenStorageService,
-    private getHttpData: HttpRequestsService
+    private getHttpData: HttpRequestsService,
   ) {
+    this.router.events.subscribe((params) => { 
+      this.greetingStatus =false
+    })
     if (this.tokenStorage.checkSwitch()) {
       if (this.tokenStorage.getSwitchType() == 'vendor-to-dealer') {
         this.dealerToVendorSwitch = true;
