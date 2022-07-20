@@ -133,9 +133,7 @@ export class SearchComponent implements OnInit {
             this.productData = data.products;
             this.productStatus = true;
             this.productNoData = false;
-            if (this.productNoData == false && this.vendorNoData == false) {
-              this.toastr.error('Something went wrong', ` Error`);
-            }
+
             console.log(
               'entered pro true',
               this.productStatus,
@@ -146,15 +144,16 @@ export class SearchComponent implements OnInit {
             this.vendorData = data.vendor;
             this.vendorStatus = true;
             this.vendorNoData = false;
-              console.log(
-                'entered vend true',
-                this.vendorStatus,
-                this.vendorNoData
-              );
+            console.log(
+              'entered vend true',
+              this.vendorStatus,
+              this.vendorNoData
+            );
           }
           if (data.products == null) {
             this.productStatus = false;
-            this.productNoData = true;  console.log(
+            this.productNoData = true;
+            console.log(
               'entered pro null',
               this.productStatus,
               this.productNoData
@@ -162,30 +161,28 @@ export class SearchComponent implements OnInit {
           }
           if (data.vendor == null) {
             this.vendorNoData = true;
-            this.vendorStatus = false;  console.log(
+            this.vendorStatus = false;
+            console.log(
               'entered pro null',
               this.vendorStatus,
               this.vendorNoData
             );
           }
+          {
+            this.productNoData == true &&
+              this.vendorNoData == true &&
+              this.toastr.error('product not found', ` Error`);
+          }
           console.log('result', result);
         } else {
-           if (this.productNoData == false && this.vendorNoData == false) {
-             this.toastr.error('Something went wrong', ` Error`);
-           }
           this.toastr.error('', `Product not Found `);
         }
       })
       .catch((err) => {
-         if (this.productNoData == false && this.vendorNoData == false) {
-           this.toastr.error('Something went wrong', ` Error`);
-         }
         console.log('there is an err', err);
         this.toastr.error('Something went wrong', ` Error`);
         this.loader = false;
       });
-    
-    
   }
   parser(data: any) {
     return JSON.parse(data);
