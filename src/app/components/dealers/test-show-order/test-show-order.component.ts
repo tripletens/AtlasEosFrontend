@@ -108,8 +108,8 @@ export class TestShowOrderComponent implements OnInit {
   @ViewChildren('extend')
   extendField!: QueryList<ElementRef>;
 
-  dummyAmt = 0
-  userData: any
+  dummyAmt = 0;
+  userData: any;
 
   //// End of old  code ///////
 
@@ -170,8 +170,8 @@ export class TestShowOrderComponent implements OnInit {
         let rawUnit = document.getElementById('u-price-' + h)?.innerText;
         let unit = rawUnit?.replace(',', '.');
 
-        let rawPrice = document.getElementById('amt-hidd-' + h)?.innerText
-        let realPrice = rawPrice?.replace(',', '.')
+        let rawPrice = document.getElementById('amt-hidd-' + h)?.innerText;
+        let realPrice = rawPrice?.replace(',', '.');
 
         let cartData = {
           uid: this.userData.id,
@@ -183,7 +183,7 @@ export class TestShowOrderComponent implements OnInit {
           price: realPrice,
           unit_price: unit,
           groupings: data.grouping,
-        }
+        };
 
         postItem.push(cartData);
       }
@@ -199,9 +199,9 @@ export class TestShowOrderComponent implements OnInit {
       .httpPostRequest('/add-item-to-cart', postData)
       .then((res: any) => {
         if (res.status) {
-          this.cartLoader = false
+          this.cartLoader = false;
           ///  this.orderSuccess = true
-          this.toastr.success(` item(s) has been submitted`, 'Success')
+          this.toastr.success(` item(s) has been submitted`, 'Success');
           /// this.orderTable = []
           /// this.getTotal()
           /// this.getCart()
@@ -276,30 +276,29 @@ export class TestShowOrderComponent implements OnInit {
   }
 
   runTotalCalculation() {
-    let allProCount = this.productData.length
-    let ty = 0
+    let allProCount = this.productData.length;
+    let ty = 0;
     for (let h = 0; h < allProCount; h++) {
-      let curQty = $('#cur-' + h).val()
+      let curQty = $('#cur-' + h).val();
       if (curQty !== '') {
-        ty++
-        let data = this.productData[h]
-        let rawUnit = document.getElementById('u-price-' + h)?.innerHTML
-        let unit = rawUnit?.replace(',', '.')
+        ty++;
+        let data = this.productData[h];
+        let rawUnit = document.getElementById('u-price-' + h)?.innerHTML;
+        let unit = rawUnit?.replace(',', '.');
 
-        let rawPrice = document.getElementById('amt-hidd-' + h)?.innerHTML
-        let realPrice = rawPrice?.replace(',', '.')
+        let rawPrice = document.getElementById('amt-hidd-' + h)?.innerHTML;
+        let realPrice = rawPrice?.replace(',', '.');
 
         if (realPrice != undefined) {
-          console.log(realPrice)
-          this.overTotal += parseFloat(realPrice)
-          console.log(ty)
+          console.log(realPrice);
+          this.overTotal += parseFloat(realPrice);
+          console.log(ty);
         }
       }
     }
   }
 
   runCalculation(index: number, qty: any, event: any) {
-  
     if (event.key != 'Tab') {
       if (qty !== '') {
         let curr = this.productData[index];
@@ -664,10 +663,10 @@ export class TestShowOrderComponent implements OnInit {
           ///console.log(price, 'unit Price');
           $('#u-price-' + index).html(price);
 
-          $('.normal-booking-' + index).css('display', 'inline-block')
+          $('.normal-booking-' + index).css('display', 'inline-block');
 
-          let formattedAmt = this.currencyPipe.transform(calAmt, '$')
-          $('#amt-' + index).html(formattedAmt)
+          let formattedAmt = this.currencyPipe.transform(calAmt, '$');
+          $('#amt-' + index).html(formattedAmt);
         }
       } else {
         if (qty == '' || qty == 0) {
@@ -856,15 +855,15 @@ export class TestShowOrderComponent implements OnInit {
         let curr = this.productData[index];
         let spec = curr.spec_data;
 
-        $('.normal-booking-' + index).css('display', 'none')
+        $('.normal-booking-' + index).css('display', 'none');
         for (let h = 0; h < spec.length; h++) {
-          $('.special-booking-' + index + '-' + h).css('display', 'none')
+          $('.special-booking-' + index + '-' + h).css('display', 'none');
         }
 
         let formattedAmt = this.currencyPipe.transform(0, '$');
         $('#amt-' + index).html(formattedAmt);
       }
-  console.log('product info', this.productData);
+      console.log('product info', this.productData, this.newArrayFilter);
       ////this.runTotalCalculation()
     }
   }
@@ -891,8 +890,8 @@ export class TestShowOrderComponent implements OnInit {
       .then((result: any) => {
         // console.log(result);
         if (result.status) {
-          this.allCategoryData = result.data
-          this.selectVendor = this.vendorId
+          this.allCategoryData = result.data;
+          this.selectVendor = this.vendorId;
         } else {
           this.toastr.info(`Something went wrong`, 'Error');
         }
@@ -1010,7 +1009,6 @@ export class TestShowOrderComponent implements OnInit {
         this.toastr.info(`Something went wrong`, 'Error');
       });
   }
-
 
   runCalc(product: any, qty: any, i: any) {
     let price = parseFloat(product?.booking!);
