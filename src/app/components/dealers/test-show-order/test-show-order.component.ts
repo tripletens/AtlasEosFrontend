@@ -405,6 +405,8 @@ export class TestShowOrderComponent implements OnInit {
     let data = {
       atlasId: currentProduct.atlas_id,
       price: newPrice,
+      grouping: currentProduct.grouping,
+      index: index,
     }
 
     // let currentProduct.atlas_id,
@@ -423,6 +425,17 @@ export class TestShowOrderComponent implements OnInit {
       }
 
       if (!presentItem) {
+        for (let g = 0; g < this.addedItem.length; g++) {
+          const t = this.addedItem[g]
+          if (t.grouping == currentProduct.grouping) {
+            let rawPrice = document.getElementById('amt-hidd-' + t.index)
+              ?.innerHTML
+            // let realPrice = rawPrice?.replace('$', '')
+            let newPrice = rawPrice?.replace(',', '')
+            t.price = newPrice
+          }
+          //groupings
+        }
         this.addedItem.push(data)
       }
     }
@@ -433,7 +446,7 @@ export class TestShowOrderComponent implements OnInit {
       // console.log(this.overTotal)
     }
 
-    console.log(this.overTotal)
+    console.log(this.addedItem)
 
     // if (realPrice != undefined) {
     //   let eachTotal = parseFloat(realPrice)
