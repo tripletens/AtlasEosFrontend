@@ -110,6 +110,11 @@ export class TestShowOrderComponent implements OnInit {
 
   dummyAmt = 0
   userData: any
+  incomingVendorData: any
+  allVendors: any
+  showDropdown = false
+  @ViewChild('dummyInput') dummyInput!: ElementRef
+  vendorCode = ''
 
   //// End of old  code ///////
 
@@ -153,6 +158,104 @@ export class TestShowOrderComponent implements OnInit {
   }
 
   ///////// Old code ///////////
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value
+    this.incomingVendorData.vendor_name = filterValue.trim().toLowerCase()
+    this.allVendors = this.filterArray('*' + filterValue)
+  }
+
+  filterArray(expression: string) {
+    var regex = this.convertWildcardStringToRegExp(expression)
+    return this.incomingVendorData.filter(function (item: any) {
+      return regex.test(item.vendor_name)
+    })
+  }
+
+  escapeRegExp(str: string) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  }
+
+  convertWildcardStringToRegExp(expression: string) {
+    var terms = expression.split('*')
+
+    var trailingWildcard = false
+
+    var expr = ''
+    for (var i = 0; i < terms.length; i++) {
+      if (terms[i]) {
+        if (i > 0 && terms[i - 1]) {
+          expr += '.*'
+        }
+        trailingWildcard = false
+        expr += this.escapeRegExp(terms[i])
+      } else {
+        trailingWildcard = true
+        expr += '.*'
+      }
+    }
+
+    if (!trailingWildcard) {
+      expr += '.*'
+    }
+
+    return new RegExp('^' + expr + '$', 'i')
+  }
+
+  toggleVendors() {
+    if (this.showDropdown) {
+      this.showDropdown = false
+    } else {
+      this.showDropdown = true
+    }
+  }
+
+  getAllSelectedDealerUsers(data: any) {
+    if (this.showDropdown) {
+      this.showDropdown = false
+    } else {
+      this.showDropdown = true
+    }
+
+    this.dummyInput.nativeElement.value = data.vendor_name
+    this.vendorCode = data.vendor_code
+  }
+
+  getProductByVendorId() {
+    this.loader = true
+    this.tableView = false
+    this.canOrder = false
+    this.isMod = false
+    /// let id = this.vendor.nativeElement.value
+
+    this.getData
+      .httpGetRequest('/dealer/get-vendor-products/' + this.vendorCode)
+      .then((result: any) => {
+        console.log(result, 'promotion')
+        this.loader = false
+        this.tableView = true
+
+        if (result.status) {
+          this.productData = result.data
+
+          this.tableData = result.data
+          if (result.data.length !== 0) {
+            this.canOrder = true
+          }
+          this.orderTable = []
+          this.getTotal()
+
+          this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
+          this.dataSrc.sort = this.sort
+          this.dataSrc.paginator = this.paginator
+        } else {
+          this.toastr.info(`Something went wrong`, 'Error')
+        }
+      })
+      .catch((err) => {
+        this.toastr.info(`Something went wrong`, 'Error')
+      })
+  }
 
   oneAddBtn() {
     let allProCount = this.productData.length
@@ -891,6 +994,7 @@ export class TestShowOrderComponent implements OnInit {
       return (this.orderTotal = 0)
     }
   }
+
   getAllVendors() {
     this.orderSuccess = false
 
@@ -899,7 +1003,8 @@ export class TestShowOrderComponent implements OnInit {
       .then((result: any) => {
         // console.log(result);
         if (result.status) {
-          this.allCategoryData = result.data
+          this.allVendors = result.data
+          this.incomingVendorData = result.data
           this.selectVendor = this.vendorId
         } else {
           this.toastr.info(`Something went wrong`, 'Error')
@@ -909,6 +1014,7 @@ export class TestShowOrderComponent implements OnInit {
         this.toastr.info(`Something went wrong`, 'Error')
       })
   }
+
   filterTop(array: any) {
     let prodigal = array.filter((item: any) => {
       return item.atlas_id == this.searchatlasId!
@@ -982,41 +1088,6 @@ export class TestShowOrderComponent implements OnInit {
     }
     console.log('new array', arr)
     return arr
-  }
-  getProductByVendorId() {
-    this.loader = true
-    this.tableView = false
-    this.canOrder = false
-    this.isMod = false
-    let id = this.vendor.nativeElement.value
-    this.getData
-      .httpGetRequest('/dealer/get-vendor-products/' + id)
-      .then((result: any) => {
-        console.log(result, 'promotion')
-
-        this.loader = false
-        this.tableView = true
-
-        if (result.status) {
-          this.productData = result.data
-
-          this.tableData = result.data
-          if (result.data.length !== 0) {
-            this.canOrder = true
-          }
-          this.orderTable = []
-          this.getTotal()
-
-          this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
-          this.dataSrc.sort = this.sort
-          this.dataSrc.paginator = this.paginator
-        } else {
-          this.toastr.info(`Something went wrong`, 'Error')
-        }
-      })
-      .catch((err) => {
-        this.toastr.info(`Something went wrong`, 'Error')
-      })
   }
 
   runCalc(product: any, qty: any, i: any) {
