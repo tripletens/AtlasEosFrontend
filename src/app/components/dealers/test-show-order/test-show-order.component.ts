@@ -115,6 +115,7 @@ export class TestShowOrderComponent implements OnInit {
   showDropdown = false
   @ViewChild('dummyInput') dummyInput!: ElementRef
   vendorCode = ''
+  addedItem: any = []
 
   //// End of old  code ///////
 
@@ -378,27 +379,74 @@ export class TestShowOrderComponent implements OnInit {
     }
   }
 
-  runTotalCalculation() {
-    let allProCount = this.productData.length
-    let ty = 0
-    for (let h = 0; h < allProCount; h++) {
-      let curQty = $('#cur-' + h).val()
-      if (curQty !== '') {
-        ty++
-        let data = this.productData[h]
-        let rawUnit = document.getElementById('u-price-' + h)?.innerHTML
-        let unit = rawUnit?.replace(',', '.')
+  runTotalCalculation(index: number) {
+    let currentProduct = this.productData[index]
+    let curQty = $('#cur-' + index).val()
+    let rawPrice = document.getElementById('amt-' + index)?.innerHTML
+    let realPrice = rawPrice?.replace('$', '')
 
-        let rawPrice = document.getElementById('amt-hidd-' + h)?.innerHTML
-        let realPrice = rawPrice?.replace(',', '.')
+    let data = {
+      atlasId: currentProduct.atlas_id,
+      price: realPrice,
+    }
 
-        if (realPrice != undefined) {
-          console.log(realPrice)
-          this.overTotal += parseFloat(realPrice)
-          console.log(ty)
+    // let currentProduct.atlas_id,
+
+    if (this.addedItem.length == 0) {
+      this.addedItem.push(data)
+    } else {
+      let presentItem = false
+      for (let i = 0; i < this.addedItem.length; i++) {
+        const item = this.addedItem[i]
+        if (item.atlasId == currentProduct.atlas_id) {
+          item.price = realPrice
+          presentItem = true
+        } else {
         }
       }
+
+      if (!presentItem) {
+        this.addedItem.push(data)
+      }
     }
+    this.overTotal = 0
+    for (let j = 0; j < this.addedItem.length; j++) {
+      const h = this.addedItem[j]
+      this.overTotal += parseFloat(h.price)
+      console.log(this.overTotal)
+    }
+
+    /// console.log(this.addedItem)
+
+    // if (realPrice != undefined) {
+    //   let eachTotal = parseFloat(realPrice)
+
+    //   // console.log(eachTotal)
+    //   this.overTotal += parseFloat(realPrice)
+    //   console.log(this.overTotal)
+    // }
+
+    // let allProCount = this.productData.length
+    // let ty = 0
+    // for (let h = 0; h < allProCount; h++) {
+    //   let curQty = $('#cur-' + h).val()
+    //   if (curQty !== '') {
+    //     ty++
+    //     let data = this.productData[h]
+    //     let rawUnit = document.getElementById('u-price-' + h)?.innerHTML
+    //     let unit = rawUnit?.replace(',', '.')
+
+    //     let rawPrice = document.getElementById('amt-hidd-' + h)?.innerHTML
+    //     let realPrice = rawPrice?.replace(',', '.')
+
+    //     if (realPrice != undefined) {
+    //       console.log(realPrice)
+    //       this.overTotal += parseFloat(realPrice)
+    //       console.log(ty)
+    //     }
+
+    //   }
+    // }
   }
 
   runCalculation(index: number, qty: any, event: any) {
@@ -968,15 +1016,17 @@ export class TestShowOrderComponent implements OnInit {
         let spec = curr.spec_data
 
         $('.normal-booking-' + index).css('display', 'none')
-        for (let h = 0; h < spec.length; h++) {
-          $('.special-booking-' + index + '-' + h).css('display', 'none')
+        if (spec != null) {
+          for (let h = 0; h < spec.length; h++) {
+            $('.special-booking-' + index + '-' + h).css('display', 'none')
+          }
         }
 
         let formattedAmt = this.currencyPipe.transform(0, '$')
         $('#amt-' + index).html(formattedAmt)
       }
 
-      ////this.runTotalCalculation()
+      this.runTotalCalculation(index)
     }
   }
 
