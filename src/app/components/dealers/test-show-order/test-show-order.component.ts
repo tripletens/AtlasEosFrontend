@@ -108,8 +108,8 @@ export class TestShowOrderComponent implements OnInit {
   @ViewChildren('extend')
   extendField!: QueryList<ElementRef>;
 
-  dummyAmt = 0;
-  userData: any;
+  dummyAmt = 0
+  userData: any
 
   //// End of old  code ///////
 
@@ -170,20 +170,15 @@ export class TestShowOrderComponent implements OnInit {
         let rawUnit = document.getElementById('u-price-' + h)?.innerText;
         let unit = rawUnit?.replace(',', '.');
 
-        let rawPrice = document.getElementById('amt-hidd-' + h)?.innerText;
-        let realPrice = rawPrice?.replace(',', '.');
-
-        let cartData = {
           uid: this.userData.id,
           dealer: this.userData.account_id,
-          vendor_id: data.vendor,
           atlas_id: data.atlas_id,
           product_id: data.id,
           qty: curQty,
           price: realPrice,
           unit_price: unit,
           groupings: data.grouping,
-        };
+        }
 
         postItem.push(cartData);
       }
@@ -199,9 +194,9 @@ export class TestShowOrderComponent implements OnInit {
       .httpPostRequest('/add-item-to-cart', postData)
       .then((res: any) => {
         if (res.status) {
-          this.cartLoader = false;
+          this.cartLoader = false
           ///  this.orderSuccess = true
-          this.toastr.success(` item(s) has been submitted`, 'Success');
+          this.toastr.success(` item(s) has been submitted`, 'Success')
           /// this.orderTable = []
           /// this.getTotal()
           /// this.getCart()
@@ -276,29 +271,30 @@ export class TestShowOrderComponent implements OnInit {
   }
 
   runTotalCalculation() {
-    let allProCount = this.productData.length;
-    let ty = 0;
+    let allProCount = this.productData.length
+    let ty = 0
     for (let h = 0; h < allProCount; h++) {
-      let curQty = $('#cur-' + h).val();
+      let curQty = $('#cur-' + h).val()
       if (curQty !== '') {
-        ty++;
-        let data = this.productData[h];
-        let rawUnit = document.getElementById('u-price-' + h)?.innerHTML;
-        let unit = rawUnit?.replace(',', '.');
+        ty++
+        let data = this.productData[h]
+        let rawUnit = document.getElementById('u-price-' + h)?.innerHTML
+        let unit = rawUnit?.replace(',', '.')
 
-        let rawPrice = document.getElementById('amt-hidd-' + h)?.innerHTML;
-        let realPrice = rawPrice?.replace(',', '.');
+        let rawPrice = document.getElementById('amt-hidd-' + h)?.innerHTML
+        let realPrice = rawPrice?.replace(',', '.')
 
         if (realPrice != undefined) {
-          console.log(realPrice);
-          this.overTotal += parseFloat(realPrice);
-          console.log(ty);
+          console.log(realPrice)
+          this.overTotal += parseFloat(realPrice)
+          console.log(ty)
         }
       }
     }
   }
 
   runCalculation(index: number, qty: any, event: any) {
+  
     if (event.key != 'Tab') {
       if (qty !== '') {
         let curr = this.productData[index];
@@ -663,10 +659,10 @@ export class TestShowOrderComponent implements OnInit {
           ///console.log(price, 'unit Price');
           $('#u-price-' + index).html(price);
 
-          $('.normal-booking-' + index).css('display', 'inline-block');
+          $('.normal-booking-' + index).css('display', 'inline-block')
 
-          let formattedAmt = this.currencyPipe.transform(calAmt, '$');
-          $('#amt-' + index).html(formattedAmt);
+          let formattedAmt = this.currencyPipe.transform(calAmt, '$')
+          $('#amt-' + index).html(formattedAmt)
         }
       } else {
         if (qty == '' || qty == 0) {
@@ -855,15 +851,15 @@ export class TestShowOrderComponent implements OnInit {
         let curr = this.productData[index];
         let spec = curr.spec_data;
 
-        $('.normal-booking-' + index).css('display', 'none');
+        $('.normal-booking-' + index).css('display', 'none')
         for (let h = 0; h < spec.length; h++) {
-          $('.special-booking-' + index + '-' + h).css('display', 'none');
+          $('.special-booking-' + index + '-' + h).css('display', 'none')
         }
 
         let formattedAmt = this.currencyPipe.transform(0, '$');
         $('#amt-' + index).html(formattedAmt);
       }
-      console.log('product info', this.productData, this.newArrayFilter);
+  console.log('product info', this.productData);
       ////this.runTotalCalculation()
     }
   }
@@ -890,8 +886,8 @@ export class TestShowOrderComponent implements OnInit {
       .then((result: any) => {
         // console.log(result);
         if (result.status) {
-          this.allCategoryData = result.data;
-          this.selectVendor = this.vendorId;
+          this.allCategoryData = result.data
+          this.selectVendor = this.vendorId
         } else {
           this.toastr.info(`Something went wrong`, 'Error');
         }
@@ -1008,6 +1004,41 @@ export class TestShowOrderComponent implements OnInit {
       .catch((err) => {
         this.toastr.info(`Something went wrong`, 'Error');
       });
+  }
+  getProductByVendorId() {
+    this.loader = true
+    this.tableView = false
+    this.canOrder = false
+    this.isMod = false
+    let id = this.vendor.nativeElement.value
+    this.getData
+      .httpGetRequest('/dealer/get-vendor-products/' + id)
+      .then((result: any) => {
+        console.log(result, 'promotion')
+
+        this.loader = false
+        this.tableView = true
+
+        if (result.status) {
+          this.productData = result.data
+  console.log('product info init', this.productData);
+          this.tableData = result.data
+          if (result.data.length !== 0) {
+            this.canOrder = true
+          }
+          this.orderTable = []
+          this.getTotal()
+
+          this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
+          this.dataSrc.sort = this.sort
+          this.dataSrc.paginator = this.paginator
+        } else {
+          this.toastr.info(`Something went wrong`, 'Error')
+        }
+      })
+      .catch((err) => {
+        this.toastr.info(`Something went wrong`, 'Error')
+      })
   }
 
   runCalc(product: any, qty: any, i: any) {
