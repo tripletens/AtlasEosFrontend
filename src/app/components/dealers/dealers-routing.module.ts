@@ -49,7 +49,7 @@ const routes: Routes = [
       },
       {
         path: 'quick-order',
-        component: QuickOrderComponent,
+        component: TestQuickOrderComponent,
       },
       {
         path: 'flyer',
