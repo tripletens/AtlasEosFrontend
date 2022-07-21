@@ -1,12 +1,12 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { HttpClient } from '@angular/common/http';
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
-import { TokenStorageService } from 'src/app/core/services/token-storage.service';
+
 export interface PeriodicElement {
   id: number;
   topic: string;
@@ -15,13 +15,12 @@ export interface PeriodicElement {
   start_time: string;
   link: string;
 }
-
 @Component({
-  selector: 'app-all-seminars',
-  templateUrl: './all-seminars.component.html',
-  styleUrls: ['./all-seminars.component.scss'],
+  selector: 'app-watched-seminars',
+  templateUrl: './watched-seminars.component.html',
+  styleUrls: ['./watched-seminars.component.scss'],
 })
-export class AllSeminarsComponent implements AfterViewInit {
+export class WatchedSeminarsComponent implements OnInit {
   loader = true;
   tableView = false;
   tableData: PeriodicElement[] = [];
@@ -45,10 +44,12 @@ export class AllSeminarsComponent implements AfterViewInit {
   constructor(
     private request: HttpRequestsService,
     private http: HttpClient,
-    private token: TokenStorageService,
     private toastr: ToastrService,
     private _liveAnnouncer: LiveAnnouncer
   ) {}
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
   @ViewChild(MatSort)
   sort!: MatSort;
   announceSortChange(sortState: Sort) {
@@ -64,7 +65,7 @@ export class AllSeminarsComponent implements AfterViewInit {
     this.noData = false;
 
     this.request
-      .httpGetRequest('/fetch-all-seminars')
+      .httpGetRequest('/fetch-watched-seminars')
       .then((result: any) => {
         console.log(result);
         this.tableView = true;
@@ -87,31 +88,5 @@ export class AllSeminarsComponent implements AfterViewInit {
         this.toastr.error('Try again', 'Something went wrong');
         this.noData = true;
       });
-  }
-  bookmarkSeminar(id: any,seminar:any) {
-    let dealer = this.token.getUser().id
-    let formdata = {
-      seminar_id: id,
-      dealer_id: dealer,
-      bookmark_status: 1,
-      current_seminar_status:seminar.status,
-    };
-     this.request
-       .httpPostRequest('/join-seminar',formdata)
-       .then((result: any) => {
-         console.log(result);
-       
-         if (result.status) {
-           console.log('data result', this.tableData, result.data.length);
-           this.toastr.success('Seminar has been bookmarked', `Success`);
-           
-           
-         } else {
-           this.toastr.error('Something went wrong', `${result.message}`);
-         }
-       })
-       .catch((err) => {
-         this.toastr.error('Try again', 'Something went wrong');
-       });
   }
 }

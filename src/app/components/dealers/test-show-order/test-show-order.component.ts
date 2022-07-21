@@ -299,6 +299,7 @@ export class TestShowOrderComponent implements OnInit {
   }
 
   runCalculation(index: number, qty: any, event: any) {
+  
     if (event.key != 'Tab') {
       if (qty !== '') {
         let curr = this.productData[index]
@@ -872,7 +873,7 @@ export class TestShowOrderComponent implements OnInit {
         let formattedAmt = this.currencyPipe.transform(0, '$')
         $('#amt-' + index).html(formattedAmt)
       }
-
+  console.log('product info', this.productData);
       ////this.runTotalCalculation()
     }
   }
@@ -999,7 +1000,7 @@ export class TestShowOrderComponent implements OnInit {
 
         if (result.status) {
           this.productData = result.data
-
+  console.log('product info init', this.productData);
           this.tableData = result.data
           if (result.data.length !== 0) {
             this.canOrder = true
