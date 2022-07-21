@@ -117,6 +117,10 @@ export class TestShowOrderComponent implements OnInit {
   vendorCode = ''
   addedItem: any = []
 
+  itemAlreadySubmitted: any = ''
+  itemNewlySubmitted = 0
+  showSubmittedDetails = false
+
   //// End of old  code ///////
 
   constructor(
@@ -228,6 +232,7 @@ export class TestShowOrderComponent implements OnInit {
     this.canOrder = false
     this.isMod = false
     /// let id = this.vendor.nativeElement.value
+    this.showSubmittedDetails = false
 
     this.getData
       .httpGetRequest('/dealer/get-vendor-products/' + this.vendorCode)
@@ -274,8 +279,11 @@ export class TestShowOrderComponent implements OnInit {
         let rawUnit = document.getElementById('u-price-' + h)?.innerText
         let unit = rawUnit?.replace(',', '.')
 
-        let rawPrice = document.getElementById('amt-hidd-' + h)?.innerText
-        let realPrice = rawPrice?.replace(',', '.')
+        // let rawPrice = document.getElementById('amt-hidd-' + h)?.innerText
+        // let realPrice = rawPrice?.replace(',', '.')
+
+        let rawPrice = document.getElementById('amt-' + h)?.innerHTML
+        let realPrice = rawPrice?.replace('$', '')
 
         let cartData = {
           uid: this.userData.id,
@@ -287,6 +295,7 @@ export class TestShowOrderComponent implements OnInit {
           price: realPrice,
           unit_price: unit,
           groupings: data.grouping,
+          type: 'null',
         }
 
         postItem.push(cartData)
@@ -300,11 +309,14 @@ export class TestShowOrderComponent implements OnInit {
     }
 
     this.getData
-      .httpPostRequest('/add-item-to-cart', postData)
+      .httpPostRequest('/dealer/save-item-to-cart', postData)
       .then((res: any) => {
+        console.log(res)
         if (res.status) {
+          this.showSubmittedDetails = true
           this.cartLoader = false
-          ///  this.orderSuccess = true
+          this.itemAlreadySubmitted = res.data.item_details
+          this.itemNewlySubmitted = res.data.item_added
           this.toastr.success(` item(s) has been submitted`, 'Success')
           /// this.orderTable = []
           /// this.getTotal()
