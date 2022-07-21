@@ -110,6 +110,16 @@ export class TestShowOrderComponent implements OnInit {
 
   dummyAmt = 0
   userData: any
+  incomingVendorData: any
+  allVendors: any
+  showDropdown = false
+  @ViewChild('dummyInput') dummyInput!: ElementRef
+  vendorCode = ''
+  addedItem: any = []
+
+  itemAlreadySubmitted: any = ''
+  itemNewlySubmitted = 0
+  showSubmittedDetails = false
 
   //// End of old  code ///////
 
@@ -154,6 +164,105 @@ export class TestShowOrderComponent implements OnInit {
 
   ///////// Old code ///////////
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value
+    this.incomingVendorData.vendor_name = filterValue.trim().toLowerCase()
+    this.allVendors = this.filterArray('*' + filterValue)
+  }
+
+  filterArray(expression: string) {
+    var regex = this.convertWildcardStringToRegExp(expression)
+    return this.incomingVendorData.filter(function (item: any) {
+      return regex.test(item.vendor_name)
+    })
+  }
+
+  escapeRegExp(str: string) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  }
+
+  convertWildcardStringToRegExp(expression: string) {
+    var terms = expression.split('*')
+
+    var trailingWildcard = false
+
+    var expr = ''
+    for (var i = 0; i < terms.length; i++) {
+      if (terms[i]) {
+        if (i > 0 && terms[i - 1]) {
+          expr += '.*'
+        }
+        trailingWildcard = false
+        expr += this.escapeRegExp(terms[i])
+      } else {
+        trailingWildcard = true
+        expr += '.*'
+      }
+    }
+
+    if (!trailingWildcard) {
+      expr += '.*'
+    }
+
+    return new RegExp('^' + expr + '$', 'i')
+  }
+
+  toggleVendors() {
+    if (this.showDropdown) {
+      this.showDropdown = false
+    } else {
+      this.showDropdown = true
+    }
+  }
+
+  getAllSelectedDealerUsers(data: any) {
+    if (this.showDropdown) {
+      this.showDropdown = false
+    } else {
+      this.showDropdown = true
+    }
+
+    this.dummyInput.nativeElement.value = data.vendor_name
+    this.vendorCode = data.vendor_code
+  }
+
+  getProductByVendorId() {
+    this.loader = true
+    this.tableView = false
+    this.canOrder = false
+    this.isMod = false
+    /// let id = this.vendor.nativeElement.value
+    this.showSubmittedDetails = false
+
+    this.getData
+      .httpGetRequest('/dealer/get-vendor-products/' + this.vendorCode)
+      .then((result: any) => {
+        console.log(result, 'promotion')
+        this.loader = false
+        this.tableView = true
+
+        if (result.status) {
+          this.productData = result.data
+
+          this.tableData = result.data
+          if (result.data.length !== 0) {
+            this.canOrder = true
+          }
+          this.orderTable = []
+          this.getTotal()
+
+          this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
+          this.dataSrc.sort = this.sort
+          this.dataSrc.paginator = this.paginator
+        } else {
+          this.toastr.info(`Something went wrong`, 'Error')
+        }
+      })
+      .catch((err) => {
+        this.toastr.info(`Something went wrong`, 'Error')
+      })
+  }
+
   oneAddBtn() {
     let allProCount = this.productData.length
     let addedState = false
@@ -170,8 +279,11 @@ export class TestShowOrderComponent implements OnInit {
         let rawUnit = document.getElementById('u-price-' + h)?.innerText
         let unit = rawUnit?.replace(',', '.')
 
-        let rawPrice = document.getElementById('amt-hidd-' + h)?.innerText
-        let realPrice = rawPrice?.replace(',', '.')
+        // let rawPrice = document.getElementById('amt-hidd-' + h)?.innerText
+        // let realPrice = rawPrice?.replace(',', '.')
+
+        let rawPrice = document.getElementById('amt-' + h)?.innerHTML
+        let realPrice = rawPrice?.replace('$', '')
 
         let cartData = {
           uid: this.userData.id,
@@ -183,6 +295,7 @@ export class TestShowOrderComponent implements OnInit {
           price: realPrice,
           unit_price: unit,
           groupings: data.grouping,
+          type: 'null',
         }
 
         postItem.push(cartData)
@@ -196,11 +309,14 @@ export class TestShowOrderComponent implements OnInit {
     }
 
     this.getData
-      .httpPostRequest('/add-item-to-cart', postData)
+      .httpPostRequest('/dealer/save-item-to-cart', postData)
       .then((res: any) => {
+        console.log(res)
         if (res.status) {
+          this.showSubmittedDetails = true
           this.cartLoader = false
-          ///  this.orderSuccess = true
+          this.itemAlreadySubmitted = res.data.item_details
+          this.itemNewlySubmitted = res.data.item_added
           this.toastr.success(` item(s) has been submitted`, 'Success')
           /// this.orderTable = []
           /// this.getTotal()
@@ -275,27 +391,74 @@ export class TestShowOrderComponent implements OnInit {
     }
   }
 
-  runTotalCalculation() {
-    let allProCount = this.productData.length
-    let ty = 0
-    for (let h = 0; h < allProCount; h++) {
-      let curQty = $('#cur-' + h).val()
-      if (curQty !== '') {
-        ty++
-        let data = this.productData[h]
-        let rawUnit = document.getElementById('u-price-' + h)?.innerHTML
-        let unit = rawUnit?.replace(',', '.')
+  runTotalCalculation(index: number) {
+    let currentProduct = this.productData[index]
+    let curQty = $('#cur-' + index).val()
+    let rawPrice = document.getElementById('amt-' + index)?.innerHTML
+    let realPrice = rawPrice?.replace('$', '')
 
-        let rawPrice = document.getElementById('amt-hidd-' + h)?.innerHTML
-        let realPrice = rawPrice?.replace(',', '.')
+    let data = {
+      atlasId: currentProduct.atlas_id,
+      price: realPrice,
+    }
 
-        if (realPrice != undefined) {
-          console.log(realPrice)
-          this.overTotal += parseFloat(realPrice)
-          console.log(ty)
+    // let currentProduct.atlas_id,
+
+    if (this.addedItem.length == 0) {
+      this.addedItem.push(data)
+    } else {
+      let presentItem = false
+      for (let i = 0; i < this.addedItem.length; i++) {
+        const item = this.addedItem[i]
+        if (item.atlasId == currentProduct.atlas_id) {
+          item.price = realPrice
+          presentItem = true
+        } else {
         }
       }
+
+      if (!presentItem) {
+        this.addedItem.push(data)
+      }
     }
+    this.overTotal = 0
+    for (let j = 0; j < this.addedItem.length; j++) {
+      const h = this.addedItem[j]
+      this.overTotal += parseFloat(h.price)
+      console.log(this.overTotal)
+    }
+
+    /// console.log(this.addedItem)
+
+    // if (realPrice != undefined) {
+    //   let eachTotal = parseFloat(realPrice)
+
+    //   // console.log(eachTotal)
+    //   this.overTotal += parseFloat(realPrice)
+    //   console.log(this.overTotal)
+    // }
+
+    // let allProCount = this.productData.length
+    // let ty = 0
+    // for (let h = 0; h < allProCount; h++) {
+    //   let curQty = $('#cur-' + h).val()
+    //   if (curQty !== '') {
+    //     ty++
+    //     let data = this.productData[h]
+    //     let rawUnit = document.getElementById('u-price-' + h)?.innerHTML
+    //     let unit = rawUnit?.replace(',', '.')
+
+    //     let rawPrice = document.getElementById('amt-hidd-' + h)?.innerHTML
+    //     let realPrice = rawPrice?.replace(',', '.')
+
+    //     if (realPrice != undefined) {
+    //       console.log(realPrice)
+    //       this.overTotal += parseFloat(realPrice)
+    //       console.log(ty)
+    //     }
+
+    //   }
+    // }
   }
 
   runCalculation(index: number, qty: any, event: any) {
@@ -865,15 +1028,17 @@ export class TestShowOrderComponent implements OnInit {
         let spec = curr.spec_data
 
         $('.normal-booking-' + index).css('display', 'none')
-        for (let h = 0; h < spec.length; h++) {
-          $('.special-booking-' + index + '-' + h).css('display', 'none')
+        if (spec != null) {
+          for (let h = 0; h < spec.length; h++) {
+            $('.special-booking-' + index + '-' + h).css('display', 'none')
+          }
         }
 
         let formattedAmt = this.currencyPipe.transform(0, '$')
         $('#amt-' + index).html(formattedAmt)
       }
 
-      ////this.runTotalCalculation()
+      this.runTotalCalculation(index)
     }
   }
 
@@ -891,6 +1056,7 @@ export class TestShowOrderComponent implements OnInit {
       return (this.orderTotal = 0)
     }
   }
+
   getAllVendors() {
     this.orderSuccess = false
 
@@ -899,7 +1065,8 @@ export class TestShowOrderComponent implements OnInit {
       .then((result: any) => {
         // console.log(result);
         if (result.status) {
-          this.allCategoryData = result.data
+          this.allVendors = result.data
+          this.incomingVendorData = result.data
           this.selectVendor = this.vendorId
         } else {
           this.toastr.info(`Something went wrong`, 'Error')
@@ -909,6 +1076,7 @@ export class TestShowOrderComponent implements OnInit {
         this.toastr.info(`Something went wrong`, 'Error')
       })
   }
+
   filterTop(array: any) {
     let prodigal = array.filter((item: any) => {
       return item.atlas_id == this.searchatlasId!
@@ -982,41 +1150,6 @@ export class TestShowOrderComponent implements OnInit {
     }
     console.log('new array', arr)
     return arr
-  }
-  getProductByVendorId() {
-    this.loader = true
-    this.tableView = false
-    this.canOrder = false
-    this.isMod = false
-    let id = this.vendor.nativeElement.value
-    this.getData
-      .httpGetRequest('/dealer/get-vendor-products/' + id)
-      .then((result: any) => {
-        console.log(result, 'promotion')
-
-        this.loader = false
-        this.tableView = true
-
-        if (result.status) {
-          this.productData = result.data
-
-          this.tableData = result.data
-          if (result.data.length !== 0) {
-            this.canOrder = true
-          }
-          this.orderTable = []
-          this.getTotal()
-
-          this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
-          this.dataSrc.sort = this.sort
-          this.dataSrc.paginator = this.paginator
-        } else {
-          this.toastr.info(`Something went wrong`, 'Error')
-        }
-      })
-      .catch((err) => {
-        this.toastr.info(`Something went wrong`, 'Error')
-      })
   }
 
   runCalc(product: any, qty: any, i: any) {
