@@ -26,6 +26,7 @@ import { SupportTicketsComponent } from './support-tickets/support-tickets.compo
 import { ViewSupportTicketComponent } from './view-support-ticket/view-support-ticket.component'
 import { EditOrderVendorPageComponent } from './edit-order-vendor-page/edit-order-vendor-page.component'
 import { TestShowOrderComponent } from './test-show-order/test-show-order.component'
+import { WatchedSeminarsComponent } from './seminars/watched-seminars/watched-seminars.component'
 
 const routes: Routes = [
   {
@@ -121,6 +122,10 @@ const routes: Routes = [
         component: SheduledSeminarsComponent,
       },
       {
+        path: 'watched-seminars',
+        component: WatchedSeminarsComponent,
+      },
+      {
         path: 'promotional-flyers',
         component: PromotionalFlyerComponent,
       },
@@ -143,7 +148,7 @@ const routes: Routes = [
     ],
     canActivate: [AuthGuardGuard],
   },
-]
+];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

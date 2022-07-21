@@ -109,6 +109,7 @@ export class TestShowOrderComponent implements OnInit {
   extendField!: QueryList<ElementRef>
 
   dummyAmt = 0
+  userData: any
 
   //// End of old  code ///////
 
@@ -136,6 +137,7 @@ export class TestShowOrderComponent implements OnInit {
       }
     })
     this.getCart()
+    this.userData = this.token.getUser()
   }
   @ViewChild(MatSort)
   sort!: MatSort
@@ -153,15 +155,17 @@ export class TestShowOrderComponent implements OnInit {
   ///////// Old code ///////////
 
   oneAddBtn() {
-    ///this.dirtyDisable = true;
-    ///this.isDirty = false;
     let allProCount = this.productData.length
     let addedState = false
     let inCart = false
+    let postItem = []
+    this.cartLoader = true
 
     for (let h = 0; h < allProCount; h++) {
       let curQty = $('#cur-' + h).val()
-      if (curQty !== '') {
+      if (curQty != '' && curQty != undefined) {
+        // console.log(curQty, h)
+
         let data = this.productData[h]
         let rawUnit = document.getElementById('u-price-' + h)?.innerText
         let unit = rawUnit?.replace(',', '.')
@@ -170,36 +174,57 @@ export class TestShowOrderComponent implements OnInit {
         let realPrice = rawPrice?.replace(',', '.')
 
         let cartData = {
-          id: data.id,
-          atlasId: data.atlas_id,
-          desc: data.description,
-          proImg: data.img,
-          vendorImg: data.vendor_logo,
-          quantity: curQty,
-          //price: $('#amt-hidd-' + h).html(),
+          uid: this.userData.id,
+          dealer: this.userData.account_id,
+          vendor_id: data.vendor,
+          atlas_id: data.atlas_id,
+          product_id: data.id,
+          qty: curQty,
           price: realPrice,
-          uPrice: unit,
-          //uPrice: $('#u-price-' + h).html(),
-          spec_data: data.spec_data,
-          grouping: data.grouping,
-          booking: data.booking,
-          //  category: this.category.toLocaleLowerCase(),
-          // dealer: this.dealerId,
-          um: data.um,
-          xref: data.xref,
+          unit_price: unit,
+          groupings: data.grouping,
         }
 
-        this.getData
-          .httpPostRequest('/store-user-cart', cartData)
-          .then((res: any) => {
-            console.log(res)
-            ////this.cartService.checkCart.next(true);
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+        postItem.push(cartData)
       }
     }
+
+    let postData = {
+      uid: this.userData.id,
+      dealer: this.userData.account_id,
+      product_array: JSON.stringify(postItem),
+    }
+
+    this.getData
+      .httpPostRequest('/add-item-to-cart', postData)
+      .then((res: any) => {
+        if (res.status) {
+          this.cartLoader = false
+          ///  this.orderSuccess = true
+          this.toastr.success(` item(s) has been submitted`, 'Success')
+          /// this.orderTable = []
+          /// this.getTotal()
+          /// this.getCart()
+          // if (this.searchatlasId) {
+          //   this.searchVendorId(this.vendorId!)
+          // } else {
+          //   this.getProductByVendorId()
+          // }
+        } else {
+          this.cartLoader = false
+          this.toastr.info(`Something went wrong`, 'Error')
+        }
+      })
+      .catch((err) => {
+        this.cartLoader = false
+        if (err.message.response.dealer || err.message.response.dealer) {
+          this.toastr.info(`Please logout and login again`, 'Session Expired')
+        } else {
+          this.toastr.info(`Something went wrong`, 'Error')
+        }
+      })
+
+    console.log(postItem)
   }
 
   checkAvaDiscount(index: number, qty: any) {
@@ -274,6 +299,7 @@ export class TestShowOrderComponent implements OnInit {
   }
 
   runCalculation(index: number, qty: any, event: any) {
+  
     if (event.key != 'Tab') {
       if (qty !== '') {
         let curr = this.productData[index]
@@ -284,328 +310,357 @@ export class TestShowOrderComponent implements OnInit {
           this.allAddedItemAtlasID.push(atlasId)
         }
 
-        if (spec.length > 0) {
-          for (let j = 0; j < spec.length; j++) {
-            const f = spec[j]
-            if (f.type == 'assorted') {
-              curr.quantity = qty
-              curr.pos = index
-              this.assortFilter.push(curr)
-              for (let y = 0; y < this.assortFilter.length; y++) {
-                const t = this.assortFilter[y]
-                if (t.id == curr.id) {
-                } else {
-                  this.assortFilter.push(curr)
-                }
-
-                this.newArrayFilter = this.assortFilter.filter(
-                  (x: any, y: any) => this.assortFilter.indexOf(x) == y,
-                )
-
-                let secondPhase: any = []
-                let anotherFilter: any = []
-                let letsContinue = false
-
-                for (let h = 0; h < this.newArrayFilter.length; h++) {
-                  const e = this.newArrayFilter[h]
-                  if (e.grouping == curr.grouping) {
-                    if (e.spec_data.length > 0) {
-                      letsContinue = true
-                      //console.log(e.spec_data);
-                      // e.spec_data[h].quantity = e.quantity;
-                      // e.spec_data[h].pos = e.pos;
-                      // e.spec_data[0].arrIndex = e.spec_data.length - 1;
-                      // secondPhase.push(e.spec_data[0]);
-
-                      e.spec_data.pos = e.pos
-                      e.spec_data.quantity = e.quantity
-                      e.spec_data.atlas_id = e.atlas_id
-                      e.spec_data.group = e.grouping
-
-                      for (let t = 0; t < e.spec_data.length; t++) {
-                        let ele = e.spec_data[t]
-                        ele.quantity = e.quantity
-                        ele.pos = e.pos
-                        ele.atlas_id = e.atlas_id
-                        ele.arrIndex = t
-                        secondPhase.push(ele)
-                      }
-                      this.anotherLinePhase.push(e.spec_data)
-                      console.log(this.anotherLinePhase)
-                    } else {
-                      let price = parseFloat(e.booking)
-                      let quantity = parseInt(e.quantity)
-                      let newPrice = price * quantity
-                      let formattedAmt = this.currencyPipe.transform(
-                        newPrice,
-                        '$',
-                      )
-
-                      $('#u-price-' + e.pos).html(price)
-                      $('#amt-' + e.pos).html(formattedAmt)
-                      $('#amt-hidd-' + e.pos).html(newPrice)
-                    }
+        if (spec !== null) {
+          if (spec.length > 0) {
+            for (let j = 0; j < spec.length; j++) {
+              const f = spec[j]
+              if (f.type == 'assorted') {
+                curr.quantity = qty
+                curr.pos = index
+                this.assortFilter.push(curr)
+                for (let y = 0; y < this.assortFilter.length; y++) {
+                  const t = this.assortFilter[y]
+                  if (t.id == curr.id) {
                   } else {
+                    this.assortFilter.push(curr)
                   }
-                }
 
-                this.anotherLinePhaseFilter = this.anotherLinePhase.filter(
-                  (v: any, i: any, a: any) =>
-                    a.findIndex((t: any) => t.atlas_id === v.atlas_id) === i,
-                )
+                  this.newArrayFilter = this.assortFilter.filter(
+                    (x: any, y: any) => this.assortFilter.indexOf(x) == y,
+                  )
 
-                let newTotalAss = 0
+                  let secondPhase: any = []
+                  let anotherFilter: any = []
+                  let letsContinue = false
 
-                this.anotherLinePhaseFilter.map((val: any, index: any) => {
-                  if (curr.grouping == val.group) {
-                    console.log(curr.grouping)
-                    newTotalAss += parseInt(val.quantity)
-                  }
-                })
+                  for (let h = 0; h < this.newArrayFilter.length; h++) {
+                    const e = this.newArrayFilter[h]
+                    if (e.grouping == curr.grouping) {
+                      if (e.spec_data.length > 0) {
+                        letsContinue = true
+                        //console.log(e.spec_data);
+                        // e.spec_data[h].quantity = e.quantity;
+                        // e.spec_data[h].pos = e.pos;
+                        // e.spec_data[0].arrIndex = e.spec_data.length - 1;
+                        // secondPhase.push(e.spec_data[0]);
 
-                /// console.log(newTotalAss, 'Total');
+                        e.spec_data.pos = e.pos
+                        e.spec_data.quantity = e.quantity
+                        e.spec_data.atlas_id = e.atlas_id
+                        e.spec_data.group = e.grouping
 
-                if (letsContinue) {
-                  let status = false
-                  for (let h = 0; h < this.anotherLinePhaseFilter.length; h++) {
-                    const k = this.anotherLinePhaseFilter[h]
-                    if (newTotalAss >= parseInt(k[0].cond)) {
-                      status = true
-
-                      $('.normal-booking-' + k.pos).css('display', 'none')
-                    } else {
-                      for (let hj = 0; hj < k.length; hj++) {
-                        const eleK = k[hj]
-                        $(
-                          '.special-booking-' + eleK.pos + '-' + eleK.arrIndex,
-                        ).css('display', 'none')
-
-                        // console.log('testing price', eleK);
-
-                        let booking = parseFloat(eleK.booking)
-                        let newPrice = parseInt(eleK.quantity) * booking
+                        for (let t = 0; t < e.spec_data.length; t++) {
+                          let ele = e.spec_data[t]
+                          ele.quantity = e.quantity
+                          ele.pos = e.pos
+                          ele.atlas_id = e.atlas_id
+                          ele.arrIndex = t
+                          secondPhase.push(ele)
+                        }
+                        this.anotherLinePhase.push(e.spec_data)
+                        console.log(this.anotherLinePhase)
+                      } else {
+                        let price = parseFloat(e.booking)
+                        let quantity = parseInt(e.quantity)
+                        let newPrice = price * quantity
                         let formattedAmt = this.currencyPipe.transform(
                           newPrice,
                           '$',
                         )
 
-                        $('#u-price-' + eleK.pos).html(booking)
-                        $('#amt-' + eleK.pos).html(formattedAmt)
-                        $('#amt-hidd-' + eleK.pos).html(newPrice)
+                        $('#u-price-' + e.pos).html(price)
+                        $('#amt-' + e.pos).html(formattedAmt)
+                        $('#amt-hidd-' + e.pos).html(newPrice)
                       }
-
-                      let price = parseFloat(k.booking)
-                      $('.normal-booking-' + k.pos).css(
-                        'display',
-                        'inline-block',
-                      )
+                    } else {
                     }
                   }
 
-                  if (status) {
-                    let tickArrToBeRemoved = []
-                    //// If total Assorted is greater than condition /////
+                  this.anotherLinePhaseFilter = this.anotherLinePhase.filter(
+                    (v: any, i: any, a: any) =>
+                      a.findIndex((t: any) => t.atlas_id === v.atlas_id) === i,
+                  )
+
+                  let newTotalAss = 0
+
+                  this.anotherLinePhaseFilter.map((val: any, index: any) => {
+                    if (curr.grouping == val.group) {
+                      console.log(curr.grouping)
+                      newTotalAss += parseInt(val.quantity)
+                    }
+                  })
+
+                  /// console.log(newTotalAss, 'Total');
+
+                  if (letsContinue) {
+                    let status = false
                     for (
-                      let i = 0;
-                      i < this.anotherLinePhaseFilter.length;
-                      i++
+                      let h = 0;
+                      h < this.anotherLinePhaseFilter.length;
+                      h++
                     ) {
-                      const jk = this.anotherLinePhaseFilter[i]
-                      let currArrLength = jk.length
+                      const k = this.anotherLinePhaseFilter[h]
+                      if (newTotalAss >= parseInt(k[0].cond)) {
+                        status = true
 
-                      for (let j = 0; j < jk.length; j++) {
-                        --currArrLength
-                        const backWard = jk[currArrLength]
-                        const frontWard = jk[j]
-
-                        if (
-                          newTotalAss < backWard.cond &&
-                          newTotalAss >= frontWard.cond
-                        ) {
-                          let nxt = frontWard.arrIndex + 1
-                          let preData = jk[nxt]
-                          let activeData = frontWard
-
-                          $('.normal-booking-' + activeData.pos).css(
-                            'display',
-                            'none',
-                          )
-
+                        $('.normal-booking-' + k.pos).css('display', 'none')
+                      } else {
+                        for (let hj = 0; hj < k.length; hj++) {
+                          const eleK = k[hj]
                           $(
                             '.special-booking-' +
-                              activeData.pos +
+                              eleK.pos +
                               '-' +
-                              activeData.arrIndex,
-                          ).css('display', 'inline-block')
-
-                          $(
-                            '.special-booking-' +
-                              preData.pos +
-                              '-' +
-                              preData.arrIndex,
+                              eleK.arrIndex,
                           ).css('display', 'none')
-                          let special = parseFloat(activeData.special)
-                          let newPrice = parseInt(activeData.quantity) * special
+
+                          // console.log('testing price', eleK);
+
+                          let booking = parseFloat(eleK.booking)
+                          let newPrice = parseInt(eleK.quantity) * booking
                           let formattedAmt = this.currencyPipe.transform(
                             newPrice,
                             '$',
                           )
 
-                          $('#u-price-' + activeData.pos).html(special)
-                          $('#amt-' + activeData.pos).html(formattedAmt)
-                          $('#amt-hidd-' + activeData.pos).html(newPrice)
-                        } else {
-                          let pre = backWard.arrIndex - 1
-                          let preData = jk[pre]
-                          let activeData = backWard
-                          let chNxt = pre + 1
-                          let chpp = jk[chNxt]
+                          $('#u-price-' + eleK.pos).html(booking)
+                          $('#amt-' + eleK.pos).html(formattedAmt)
+                          $('#amt-hidd-' + eleK.pos).html(newPrice)
+                        }
 
-                          // console.log('dropped', activeData);
-                          let pp = jk[j]
+                        let price = parseFloat(k.booking)
+                        $('.normal-booking-' + k.pos).css(
+                          'display',
+                          'inline-block',
+                        )
+                      }
+                    }
 
-                          if (newTotalAss >= pp.cond) {
-                            let special = parseFloat(pp.special)
-                            let newPrice = parseInt(pp.quantity) * special
+                    if (status) {
+                      let tickArrToBeRemoved = []
+                      //// If total Assorted is greater than condition /////
+                      for (
+                        let i = 0;
+                        i < this.anotherLinePhaseFilter.length;
+                        i++
+                      ) {
+                        const jk = this.anotherLinePhaseFilter[i]
+                        let currArrLength = jk.length
+
+                        for (let j = 0; j < jk.length; j++) {
+                          --currArrLength
+                          const backWard = jk[currArrLength]
+                          const frontWard = jk[j]
+
+                          if (
+                            newTotalAss < backWard.cond &&
+                            newTotalAss >= frontWard.cond
+                          ) {
+                            let nxt = frontWard.arrIndex + 1
+                            let preData = jk[nxt]
+                            let activeData = frontWard
+
+                            $('.normal-booking-' + activeData.pos).css(
+                              'display',
+                              'none',
+                            )
+
+                            $(
+                              '.special-booking-' +
+                                activeData.pos +
+                                '-' +
+                                activeData.arrIndex,
+                            ).css('display', 'inline-block')
+
+                            $(
+                              '.special-booking-' +
+                                preData.pos +
+                                '-' +
+                                preData.arrIndex,
+                            ).css('display', 'none')
+                            let special = parseFloat(activeData.special)
+                            let newPrice =
+                              parseInt(activeData.quantity) * special
                             let formattedAmt = this.currencyPipe.transform(
                               newPrice,
                               '$',
                             )
 
-                            $('#u-price-' + pp.pos).html(special)
-                            $('#amt-' + pp.pos).html(formattedAmt)
-                            $('#amt-hidd-' + pp.pos).html(newPrice)
-                          }
+                            $('#u-price-' + activeData.pos).html(special)
+                            $('#amt-' + activeData.pos).html(formattedAmt)
+                            $('#amt-hidd-' + activeData.pos).html(newPrice)
+                          } else {
+                            let pre = backWard.arrIndex - 1
+                            let preData = jk[pre]
+                            let activeData = backWard
+                            let chNxt = pre + 1
+                            let chpp = jk[chNxt]
 
-                          $(
-                            '.special-booking-' +
-                              activeData.pos +
-                              '-' +
-                              activeData.arrIndex,
-                          ).css('display', 'inline-block')
+                            // console.log('dropped', activeData);
+                            let pp = jk[j]
 
-                          if (preData != undefined) {
-                            tickArrToBeRemoved.push(preData)
-                          }
-                          for (
-                            let hi = 0;
-                            hi < tickArrToBeRemoved.length;
-                            hi++
-                          ) {
-                            const kk = tickArrToBeRemoved[hi]
+                            if (newTotalAss >= pp.cond) {
+                              let special = parseFloat(pp.special)
+                              let newPrice = parseInt(pp.quantity) * special
+                              let formattedAmt = this.currencyPipe.transform(
+                                newPrice,
+                                '$',
+                              )
+
+                              $('#u-price-' + pp.pos).html(special)
+                              $('#amt-' + pp.pos).html(formattedAmt)
+                              $('#amt-hidd-' + pp.pos).html(newPrice)
+                            }
+
                             $(
-                              '.special-booking-' + kk.pos + '-' + kk.arrIndex,
-                            ).css('display', 'none')
-                          }
+                              '.special-booking-' +
+                                activeData.pos +
+                                '-' +
+                                activeData.arrIndex,
+                            ).css('display', 'inline-block')
 
-                          // console.log(tickArrToBeRemoved);
+                            if (preData != undefined) {
+                              tickArrToBeRemoved.push(preData)
+                            }
+                            for (
+                              let hi = 0;
+                              hi < tickArrToBeRemoved.length;
+                              hi++
+                            ) {
+                              const kk = tickArrToBeRemoved[hi]
+                              $(
+                                '.special-booking-' +
+                                  kk.pos +
+                                  '-' +
+                                  kk.arrIndex,
+                              ).css('display', 'none')
+                            }
+
+                            // console.log(tickArrToBeRemoved);
+                          }
                         }
                       }
+                    } else {
+                      /// if total Assorted is not greater than condition /////
                     }
-                  } else {
-                    /// if total Assorted is not greater than condition /////
                   }
                 }
-              }
-            } else {
-              ///////// Speacial Price ////////
-              let arr = this.extendField.toArray()[index]
-              let specialAmt = 0
-              let specialCond = 0
-              let specData = this.productData[index].spec_data
-              this.normalPrice = parseFloat(this.productData[index].booking)
-              for (let i = 0; i < specData.length; i++) {
-                let curAmt = parseFloat(specData[i].special)
-                let cond = parseInt(specData[i].cond)
-                let orignialAmt = parseFloat(specData[i].booking)
-                specData[i].arrIndex = i
-                let nextArr = i + 1
-                let len = specData.length
+              } else {
+                ///////// Speacial Price ////////
+                let arr = this.extendField.toArray()[index]
+                let specialAmt = 0
+                let specialCond = 0
+                let specData = this.productData[index].spec_data
+                this.normalPrice = parseFloat(this.productData[index].booking)
+                for (let i = 0; i < specData.length; i++) {
+                  let curAmt = parseFloat(specData[i].special)
+                  let cond = parseInt(specData[i].cond)
+                  let orignialAmt = parseFloat(specData[i].booking)
+                  specData[i].arrIndex = i
+                  let nextArr = i + 1
+                  let len = specData.length
 
-                if (qty >= cond) {
-                  this.normalPrice = curAmt
-                  $('.normal-booking-' + index).css('display', 'none')
+                  if (qty >= cond) {
+                    this.normalPrice = curAmt
+                    $('.normal-booking-' + index).css('display', 'none')
 
-                  $(
-                    '.special-booking-' + index + '-' + specData[i].arrIndex,
-                  ).css('display', 'inline-block')
+                    $(
+                      '.special-booking-' + index + '-' + specData[i].arrIndex,
+                    ).css('display', 'inline-block')
 
-                  let g = i - 1
-                  let nxt = i + 1
+                    let g = i - 1
+                    let nxt = i + 1
 
-                  if (specData[nxt]) {
-                    $('.special-booking-' + index + '-' + nxt).css(
+                    if (specData[nxt]) {
+                      $('.special-booking-' + index + '-' + nxt).css(
+                        'display',
+                        'none',
+                      )
+                    } else {
+                    }
+
+                    $('.special-booking-' + index + '-' + g).css(
                       'display',
                       'none',
                     )
                   } else {
-                  }
+                    this.normalPrice = this.normalPrice
+                    $('.special-booking-' + index + '-' + i).css(
+                      'display',
+                      'none',
+                    )
+                    let nxt = i + 1
+                    let pre = i - 1
 
-                  $('.special-booking-' + index + '-' + g).css(
-                    'display',
-                    'none',
-                  )
-                } else {
-                  this.normalPrice = this.normalPrice
-                  $('.special-booking-' + index + '-' + i).css(
-                    'display',
-                    'none',
-                  )
-                  let nxt = i + 1
-                  let pre = i - 1
-
-                  if (specData[nxt]) {
-                    let cond = specData[nxt].cond
-                    if (qty < cond) {
-                      $('.normal-booking-' + index).css(
-                        'display',
-                        'inline-block',
-                      )
-                    } else {
+                    if (specData[nxt]) {
+                      let cond = specData[nxt].cond
+                      if (qty < cond) {
+                        $('.normal-booking-' + index).css(
+                          'display',
+                          'inline-block',
+                        )
+                      } else {
+                        $('.normal-booking-' + index).css('display', 'none')
+                      }
                       $('.normal-booking-' + index).css('display', 'none')
-                    }
-                    $('.normal-booking-' + index).css('display', 'none')
-                  } else {
-                    // console.log(specData[pre]);
-                    let preData = specData[pre]
-                    if (preData) {
-                      let preCond = parseInt(preData.cond)
-                      // console.log(`${preCond} and ${qty}`);
-                      if (qty >= preCond) {
+                    } else {
+                      // console.log(specData[pre]);
+                      let preData = specData[pre]
+                      if (preData) {
+                        let preCond = parseInt(preData.cond)
+                        // console.log(`${preCond} and ${qty}`);
+                        if (qty >= preCond) {
+                          $('.normal-booking-' + index).css('display', 'none')
+                        } else {
+                        }
+                      } else {
+                        $('.normal-booking-' + index).css(
+                          'display',
+                          'inline-block',
+                        )
+                      }
+
+                      if (qty >= cond) {
                         $('.normal-booking-' + index).css('display', 'none')
                       } else {
                       }
-                    } else {
-                      $('.normal-booking-' + index).css(
-                        'display',
-                        'inline-block',
-                      )
                     }
+                  }
 
-                    if (qty >= cond) {
-                      $('.normal-booking-' + index).css('display', 'none')
-                    } else {
-                    }
+                  if (qty >= cond) {
+                    this.normalPrice = curAmt
+                  } else {
+                    this.normalPrice = this.normalPrice
                   }
                 }
 
-                if (qty >= cond) {
-                  this.normalPrice = curAmt
-                } else {
-                  this.normalPrice = this.normalPrice
-                }
+                let calAmt = qty * this.normalPrice
+                this.currentProductAmt = calAmt
+                $('#u-price-' + index).html(this.normalPrice)
+                let formattedAmt = this.currencyPipe.transform(calAmt, '$')
+                arr.nativeElement.innerHTML = formattedAmt
+                $('#amt-' + index).html(formattedAmt)
+                $('#amt-hidd-' + index).html(calAmt)
               }
-
-              let calAmt = qty * this.normalPrice
-              this.currentProductAmt = calAmt
-              $('#u-price-' + index).html(this.normalPrice)
-              let formattedAmt = this.currencyPipe.transform(calAmt, '$')
-              arr.nativeElement.innerHTML = formattedAmt
-              $('#amt-' + index).html(formattedAmt)
-              $('#amt-hidd-' + index).html(calAmt)
             }
+          } else {
+            let quantity = parseInt(qty)
+            let price = parseFloat(curr.booking)
+
+            let calAmt = quantity * price
+            this.currentProductAmt = calAmt
+
+            ///console.log(price, 'unit Price');
+            $('#u-price-' + index).html(price)
+
+            $('.normal-booking-' + index).css('display', 'inline-block')
+
+            let formattedAmt = this.currencyPipe.transform(calAmt, '$')
+            $('#amt-' + index).html(formattedAmt)
+            $('#amt-hidd-' + index).html(calAmt)
           }
         } else {
+          console.log('trying to find it')
           let quantity = parseInt(qty)
           let price = parseFloat(curr.booking)
 
@@ -619,7 +674,6 @@ export class TestShowOrderComponent implements OnInit {
 
           let formattedAmt = this.currencyPipe.transform(calAmt, '$')
           $('#amt-' + index).html(formattedAmt)
-          $('#amt-hidd-' + index).html(calAmt)
         }
       } else {
         if (qty == '' || qty == 0) {
@@ -819,8 +873,8 @@ export class TestShowOrderComponent implements OnInit {
         let formattedAmt = this.currencyPipe.transform(0, '$')
         $('#amt-' + index).html(formattedAmt)
       }
-
-      this.runTotalCalculation()
+  console.log('product info', this.productData);
+      ////this.runTotalCalculation()
     }
   }
 
@@ -946,7 +1000,7 @@ export class TestShowOrderComponent implements OnInit {
 
         if (result.status) {
           this.productData = result.data
-
+  console.log('product info init', this.productData);
           this.tableData = result.data
           if (result.data.length !== 0) {
             this.canOrder = true
@@ -1235,6 +1289,7 @@ export class TestShowOrderComponent implements OnInit {
       this.toastr.info(``, 'This item is already in order')
     }
   }
+
   submitOrder() {
     this.cartLoader = true
     this.orderSuccess = false
@@ -1272,7 +1327,6 @@ export class TestShowOrderComponent implements OnInit {
             }
           } else {
             this.cartLoader = false
-
             this.toastr.info(`Something went wrong`, 'Error')
           }
         })
@@ -1286,13 +1340,13 @@ export class TestShowOrderComponent implements OnInit {
         })
     } else {
       this.cartLoader = false
-
       this.toastr.info(`No item quantity has been set`, 'Error')
     }
   }
   parser(data: any) {
     return JSON.parse(data)
   }
+
   async confirmBox() {
     return await Swal.fire({
       title: 'You Are About To Remove This Item From Cart',

@@ -15,7 +15,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TokenStorageService } from 'src/app/core/services/token-storage.service';
-
+import Swal from 'sweetalert2';
 export interface PeriodicElement {
   atlas_id: any;
   vendor: string;
@@ -86,6 +86,46 @@ export class EditOrderVendorPageComponent implements OnInit {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
+  async deleteOrderConfirmBox() {
+    return await Swal.fire({
+      title: 'Are You Sure You Want To Delete This Order(s)  ?',
+      text: '',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.value) {
+        return true;
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        return false;
+      } else {
+        return false;
+      }
+    });
+  }
+
+  async deleteOrder(id: any, i: any) {
+    let confirmAlert = await this.deleteOrderConfirmBox();
+    let dealerId = this.token.getUser().id;
+    if (confirmAlert) {
+      this.getData
+        .httpGetRequest(
+          '/delete-order-items-atlas-id-user-id/' + id + '/' + dealerId
+        )
+        .then((res: any) => {
+          if (res.status) {
+            this.getCartByVendorId(this.vendorId)
+            this.toastr.success(res.message);
+          } else {
+            this.toastr.error('Something went wrong ', `Try again`);
+          }
+        })
+        .catch((error) => {
+          this.toastr.error(error);
+        });
     }
   }
   getTotal() {
