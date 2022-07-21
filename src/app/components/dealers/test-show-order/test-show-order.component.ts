@@ -273,17 +273,9 @@ export class TestShowOrderComponent implements OnInit {
     for (let h = 0; h < allProCount; h++) {
       let curQty = $('#cur-' + h).val()
       if (curQty != '' && curQty != undefined) {
-        // console.log(curQty, h)
-
         let data = this.productData[h]
         let rawUnit = document.getElementById('u-price-' + h)?.innerText
         let unit = rawUnit?.replace(',', '.')
-
-        // let rawPrice = document.getElementById('amt-hidd-' + h)?.innerText
-        // let realPrice = rawPrice?.replace(',', '.')
-
-        // let rawPrice = document.getElementById('amt-' + h)?.innerHTML
-        // let realPrice = rawPrice?.replace('$', '')
 
         let rawPrice = document.getElementById('amt-hidd-' + h)?.innerHTML
         // let realPrice = rawPrice?.replace('$', '')
