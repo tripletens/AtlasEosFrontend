@@ -101,7 +101,7 @@
                     <span
                       [class.assorted-color]="spec.type == 'assorted'"
                       [class.quantity-color]="spec.type == 'special'"
-                      >{{ spec.special }}
+                      >{{ spec.special | currency }}
                     </span>
                   </span>
                 </td>
