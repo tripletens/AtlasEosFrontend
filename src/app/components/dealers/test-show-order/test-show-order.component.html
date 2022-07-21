@@ -34,9 +34,9 @@
             class="table-ctn mt-3 p-3 table-responsive"
             style="background-color: white;"
           >
-            <div class="d-flex justify-content-end" *ngIf="tableView">
+            <!-- <div class="d-flex justify-content-end" *ngIf="tableView">
               <span class="desc-text">Total: {{ overTotal | currency }}</span>
-            </div>
+            </div> -->
 
             <table class="table" *ngIf="loader">
               <thead>
@@ -129,7 +129,7 @@
                 </th>
                 <td
                   mat-cell
-                  *matCellDef="let element; index as i"
+                  *matCellDef="let element; let i = index"
                   class="text-center"
                 >
                   <input
@@ -288,9 +288,9 @@
               </tr>
             </table>
 
-            <div class="d-flex justify-content-end" *ngIf="tableView">
+            <!-- <div class="d-flex justify-content-end" *ngIf="tableView">
               <span class="desc-text">Total: {{ orderTotal | currency }}</span>
-            </div>
+            </div> -->
 
             <mat-paginator
               [pageSizeOptions]="[10, 20, 50, 100]"
@@ -319,13 +319,13 @@
               <button
                 class="btn text-bold text-white bg-blue"
                 [disabled]="cartLoader"
-                (click)="submitOrder()"
+                (click)="oneAddBtn()"
               >
                 <div *ngIf="!cartLoader">Confirm Order</div>
                 <div *ngIf="cartLoader">
                   Confirm Order
                   <span
-                    class="spinner-border spinner-border-sm text-dark ps-1"
+                    class="spinner-border spinner-border-sm text-white ps-1"
                   ></span>
                 </div>
               </button>
