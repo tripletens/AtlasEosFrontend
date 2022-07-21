@@ -282,8 +282,12 @@ export class TestShowOrderComponent implements OnInit {
         // let rawPrice = document.getElementById('amt-hidd-' + h)?.innerText
         // let realPrice = rawPrice?.replace(',', '.')
 
-        let rawPrice = document.getElementById('amt-' + h)?.innerHTML
-        let realPrice = rawPrice?.replace('$', '')
+        // let rawPrice = document.getElementById('amt-' + h)?.innerHTML
+        // let realPrice = rawPrice?.replace('$', '')
+
+        let rawPrice = document.getElementById('amt-hidd-' + h)?.innerHTML
+        // let realPrice = rawPrice?.replace('$', '')
+        let newPrice = rawPrice?.replace(',', '.')
 
         let cartData = {
           uid: this.userData.id,
@@ -292,7 +296,7 @@ export class TestShowOrderComponent implements OnInit {
           atlas_id: data.atlas_id,
           product_id: data.id,
           qty: curQty,
-          price: realPrice,
+          price: newPrice,
           unit_price: unit,
           groupings: data.grouping,
           type: 'null',
@@ -394,12 +398,13 @@ export class TestShowOrderComponent implements OnInit {
   runTotalCalculation(index: number) {
     let currentProduct = this.productData[index]
     let curQty = $('#cur-' + index).val()
-    let rawPrice = document.getElementById('amt-' + index)?.innerHTML
-    let realPrice = rawPrice?.replace('$', '')
+    let rawPrice = document.getElementById('amt-hidd-' + index)?.innerHTML
+    // let realPrice = rawPrice?.replace('$', '')
+    let newPrice = rawPrice?.replace(',', '')
 
     let data = {
       atlasId: currentProduct.atlas_id,
-      price: realPrice,
+      price: newPrice,
     }
 
     // let currentProduct.atlas_id,
@@ -411,7 +416,7 @@ export class TestShowOrderComponent implements OnInit {
       for (let i = 0; i < this.addedItem.length; i++) {
         const item = this.addedItem[i]
         if (item.atlasId == currentProduct.atlas_id) {
-          item.price = realPrice
+          item.price = newPrice
           presentItem = true
         } else {
         }
@@ -425,10 +430,10 @@ export class TestShowOrderComponent implements OnInit {
     for (let j = 0; j < this.addedItem.length; j++) {
       const h = this.addedItem[j]
       this.overTotal += parseFloat(h.price)
-      console.log(this.overTotal)
+      // console.log(this.overTotal)
     }
 
-    /// console.log(this.addedItem)
+    console.log(this.overTotal)
 
     // if (realPrice != undefined) {
     //   let eachTotal = parseFloat(realPrice)
@@ -831,6 +836,8 @@ export class TestShowOrderComponent implements OnInit {
 
           ///console.log(price, 'unit Price');
           $('#u-price-' + index).html(price)
+
+          $('#amt-hidd-' + index).html(calAmt)
 
           $('.normal-booking-' + index).css('display', 'inline-block')
 
