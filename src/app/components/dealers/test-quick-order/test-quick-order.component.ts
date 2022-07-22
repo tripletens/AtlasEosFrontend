@@ -975,78 +975,97 @@ export class TestQuickOrderComponent implements OnInit {
       let atlasId = curr.atlas_id
       let spec = curr.spec_data
 
-      if (spec.length > 0) {
-        let arr = this.extendField.toArray()[index]
-        let specialAmt = 0
-        let specialCond = 0
-        let specData = this.quickOrderData[index].spec_data
-        this.normalPrice = parseFloat(this.quickOrderData[index].booking)
-        for (let i = 0; i < specData.length; i++) {
-          let curAmt = parseFloat(specData[i].special)
-          let cond = parseInt(specData[i].cond)
-          let orignialAmt = parseFloat(specData[i].booking)
-          specData[i].arrIndex = i
-          let nextArr = i + 1
-          let len = specData.length
-          if (qty >= cond) {
-            this.normalPrice = curAmt
-            $('.normal-booking-' + index).css('display', 'none')
-            $('.special-booking-' + index + '-' + specData[i].arrIndex).css(
-              'display',
-              'inline-block',
-            )
-            let g = i - 1
-            let nxt = i + 1
-            if (specData[nxt]) {
-              $('.special-booking-' + index + '-' + nxt).css('display', 'none')
-            } else {
-            }
-            $('.special-booking-' + index + '-' + g).css('display', 'none')
-          } else {
-            this.normalPrice = this.normalPrice
-            $('.special-booking-' + index + '-' + i).css('display', 'none')
-            let nxt = i + 1
-            let pre = i - 1
-            if (specData[nxt]) {
-              let cond = specData[nxt].cond
-              if (qty < cond) {
-                $('.normal-booking-' + index).css('display', 'inline-block')
-              } else {
-                $('.normal-booking-' + index).css('display', 'none')
-              }
+      if (spec != null) {
+        if (spec.length > 0) {
+          let arr = this.extendField.toArray()[index]
+          let specialAmt = 0
+          let specialCond = 0
+          let specData = this.quickOrderData[index].spec_data
+          this.normalPrice = parseFloat(this.quickOrderData[index].booking)
+          for (let i = 0; i < specData.length; i++) {
+            let curAmt = parseFloat(specData[i].special)
+            let cond = parseInt(specData[i].cond)
+            let orignialAmt = parseFloat(specData[i].booking)
+            specData[i].arrIndex = i
+            let nextArr = i + 1
+            let len = specData.length
+            if (qty >= cond) {
+              this.normalPrice = curAmt
               $('.normal-booking-' + index).css('display', 'none')
+              $('.special-booking-' + index + '-' + specData[i].arrIndex).css(
+                'display',
+                'inline-block',
+              )
+              let g = i - 1
+              let nxt = i + 1
+              if (specData[nxt]) {
+                $('.special-booking-' + index + '-' + nxt).css(
+                  'display',
+                  'none',
+                )
+              } else {
+              }
+              $('.special-booking-' + index + '-' + g).css('display', 'none')
             } else {
-              let preData = specData[pre]
-              if (preData) {
-                let preCond = parseInt(preData.cond)
-                if (qty >= preCond) {
+              this.normalPrice = this.normalPrice
+              $('.special-booking-' + index + '-' + i).css('display', 'none')
+              let nxt = i + 1
+              let pre = i - 1
+              if (specData[nxt]) {
+                let cond = specData[nxt].cond
+                if (qty < cond) {
+                  $('.normal-booking-' + index).css('display', 'inline-block')
+                } else {
+                  $('.normal-booking-' + index).css('display', 'none')
+                }
+                $('.normal-booking-' + index).css('display', 'none')
+              } else {
+                let preData = specData[pre]
+                if (preData) {
+                  let preCond = parseInt(preData.cond)
+                  if (qty >= preCond) {
+                    $('.normal-booking-' + index).css('display', 'none')
+                  } else {
+                  }
+                } else {
+                  $('.normal-booking-' + index).css('display', 'inline-block')
+                }
+                if (qty >= cond) {
                   $('.normal-booking-' + index).css('display', 'none')
                 } else {
                 }
-              } else {
-                $('.normal-booking-' + index).css('display', 'inline-block')
-              }
-              if (qty >= cond) {
-                $('.normal-booking-' + index).css('display', 'none')
-              } else {
               }
             }
-          }
-          if (qty >= cond) {
-            this.normalPrice = curAmt
-          } else {
-            this.normalPrice = this.normalPrice
-          }
+            if (qty >= cond) {
+              this.normalPrice = curAmt
+            } else {
+              this.normalPrice = this.normalPrice
+            }
 
-          console.log(this.normalPrice, 'tesrs')
+            console.log(this.normalPrice, 'tesrs')
+          }
+          let calAmt = qty * this.normalPrice
+          this.currentProductAmt = calAmt
+          $('#u-price-' + index).html(this.normalPrice)
+          let formattedAmt = this.currencyPipe.transform(calAmt, '$')
+          arr.nativeElement.innerHTML = formattedAmt
+          $('#amt-' + index).html(formattedAmt)
+          $('#amt-hidd-' + index).html(calAmt)
+        } else {
+          let quantity = parseInt(qty)
+          let price = parseFloat(curr.booking)
+
+          let calAmt = quantity * price
+          this.currentProductAmt = calAmt
+
+          console.log(price, 'unit Price')
+          $('#u-price-' + index).html(price)
+          $('.normal-booking-' + index).css('display', 'inline-block')
+
+          let formattedAmt = this.currencyPipe.transform(calAmt, '$')
+          $('#amt-' + index).html(formattedAmt)
+          $('#amt-hidd-' + index).html(calAmt)
         }
-        let calAmt = qty * this.normalPrice
-        this.currentProductAmt = calAmt
-        $('#u-price-' + index).html(this.normalPrice)
-        let formattedAmt = this.currencyPipe.transform(calAmt, '$')
-        arr.nativeElement.innerHTML = formattedAmt
-        $('#amt-' + index).html(formattedAmt)
-        $('#amt-hidd-' + index).html(calAmt)
       } else {
         let quantity = parseInt(qty)
         let price = parseFloat(curr.booking)
@@ -1054,9 +1073,8 @@ export class TestQuickOrderComponent implements OnInit {
         let calAmt = quantity * price
         this.currentProductAmt = calAmt
 
-        ///console.log(price, 'unit Price');
+        console.log(price, 'unit Price')
         $('#u-price-' + index).html(price)
-
         $('.normal-booking-' + index).css('display', 'inline-block')
 
         let formattedAmt = this.currencyPipe.transform(calAmt, '$')
