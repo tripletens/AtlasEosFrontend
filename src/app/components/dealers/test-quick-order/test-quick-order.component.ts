@@ -43,6 +43,8 @@ export class TestQuickOrderComponent implements OnInit {
   disabled = true
   disabledBtn = true
   addLoader = false
+  addToQuickLoader = false
+
   addSuccess = false
   orderTotal: any
   @ViewChild('vendorInput') vendorInput!: ElementRef
@@ -890,10 +892,9 @@ export class TestQuickOrderComponent implements OnInit {
     let addedState = false
     let inCart = false
     let postItem = []
-    this.cartLoader = true
 
     if (this.currentQty != '') {
-      this.addLoader = true
+      this.addToQuickLoader = true
       this.addSuccess = false
 
       let rawUnit = document.getElementById('u-price-' + 0)?.innerText
@@ -932,7 +933,7 @@ export class TestQuickOrderComponent implements OnInit {
           if (res.status) {
             this.fetchQuickOrderCart()
             this.cartLoader = false
-            this.addLoader = false
+            this.addToQuickLoader = false
             this.addSuccess = true
 
             this.newlyAdded = res.data.newly_added
@@ -948,14 +949,14 @@ export class TestQuickOrderComponent implements OnInit {
             this.searchStatus = false
             // this.fetchQuickOrderCart()
           } else {
-            this.cartLoader = false
+            this.addToQuickLoader = false
             this.toastr.info(`Something went wrong`, 'Error')
           }
         })
         .catch((err) => {
           this.showAlert = false
 
-          this.cartLoader = false
+          // this.cartLoader = false
           if (err.message.response.dealer || err.message.response.dealer) {
             this.toastr.info(`Please logout and login again`, 'Session Expired')
           } else {
