@@ -345,7 +345,7 @@ input[type='number'] {
 }
 
 .booking-text {
-  font-weight: bold;
+  font-weight: bold !important;
 }
 
 .ticker {
@@ -358,4 +358,32 @@ input[type='number'] {
 
 .total-text {
   font-weight: bold;
+}
+
+.loader-td {
+  padding: 0px !important;
+}
+
+.ph-item {
+  padding: 0px !important;
+}
+
+.ph-picture {
+  height: 50px !important;
+}
+
+.delete-btn {
+  background-color: darkred;
+  color: #ffffff;
+  border-radius: 4px;
+  border: 0px;
+  padding: 8px 12px;
+  margin-left: 10px;
+  span {
+    font-size: 14px;
+  }
+}
+
+.remove-loader {
+  display: none;
 }
