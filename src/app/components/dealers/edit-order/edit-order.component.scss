@@ -161,7 +161,7 @@
   display: inline-block;
   padding-left: 10px;
 }
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 .view-special-text {
@@ -199,4 +199,16 @@ th {
   font-weight: 500;
 }
 td {
+}
+
+.loader-td {
+  padding: 0px !important;
+}
+
+.ph-item {
+  padding: 0px !important;
+}
+
+.ph-picture {
+  height: 50px !important;
 }
