@@ -63,7 +63,7 @@ export class SheduledSeminarsComponent implements AfterViewInit {
     this.noData = false;
 
     this.request
-      .httpGetRequest('/fetch-sheduled-seminars')
+      .httpGetRequest('/fetch-scheduled-seminars')
       .then((result: any) => {
         console.log(result);
         this.tableView = true;
@@ -76,7 +76,8 @@ export class SheduledSeminarsComponent implements AfterViewInit {
             this.noData = true;
           }
           this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
-          this.dataSrc.paginator = this.paginator;this.dataSrc.sort = this.sort;
+          this.dataSrc.paginator = this.paginator;
+          this.dataSrc.sort = this.sort;
         } else {
           this.toastr.error('Something went wrong', `${result.message}`);
           this.noData = true;
