@@ -2,10 +2,22 @@
   <div class="container-fluid p-0">
     <div class="row my-5 ml-4">
       <div class="col-12">
-        <div class="form-table-ctn px-2pt-4 ">
+        <div class="form-table-ctn px-2 pt-4" *ngIf="!editOrderPage">
           <div class="card">
             <div class="card-header">Special Order</div>
             <div class="card-body">
+              <div
+                class="alert alert-success mt-2 mb-3 d-flex align-items-center"
+              >
+                <i class="fa fa-exclamation-circle"></i>
+                &nbsp;&nbsp;
+                <div class="ml-1">
+                  <p style="font-size: 15px">
+                    To add a <strong>Special Order</strong> , select a vendor
+                    and search from below.
+                  </p>
+                </div>
+              </div>
               <div class="header-search-ctn">
                 <form
                   action=""
@@ -22,23 +34,20 @@
                       class="search-input form-control px-3"
                       style="display: block"
                       placeholder="Select Vendor.."
-                      data-live-search="true"
+                      #vendorInput
                     >
-                      <option data-tokens="ketchup mustard">
-                        Select a Vendor..
+                      <option selected value="none">select a vendor..</option>
+                      <option
+                        *ngFor="let vendor of allCategoryData; let i = index"
+                        value="{{ i }}"
+                      >
+                        {{ vendor.vendor_name }}
                       </option>
-                      <option data-tokens="2EZEE SKIN COVERS">
-                        2EZEE SKIN COVERS
-                      </option>
-                      <option data-tokens="303/GOLD EAGLE">
-                        303/GOLD EAGLE
-                      </option>
-                      <option data-tokens="ACUVA TECHNOLOGIES">
-                        ACUVA TECHNOLOGIES
-                      </option>
-                      <option data-tokens="ADCO">ADCO</option>
                     </select>
-                    <button class="btn btn-primary ml-3">
+                    <button
+                      class="btn btn-primary ml-3"
+                      (click)="selectVendor(vendorInput.value)"
+                    >
                       <i class="fa fa-search mr-2"></i> Search
                     </button>
                     <button class="btn btn-primary ml-2">
@@ -49,7 +58,7 @@
               </div>
             </div>
           </div>
-          <div class="card">
+          <div class="card" *ngIf="!vendorSelected">
             <div class="card-header">Order List</div>
             <div class="card-body">
               <div class="table-ctn mt-3">
@@ -65,25 +74,190 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td class="text-center"></td>
-
-                      <td><p class="">15K BTU ADVENT A/C-WHITE</p></td>
-                      <td>1095-2</td>
-                      <td>Ethan Hayes</td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td class="text-center"></td>
-
-                      <td><p class="">15K BTU ADVENT A/C-WHITE</p></td>
-                      <td>1095-2</td>
-                      <td>Ethan Hayes</td>
-                      <td></td>
-                      <td></td>
+                      <td colspan="6"></td>
                     </tr>
                   </tbody>
                 </table>
+              </div>
+            </div>
+          </div>
+          <div class="card" *ngIf="vendorSelected">
+            <div class="card-header">Add Order</div>
+            <div class="card-body">
+              <div class="mt-3 w-100 mb-5 text-center">
+                <div class="mx-auto box bg-grey p-2">
+                  <p class="title-banner mb-1">Vendor Name</p>
+                  <p class="caption-banner">{{ ordained.vendor_name }}</p>
+                </div>
+                <div class="mx-auto box p-2">
+                  <p class="title-banner mb-1">Dealer Name</p>
+                  <p class="caption-banner">
+                    {{ dealer.fname }} {{ dealer.lname }}
+                  </p>
+                </div>
+              </div>
+              <div class="table-ctn mt-3 text-center w-100">
+                <div class="insider-table-ctn mx-auto">
+                  <div class="w-100 my-2 d-flex justify-content-end">
+                    <button
+                      class="btn bg-blue p-1 text-13"
+                      (click)="addRow()"
+                      style="background-color: #054e6e !important"
+                    >
+                      <i class="fa fa-plus mr-1"></i> Add
+                    </button>
+                  </div>
+                  <table class="order-form-table w-100">
+                    <thead>
+                      <th>Qty</th>
+                      <th>Vendor #</th>
+
+                      <th>Description</th>
+
+                      <th></th>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of arr; let i = index">
+                        <td>
+                          <input
+                            type="number"
+                            id="qty-input-{{ i }}"
+                            required
+                            min="0"
+                            [(ngModel)]="item.quantity"
+                            #qtyInput
+                            style="width: 60px"
+                          />
+                        </td>
+                        <td>
+                          <input
+                            required
+                            type="text"
+                            id="vendor-input-{{ i }}"
+                            #vIdInput
+                            [(ngModel)]="item.vendor_Id"
+                            class="w-100"
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            id="desc-input-{{ i }}"
+                            class="w-100"
+                            #descInput
+                            [(ngModel)]="item.description"
+                            required
+                          />
+                        </td>
+                        <td>
+                          <button class="btn" (click)="deleteOrder(i)">
+                            <i class="fa fa-trash" style="color: red"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="w-100 my-2 d-flex justify-content-end">
+                    <button
+                      class="btn bg-blue p-1 text-13"
+                      (click)="addRow()"
+                      style="background-color: #054e6e !important"
+                    >
+                      <i class="fa fa-plus mr-1"></i> Add
+                    </button>
+                  </div>
+                </div>
+                <div class="mt-5 d-flex justify-content-end">
+                  <button class="btn btn-primary mr-2">Submit</button>
+                  <button class="btn btn-danger mr-2" (click)="clearOrder()">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-table-ctn px-2 pt-4" *ngIf="editOrderPage">
+          <div class="card" *ngIf="vendorSelected">
+            <div class="card-header">Edit Order</div>
+            <div class="card-body">
+              <div class="mt-3 w-100 mb-5 text-center">
+                <div class="mx-auto box bg-grey p-2">
+                  <p class="title-banner mb-1">Vendor Name</p>
+                  <p class="caption-banner">{{ ordained.vendor_name }}</p>
+                </div>
+                <div class="mx-auto box p-2">
+                  <p class="title-banner mb-1">Dealer Name</p>
+                  <p class="caption-banner">
+                    {{ dealer.fname }} {{ dealer.lname }}
+                  </p>
+                </div>
+              </div>
+              <div class="table-ctn mt-3 text-center w-100">
+                <div class="insider-table-ctn mx-auto">
+                  <table class="order-form-table w-100">
+                    <thead>
+                      <th>Qty</th>
+                      <th>Vendor #</th>
+
+                      <th>Description</th>
+
+                      <th></th>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <input
+                            type="number"
+                            [(ngModel)]="editable.qty"
+                            required
+                            min="0"
+                            #editQtyInput
+                            style="width: 60px"
+                          />
+                        </td>
+                        <td>
+                          <input
+                            required
+                            type="text"
+                            [(ngModel)]="editable.vendor_Id"
+                            #editVIdInput
+                            class="w-100"
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            class="w-100"
+                            #editDescInput
+                            required
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="w-100 my-2 d-flex justify-content-end"></div>
+                </div>
+                <div class="mt-5 d-flex justify-content-end">
+                  <button
+                    class="btn btn-primary mr-2"
+                    (click)="
+                      submitSpecialOrder(
+                        editQtyInput.value,
+                        editDescInput.value,
+                        editVIdInput.value
+                      )
+                    "
+                  >
+                    Submit
+                  </button>
+                  <button
+                    class="btn btn-danger mr-2"
+                    (click)="navigateFromEdit()"
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
             </div>
           </div>
