@@ -14,6 +14,7 @@ export interface PeriodicElement {
   vendor_name: string;
   start_time: string;
   link: string;
+  status: any;
 }
 
 @Component({
@@ -31,7 +32,7 @@ export class AllSeminarsComponent implements AfterViewInit {
     'start_time',
     'vendor_name',
     'topic',
-
+'status',
     'link',
   ];
   noData = false;

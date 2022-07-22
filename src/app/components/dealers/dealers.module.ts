@@ -37,7 +37,8 @@ import { ViewSupportTicketComponent } from './view-support-ticket/view-support-t
 import { SupportTicketsComponent } from './support-tickets/support-tickets.component';
 import { EditOrderVendorPageComponent } from './edit-order-vendor-page/edit-order-vendor-page.component';
 import { TestShowOrderComponent } from './test-show-order/test-show-order.component';
-import { TableRowComponent } from './table-row/table-row.component'
+import { TableRowComponent } from './table-row/table-row.component';
+import { WatchedSeminarsComponent } from './seminars/watched-seminars/watched-seminars.component'
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { TableRowComponent } from './table-row/table-row.component'
     EditOrderVendorPageComponent,
     TestShowOrderComponent,
     TableRowComponent,
+    WatchedSeminarsComponent,
   ],
   imports: [
     CommonModule,

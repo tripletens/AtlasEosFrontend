@@ -64,7 +64,7 @@
           <div class="card" *ngIf="!vendorSelected">
             <div class="card-header">Order List</div>
             <div class="card-body mt-3">
-              <div class="table-ctn mt-3 mat-elevation-z8">
+              <div class="table-ctn mt-3 ">
                 <table
                   class="seperate-table w-100 mat-elevation"
                   mat-table
@@ -154,7 +154,7 @@
                         class="btn btn-danger"
                         style="color: #fff"
                         title="edit"
-                        (click)="deleteSavedOrder(i)"
+                        (click)="deleteSavedOrder(element.id)"
                       >
                         <i class="fa fa-trash"></i>
                       </button>

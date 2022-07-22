@@ -242,6 +242,7 @@ export class SpecialOrderComponent implements OnInit {
   }
   fetchOrder() {
     let user = this.token.getUser().account_id;
+    let empty ={}
     this.getData
       .httpGetRequest('/special-orders/' + user)
       .then((result: any) => {
@@ -255,9 +256,16 @@ export class SpecialOrderComponent implements OnInit {
             `Something went wrong fetching special orders`,
             'Error'
           );
-          this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
-          this.dataSrc.paginator = this.paginator;
-          this.dataSrc.sort = this.sort;
+          if (result.data == empty) {
+            this.dataSrc = new MatTableDataSource<PeriodicElement>([]);
+            this.dataSrc.paginator = this.paginator;
+            this.dataSrc.sort = this.sort;
+          } else {
+            this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
+            this.dataSrc.paginator = this.paginator;
+            this.dataSrc.sort = this.sort;
+          }
+         
         }
       })
       .catch((err) => {
@@ -303,8 +311,9 @@ export class SpecialOrderComponent implements OnInit {
     }
   }
   deleteSavedOrder(i: any) {
+     let dealer = this.token.getUser().account_id;
     this.getData
-      .httpGetRequest('/special-orders/delete' + i)
+      .httpGetRequest('/special-orders/delete/'+ dealer+ '/'+ i)
       .then((result: any) => {
         // console.log(result);
         if (result.status) {
