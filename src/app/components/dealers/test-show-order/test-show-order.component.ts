@@ -401,8 +401,6 @@ export class TestShowOrderComponent implements OnInit {
       index: index,
     }
 
-    // let currentProduct.atlas_id,
-
     if (this.addedItem.length == 0) {
       this.addedItem.push(data)
     } else {
@@ -425,50 +423,39 @@ export class TestShowOrderComponent implements OnInit {
             // let realPrice = rawPrice?.replace('$', '')
             let newPrice = rawPrice?.replace(',', '')
             t.price = newPrice
+          } else {
+            for (let i = 0; i < this.addedItem.length; i++) {
+              // let rawPrice = document.getElementById('amt-hidd-' + t.index)
+              //   ?.innerHTML
+              const item = this.addedItem[i]
+              if (item.atlasId == currentProduct.atlasId) {
+                item.price = newPrice
+                console.log('found de atlas id', currentProduct.atlasId)
+              } else {
+              }
+            }
           }
           //groupings
         }
         this.addedItem.push(data)
+      } else {
+        // for (let i = 0; i < this.addedItem.length; i++) {
+        //   const item = this.addedItem[i]
+        //   if (item.atlasId == currentProduct.atlasId) {
+        //     item.price = newPrice
+        //     console.log('found de atlas id', currentProduct.atlasId)
+        //   } else {
+        //   }
+        // }
       }
     }
+
     this.overTotal = 0
     for (let j = 0; j < this.addedItem.length; j++) {
       const h = this.addedItem[j]
       this.overTotal += parseFloat(h.price)
       // console.log(this.overTotal)
     }
-
-    console.log(this.addedItem)
-
-    // if (realPrice != undefined) {
-    //   let eachTotal = parseFloat(realPrice)
-
-    //   // console.log(eachTotal)
-    //   this.overTotal += parseFloat(realPrice)
-    //   console.log(this.overTotal)
-    // }
-
-    // let allProCount = this.productData.length
-    // let ty = 0
-    // for (let h = 0; h < allProCount; h++) {
-    //   let curQty = $('#cur-' + h).val()
-    //   if (curQty !== '') {
-    //     ty++
-    //     let data = this.productData[h]
-    //     let rawUnit = document.getElementById('u-price-' + h)?.innerHTML
-    //     let unit = rawUnit?.replace(',', '.')
-
-    //     let rawPrice = document.getElementById('amt-hidd-' + h)?.innerHTML
-    //     let realPrice = rawPrice?.replace(',', '.')
-
-    //     if (realPrice != undefined) {
-    //       console.log(realPrice)
-    //       this.overTotal += parseFloat(realPrice)
-    //       console.log(ty)
-    //     }
-
-    //   }
-    // }
   }
 
   runCalculation(index: number, qty: any, event: any) {
@@ -889,15 +876,18 @@ export class TestShowOrderComponent implements OnInit {
             }
           }
 
+          /// console.log(this.anotherLinePhase)
+
           let checkTotalAss = 0
           let curr = this.productData[index]
 
           this.anotherLinePhase.map((val: any, index: any) => {
-            ///console.log(val.group);
             if (curr.grouping == val.group) {
               checkTotalAss += parseInt(val.quantity)
             }
           })
+
+          // console.log(checkTotalAss)
 
           for (let tk = 0; tk < this.anotherLinePhase.length; tk++) {
             let jk = this.anotherLinePhase[tk]
@@ -973,6 +963,30 @@ export class TestShowOrderComponent implements OnInit {
                     $('#amt-' + activeData.pos).html(formattedAmt)
                     $('#amt-hidd-' + activeData.pos).html(newPrice)
 
+                    console.log(activeData, 'we testing it here, innsed')
+
+                    if (checkTotalAss >= activeData.cond) {
+                    } else {
+                      if (preData != undefined) {
+                        tickArrToBeRemoved.push(activeData)
+                      }
+                      $('.normal-booking-' + activeData.pos).css(
+                        'display',
+                        'inline-block',
+                      )
+
+                      let booking = activeData.booking
+                      let newPrice = parseInt(activeData.quantity) * booking
+                      let formattedAmt = this.currencyPipe.transform(
+                        newPrice,
+                        '$',
+                      )
+
+                      $('#u-price-' + activeData.pos).html(booking)
+                      $('#amt-' + activeData.pos).html(formattedAmt)
+                      $('#amt-hidd-' + activeData.pos).html(newPrice)
+                    }
+
                     if (preData != undefined) {
                       tickArrToBeRemoved.push(preData)
                     }
@@ -1007,11 +1021,6 @@ export class TestShowOrderComponent implements OnInit {
                     $('#amt-' + agaa.pos).html(formattedAmt)
                     $('#amt-hidd-' + agaa.pos).html(newPrice)
                   } else {
-                    // $('.normal-booking-' + agaa.pos).css(
-                    //   'display',
-                    //   'inline-block'
-                    // );
-
                     $('.special-booking-' + agaa.pos + '-' + agaa.arrIndex).css(
                       'display',
                       'none',
@@ -1031,8 +1040,6 @@ export class TestShowOrderComponent implements OnInit {
               }
             }
           }
-
-          // console.log(this.anotherLinePhaseFilter);
         }
 
         /// qty = 0;
@@ -1048,10 +1055,11 @@ export class TestShowOrderComponent implements OnInit {
 
         let formattedAmt = this.currencyPipe.transform(0, '$')
         $('#amt-' + index).html(formattedAmt)
+        $('#amt-hidd-' + index).html(0)
       }
-
-      this.runTotalCalculation(index)
     }
+
+    this.runTotalCalculation(index)
   }
 
   ///////////////// End of old code /////////////
@@ -1075,7 +1083,6 @@ export class TestShowOrderComponent implements OnInit {
     this.getData
       .httpGetRequest('/dealer/get-vendors')
       .then((result: any) => {
-        // console.log(result);
         if (result.status) {
           this.allVendors = result.data
           this.incomingVendorData = result.data
@@ -1094,13 +1101,10 @@ export class TestShowOrderComponent implements OnInit {
       return item.atlas_id == this.searchatlasId!
     })
     let newArray = array.filter((item: any) => {
-      // console.log('item reduce', item.atlas_id !== this.searchatlasId, item);
       return item.atlas_id !== this.searchatlasId!
     })
-    // console.log(' filter res', prodigal, newArray);
 
     newArray.unshift(prodigal[0])
-    // console.log(' mutated res', newArray);
 
     return newArray
   }
@@ -1110,7 +1114,6 @@ export class TestShowOrderComponent implements OnInit {
       .httpGetRequest('/cart/dealer/' + id)
       .then((result: any) => {
         if (result.status) {
-          console.log('dealer id', result?.data)
           this.cartHistory = result?.data
         } else {
           this.toastr.info(`Something went wrong`, 'Error')
@@ -1122,12 +1125,10 @@ export class TestShowOrderComponent implements OnInit {
   }
   searchVendorId(id: any) {
     this.canOrder = false
-    console.log('ready to search', id)
     this.getData
       .httpGetRequest('/get-vendor-products/' + id)
       .then((result: any) => {
         if (result.status) {
-          console.log('result came', result.data)
           this.isMod = true
 
           this.tableData = result.data
@@ -1158,9 +1159,7 @@ export class TestShowOrderComponent implements OnInit {
       let pre = Obj[`${x}`]
       pre.toString()
       Obj[`${x}`] = Obj[`${x}`].substring(pre.indexOf('-' + 1))
-      console.log('object & string', Obj, pre, Obj[`${x}`])
     }
-    console.log('new array', arr)
     return arr
   }
 
@@ -1185,12 +1184,8 @@ export class TestShowOrderComponent implements OnInit {
     let grpProdAval = false
     //check if in cart
     function checkInCartStatus(id: any) {
-      console.log('entered check status', arrHist, arrHist.length > 0)
-
       if (arrHist.length > 0) {
         for (let y = 0; y < arrHist.length; y++) {
-          console.log('check cart mut', id, arrHist[y].atlas_id)
-
           if (arrHist[y]?.atlas_id == id) {
             inCart = true
           }
