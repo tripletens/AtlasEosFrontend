@@ -36,7 +36,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { ViewSupportTicketComponent } from './view-support-ticket/view-support-ticket.component';
 import { SupportTicketsComponent } from './support-tickets/support-tickets.component';
 import { EditOrderVendorPageComponent } from './edit-order-vendor-page/edit-order-vendor-page.component';
-import { TestShowOrderComponent } from './test-show-order/test-show-order.component'
+import { TestShowOrderComponent } from './test-show-order/test-show-order.component';
+import { TableRowComponent } from './table-row/table-row.component'
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { TestShowOrderComponent } from './test-show-order/test-show-order.compon
     ViewSupportTicketComponent,
     EditOrderVendorPageComponent,
     TestShowOrderComponent,
+    TableRowComponent,
   ],
   imports: [
     CommonModule,
