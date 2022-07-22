@@ -177,7 +177,7 @@
                     min="0"
                     #inputAmt
                     placeholder="Qty"
-                    (input)="runCalculation(i, inputAmt.value, $event)"
+                    (keyup)="runCalculation(i, inputAmt.value, $event)"
                   />
                 </td>
               </ng-container>
@@ -246,23 +246,6 @@
                   *matCellDef="let element; let i = index"
                   class="text-center"
                 >
-                  <!--                     
-                  <span>{{ element.booking }}</span>
-                  <br />
-                  <span
-                    *ngFor="
-                      let spec of parser(element.spec_data);
-                      let j = index
-                    "
-                  >
-                    <span
-                      [class.assorted-color]="spec.type == 'assorted'"
-                      [class.quantity-color]="spec.type == 'special'"
-                    >
-                      {{ spec.special }}
-                    </span>
-                  </span> -->
-
                   <span class="booking-text">
                     {{ element.booking | currency }}
                     <span
@@ -272,6 +255,7 @@
 
                     <span id="u-price-{{ i }}" class="u-price-text"></span>
                   </span>
+
                   <span *ngFor="let spec of element.spec_data; let j = index">
                     <span
                       [class.assorted-color]="spec.type == 'assorted'"
@@ -296,10 +280,6 @@
                   *matCellDef="let element; let i = index"
                   class="text-center"
                 >
-                  <!-- <span class="desc-text">
-                    {{ element.extended | currency }}
-                  </span> -->
-
                   <span #extend class="total-text" id="amt-{{ i }}">
                     {{ dummyAmt | currency }}
                   </span>
