@@ -177,7 +177,7 @@
                     min="0"
                     #inputAmt
                     placeholder="Qty"
-                    (input)="runCalculation(i, inputAmt.value, $event)"
+                    (keyup)="runCalculation(i, inputAmt.value, $event)"
                   />
                 </td>
               </ng-container>

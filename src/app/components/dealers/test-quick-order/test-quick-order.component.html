@@ -28,7 +28,7 @@
                   type="text"
                   disabled
                   #vendorInput
-                  [value]=""
+                  [value]="vendorDisplay?.vendor_name"
                   class="search-input form-control"
                   style="width: 200px !important;"
                 />
@@ -68,7 +68,8 @@
               data-target=".bd-example-modal-lg"
               (click)="getcurrentGroupings()"
             >
-              click to view related Items
+              Click to view related Items
+              <b>(Assorted)</b>
             </button>
           </div>
 
@@ -145,73 +146,32 @@
             </table>
           </div>
 
-          <!-- 
+          <div class="alert alert-success alert-dismissible" *ngIf="showAlert">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              (click)="removeShowAlert()"
+            >
+              &times;
+            </button>
+            <strong>Success!</strong>
+            <p>
+              {{ newlyAdded }} new item(s) has been added to your quick order.
+            </p>
+            <p *ngIf="existingInQuickOrder != ''">
+              {{ existingInQuickOrder }} has been added to your quick order
+              already.
+            </p>
+            <p *ngIf="existingInOrder != ''">
+              {{ existingInOrder }} has been added to your order already.
+            </p>
 
-
-          <div
-            class="w-100 search-data-ctn mb-3"
-            *ngIf="searchStatus && !assortedType"
-          >
-            <table>
-              <tr>
-                <td>
-                  <h5 class="m-0">
-                    {{ quickOrderData.filtered_data.description }}
-                  </h5>
-                </td>
-                <td class="value">
-                  {{ quickOrderData.filtered_data.booking | currency }}
-                </td>
-              </tr>
-              <tr>
-                <td class="value red">
-                  <span
-                    *ngFor="
-                      let spec of quickOrderData.filtered_data.spec_data;
-                      let l = index
-                    "
-                  >
-                    <span
-                      [class.assorted-color]="spec.type == 'assorted'"
-                    ></span>
-                    <span
-                      [class.assorted-color]="spec.type == 'assorted'"
-                      [class.quantity-color]="spec.type == 'special'"
-                    >
-                      {{ spec.desc }}
-                    </span>
-                  </span>
-                </td>
-                <td class="value blue">
-                  <span
-                    *ngFor="
-                      let spec of quickOrderData.filtered_data.spec_data;
-                      let j = index
-                    "
-                  >
-                    <span
-                      [class.assorted-color]="spec.type == 'assorted'"
-                      [class.quantity-color]="spec.type == 'special'"
-                    >
-                      {{ spec.special }}
-                    </span>
-                  </span>
-                </td>
-              </tr>
-            </table>
-          </div>
- -->
-
-          <div class="w-100 search-data-ctn mb-3" *ngIf="noData">
-            <table>
-              <tr>
-                <td class="text-center value red" colspan="8">
-                  This Part no.
-                  <span class="font-weight-bold">#{{ searchId }}</span>
-                  is not on the show
-                </td>
-              </tr>
-            </table>
+            <strong style="margin-top: 20px; display: block;">Note!</strong>
+            <p>
+              Once an item is added to order, you can't add that same item in
+              your quick order table
+            </p>
           </div>
 
           <div class="table-ctn mt-3 p-3" style="background-color: white;">

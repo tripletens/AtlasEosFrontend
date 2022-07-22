@@ -141,6 +141,12 @@ export class TestQuickOrderComponent implements OnInit {
   ClearOrderBtnLoader = false
   modalTableBtn = false
 
+  newlyAdded = 0
+  existingInQuickOrder = ''
+  existingInOrder = ''
+  showAlert = false
+  vendorDisplay: any
+
   //////// Achawayne stopped /////////
 
   constructor(
@@ -163,6 +169,10 @@ export class TestQuickOrderComponent implements OnInit {
   }
 
   //////////// Achawayne /////////////////////
+
+  removeShowAlert() {
+    this.showAlert = false
+  }
 
   addOrderToQuickTable() {
     let allProCount = this.productData.length
@@ -210,9 +220,13 @@ export class TestQuickOrderComponent implements OnInit {
       .httpPostRequest('/dealer/submit-assorted-quick-order', postData)
       .then((res: any) => {
         this.modalTableBtn = false
-        console.log(res)
+        this.showAlert = true
         if (res.status) {
-          this.toastr.success(` item(s) has been submitted`, 'Success')
+          this.newlyAdded = res.data.newly_added
+          this.existingInQuickOrder = res.data.existing_already_in_quick_order
+          this.existingInOrder = res.data.existing_already_in_order
+
+          this.toastr.success(`item(s) has been submitted`, 'Success')
           this.closeModalBtn.nativeElement.click()
           this.fetchQuickOrderCart()
         } else {
@@ -220,6 +234,8 @@ export class TestQuickOrderComponent implements OnInit {
         }
       })
       .catch((err) => {
+        this.showAlert = false
+
         if (err.message.response.dealer || err.message.response.dealer) {
           this.toastr.info(`Please logout and login again`, 'Session Expired')
         } else {
@@ -732,6 +748,28 @@ export class TestQuickOrderComponent implements OnInit {
                     $('#amt-' + activeData.pos).html(formattedAmt)
                     $('#amt-hidd-' + activeData.pos).html(newPrice)
 
+                    if (checkTotalAss >= activeData.cond) {
+                    } else {
+                      if (preData != undefined) {
+                        tickArrToBeRemoved.push(activeData)
+                      }
+                      $('.normal-booking-' + activeData.pos).css(
+                        'display',
+                        'inline-block',
+                      )
+
+                      let booking = activeData.booking
+                      let newPrice = parseInt(activeData.quantity) * booking
+                      let formattedAmt = this.currencyPipe.transform(
+                        newPrice,
+                        '$',
+                      )
+
+                      $('#u-price-' + activeData.pos).html(booking)
+                      $('#amt-' + activeData.pos).html(formattedAmt)
+                      $('#amt-hidd-' + activeData.pos).html(newPrice)
+                    }
+
                     if (preData != undefined) {
                       tickArrToBeRemoved.push(preData)
                     }
@@ -834,7 +872,6 @@ export class TestQuickOrderComponent implements OnInit {
             this.canOrder = true
           }
           this.orderTable = []
-          this.getTotal()
 
           this.modalTableData = new MatTableDataSource<PeriodicElement>(
             result.data,
@@ -891,13 +928,18 @@ export class TestQuickOrderComponent implements OnInit {
       this.getData
         .httpPostRequest('/dealer/submit-quick-order', postData)
         .then((res: any) => {
-          console.log(res)
+          this.showAlert = true
           if (res.status) {
             this.fetchQuickOrderCart()
             this.cartLoader = false
-            this.toastr.success(`${res.message} `, 'Success')
             this.addLoader = false
             this.addSuccess = true
+
+            this.newlyAdded = res.data.newly_added
+            this.existingInQuickOrder = res.data.existing_already_in_quick_order
+            this.existingInOrder = res.data.existing_already_in_order
+
+            this.toastr.success(`item(s) has been submitted`, 'Success')
 
             this.orderTable = []
             this.atlasInput.nativeElement.value = null
@@ -911,6 +953,8 @@ export class TestQuickOrderComponent implements OnInit {
           }
         })
         .catch((err) => {
+          this.showAlert = false
+
           this.cartLoader = false
           if (err.message.response.dealer || err.message.response.dealer) {
             this.toastr.info(`Please logout and login again`, 'Session Expired')
@@ -1064,6 +1108,7 @@ export class TestQuickOrderComponent implements OnInit {
 
             this.searchResultData = res.data
             this.quickOrderData = res.data.filtered_data
+            this.vendorDisplay = res.data.filtered_data[0]
             this.assortedType = res.data.assorted
             this.noData = false
             this.disabled = false
@@ -1256,205 +1301,9 @@ export class TestQuickOrderComponent implements OnInit {
       this._liveAnnouncer.announce('Sorting cleared')
     }
   }
+
   parser(data: any) {
     return JSON.parse(data)
-  }
-
-  qtyInputCheck(qty: any, runcalc: boolean) {
-    if (qty > 0) {
-      this.disabledBtn = false
-      {
-        runcalc && this.runCalc(this.searchResultData, qty, true)
-      }
-    } else {
-      this.disabledBtn = true
-    }
-  }
-
-  runCalc(product: any, qty: any, bool: boolean) {
-    let price = parseFloat(product?.booking!)
-    let posssibleBreak = false
-    let specData
-    let total = 0.0
-    let arrHist: any = this.cartHistory
-    let cart = this.orderTable
-    let inCart = false
-    let mutArr = arrHist.concat(cart)
-
-    let priceSummary = {
-      specItem: false,
-      assortItem: false,
-      specCond: 0,
-      specPrice: 0,
-    }
-    let grp: any
-    //check if in cart
-    function checkInCartStatus(id: any) {
-      console.log('entered check status', mutArr, mutArr.length > 0)
-
-      if (mutArr.length > 0) {
-        for (let y = 0; y < mutArr.length; y++) {
-          console.log('check cart mut', id, mutArr[y].atlas_id)
-
-          if (mutArr[y]?.atlas_id == id) {
-            inCart = true
-          }
-        }
-      }
-    }
-    checkInCartStatus(product.atlas_id)
-
-    console.log('incart check', inCart)
-
-    if (!inCart) {
-      console.log('grping', grp)
-      //set grouping
-      if (product.grouping == null || undefined) {
-        grp = ''
-        console.log('grping', grp)
-      } else {
-        grp = product.grouping
-        console.log('grping else', grp)
-      }
-      // set product data for order table
-      let usedVar = {
-        vendor_id: product.vendor,
-        atlas_id: product.atlas_id,
-        qty: qty,
-        price: '0',
-        unit_price: price.toString(),
-        product_id: product.id.toString(),
-        groupings: grp,
-      }
-      //set specdata
-      if (product.spec_data) {
-        specData = JSON.parse(product.spec_data)
-        posssibleBreak = true
-        for (var x = 0; x < specData?.length; x++) {
-          let lev = specData[x]
-          if (lev.type == 'special') {
-            priceSummary.specItem = true
-            priceSummary.specCond = lev.cond
-            priceSummary.specPrice = lev.special
-          }
-          if (lev.type == 'assorted') {
-            priceSummary.assortItem = true
-            priceSummary.specCond = lev.cond
-            priceSummary.specPrice = lev.special
-          }
-        }
-      }
-
-      function replaceOldVal(arr: any) {
-        if (arr?.length > 0) {
-          for (var j = 0; j < arr?.length; j++) {
-            let Obj: any = arr[j]!
-            if (Obj?.atlas_id == product.atlas_id) {
-              arr.splice(j, 1)
-            }
-          }
-        }
-      }
-
-      function calcTotal() {
-        if (qty > 0) {
-          // has spec condition
-          if (posssibleBreak) {
-            //has special condition
-            if (priceSummary.specItem) {
-              console.log('step 3')
-              //hit special qty condition
-
-              if (qty >= priceSummary.specCond) {
-                total = qty * priceSummary.specPrice
-                usedVar.unit_price = priceSummary.specPrice.toString()
-
-                console.log('step 3', total)
-              } else {
-                // doesnt hit special qty condition
-
-                console.log('second else', total)
-                total = qty * price
-                console.log('below second else', total)
-              }
-            }
-            //has assorted condition
-            else if (priceSummary.assortItem) {
-              console.log('mutArrray assort', mutArr)
-              //check if items in cart are in thesame group
-              let groupQty = qty
-              for (var j = 0; j < mutArr?.length; j++) {
-                let Obj = mutArr[j]!
-                if (product?.grouping) {
-                  if (Obj.grouping == grp) {
-                    groupQty = qty + Obj.qty
-                  }
-                }
-              }
-              //hit assorted qty condition
-              if (groupQty >= priceSummary.specCond) {
-                total = qty * priceSummary.specPrice
-                usedVar.unit_price = priceSummary.specPrice.toString()
-                console.log('entered ', total)
-              } else {
-                //doesnt hit assorted qty condition
-
-                console.log('second else assort', total)
-                total = qty * price
-                console.log('below second else assort', total)
-              }
-            }
-          } else {
-            // doesnt have spec condition
-
-            console.log('first else', total)
-            total = qty * price
-            console.log('below first else', total)
-          }
-        } else {
-          replaceOldVal(cart)
-        }
-        total = total
-        usedVar.price = total.toString()
-      }
-
-      calcTotal()
-
-      replaceOldVal(this.orderTable)
-      console.log('userobj', usedVar, 'table', this.orderTable)
-      this.orderTable.push(usedVar)
-      if (bool) {
-        this.addToQuickOrder()
-      }
-      console.log(
-        'total val',
-        total,
-        price,
-        qty,
-        posssibleBreak,
-        'price sum',
-        priceSummary,
-        'var added',
-        usedVar,
-        'table',
-        this.orderTable,
-      )
-    } else {
-      this.toastr.info(``, 'This item has been added to cart')
-    }
-  }
-
-  getTotal() {
-    let total = 0
-    if (this.dataSrc.data.length > 0) {
-      for (var i = 0; i < this.dataSrc.data.length; i++) {
-        let Obj: any = this.dataSrc.data[i]!
-        total = total + parseFloat(Obj.price!)
-      }
-      return (this.orderTotal = total)
-    } else {
-      return (this.orderTotal = 0)
-    }
   }
 
   getCart() {
