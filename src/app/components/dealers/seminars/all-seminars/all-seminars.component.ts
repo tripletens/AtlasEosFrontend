@@ -14,6 +14,7 @@ export interface PeriodicElement {
   vendor_name: string;
   start_time: string;
   link: string;
+  status: any;
 }
 
 @Component({
@@ -31,7 +32,7 @@ export class AllSeminarsComponent implements AfterViewInit {
     'start_time',
     'vendor_name',
     'topic',
-
+'status',
     'link',
   ];
   noData = false;
@@ -88,10 +89,16 @@ export class AllSeminarsComponent implements AfterViewInit {
         this.noData = true;
       });
   }
-  bookmarkSeminar(id: any) {
-    let dealer= this.token.getUser().account_id
+  bookmarkSeminar(id: any, stat: any,current:any) {
+    let dealer = this.token.getUser().account_id
+    let formdata = {
+      seminar_id: id,
+      dealer_id: dealer,
+      bookmark_status: 1,
+      current_seminar_status:current
+    };
      this.request
-       .httpPostRequest('/bookmarkSeminar/'+dealer+'/'+id)
+       .httpPostRequest('/join-seminar',formdata)
        .then((result: any) => {
          console.log(result);
        
@@ -101,7 +108,7 @@ export class AllSeminarsComponent implements AfterViewInit {
            
            
          } else {
-           this.toastr.error('Something went wrong', `${result.message}`);
+           this.toastr.error('Something went wrong', `Error`);
          }
        })
        .catch((err) => {

@@ -13,24 +13,26 @@
         </div>
         <div class="w-100 mb-4 mt-3" style="text-align: end">
           <a
-            class="btn btn-info mr-2 tab-btn"
-            routerLink="/dealers/all-seminars"
-            >ALL SEMINARS</a
+            class="btn btn-success mr-2 tab-btn"
+            routerLink="/dealers/ongoing-seminars"
+            >IN SESSION SEMINARS</a
           ><a
             class="btn btn-warning mr-2 tab-btn"
             routerLink="/dealers/sheduled-seminars"
             >SCHEDULED SEMINARS</a
-          ><a
-            class="btn btn-danger mr-2 tab-btn"
-            routerLink="/dealers/watched-seminars"
-            >COMPLETED SEMINARS</a
+          >
+          <a
+            class="btn btn-info mr-2 tab-btn"
+            routerLink="/dealers/all-seminars"
+            >ALL SEMINARS</a
           >
         </div>
-        <div class="card recent-order-card"><p
+        <div class="card recent-order-card">
+          <p
             class="text mb-2"
             style="text-align: center; font-weight: 600; font-size: 14px"
           >
-            IN SESSION SEMINARS
+            COMPLETED SEMINARS
           </p>
           <div class="">
             <div class="grid-margin">
@@ -233,13 +235,18 @@
                         <th mat-header-cell *matHeaderCellDef>Status</th>
                         <td mat-cell *matCellDef="let element">
                           {{ element.status }}
-                          <p class="red-text" *ngIf="element.status == 3 ">
+                          <p class="red-text" *ngIf="element.status == 3">
                             COMPLETED
                           </p>
                           <p class="green-text" *ngIf="element.status == 2">
                             IN SESSION
                           </p>
-                          <p class="yellow-text" *ngIf="element.status == 1 || element.status== null">
+                          <p
+                            class="yellow-text"
+                            *ngIf="
+                              element.status == 1 || element.status == null
+                            "
+                          >
                             SHEDULED
                           </p>
                         </td>
@@ -282,7 +289,9 @@
                             *ngIf="
                               element.status == 1 || element.status == null
                             "
-                            (click)=" bookmarkSeminar(element.id,1,element.status)"
+                            (click)="
+                              bookmarkSeminar(element.id, 1, element.status)
+                            "
                           >
                             <i class="fa fa-alert" aria-hidden="true"></i>
                             REMIND ME

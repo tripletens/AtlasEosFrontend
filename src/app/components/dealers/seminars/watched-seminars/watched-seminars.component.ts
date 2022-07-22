@@ -1,12 +1,13 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { HttpClient } from '@angular/common/http';
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
 import { TokenStorageService } from 'src/app/core/services/token-storage.service';
+
 export interface PeriodicElement {
   id: number;
   topic: string;
@@ -14,13 +15,14 @@ export interface PeriodicElement {
   vendor_name: string;
   start_time: string;
   link: string;
+  status: any;
 }
 @Component({
-  selector: 'app-sheduled-seminars',
-  templateUrl: './sheduled-seminars.component.html',
-  styleUrls: ['./sheduled-seminars.component.scss'],
+  selector: 'app-watched-seminars',
+  templateUrl: './watched-seminars.component.html',
+  styleUrls: ['./watched-seminars.component.scss'],
 })
-export class SheduledSeminarsComponent implements AfterViewInit {
+export class WatchedSeminarsComponent implements OnInit {
   loader = true;
   tableView = false;
   tableData: PeriodicElement[] = [];
@@ -30,7 +32,7 @@ export class SheduledSeminarsComponent implements AfterViewInit {
     'start_time',
     'vendor_name',
     'topic',
-
+    'status',
     'link',
   ];
   noData = false;
@@ -45,9 +47,12 @@ export class SheduledSeminarsComponent implements AfterViewInit {
     private request: HttpRequestsService,
     private http: HttpClient,
     private toastr: ToastrService,
-  private _liveAnnouncer: LiveAnnouncer,    private token: TokenStorageService
-
+    private _liveAnnouncer: LiveAnnouncer,
+    private token: TokenStorageService
   ) {}
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
   @ViewChild(MatSort)
   sort!: MatSort;
   announceSortChange(sortState: Sort) {
@@ -63,7 +68,7 @@ export class SheduledSeminarsComponent implements AfterViewInit {
     this.noData = false;
 
     this.request
-      .httpGetRequest('/fetch-sheduled-seminars')
+      .httpGetRequest('/fetch-watched-seminars')
       .then((result: any) => {
         console.log(result);
         this.tableView = true;
@@ -71,12 +76,12 @@ export class SheduledSeminarsComponent implements AfterViewInit {
         if (result.status) {
           this.tableData = result.data;
           console.log('data result', this.tableData, result.data.length);
-          this.toastr.error('Something went wrong', `${result.message}`);
           if (result.data.length == 0) {
             this.noData = true;
           }
           this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
-          this.dataSrc.paginator = this.paginator;this.dataSrc.sort = this.sort;
+          this.dataSrc.paginator = this.paginator;
+          this.dataSrc.sort = this.sort;
         } else {
           this.toastr.error('Something went wrong', `${result.message}`);
           this.noData = true;
@@ -111,5 +116,4 @@ export class SheduledSeminarsComponent implements AfterViewInit {
         this.toastr.error('Try again', 'Something went wrong');
       });
   }
-
 }
