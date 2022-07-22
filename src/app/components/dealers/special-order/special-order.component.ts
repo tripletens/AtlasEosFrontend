@@ -58,7 +58,12 @@ export class SpecialOrderComponent implements OnInit {
     'action',
   ];
   noData = false;
-  editable: any;
+  editable: any = {
+    quantity: '',
+    vendor_id: '',
+    description: '',
+    id: '',
+  };
   editOrderPage = false;
   editOrderSuccess = false;
   saveLoader = false;
@@ -114,9 +119,14 @@ export class SpecialOrderComponent implements OnInit {
     this.arr.push(new Product());
     console.log('array result', this.arr);
   }
-  goToEditOrder(prod: any, i: number) {
+  goToEditOrder(qty: any, vId: any, desc: any, i: any) {
     this.editOrderPage = true;
-    this.editable = prod;
+    this.editable.quantity = qty;
+    this.editable.vendor_id = vId;
+    this.editable.description = desc;
+    this.editable.id = i;
+
+    console.log('setting edtiable', desc, vId, qty, i, this.editable);
     this.editOrderSuccess = false;
   }
   announceSortChange(sortState: Sort) {
@@ -162,17 +172,17 @@ export class SpecialOrderComponent implements OnInit {
     return JSON.parse(data);
   }
   submitEditSpecialOrder(qty: any, vId: any, desc: any) {
-    let array: any;
+    let array: any = [];
     let q = {
       quantity: qty,
       vendor_id: vId,
       description: desc,
     };
-    array.push(q);
-
+    array.push(this.editable);
+    console.log('compaer editable', q, this.editable);
     let formdata = {
       uid: this.token.getUser().id,
-      product_array: this.parser(array),
+      product_array: JSON.stringify(array),
     };
     this.getData
       .httpPostRequest('/special-orders/edit', formdata)
@@ -181,6 +191,7 @@ export class SpecialOrderComponent implements OnInit {
         if (result.status) {
           this.editOrderSuccess = true;
           this.fetchOrder();
+          this.toastr.success(`Special Order has been edited`, 'Success');
         } else {
           this.toastr.info(`Something went wrong`, 'Error');
         }
@@ -197,6 +208,7 @@ export class SpecialOrderComponent implements OnInit {
       let formdata = {
         uid: this.token.getUser().id,
         product_array: JSON.stringify(this.arr),
+        dealer_id: this.token.getUser().account_id,
       };
       this.errorPrmpt = false;
       this.getData
@@ -229,7 +241,7 @@ export class SpecialOrderComponent implements OnInit {
     }
   }
   fetchOrder() {
-    let user = this.token.getUser().id;
+    let user = this.token.getUser().account_id;
     this.getData
       .httpGetRequest('/special-orders/' + user)
       .then((result: any) => {
@@ -258,21 +270,32 @@ export class SpecialOrderComponent implements OnInit {
       });
   }
   checkEmptyStat() {
+    let error = false
+        console.log('errror disable', this.disableSubmit, error);
+
     if (this.arr.length < 1) {
-      this.disableSubmit = true;
+      error = true;
     } else {
       for (var i = 0; i < this.arr.length; i++) {
-        if (this.arr[i].quantity == '') {
-          this.disableSubmit = true;
-        }
-        if (this.arr[i].vendor_id == '') {
-          this.disableSubmit = true;
-        }
-        if (this.arr[i].description == '') {
-          this.disableSubmit = true;
+        if (Object.keys(this.arr[i]).length !== 3) {
+          error = true;
+        } else {
+          if (this.arr[i].quantity == '') {
+            error = true;
+          }
+          if (this.arr[i].vendor_id == '') {
+            error = true;
+          }
+          if (this.arr[i].description == '') {
+            error = true;
+          }
         }
       }
     }
+
+    this.disableSubmit = error
+     console.log('errror disable after', this.disableSubmit, error);
+
   }
   deleteOrder(i: any) {
     if (i > -1) {
