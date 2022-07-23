@@ -108,8 +108,11 @@
                     class="mx-auto"
                     min="0"
                     value="{{ element.qty }}"
-                    #qtyInput
                     placeholder="Qty"
+                    id="cur-{{ i }}"
+                    #cartQuanity
+                    class="table-input"
+                    (keyup)="runCalculation(i, cartQuanity.value)"
                   />
                 </td>
               </ng-container>
@@ -148,7 +151,7 @@
                     {{ element.desc! }}
                   </span>
 
-                  <span *ngFor="let spec of element.spec_data!; let l = index">
+                  <!-- <span *ngFor="let spec of element.spec_data!; let l = index">
                     <span
                       [class.assorted-color]="spec.type == 'assorted'"
                     ></span>
@@ -158,7 +161,7 @@
                     >
                       {{ spec.desc }}
                     </span>
-                  </span>
+                  </span> -->
                 </td>
               </ng-container>
 
@@ -184,14 +187,14 @@
 
                   <span class="booking-text">
                     {{ element.booking | currency }}
-                    <span
+                    <!-- <span
                       class="ticker fa fa-check normal-booking-{{ i }}"
                       id=""
-                    ></span>
+                    ></span> -->
 
                     <span id="u-price-{{ i }}" class="u-price-text"></span>
                   </span>
-
+                  <!-- 
                   <span *ngFor="let spec of element.spec_data; let j = index">
                     <span
                       [class.assorted-color]="spec.type == 'assorted'"
@@ -205,7 +208,7 @@
                         id=""
                       ></span>
                     </span>
-                  </span>
+                  </span> -->
                 </td>
               </ng-container>
               <ng-container matColumnDef="extended">
