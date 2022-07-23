@@ -517,7 +517,6 @@ export class TestShowOrderComponent implements OnInit {
                           secondPhase.push(ele)
                         }
                         this.anotherLinePhase.push(e.spec_data)
-                        console.log(this.anotherLinePhase)
                       } else {
                         let price = parseFloat(e.booking)
                         let quantity = parseInt(e.quantity)
@@ -863,6 +862,8 @@ export class TestShowOrderComponent implements OnInit {
             }
           }
 
+          // console.log(this.anotherLinePhaseFilter, 'tersting another line')
+
           for (let hy = 0; hy < this.anotherLinePhaseFilter.length; hy++) {
             let he = this.anotherLinePhaseFilter[hy]
             let curr = this.productData[index]
@@ -876,7 +877,7 @@ export class TestShowOrderComponent implements OnInit {
             }
           }
 
-          /// console.log(this.anotherLinePhase)
+          // console.log(this.anotherLinePhase, 'tersting another line')
 
           let checkTotalAss = 0
           let curr = this.productData[index]
@@ -1153,281 +1154,6 @@ export class TestShowOrderComponent implements OnInit {
         // this.toastr.info(`Something went wrong`, 'Error');
       })
   }
-  arrIntConverter(arr: any, x: any) {
-    for (var i = 0; i < arr.length; i++) {
-      let Obj = arr[i]
-      let pre = Obj[`${x}`]
-      pre.toString()
-      Obj[`${x}`] = Obj[`${x}`].substring(pre.indexOf('-' + 1))
-    }
-    return arr
-  }
-
-  runCalc(product: any, qty: any, i: any) {
-    let price = parseFloat(product?.booking!)
-    let posssibleBreak = false
-    let specData
-    let total = 0.0
-    let arrHist: any = this.cartHistory
-    let cart = this.orderTable
-    let inCart = false
-    let mutArr = arrHist.concat(cart)
-
-    let priceSummary = {
-      specItem: false,
-      assortItem: false,
-      specCond: 0,
-      specPrice: 0,
-    }
-    let grp: any
-    let groupProd: any = []
-    let grpProdAval = false
-    //check if in cart
-    function checkInCartStatus(id: any) {
-      if (arrHist.length > 0) {
-        for (let y = 0; y < arrHist.length; y++) {
-          if (arrHist[y]?.atlas_id == id) {
-            inCart = true
-          }
-        }
-      }
-    }
-    checkInCartStatus(product.atlas_id)
-
-    console.log('incart check', inCart)
-
-    if (!inCart) {
-      console.log('grping', grp)
-      //set grouping
-      if (product.grouping == null || undefined) {
-        grp = ''
-        console.log('grping', grp)
-      } else {
-        grp = product.grouping
-        console.log('grping else', grp)
-      }
-      // set product data for order table
-
-      let usedVar = {
-        vendor_id: product.vendor,
-        atlas_id: product.atlas_id,
-        loc: i,
-        qty: qty,
-        price: '0',
-        reg: product.booking,
-        unit_price: price.toString(),
-        product_id: product.id.toString(),
-        groupings: grp,
-      }
-      //set specdata
-      if (product.spec_data) {
-        specData = JSON.parse(product.spec_data)
-        posssibleBreak = true
-        for (var x = 0; x < specData?.length; x++) {
-          let lev = specData[x]
-          if (lev.type == 'special') {
-            priceSummary.specItem = true
-            priceSummary.specCond = lev.cond
-            priceSummary.specPrice = lev.special
-          }
-          if (lev.type == 'assorted') {
-            priceSummary.assortItem = true
-            priceSummary.specCond = lev.cond
-            priceSummary.specPrice = lev.special
-          }
-        }
-      }
-
-      function replaceOldVal(arr: any) {
-        if (arr?.length > 0) {
-          for (var j = 0; j < arr?.length; j++) {
-            let Obj: any = arr[j]!
-            if (Obj?.atlas_id == product.atlas_id) {
-              console.log('new array', arr)
-              arr = arr.splice(j, 1)
-            }
-          }
-        }
-        return arr
-      }
-
-      function calcTotal() {
-        if (qty > 0) {
-          // has spec condition
-          if (posssibleBreak) {
-            //has special condition
-            if (priceSummary.specItem) {
-              console.log('step 3')
-              //hit special qty condition
-
-              if (qty >= priceSummary.specCond) {
-                total = qty * priceSummary.specPrice
-                usedVar.unit_price = priceSummary.specPrice.toString()
-
-                console.log('step 3', total)
-              } else {
-                // doesnt hit special qty condition
-
-                console.log('second else', total)
-                total = qty * price
-                console.log('below second else', total)
-              }
-            }
-            //has assorted condition
-            else if (priceSummary.assortItem) {
-              let mutArray: any = cart
-              console.log('mutArrray assort', mutArray, arrHist, cart)
-              //check if items in cart are in thesame group
-              let groupQty = qty
-              for (var j = 0; j < mutArray?.length; j++) {
-                let Obj = mutArray[j]!
-                if (product?.grouping) {
-                  console.log(
-                    'hit grouping',
-                    product?.grouping,
-                    Obj?.groupings,
-                    Obj,
-                  )
-                  if (Obj?.groupings == grp) {
-                    groupQty = qty + Obj.qty
-                    console.log('finding group', groupQty + Obj.qty, Obj.qty)
-                    groupProd.push(Obj.atlas_id)
-                  }
-                }
-              }
-              console.log(
-                'compaer group with spec',
-                groupQty,
-                qty,
-                priceSummary.specCond,
-              )
-
-              //hit assorted qty condition
-              if (groupQty >= priceSummary.specCond) {
-                grpProdAval = true
-                total = qty * priceSummary.specPrice
-                usedVar.unit_price = priceSummary.specPrice.toString()
-                console.log('entered ', total)
-                //resolve for others
-              } else {
-                //doesnt hit assorted qty condition
-
-                console.log('second else assort', total)
-                total = qty * price
-                console.log('below second else assort', total)
-              }
-            }
-          } else {
-            // doesnt have spec condition
-
-            console.log('first else', total)
-            total = qty * price
-            console.log('below first else', total)
-          }
-        } else if (qty == 0) {
-          if (cart?.length > 0) {
-            for (var j = 0; j < cart?.length; j++) {
-              let Obj: any = cart[j]!
-              if (Obj?.atlas_id == product.atlas_id) {
-                console.log('new cartay', cart)
-                cart = cart.splice(j, 1)
-              }
-            }
-          }
-        } else if (qty == '') {
-          if (cart?.length > 0) {
-            for (var j = 0; j < cart?.length; j++) {
-              let Obj: any = cart[j]!
-              if (Obj?.atlas_id == product.atlas_id) {
-                console.log('new cartay', cart)
-                cart = cart.splice(j, 1)
-              }
-            }
-          }
-        } else if (qty == '0') {
-          if (cart?.length > 0) {
-            for (var j = 0; j < cart?.length; j++) {
-              let Obj: any = cart[j]!
-              if (Obj?.atlas_id == product.atlas_id) {
-                console.log('new cartay', cart)
-                cart = cart.splice(j, 1)
-              }
-            }
-          }
-        }
-        total = parseFloat(total.toFixed(2))
-        usedVar.price = total.toString()
-      }
-
-      calcTotal()
-      //issue dey here
-      if (grpProdAval) {
-        console.log('group', groupProd[0], groupProd)
-        let val = groupProd[0]
-        for (let i = 0; i < this.orderTable.length; i++) {
-          let obj: any = this.orderTable[i]
-          if (obj.atlas_id == val) {
-            obj.price = priceSummary.specPrice * obj.qty
-            this.dataSrc.data[obj.loc].extended =
-              priceSummary.specPrice * obj.qty
-          }
-        }
-      } else {
-        for (var j = 0; j < cart?.length; j++) {
-          let Obj: any = cart[j]!
-          if (product?.grouping) {
-            console.log('hit grouping', product?.grouping, Obj?.groupings, Obj)
-            if (Obj?.groupings == grp) {
-              console.log('finding group', Obj.qty)
-              groupProd.push(Obj.atlas_id)
-            }
-          }
-        }
-        console.log('group else', groupProd[1], groupProd)
-        let val
-        if (groupProd[1] == '998-2') {
-          val = '998-3'
-        } else if (groupProd[1] == '998-3') {
-          val = '998-2'
-        }
-        for (let i = 0; i < this.orderTable.length; i++) {
-          let obj: any = this.orderTable[i]
-          if (obj.atlas_id == val) {
-            obj.price = obj.booking * obj.qty
-            this.dataSrc.data[obj.loc].extended = obj.booking * obj.qty
-          }
-        }
-      }
-      this.orderTable = replaceOldVal(this.orderTable)
-      console.log('userobj', usedVar, 'table', this.orderTable)
-      this.orderTable.push(usedVar)
-      this.getTotal()
-      this.dataSrc.data[i].extended = total
-      // if (posssibleBreak && qty > priceSummary.specCond) {
-      //   this.dataSrc.data[i].booking = priceSummary.specPrice;
-      // } else {
-      //    this.dataSrc.data[i].booking = priceSummary.specPrice;
-      // }
-
-      this.dataSrc.sort = this.sort
-      this.dataSrc.paginator = this.paginator
-      console.log(
-        'total val',
-        total,
-        price,
-        qty,
-        posssibleBreak,
-        'price sum',
-        priceSummary,
-        'var added',
-        usedVar,
-        'table',
-        this.orderTable,
-      )
-    } else {
-      this.toastr.info(``, 'This item is already in order')
-    }
-  }
 
   submitOrder() {
     this.cartLoader = true
@@ -1481,9 +1207,6 @@ export class TestShowOrderComponent implements OnInit {
       this.cartLoader = false
       this.toastr.info(`No item quantity has been set`, 'Error')
     }
-  }
-  parser(data: any) {
-    return JSON.parse(data)
   }
 
   async confirmBox() {
