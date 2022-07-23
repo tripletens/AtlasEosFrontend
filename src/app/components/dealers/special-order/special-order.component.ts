@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
 import { TokenStorageService } from 'src/app/core/services/token-storage.service';
+import { T } from '../show-orders/show-orders.component';
 interface Dealer {
   fname: string;
   lname: string;
@@ -16,7 +17,8 @@ interface Dealer {
 class Product {
   public quantity: number | undefined;
   description: string | undefined;
-  vendor_id: string | undefined;
+  vendor_no: string | undefined;
+  vendor_code: string | undefined;
 }
 declare var $: any;
 export interface PeriodicElement {
@@ -36,11 +38,7 @@ export class SpecialOrderComponent implements OnInit {
   allCategoryData: any;
   vendorSelected = false;
   arr: any = [];
-  z = {
-    quantity: '',
-    description: '',
-    vendor_id: '',
-  };
+
   ordained: any;
   dealer: Dealer = {
     fname: '',
@@ -54,15 +52,16 @@ export class SpecialOrderComponent implements OnInit {
     'description',
     'vendor_code',
     'vendor_name',
-
+    'ordered_by',
     'action',
   ];
   noData = false;
   editable: any = {
     quantity: '',
-    vendor_id: '',
+    vendor_no: '',
     description: '',
     id: '',
+    vendor_code: '',
   };
   editOrderPage = false;
   editOrderSuccess = false;
@@ -119,14 +118,15 @@ export class SpecialOrderComponent implements OnInit {
     this.arr.push(new Product());
     console.log('array result', this.arr);
   }
-  goToEditOrder(qty: any, vId: any, desc: any, i: any) {
+  goToEditOrder(qty: any, vId: any, desc: any, i: any, vCode: any) {
     this.editOrderPage = true;
     this.editable.quantity = qty;
-    this.editable.vendor_id = vId;
+    this.editable.vendor_no = vId;
     this.editable.description = desc;
     this.editable.id = i;
+    this.editable.vendor_code = vCode;
 
-    console.log('setting edtiable', desc, vId, qty, i, this.editable);
+    console.log('setting edtiable', desc, vId, qty, i, vCode, this.editable);
     this.editOrderSuccess = false;
   }
   announceSortChange(sortState: Sort) {
@@ -140,6 +140,7 @@ export class SpecialOrderComponent implements OnInit {
     this.editOrderPage = false;
     this.allOrderPage = true;
     this.vendorSelected = false;
+    this.fetchOrder();
   }
   enterValue(type: any, value: any, i: any) {
     console.log('array enter value', value);
@@ -147,39 +148,22 @@ export class SpecialOrderComponent implements OnInit {
       this.arr[i].quantity = value;
     }
     if (type == 'vId') {
-      this.arr[i].vendor_id = value;
+      this.arr[i].vendor_no = value;
     }
     if (type == 'desc') {
       this.arr[i].description = value;
     }
     console.log('array result enterval', this.arr, i, this.arr[i]);
   }
-  saveValue(i: any) {
-    let qty = $('#qty-input-' + i).val();
-    let vId = $('#vendor-input-' + i).val();
-    let desc = $('#desc-input-' + i).val();
 
-    let q = {
-      quantity: qty,
-      vendor_id: vId,
-      description: desc,
-    };
-    this.arr[i] = q;
-
-    console.log('array result enterval', this.arr, i, q, this.arr[i]);
-  }
   parser(data: any) {
     return JSON.parse(data);
   }
   submitEditSpecialOrder(qty: any, vId: any, desc: any) {
     let array: any = [];
-    let q = {
-      quantity: qty,
-      vendor_id: vId,
-      description: desc,
-    };
+
     array.push(this.editable);
-    console.log('compaer editable', q, this.editable);
+    console.log('compaer editable', this.editable);
     let formdata = {
       uid: this.token.getUser().id,
       product_array: JSON.stringify(array),
@@ -202,9 +186,13 @@ export class SpecialOrderComponent implements OnInit {
   }
   submitOrder() {
     this.checkEmptyStat();
-    console.log('submitted arr', this.arr, JSON.stringify(this.arr));
     if (!this.disableSubmit) {
       this.saveLoader = true;
+      for (var i = 0; i < this.arr.length; i++) {
+        this.arr[i].vendor_code = this.ordained.vendor_code;
+      }
+      console.log('submitted arr', this.arr, JSON.stringify(this.arr));
+
       let formdata = {
         uid: this.token.getUser().id,
         product_array: JSON.stringify(this.arr),
@@ -242,7 +230,7 @@ export class SpecialOrderComponent implements OnInit {
   }
   fetchOrder() {
     let user = this.token.getUser().account_id;
-    let empty ={}
+    let empty: any = [];
     this.getData
       .httpGetRequest('/special-orders/' + user)
       .then((result: any) => {
@@ -252,20 +240,14 @@ export class SpecialOrderComponent implements OnInit {
           this.dataSrc.paginator = this.paginator;
           this.dataSrc.sort = this.sort;
         } else {
-          this.toastr.info(
-            `Something went wrong fetching special orders`,
-            'Error'
-          );
-          if (result.data == empty) {
-            this.dataSrc = new MatTableDataSource<PeriodicElement>([]);
-            this.dataSrc.paginator = this.paginator;
-            this.dataSrc.sort = this.sort;
-          } else {
-            this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
-            this.dataSrc.paginator = this.paginator;
-            this.dataSrc.sort = this.sort;
-          }
-         
+          // this.toastr.info(
+          //   `Something went wrong fetching special orders`,
+          //   'Error'
+          // );
+
+          this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
+          this.dataSrc.paginator = this.paginator;
+          this.dataSrc.sort = this.sort;
         }
       })
       .catch((err) => {
@@ -278,8 +260,8 @@ export class SpecialOrderComponent implements OnInit {
       });
   }
   checkEmptyStat() {
-    let error = false
-        console.log('errror disable', this.disableSubmit, error);
+    let error = false;
+    console.log('errror disable', this.disableSubmit, error);
 
     if (this.arr.length < 1) {
       error = true;
@@ -291,7 +273,7 @@ export class SpecialOrderComponent implements OnInit {
           if (this.arr[i].quantity == '') {
             error = true;
           }
-          if (this.arr[i].vendor_id == '') {
+          if (this.arr[i].vendor_no == '') {
             error = true;
           }
           if (this.arr[i].description == '') {
@@ -301,9 +283,17 @@ export class SpecialOrderComponent implements OnInit {
       }
     }
 
-    this.disableSubmit = error
-     console.log('errror disable after', this.disableSubmit, error);
-
+    this.disableSubmit = error;
+    console.log('errror disable after', this.disableSubmit, error);
+  }
+  getUser(uid: string, userlist: any) {
+    let name: any;
+    for (var i = 0; i < userlist.length; i++) {
+      if (userlist[i].id == parseInt(uid)) {
+        name = userlist[i].full_name;
+      }
+    }
+    return name;
   }
   deleteOrder(i: any) {
     if (i > -1) {
@@ -311,18 +301,20 @@ export class SpecialOrderComponent implements OnInit {
     }
   }
   deleteSavedOrder(i: any) {
-     let dealer = this.token.getUser().account_id;
+    let dealer = this.token.getUser().account_id;
     this.getData
-      .httpGetRequest('/special-orders/delete/'+ dealer+ '/'+ i)
+      .httpGetRequest('/special-orders/delete/' + dealer + '/' + i)
       .then((result: any) => {
         // console.log(result);
         if (result.status) {
           this.fetchOrder();
+          this.toastr.info(`Order has been deleted successfully`, 'Order');
         } else {
           this.toastr.info(
             `Something went wrong deleting special orders`,
             'Error'
           );
+          this.fetchOrder();
         }
       })
       .catch((err) => {
