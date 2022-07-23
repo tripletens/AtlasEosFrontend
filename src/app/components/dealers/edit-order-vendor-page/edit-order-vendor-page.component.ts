@@ -392,14 +392,14 @@ export class EditOrderVendorPageComponent implements OnInit {
       return (this.orderTotal = 0)
     }
   }
-  getCartByVendorId(id: any) {
+  getCartByVendorId(vendorId: any) {
     this.canOrder = false
     this.isMod = false
     let dealer = this.token.getUser().account_id
 
     this.getData
       .httpGetRequest(
-        '/fetch-order-items-atlas-id-vendor-id/' + dealer + '/' + id,
+        '/dealer/get-dealer-vendor-orders/' + dealer + '/' + vendorId,
       )
       .then((result: any) => {
         console.log(result, 'promotion')
