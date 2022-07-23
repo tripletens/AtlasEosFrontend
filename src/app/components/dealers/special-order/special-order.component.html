@@ -117,12 +117,18 @@
                       Vendor Parts #
                     </th>
                     <td mat-cell *matCellDef="let element">
-                      {{ element.vendor_id }}
+                      {{ element.vendor_no }}
                     </td> </ng-container
                   ><ng-container matColumnDef="vendor_name">
                     <th mat-header-cell *matHeaderCellDef>Vendor Name</th>
                     <td mat-cell *matCellDef="let element">
                       {{ element.vendor_name }}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="ordered_by">
+                    <th mat-header-cell *matHeaderCellDef>Ordered By</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{ getUser(element.uid,element.users)}}
                     </td>
                   </ng-container>
                   <!-- Name Column -->
@@ -142,9 +148,9 @@
                         (click)="
                           goToEditOrder(
                             element.quantity,
-                            element.vendor_id,
+                            element.vendor_no,
                             element.description,
-                            element.id
+                            element.id,element.vendor_code
                           )
                         "
                       >
@@ -234,7 +240,7 @@
                             #vIdInput
                             (input)="checkEmptyStat()"
                             class="w-100"
-                            [(ngModel)]="item.vendor_id"
+                            [(ngModel)]="item.vendor_no"
                           />
                         </td>
                         <td>
@@ -320,7 +326,7 @@
                           <input
                             required
                             type="text"
-                            [(ngModel)]="editable.vendor_id"
+                            [(ngModel)]="editable.vendor_no"
                             #editVIdInput
                             class="w-100"
                           />
