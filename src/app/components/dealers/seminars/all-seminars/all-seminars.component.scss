@@ -54,6 +54,10 @@
   border-radius: 5px;
   padding: 3px 6px;
 }
+.tab-btn {
+  color: #fff !important;
+  font-size: 14px !important;
+}
 
 .attending-seminar-wrapper:hover {
   cursor: pointer;
@@ -93,6 +97,10 @@
     margin-bottom: 5px;
   }
 }
+.header-banner {
+  font-weight: 700;
+  color: #5371ad;
+}
 
 .order-form-table {
   td,
@@ -102,7 +110,7 @@
   th {
     background-color: #054e6e;
     color: #fff;
-    font-size: 17px;
+    font-size: 16px;
     padding: 10px;
     text-transform: uppercase;
     font-weight: 500;
@@ -111,14 +119,24 @@
   td {
     background-color: #dfdfdf;
     padding: 8px;
-    text-transform: capitalize;
-    font-size: 16px;
-    input {
-      background-color: #fff;
-      width: 60px;
-      height: 30px;
-      border-radius: 4px;
-      border: none;
-    }
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
   }
+}
+.red-text {
+  color: #fb5454 !important;
+  font-weight: 600;
+  margin: 0;
+}
+.green-text {
+  color: #56d094 !important;
+  font-weight: 600;
+  margin: 0;
+}
+.yellow-text {
+  color: #e3940b !important;
+  font-weight: 600;
+  margin: 0;
 }

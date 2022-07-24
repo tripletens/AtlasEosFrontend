@@ -6,6 +6,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { HttpRequestsService } from 'src/app/core/services/http-requests.service';
+import { TokenStorageService } from 'src/app/core/services/token-storage.service';
 export interface PeriodicElement {
   id: number;
   topic: string;
@@ -44,7 +45,8 @@ export class SheduledSeminarsComponent implements AfterViewInit {
     private request: HttpRequestsService,
     private http: HttpClient,
     private toastr: ToastrService,
-  private _liveAnnouncer: LiveAnnouncer
+  private _liveAnnouncer: LiveAnnouncer,    private token: TokenStorageService
+
   ) {}
   @ViewChild(MatSort)
   sort!: MatSort;
@@ -61,7 +63,7 @@ export class SheduledSeminarsComponent implements AfterViewInit {
     this.noData = false;
 
     this.request
-      .httpGetRequest('/fetch-sheduled-seminars')
+      .httpGetRequest('/fetch-scheduled-seminars')
       .then((result: any) => {
         console.log(result);
         this.tableView = true;
@@ -74,7 +76,8 @@ export class SheduledSeminarsComponent implements AfterViewInit {
             this.noData = true;
           }
           this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data);
-          this.dataSrc.paginator = this.paginator;this.dataSrc.sort = this.sort;
+          this.dataSrc.paginator = this.paginator;
+          this.dataSrc.sort = this.sort;
         } else {
           this.toastr.error('Something went wrong', `${result.message}`);
           this.noData = true;
@@ -85,4 +88,29 @@ export class SheduledSeminarsComponent implements AfterViewInit {
         this.noData = true;
       });
   }
+  bookmarkSeminar(id: any, stat: any, current: any) {
+    let dealer = this.token.getUser().account_id;
+    let formdata = {
+      seminar_id: id,
+      dealer_id: dealer,
+      bookmark_status: 1,
+      current_seminar_status: current,
+    };
+    this.request
+      .httpPostRequest('/join-seminar', formdata)
+      .then((result: any) => {
+        console.log(result);
+
+        if (result.status) {
+          console.log('data result', this.tableData, result.data.length);
+          this.toastr.success('Seminar has been bookmarked', `Success`);
+        } else {
+          this.toastr.error('Something went wrong', `Error`);
+        }
+      })
+      .catch((err) => {
+        this.toastr.error('Try again', 'Something went wrong');
+      });
+  }
+
 }

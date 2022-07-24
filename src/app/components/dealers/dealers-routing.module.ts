@@ -26,7 +26,9 @@ import { SupportTicketsComponent } from './support-tickets/support-tickets.compo
 import { ViewSupportTicketComponent } from './view-support-ticket/view-support-ticket.component'
 import { EditOrderVendorPageComponent } from './edit-order-vendor-page/edit-order-vendor-page.component'
 import { TestShowOrderComponent } from './test-show-order/test-show-order.component'
+
 import { WatchedSeminarsComponent } from './seminars/watched-seminars/watched-seminars.component'
+
 import { TestQuickOrderComponent } from './test-quick-order/test-quick-order.component'
 
 const routes: Routes = [
