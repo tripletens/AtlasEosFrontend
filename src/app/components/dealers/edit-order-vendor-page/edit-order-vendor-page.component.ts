@@ -18,6 +18,7 @@ import { MatSort, Sort } from '@angular/material/sort'
 import { LiveAnnouncer } from '@angular/cdk/a11y'
 import { TokenStorageService } from 'src/app/core/services/token-storage.service'
 import { CommonModule, CurrencyPipe } from '@angular/common'
+import Swal from 'sweetalert2'
 
 declare var $: any
 
@@ -127,6 +128,59 @@ export class EditOrderVendorPageComponent implements OnInit {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`)
     } else {
       this._liveAnnouncer.announce('Sorting cleared')
+    }
+  }
+
+  async confirmBox() {
+    return await Swal.fire({
+      title: 'You Are About To Remove This Item From Your Order',
+      text: '',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.value) {
+        return true
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        return false
+      } else {
+        return false
+      }
+    })
+  }
+
+  async deleteQuickOrderItem(atlsId: any, index: any, tableIndex: any) {
+    let confirmStatus = await this.confirmBox()
+
+    if (confirmStatus) {
+      let uid = this.token.getUser().id.toString()
+      this.runCalculation(tableIndex, 0)
+
+      $('#remove-icon-' + index).css('display', 'none')
+      $('#remove-loader-' + index).css('display', 'inline-block')
+
+      setTimeout(() => {
+        $('#remove-icon-' + index).css('display', 'inline-block')
+        $('#remove-loader-' + index).css('display', 'none')
+      }, 3000)
+
+      // this.getData
+      //   .httpGetRequest('/dealer/delete-order-item/' + uid + '/' + atlsId)
+      //   .then((result: any) => {
+      //     $('#remove-icon-' + index).css('display', 'inline-block')
+      //     $('#remove-loader-' + index).css('display', 'none')
+
+      //     if (result.status) {
+      //       this.toastr.success('Successful', result.message)
+      //      /// this.fetchQuickOrderCart()
+      //     } else {
+      //       this.toastr.error('Something went wrong', 'Try again')
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     this.toastr.error('Something went wrong', 'Try again')
+      //   })
     }
   }
 

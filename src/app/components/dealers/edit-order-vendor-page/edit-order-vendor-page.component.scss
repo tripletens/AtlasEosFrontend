@@ -238,3 +238,19 @@ input[type='number'] {
 .total-text {
   font-weight: bold;
 }
+
+.delete-btn {
+  background-color: darkred;
+  color: #ffffff;
+  border-radius: 4px;
+  border: 0px;
+  padding: 8px 12px;
+  margin-left: 10px;
+  span {
+    font-size: 14px;
+  }
+}
+
+.remove-loader {
+  display: none;
+}
