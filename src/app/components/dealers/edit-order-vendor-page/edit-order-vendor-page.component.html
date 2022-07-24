@@ -151,7 +151,7 @@
                     {{ element.desc! }}
                   </span>
 
-                  <!-- <span *ngFor="let spec of element.spec_data!; let l = index">
+                  <span *ngFor="let spec of element.spec_data!; let l = index">
                     <span
                       [class.assorted-color]="spec.type == 'assorted'"
                     ></span>
@@ -161,7 +161,7 @@
                     >
                       {{ spec.desc }}
                     </span>
-                  </span> -->
+                  </span>
                 </td>
               </ng-container>
 
@@ -192,23 +192,25 @@
                       id=""
                     ></span> -->
 
-                    <span id="u-price-{{ i }}" class="u-price-text"></span>
+                    <span id="u-price-{{ i }}" class="u-price-text">
+                      {{ element.unit_price }}
+                    </span>
                   </span>
-                  <!-- 
+
                   <span *ngFor="let spec of element.spec_data; let j = index">
                     <span
                       [class.assorted-color]="spec.type == 'assorted'"
                       [class.quantity-color]="spec.type == 'special'"
                     >
                       {{ spec.special | currency }}
-                      <span
+                      <!-- <span
                         class="ticker fa fa-check special-booking-{{ i }}-{{
                           j
                         }}"
                         id=""
-                      ></span>
+                      ></span> -->
                     </span>
-                  </span> -->
+                  </span>
                 </td>
               </ng-container>
               <ng-container matColumnDef="extended">
@@ -224,7 +226,9 @@
                   <span #extend class="total-text" id="amt-{{ i }}">
                     {{ element.price | currency }}
                   </span>
-                  <span id="amt-hidd-{{ i }}" style="display: none;"></span>
+                  <span id="amt-hidd-{{ i }}" style="display: none;">
+                    {{ element.price }}
+                  </span>
                 </td>
               </ng-container>
               <ng-container matColumnDef="actions">
@@ -278,12 +282,6 @@
               <span class="desc-text">Total: {{ orderTotal | currency }}</span>
             </div>
 
-            <mat-paginator
-              [pageSizeOptions]="[10, 20, 50, 100]"
-              showFirstLastButtons
-              aria-label="Select page seminar pages"
-            ></mat-paginator>
-
             <div
               *ngIf="orderSuccess"
               class="alert alert-success mt-2 mb-2 d-flex align-items-center"
@@ -302,13 +300,13 @@
             >
               <button
                 class="btn text-bold text-white bg-blue mr-2"
-                [disabled]="cartLoader"
+                (click)="saveEditedData()"
               >
-                <div *ngIf="!cartLoader">Save</div>
-                <div *ngIf="cartLoader">
+                <div *ngIf="!saveBtnLoader">Save</div>
+                <div *ngIf="saveBtnLoader">
                   Save
                   <span
-                    class="spinner-border spinner-border-sm text-dark ps-1"
+                    class="spinner-border spinner-border-sm text-white ps-1"
                   ></span>
                 </div>
               </button>
@@ -316,13 +314,13 @@
                 class="btn text-bold text-white bg-blue"
                 [disabled]="cartLoader"
               >
-                <div *ngIf="!cartLoader">Cancel</div>
-                <div *ngIf="cartLoader">
+                <div>Cancel</div>
+                <!-- <div *ngIf="cartLoader">
                   Cancel
                   <span
                     class="spinner-border spinner-border-sm text-dark ps-1"
                   ></span>
-                </div>
+                </div> -->
               </button>
             </div>
           </div>

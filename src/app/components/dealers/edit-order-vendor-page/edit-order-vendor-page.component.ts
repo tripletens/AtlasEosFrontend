@@ -94,6 +94,9 @@ export class EditOrderVendorPageComponent implements OnInit {
   overTotal = 0
 
   addedItem: [] | any = []
+  userData: any
+
+  saveBtnLoader = false
 
   /////// end of importation //////////
 
@@ -114,6 +117,7 @@ export class EditOrderVendorPageComponent implements OnInit {
         this.getCartByVendorId(this.vendorId)
       }
     })
+    this.userData = this.token.getUser()
   }
   @ViewChild(MatSort)
   sort!: MatSort
@@ -129,6 +133,79 @@ export class EditOrderVendorPageComponent implements OnInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared')
     }
+  }
+
+  saveEditedData() {
+    let allProCount = this.cartData.length
+    let postItem = []
+    this.saveBtnLoader = true
+
+    for (let h = 0; h < allProCount; h++) {
+      let curQty = $('#cur-' + h).val()
+      if (curQty != '' && curQty != undefined) {
+        let data = this.cartData[h]
+        let rawUnit = document.getElementById('u-price-' + h)?.innerText
+        let unit = rawUnit?.replace(',', '.')
+
+        let rawPrice = document.getElementById('amt-hidd-' + h)?.innerHTML
+        // let realPrice = rawPrice?.replace('$', '')
+        let newPrice = rawPrice?.replace(',', '.')
+
+        let cartData = {
+          uid: this.userData.id,
+          dealer: this.userData.account_id,
+          vendor_id: data.vendor,
+          atlas_id: data.atlas_id,
+          product_id: data.id,
+          qty: curQty,
+          price: newPrice,
+          unit_price: unit,
+          groupings: data.grouping,
+          type: 'null',
+        }
+
+        postItem.push(cartData)
+      }
+    }
+
+    let postData = {
+      vendor: this.vendorId,
+      uid: this.userData.id,
+      dealer: this.userData.account_id,
+      product_array: JSON.stringify(postItem),
+    }
+
+    this.getData
+      .httpPostRequest('/dealer/save-edited-user-order', postData)
+      .then((result: any) => {
+        this.saveBtnLoader = false
+        if (result.status) {
+          this.tableData = result.data
+          this.cartData = result.data
+          this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
+
+          this.getTotal()
+          for (let d = 0; d < result.data.length; d++) {
+            const element = result.data[d]
+
+            let data = {
+              atlasId: element.atlas_id,
+              price: element.price,
+              grouping: element.grouping,
+              index: result.data.indexOf(element),
+            }
+
+            this.addedItem.push(data)
+          }
+        } else {
+          this.toastr.error('Something went wrong', 'Try again')
+        }
+      })
+      .catch((err) => {
+        this.saveBtnLoader = false
+
+        this.toastr.error('Something went wrong', 'Try again')
+      })
   }
 
   async confirmBox() {
@@ -160,27 +237,78 @@ export class EditOrderVendorPageComponent implements OnInit {
       $('#remove-icon-' + index).css('display', 'none')
       $('#remove-loader-' + index).css('display', 'inline-block')
 
-      setTimeout(() => {
-        $('#remove-icon-' + index).css('display', 'inline-block')
-        $('#remove-loader-' + index).css('display', 'none')
-      }, 3000)
+      let allProCount = this.cartData.length
+      let postItem = []
 
-      // this.getData
-      //   .httpGetRequest('/dealer/delete-order-item/' + uid + '/' + atlsId)
-      //   .then((result: any) => {
-      //     $('#remove-icon-' + index).css('display', 'inline-block')
-      //     $('#remove-loader-' + index).css('display', 'none')
+      for (let h = 0; h < allProCount; h++) {
+        let curQty = $('#cur-' + h).val()
+        if (curQty != '' && curQty != undefined) {
+          let data = this.cartData[h]
+          let rawUnit = document.getElementById('u-price-' + h)?.innerText
+          let unit = rawUnit?.replace(',', '.')
 
-      //     if (result.status) {
-      //       this.toastr.success('Successful', result.message)
-      //      /// this.fetchQuickOrderCart()
-      //     } else {
-      //       this.toastr.error('Something went wrong', 'Try again')
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     this.toastr.error('Something went wrong', 'Try again')
-      //   })
+          let rawPrice = document.getElementById('amt-hidd-' + h)?.innerHTML
+          // let realPrice = rawPrice?.replace('$', '')
+          let newPrice = rawPrice?.replace(',', '.')
+
+          let cartData = {
+            uid: this.userData.id,
+            dealer: this.userData.account_id,
+            vendor_id: data.vendor,
+            atlas_id: data.atlas_id,
+            product_id: data.id,
+            qty: curQty,
+            price: newPrice,
+            unit_price: unit,
+            groupings: data.grouping,
+            type: 'null',
+          }
+
+          if (atlsId != data.atlas_id) {
+            postItem.push(cartData)
+          }
+        }
+      }
+
+      let postData = {
+        vendor: this.vendorId,
+        uid: this.userData.id,
+        dealer: this.userData.account_id,
+        atlasId: atlsId,
+        product_array: JSON.stringify(postItem),
+      }
+
+      this.getData
+        .httpPostRequest('/dealer/remove-dealer-order-item', postData)
+        .then((result: any) => {
+          $('#remove-icon-' + index).css('display', 'inline-block')
+          $('#remove-loader-' + index).css('display', 'none')
+
+          if (result.status) {
+            this.tableData = result.data
+            this.cartData = result.data
+            this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
+
+            this.getTotal()
+            for (let d = 0; d < result.data.length; d++) {
+              const element = result.data[d]
+
+              let data = {
+                atlasId: element.atlas_id,
+                price: element.price,
+                grouping: element.grouping,
+                index: result.data.indexOf(element),
+              }
+
+              this.addedItem.push(data)
+            }
+          } else {
+            this.toastr.error('Something went wrong', 'Try again')
+          }
+        })
+        .catch((err) => {
+          this.toastr.error('Something went wrong', 'Try again')
+        })
     }
   }
 
@@ -918,8 +1046,8 @@ export class EditOrderVendorPageComponent implements OnInit {
           }
 
           this.dataSrc = new MatTableDataSource<PeriodicElement>(result.data)
-          this.dataSrc.sort = this.sort
-          this.dataSrc.paginator = this.paginator
+          // this.dataSrc.sort = this.sort
+          /// this.dataSrc.paginator = this.paginator
         } else {
           this.toastr.info(`Something went wrong`, 'Error')
         }
