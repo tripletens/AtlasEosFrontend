@@ -49,7 +49,7 @@ export class SpecialOrdersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getPriceOverideReport()
+    this.getSpecialOders()
   }
 
   pageSizes = [3, 5, 7]
@@ -103,9 +103,9 @@ export class SpecialOrdersComponent implements OnInit {
     return new RegExp('^' + expr + '$', 'i')
   }
 
-  getPriceOverideReport() {
+  getSpecialOders() {
     this.postData
-      .httpGetRequest('/admin/get-price-override-report')
+      .httpGetRequest('/admin/get-special-orders')
       .then((result: any) => {
         console.log(result)
 
